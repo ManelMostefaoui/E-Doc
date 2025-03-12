@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
+        'birthdate',
+        'phone_num',
+        'address'
     ];
 
     /**
@@ -44,5 +48,18 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    // Define the relationship (User belongs to a Role)
+    public
+    function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    // Helper method to check the user's role
+    public
+    function hasRole($roleName)
+    {
+        return $this->role->name === $roleName;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -25,12 +26,28 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string',  'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role_name' => ['required', 'exists:roles,name'],
+            'birthdate' => ['nullable', 'date'],
+            'phone_num' => ['nullable', 'string', 'max:15'],
+            'address' => ['nullable', 'string', 'max:500'],
+
         ]);
+
+        $role = Role::where('name', $request->role_name)->first();
+
+        if (!$role) {
+            return response()->json(['error' => 'Invalid role name'], 400);
+        }
+
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role_id' => $role->id,
+            'birthdate' => $request->birthdate,
+            'phone_num' => $request->phone_num,
+            'address' => $request->address,
 
         ]);
 
