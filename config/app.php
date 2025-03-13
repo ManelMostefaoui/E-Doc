@@ -123,7 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-<<<<<<< HEAD
     'providers' => [
         /*
     * Laravel Framework Service Providers...
@@ -163,6 +162,4 @@ return [
     ],
 
 
-=======
->>>>>>> 4a915970c176a70a4c1e6235e33c4a8ca175d2d0
 ];

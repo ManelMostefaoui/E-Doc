@@ -5,19 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
+use Illuminate\Support\Facades\Auth;
+
 
 class AdminController extends Controller
 {
 
     public function getUserCounts(Request $request)
     {
+
         $user = $request->user(); // Get authenticated user
 
 
-
-        if ($user->role !== 'admin') {
-            return response()->json(['message' => 'Unauthorized'], 403);
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized: No user found'], 401);
         }
+
+        if (!$user->role || $user->role->name !== 'admin') {
+            return response()->json(['message' => 'Unauthorized: You are not admin'], 403);
+        }
+
         return response()->json([
             'students' => User::whereHas('role', function ($query) {
                 $query->where('name', 'student');
@@ -30,6 +37,7 @@ class AdminController extends Controller
             })->count(),
         ]);
     }
+
 
     public function listUsers()
     {
