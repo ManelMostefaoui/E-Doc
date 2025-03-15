@@ -24,7 +24,18 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string',  'email', 'max:255', 'unique:' . User::class],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:' . User::class,
+                function ($attribute, $value, $fail) {
+                    if (!str_ends_with($value, '@esi-sba.dz')) {
+                        $fail("The email must be an @esi-sba.dz email.");
+                    }
+                },
+            ],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role_name' => ['required', 'exists:roles,name'],
             'birthdate' => ['nullable', 'date'],
@@ -32,6 +43,7 @@ class RegisteredUserController extends Controller
             'address' => ['nullable', 'string', 'max:500'],
 
         ]);
+
 
         $role = Role::where('name', $request->role_name)->first();
 
@@ -59,8 +71,16 @@ class RegisteredUserController extends Controller
 
 
         return response()->json([
-            'user' => $user,
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $role->name,
+                'birthdate' => $user->birthdate,
+                'phone_num' => $user->phone_num,
+                'address' => $user->address,
+
+            ],
             'token' => $token->plainTextToken,
-        ]);
+        ], 201);
     }
 }

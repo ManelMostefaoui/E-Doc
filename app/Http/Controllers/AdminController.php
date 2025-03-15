@@ -41,8 +41,17 @@ class AdminController extends Controller
 
     public function listUsers()
     {
-        return response()->json(User::with('role')->get());
+        return response()->json(
+            User::with('role')->get()->map(function ($user) {
+                return [
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $user->role->name ?? null, // Assuming role has a 'name' field
+                ];
+            })
+        );
     }
+
 
     public function listUsersByRole($role)
     {
@@ -50,6 +59,12 @@ class AdminController extends Controller
             $query->where('name', $role);
         })->get();
 
-        return response()->json($users);
+        return response()->json($users->map(function ($user) {
+            return [
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role ? $user->role->name : null,
+            ];
+        }));
     }
 }
