@@ -24,6 +24,7 @@ class AdminSeeder extends Seeder
                 'name' => 'Admin',
                 'password' => Hash::make('Adminesisba..2025'),
                 'role_id' => $adminRole->id,
+                'gender' => 'Male',
                 'birthdate' => '2000-01-01',
                 'phone_num' => '056209318',
                 'address' => 'Sidi belAbess'

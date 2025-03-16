@@ -80,15 +80,13 @@ class AuthenticatedSessionController extends Controller
         'status' => true,
         'message' => 'Détails du profil',
         'data' => [
-            'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
-            'role_name' => $user->role_name,
+            'role' => $user->role ? $user->role->name : null, // Vérifie si le rôle existe
+            'gender' => $user->gender,
             'birthdate' => $user->birthdate,
             'phone_num' => $user->phone_num,
             'address' => $user->address,
-            'created_at' => $user->created_at,
-            'updated_at' => $user->updated_at,
         ],
     ]);
     }
@@ -113,6 +111,7 @@ class AuthenticatedSessionController extends Controller
                 }
             }
         ],
+        'gender' => ['required', 'in:male,female'],
         'phone_num' => 'nullable|string|max:15',
         'address' => 'nullable|string|max:500',
         'birthdate' => 'nullable|date',
