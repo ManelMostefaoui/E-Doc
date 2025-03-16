@@ -71,4 +71,62 @@ class AuthenticatedSessionController extends Controller
             "message" => "Log out succ"
         ], 200);
     }
+
+    public function showProfile(): JsonResponse
+    {
+    $user = auth()->user(); // Récupérer l'utilisateur authentifié
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Détails du profil',
+        'data' => [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role_name' => $user->role_name,
+            'birthdate' => $user->birthdate,
+            'phone_num' => $user->phone_num,
+            'address' => $user->address,
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at,
+        ],
+    ]);
+    }
+  /**
+     * update profil .
+     */
+    public function updateProfile(Request $request): JsonResponse
+{
+    $user = Auth::user(); // Récupérer l'utilisateur authentifié
+
+    // Validation des données entrantes
+    $request->validate([
+        'name' => 'sometimes|string|max:255',
+        'email' => [
+            'sometimes',
+            'email',
+            'max:255',
+            'unique:users,email,' . $user->id,
+            function ($attribute, $value, $fail) {
+                if (!str_ends_with($value, '@esi-sba.dz')) {
+                    $fail("The email must be an @esi-sba.dz email.");
+                }
+            }
+        ],
+        'phone_num' => 'nullable|string|max:15',
+        'address' => 'nullable|string|max:500',
+        'birthdate' => 'nullable|date',
+    ]);
+
+    // Mettre à jour uniquement les champs envoyés
+    $user->update($request->only(['name', 'email', 'phone_num', 'address', 'birthdate']));
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Profil mis à jour avec succès',
+        'user' => $user
+    ]);
+}
+
+
 }
