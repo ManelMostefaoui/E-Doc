@@ -13,7 +13,9 @@ class UserImportController extends Controller
     {
         // Vérifier si l'utilisateur est authentifié et est un admin
         if (!Auth::check() || Auth::user()->role->name !== 'admin') {
-            return response()->json(['error' => 'Accès refusé. Seul un administrateur peut importer des utilisateurs.'], 403);
+            return response()->json([
+                'error' => 'Accès refusé. Seul un administrateur peut importer des utilisateurs.'
+            ], 403);
         }
 
         $request->validate([
@@ -22,6 +24,8 @@ class UserImportController extends Controller
 
         Excel::import(new UsersImport, $request->file('file'));
 
-        return response()->json(['message' => 'Users imported successfully'], 200);
+        return response()->json([
+            'message' => 'Users imported successfully'
+        ], 200);
     }
 }
