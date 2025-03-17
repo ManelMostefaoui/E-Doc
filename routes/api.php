@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserImportController;
 use Illuminate\Http\JsonResponse;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -42,3 +43,7 @@ Route::get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->get('profile', [AuthenticatedSessionController::class, 'showProfile']);
 
 Route::middleware('auth:sanctum')->put('profile/update', [AuthenticatedSessionController::class, 'updateProfile']);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/import-users', [UserImportController::class, 'import']);
+});
