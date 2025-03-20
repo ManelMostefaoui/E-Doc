@@ -75,21 +75,20 @@ class AuthenticatedSessionController extends Controller
 
     public function showProfile(): JsonResponse
     {
-        $user = auth()->user(); // Récupérer l'utilisateur authentifié
+        $user = Auth::user();  // Récupérer l'utilisateur authentifié
+
 
         return response()->json([
             'status' => true,
             'message' => 'Détails du profil',
             'data' => [
-                'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-                'role_name' => $user->role_name,
+                'role' => $user->role ? $user->role->name : null, // Vérifie si le rôle existe
+                'gender' => $user->gender,
                 'birthdate' => $user->birthdate,
                 'phone_num' => $user->phone_num,
                 'address' => $user->address,
-                'created_at' => $user->created_at,
-                'updated_at' => $user->updated_at,
             ],
         ]);
     }
@@ -99,6 +98,9 @@ class AuthenticatedSessionController extends Controller
     public function updateProfile(Request $request): JsonResponse
     {
         $user = Auth::user(); // Récupérer l'utilisateur authentifié
+
+        // dd($user instanceof \App\Models\User);
+
 
         // Validation des données entrantes
         $request->validate([
@@ -114,14 +116,15 @@ class AuthenticatedSessionController extends Controller
                     }
                 }
             ],
+            'gender' => 'sometimes|in:male,female',
+
             'phone_num' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:500',
             'birthdate' => 'nullable|date',
         ]);
 
         // Mettre à jour uniquement les champs envoyés
-        $user->update($request->only(['name', 'email', 'phone_num', 'address', 'birthdate']));
-
+        $user->update($request->only(['name', 'email', 'gender', 'phone_num', 'address', 'birthdate']));
         return response()->json([
             'status' => true,
             'message' => 'Profil mis à jour avec succès',
