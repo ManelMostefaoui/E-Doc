@@ -11,6 +11,9 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserImportController;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\BiometricDataController;
+
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -47,3 +50,9 @@ Route::middleware('auth:sanctum')->put('profile/update', [AuthenticatedSessionCo
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/import-users', [UserImportController::class, 'import']);
 });
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::put('/patients/{patient}/biometric-data', [BiometricDataController::class, 'update']);
+});
+
+Route::put('/patients/{patient}', [PatientController::class, 'update']);

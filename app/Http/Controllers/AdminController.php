@@ -33,7 +33,7 @@ class AdminController extends Controller
                 $query->where('name', 'teacher');
             })->count(),
             'employees' => User::whereHas('role', function ($query) {
-                $query->where('name', 'employee');
+                $query->where('name', 'employer');
             })->count(),
         ]);
     }

@@ -118,7 +118,7 @@ class AuthenticatedSessionController extends Controller
     ]);
 
     // Mettre à jour uniquement les champs envoyés
-    $user->update($request->only(['name', 'email', 'phone_num', 'address', 'birthdate']));
+    $user->update($request->only(['name', 'email', 'gender','phone_num', 'address', 'birthdate']));
 
     return response()->json([
         'status' => true,
