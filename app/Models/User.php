@@ -6,10 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -20,9 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
+        'gender',
         'birthdate',
         'phone_num',
-        'address',
+        'address'
     ];
 
     /**
@@ -46,5 +49,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    // Define the relationship (User belongs to a Role)
+    public
+
+    function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+
+    // Helper method to check the user's role
+    public
+    function hasRole($roleName)
+    {
+        return $this->role->name === $roleName;
     }
 }

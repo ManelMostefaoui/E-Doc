@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Http\JsonResponse;
+
 
 class RegisteredUserController extends Controller
 {
@@ -18,7 +20,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): Response
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -35,24 +37,53 @@ class RegisteredUserController extends Controller
                 },
             ],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role_name' => ['required', 'exists:roles,name'],
+            'gender' => ['required', 'in:male,female'],
             'birthdate' => ['nullable', 'date'],
-            'phone_num' => ['nullable', 'string', 'max:10'],
-            'address' => ['nullable', 'string', 'max:255'],
+            'phone_num' => ['nullable', 'string', 'max:15'],
+            'address' => ['nullable', 'string', 'max:500'],
+
         ]);
+
+
+        $role = Role::where('name', $request->role_name)->first();
+
+        if (!$role) {
+            return response()->json(['error' => 'Invalid role name'], 400);
+        }
+
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->string('password')),
+            'password' => Hash::make($request->password),
+            'role_id' => $role->id,
+            'gender'    => $request->gender,
             'birthdate' => $request->birthdate,
             'phone_num' => $request->phone_num,
             'address' => $request->address,
+
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
+        $token = $user->createToken('api_token');
 
-        return response()->noContent();
+
+
+        return response()->json([
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $role->name,
+                'gender'    => $user->gender,
+                'birthdate' => $user->birthdate,
+                'phone_num' => $user->phone_num,
+                'address' => $user->address,
+
+            ],
+            'token' => $token->plainTextToken,
+        ], 201);
     }
 }
