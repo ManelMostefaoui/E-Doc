@@ -9,17 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check() || Auth::user()->role_id !== 1) { // Assuming '1' is the admin role
-            return response()->json(['error' => 'Unauthorized from middleware'], 403);
+        dd(Auth::user()); // 🔍 Voir l'utilisateur authentifié
+
+        if (Auth::check() && Auth::user()->role_id === 4) {
+            return $next($request);
         }
 
-        return $next($request);
+        return response()->json(['message' => 'Accès refusé. Admin requis.'], 403);
     }
 }
