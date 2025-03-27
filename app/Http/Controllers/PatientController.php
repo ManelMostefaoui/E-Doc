@@ -29,5 +29,33 @@ class PatientController extends Controller
         ], 200);
     }
 
+    public function show($id)
+    {
+        // Récupérer le patient avec ses infos
+        $patient = Patient::where('id', $id)
+            ->with(['user', 'biometricData'])
+            ->first();
+
+        // Vérifier si le patient existe
+        if (!$patient) {
+            return response()->json(['message' => 'Patient not found'], 404);
+        }
+
+        // Retourner les données du patient
+        return response()->json([
+            'id' => $patient->id,
+            'name' => $patient->user->name,
+            'email' => $patient->user->email,
+            'birthdate' => $patient->user->birthdate,
+            'phone_num' => $patient->user->phone_num,
+            'address' => $patient->user->address,
+            'blood_group' => $patient->blood_group,
+            'family_status' => $patient->family_status,
+            'social_security_no' => $patient->social_security_no,
+            'weight' => $patient->biometricData->weight ?? null,
+            'height' => $patient->biometricData->height ?? null,
+            'created_at' => $patient->created_at,
+        ], 200);
+    }
 
 }

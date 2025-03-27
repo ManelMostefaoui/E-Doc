@@ -56,3 +56,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::put('/patients/{patient}', [PatientController::class, 'update']);
+Route::get('/patients/{id}', [PatientController::class, 'show']);
