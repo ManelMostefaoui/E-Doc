@@ -13,6 +13,8 @@ use App\Http\Controllers\UserImportController;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\BiometricDataController;
+use App\Http\Controllers\MedicalHistoryController;
+
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -80,3 +82,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::put('/patients/{patient}', [PatientController::class, 'update']);
+Route::get('/patients/{id}', [PatientController::class, 'show']);
+
+Route::get('/patients/{id}/medical-history', [MedicalHistoryController::class, 'show']);
+Route::put('/patients/{id}/medical-history', [MedicalHistoryController::class, 'update']);
