@@ -11,18 +11,24 @@ class MedicalHistory extends Model
 
     protected $fillable = [
         'patient_id',
+        'condition',
+        'date_appeared',
+        'severity',
+        'implication',
+        'treatment',
+    ];
+
+    protected $hidden = [
         'congenital_disease',
         'general_disease',
         'surgery',
         'allergy',
         'description',
-        'date'
+        'date',
     ];
 
-
-
     public function patient()
-{
-    return $this->belongsTo(Patient::class, 'patient_id');
-}
+    {
+        return $this->belongsTo(Patient::class);
+    }
 }

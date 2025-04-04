@@ -20,9 +20,9 @@ class Patient extends Model {
         return $this->belongsTo(User::class);
     }
 
-    public function medicalHistory()
+    public function medicalHistories()
     {
-    return $this->hasOne(MedicalHistory::class, 'patient_id');
+        return $this->hasMany(MedicalHistory::class);
     }
 
     protected static function boot()
