@@ -64,3 +64,7 @@ Route::post('/patients/{patient}/medical-history', [MedicalHistoryController::cl
 Route::put('/medical-history/{id}', [MedicalHistoryController::class, 'update']);
 
 Route::get('/patients/{id}/medical-history', [MedicalHistoryController::class, 'showPatientHistory']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::delete('/users/{id}', [AuthenticatedSessionController::class, 'deleteuUser']);
+});

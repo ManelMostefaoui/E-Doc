@@ -128,4 +128,26 @@ class AuthenticatedSessionController extends Controller
 }
 
 
+
+public function deleteuUser($id)
+{
+    $admin = Auth::user();
+
+    // Vérifier que l'utilisateur connecté est un admin (role_id = 4)
+    if ($admin->role_id !== 4) {
+        return response()->json(['message' => 'Unauthorized'], 403);
+    }
+
+    $user = User::find($id);
+
+    if (!$user) {
+        return response()->json(['message' => 'User not found'], 404);
+    }
+
+    // Supprimer l'utilisateur (et ses relations si besoin)
+    $user->delete();
+
+    return response()->json(['message' => 'User deleted successfully']);
+}
+
 }
