@@ -29,6 +29,7 @@ const LoginPage = () => {
 
     try {
       console.log('Attempting login with:', { email, password });
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
       
       // Use the direct Laravel server URL
       const response = await Axios.post('http://127.0.0.1:8000/api/login', {
