@@ -28,7 +28,7 @@ class AdminController extends Controller
         return response()->json([
             'students' => User::where('role_id', 1)->count(),
             'teachers' => User::where('role_id', 2)->count(),
-            'employees' => User::where('role_id', 3)->count(),
+            'employer' => User::where('role_id', 3)->count(),
         ]);
     }
 

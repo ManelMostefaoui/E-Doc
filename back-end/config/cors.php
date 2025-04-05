@@ -15,7 +15,14 @@ return [
     |
     */
 
-    'paths' => ['*'],
+    'paths' => [
+        'api/*',
+        'sanctum/csrf-cookie',
+        'login',
+        'logout',
+        // any other route you need cross-origin access for
+    ],
+
 
     'allowed_methods' => ['*'],
 
