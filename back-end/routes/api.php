@@ -72,3 +72,19 @@ Route::middleware('auth:sanctum')->put('profile/update-password', [Authenticated
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/import-users', [UserImportController::class, 'import']);
 });
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::put('/patients/{patient}/biometric-data', [BiometricDataController::class, 'update']);
+});
+
+Route::put('/patients/{patient}', [PatientController::class, 'update']);
+Route::get('/patients/{id}', [PatientController::class, 'show']);
+
+Route::post('/patients/{patient}/medical-history', [MedicalHistoryController::class, 'store']);
+Route::put('/medical-history/{id}', [MedicalHistoryController::class, 'update']);
+
+Route::get('/patients/{id}/medical-history', [MedicalHistoryController::class, 'showPatientHistory']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::delete('/users/{id}', [AuthenticatedSessionController::class, 'deleteuUser']);
+});
