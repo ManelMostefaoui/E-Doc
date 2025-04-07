@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Route;
 
 
 
@@ -60,7 +59,7 @@ class AuthenticatedSessionController extends Controller
         ], 200);
     }
     /**
-     * Destroy an authenticatedss session.
+     * Destroy an authenticated session.
      */
     public function destroy(Request $request): JsonResponse
     {
@@ -75,8 +74,8 @@ class AuthenticatedSessionController extends Controller
 
     public function showProfile(): JsonResponse
     {
-        $user = Auth::user();  // Récupérer l'utilisateur authentifié
 
+        $user = Auth::user(); // Récupérer l'utilisateur authentifié
 
         return response()->json([
             'status' => true,
@@ -99,9 +98,6 @@ class AuthenticatedSessionController extends Controller
     {
         $user = Auth::user(); // Récupérer l'utilisateur authentifié
 
-        // dd($user instanceof \App\Models\User);
-
-
         // Validation des données entrantes
         $request->validate([
             'name' => 'sometimes|string|max:255',
@@ -116,8 +112,7 @@ class AuthenticatedSessionController extends Controller
                     }
                 }
             ],
-            'gender' => 'sometimes|in:male,female',
-
+            'gender' => ['required', 'in:male,female'],
             'phone_num' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:500',
             'birthdate' => 'nullable|date',
@@ -125,6 +120,7 @@ class AuthenticatedSessionController extends Controller
 
         // Mettre à jour uniquement les champs envoyés
         $user->update($request->only(['name', 'email', 'gender', 'phone_num', 'address', 'birthdate']));
+
         return response()->json([
             'status' => true,
             'message' => 'Profil mis à jour avec succès',
@@ -132,43 +128,26 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
-    /**
-     * Update the user's password.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updatePassword(Request $request): JsonResponse
+
+
+    public function deleteuUser($id)
     {
-        $user = Auth::user(); // Get the authenticated user
+        $admin = Auth::user();
 
-        // Validate the request data
-        $validated = $request->validate([
-            'current_password' => [
-                'required',
-                function ($attribute, $value, $fail) use ($user) {
-                    // Check if the current password matches
-                    if (!Hash::check($value, $user->password)) {
-                        $fail('The current password is incorrect.');
-                    }
-                },
-            ],
-            'password' => 'required|string|min:8|confirmed',
-            'password_confirmation' => 'required|string|min:8',
-        ]);
+        // Vérifier que l'utilisateur connecté est un admin (role_id = 4)
+        if ($admin->role_id !== 4) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
-        // Update the password
-        $user->password = Hash::make($validated['password']);
-        $user->save();
+        $user = User::find($id);
 
-        // Create a new token for the user
-        $user->tokens()->delete(); // Delete old tokens
-        $token = $user->createToken('api-token'); // Generate new token
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Password updated successfully',
-            'token' => $token->plainTextToken, // Return new token so frontend can update it
-        ]);
+        // Supprimer l'utilisateur (et ses relations si besoin)
+        $user->delete();
+
+        return response()->json(['message' => 'User deleted successfully']);
     }
 }

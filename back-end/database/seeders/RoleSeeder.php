@@ -18,10 +18,15 @@ class RoleSeeder extends Seeder
             ['name' => 'employer', 'description' => 'An employer'],
             ['name' => 'teacher', 'description' => 'A teacher'],
             ['name' => 'admin', 'description' => 'Administrator'],
+            ['name' => 'doctor', 'description' => 'Doctor'],
+            ['name' => 'doctor_assistant', 'description' => 'Doctor Assistant'],
         ];
 
         foreach ($roles as $role) {
-            Role::create($role);
+            \App\Models\Role::updateOrCreate(
+                ['name' => $role['name']],
+                ['description' => $role['description']]
+            );
         }
     }
 }
