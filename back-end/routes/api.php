@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BiometricDataController;
 use App\Http\Controllers\MedicalHistoryController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PersonalHistoryController;
 use App\Http\Controllers\UserImportController;
 use App\Models\PersonalHistory;
 use Illuminate\Http\JsonResponse;
@@ -95,5 +96,5 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/personal-history/store', [PersonalHistory::class, 'store']);
+    Route::post('/personal-history/store', [PersonalHistoryController::class, 'store']);
 });
