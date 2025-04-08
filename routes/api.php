@@ -68,3 +68,5 @@ Route::get('/patients/{id}/medical-history', [MedicalHistoryController::class, '
 Route::middleware('auth:api')->group(function () {
     Route::delete('/users/{id}', [AuthenticatedSessionController::class, 'deleteuUser']);
 });
+
+Route::get('/patients', [PatientController::class, 'index']);

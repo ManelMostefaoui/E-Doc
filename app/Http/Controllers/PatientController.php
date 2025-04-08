@@ -58,4 +58,13 @@ class PatientController extends Controller
         ], 200);
     }
 
+    public function index()
+{
+    $patients = Patient::with('user')->get();
+
+    return response()->json([
+        'message' => 'Liste des patients',
+        'data' => $patients
+    ]);
+}
 }
