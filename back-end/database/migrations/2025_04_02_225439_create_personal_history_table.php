@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('exposure_period')->nullable();
             $table->string('alcohol')->nullable();
             $table->string('medications')->nullable();
-            $table->text('other')->nullable(); // Changed to text for larger content
+            $table->text('other')->nullable();
             $table->timestamps();
         });
     }

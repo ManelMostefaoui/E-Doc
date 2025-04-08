@@ -47,10 +47,10 @@ class MedicalHistoryController extends Controller
     {
         $patient = Patient::with(['medicalHistories' => function ($query) {
             $query->whereNotNull('condition')
-                  ->orWhereNotNull('date_appeared')
-                  ->orWhereNotNull('severity')
-                  ->orWhereNotNull('implication')
-                  ->orWhereNotNull('treatment');
+                ->orWhereNotNull('date_appeared')
+                ->orWhereNotNull('severity')
+                ->orWhereNotNull('implication')
+                ->orWhereNotNull('treatment');
         }])->find($patientId);
 
         if (!$patient) {
@@ -62,5 +62,4 @@ class MedicalHistoryController extends Controller
             'data' => $patient->medicalHistories
         ]);
     }
-
 }

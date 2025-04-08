@@ -9,7 +9,11 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BiometricDataController;
+use App\Http\Controllers\MedicalHistoryController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\UserImportController;
+use App\Models\PersonalHistory;
 use Illuminate\Http\JsonResponse;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -80,11 +84,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::put('/patients/{patient}', [PatientController::class, 'update']);
 Route::get('/patients/{id}', [PatientController::class, 'show']);
 
-Route::post('/patients/{patient}/medical-history', [MedicalHistoryController::class, 'store']);
-Route::put('/medical-history/{id}', [MedicalHistoryController::class, 'update']);
 
-Route::get('/patients/{id}/medical-history', [MedicalHistoryController::class, 'showPatientHistory']);
-
-Route::middleware('auth:api')->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/patients/{id}/medical-history', [MedicalHistoryController::class, 'showPatientHistory']);
+    Route::post('/patients/{patient}/medical-history', [MedicalHistoryController::class, 'store']);
+    Route::put('/medical-history/{id}', [MedicalHistoryController::class, 'update']);
+});
+Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [AuthenticatedSessionController::class, 'deleteuUser']);
+});
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/personal-history/store', [PersonalHistory::class, 'store']);
 });
