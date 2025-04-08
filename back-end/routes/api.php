@@ -98,3 +98,4 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/personal-history/store', [PersonalHistoryController::class, 'store']);
 });
+Route::get('/patients', [PatientController::class, 'index']);
