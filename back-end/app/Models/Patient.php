@@ -15,7 +15,7 @@ class Patient extends Model
     public function biometricData()
     {
         return $this->hasOne(
-            BiometricDataController::class
+            BiometricData::class
         );
     }
 

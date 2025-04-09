@@ -13,9 +13,12 @@ use App\Http\Controllers\BiometricDataController;
 use App\Http\Controllers\MedicalHistoryController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PersonalHistoryController;
+use App\Http\Controllers\ScreeningController;
 use App\Http\Controllers\UserImportController;
 use App\Models\PersonalHistory;
+use App\Models\Screening;
 use Illuminate\Http\JsonResponse;
+
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -97,5 +100,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/personal-history/store', [PersonalHistoryController::class, 'store']);
+    Route::put('/Personal-history/update/{id}', [PersonalHistoryController::class, 'update']);
+    Route::post('/Screening/store', [ScreeningController::class, 'store']);       // Create new screening
+    Route::put('/Screening/update/{id}', [ScreeningController::class, 'update']);   // Update existing screening
+
 });
 Route::get('/patients', [PatientController::class, 'index']);
