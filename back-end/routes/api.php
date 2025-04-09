@@ -12,9 +12,13 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BiometricDataController;
 use App\Http\Controllers\MedicalHistoryController;
 use App\Http\Controllers\PatientController;
-use App\Http\Controllers\UserImportController;
 use App\Models\PersonalHistory;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\PersonalHistoryController;
+use App\Http\Controllers\ScreeningController;
+use App\Http\Controllers\UserImportController;
+use App\Models\Screening;
+
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -107,3 +111,12 @@ Route::middleware('auth:api')->group(function () {
 Route::middleware('auth:api')->group(function () {
     Route::patch('/patients/{id}/restore', [PatientController::class, 'restore']);
 });
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/personal-history/store', [PersonalHistoryController::class, 'store']);
+    Route::put('/Personal-history/update/{id}', [PersonalHistoryController::class, 'update']);
+    Route::post('/Screening/store', [ScreeningController::class, 'store']);       // Create new screening
+    Route::put('/Screening/update/{id}', [ScreeningController::class, 'update']);   // Update existing screening
+
+});
+
+Route::middleware('auth:sanctum')->post('/change-password', [AuthenticatedSessionController::class, 'changePassword']);

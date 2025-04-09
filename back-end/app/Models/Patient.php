@@ -10,40 +10,39 @@ class Patient extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'blood_group', 'social_security_no', 'family_status','is_archived'];
+    protected $fillable = ['user_id', 'blood_group', 'social_security_no', 'family_status'];
 
-        public function biometricData()
-        {
+    public function biometricData()
+    {
         return $this->hasOne(
-            BiometricDataController::class
+            BiometricData::class
         );
-        }
+    }
 
 
-        public function user()
-        {
+    public function user()
+    {
         return $this->belongsTo(User::class);
-        }
+    }
 
-        public function medicalHistories()
-        {
+    public function medicalHistories()
+    {
         return $this->hasMany(MedicalHistory::class);
-        }
+    }
 
-        public function screenings()
-        {
+    public function screenings()
+    {
         return $this->hasMany(Screening::class);
-        }
-
-        protected static function boot()
-        {
+    }
+    protected static function boot()
+    {
         parent::boot();
 
         static::created(function ($patient) {
             $patient->biometricData()->create([
-                'height' => null,
+                'height' => null, // Valeurs par défaut
                 'weight' => null,
             ]);
         });
-        }
+    }
 }

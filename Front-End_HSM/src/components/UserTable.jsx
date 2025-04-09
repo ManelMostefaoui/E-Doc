@@ -123,7 +123,11 @@ export default function UserTable({ users = [], onUserSelect, onDeleteUsers }) {
               {users.map((user) => (
                 <tr 
                   key={user.id || `no-id-${Math.random().toString(36).substring(2, 9)}`} 
+<<<<<<< HEAD
                   className={`border-b hover:bg-gray-50 ${user.id && selectedUsers.includes(user.id) ? "bg-[#b3e6e6]" : ""}`}
+=======
+                  className={`border-b ${ user.id && !selectedUsers.includes(user.id) ? `hover:bg-gray-50` : ""} ${user.id && selectedUsers.includes(user.id) ? "bg-[#b3e6e6]" : ""}`}
+>>>>>>> manel
                 >
                   <td className="px-4 py-3" onClick={(e) => {
                     e.stopPropagation();
