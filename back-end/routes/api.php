@@ -111,6 +111,7 @@ Route::middleware('auth:api')->group(function () {
 Route::middleware('auth:api')->group(function () {
     Route::patch('/patients/{id}/restore', [PatientController::class, 'restore']);
 });
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/personal-history/store', [PersonalHistoryController::class, 'store']);
     Route::put('/Personal-history/update/{id}', [PersonalHistoryController::class, 'update']);
