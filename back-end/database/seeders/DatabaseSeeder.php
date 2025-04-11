@@ -15,9 +15,11 @@ class DatabaseSeeder extends Seeder
     {
         // Run the role seeder first to create roles
         $this->call(RoleSeeder::class);
-        
+
         // Run the admin seeder to create the admin user
         $this->call(AdminSeeder::class);
+
+        $this->call(MedicationSeeder::class);
 
         // User::factory(10)->create();
 

@@ -18,6 +18,7 @@ use App\Http\Controllers\PersonalHistoryController;
 use App\Http\Controllers\ScreeningController;
 use App\Http\Controllers\UserImportController;
 use App\Models\Screening;
+use App\Http\Controllers\MedicationController;
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -121,3 +122,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::middleware('auth:sanctum')->post('/change-password', [AuthenticatedSessionController::class, 'changePassword']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/medications', [MedicationController::class, 'index']);
+    Route::post('/medications-add', [MedicationController::class, 'store']);
+    Route::put('/medications/{id}', [MedicationController::class, 'update']);
+    Route::delete('/medications/{id}', [MedicationController::class, 'destroy']);
+});
+Route::middleware('auth:sanctum')->post('/medications/import', [MedicationController::class, 'import'])->name('medications.import');
