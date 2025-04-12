@@ -31,13 +31,6 @@ class MedicationSeeder extends Seeder
             'dosage' => '400mg'
         ]);
 
-        /*$faker = Faker::create();
-        for ($i = 0; $i < 20; $i++) {
-            Medication::create([
-                'name' => $faker->word,  // Générer un nom aléatoire
-                'category' => $faker->word,  // Générer une catégorie aléatoire
-                'dosage' => $faker->randomElement(['500mg', '250mg', '100mg', '1g']), // Générer un dosage aléatoire
-            ]); **/
             $filePath = public_path('medicaments.xlsx');
             Excel::import(new MedicationsImport, $filePath);
 
