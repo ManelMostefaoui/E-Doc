@@ -20,7 +20,7 @@ use App\Models\Screening;
 use Illuminate\Http\JsonResponse;
 
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum'])->get('/user/{id}', function (Request $request) {
     return $request->user();
 });
 
@@ -106,3 +106,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 });
 Route::get('/patients', [PatientController::class, 'index']);
+Route::middleware(['auth:sanctum'])->get('/user/{id}', [AdminController::class, 'getUserById']);
