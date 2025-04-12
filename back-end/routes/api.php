@@ -21,7 +21,7 @@ use App\Models\Screening;
 use App\Http\Controllers\MedicationController;
 
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum'])->get('/user/{id}', function (Request $request) {
     return $request->user();
 });
 
@@ -130,3 +130,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/medications/{id}', [MedicationController::class, 'destroy']);
 });
 Route::middleware('auth:sanctum')->post('/medications/import', [MedicationController::class, 'import'])->name('medications.import');
+
+Route::middleware(['auth:sanctum'])->get('/user/{id}', [AdminController::class, 'getUserById']);

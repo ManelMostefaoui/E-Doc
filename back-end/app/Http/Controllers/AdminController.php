@@ -61,4 +61,24 @@ class AdminController extends Controller
             ];
         }));
     }
+    public function getUserById($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        return response()->json([
+
+            'name' => $user->name,
+            'email' => $user->email,
+            'role_id' => $user->role_id,
+            'gender' => $user->gender,
+            'birthdate' => $user->birthdate,
+            'phone_num' => $user->phone_num,
+            'address' => $user->address,
+
+        ]);
+    }
 }
