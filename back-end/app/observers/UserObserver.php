@@ -16,16 +16,17 @@ class UserObserver
                 'blood_group' => null,
                 'social_security_no' => null,
                 'family_status' => null,
-                'is_archived' => null,
             ]);
 
+            // 🔥 Ajouter automatiquement une ligne dans medical_histories
             MedicalHistory::create([
                 'patient_id' => $patient->id,
-                'condition' => null,
-                'date_appeared' => null,
-                'severity'=> null,
-                'implication' => null,
-                'treatment' => null,
+                'congenital_disease' => null,
+                'general_disease' => null,
+                'surgery' => null,
+                'allergy' => null,
+                'description' => null,
+                'date' => null,
             ]);
         }
     }
