@@ -30,8 +30,9 @@ class MedicationSeeder extends Seeder
             'category' => 'Anti-inflammatory',
             'dosage' => '400mg'
         ]);
-
+        //Import excel
             $filePath = public_path('medicaments.xlsx');
+
             Excel::import(new MedicationsImport, $filePath);
 
 
