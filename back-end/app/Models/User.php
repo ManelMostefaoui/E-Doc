@@ -59,6 +59,7 @@ class User extends Authenticatable
     }
 
 
+
     // Helper method to check the user's role
     public function hasRole($roleName)
     {

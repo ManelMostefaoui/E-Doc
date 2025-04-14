@@ -33,53 +33,31 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 
-Route::middleware('auth:sanctum')->post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->name('logout');
-
-
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/admin/user-counts', [AdminController::class, 'getUserCounts']);
-    Route::get('/admin/users', [AdminController::class, 'listUsers']);
-    Route::get('/admin/users/{role}', [AdminController::class, 'listUsersByRole']);
-});
-
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
-Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-    ->middleware(['auth', 'signed', 'throttle:6,1'])
-    ->name('verification.verify');
-
-Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-    ->middleware(['auth', 'throttle:6,1'])
-    ->name('verification.send');
-
+//logout
 Route::middleware('auth:sanctum')->post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
 
 
-Route::middleware(['auth:sanctum'])->group(function () {
+// Group all routes under both 'auth:sanctum' and 'admin' middleware
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    // Admin-specific routes
     Route::get('/admin/user-counts', [AdminController::class, 'getUserCounts']);
     Route::get('/admin/users', [AdminController::class, 'listUsers']);
     Route::get('/admin/users/{role}', [AdminController::class, 'listUsersByRole']);
-});
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+    // Profile routes (admin-only)
+    Route::get('profile', [AuthenticatedSessionController::class, 'showProfile']);
+    Route::put('profile/update', [AuthenticatedSessionController::class, 'updateProfile']);
+    Route::put('profile/update-password', [AuthenticatedSessionController::class, 'updatePassword']);
 
-Route::middleware('auth:sanctum')->get('profile', [AuthenticatedSessionController::class, 'showProfile']);
-
-Route::middleware('auth:sanctum')->put('profile/update', [AuthenticatedSessionController::class, 'updateProfile']);
-
-Route::middleware('auth:sanctum')->put('profile/update-password', [AuthenticatedSessionController::class, 'updatePassword']);
-
-Route::middleware(['auth:sanctum'])->group(function () {
+    // Import users (admin-only)
     Route::post('/import-users', [UserImportController::class, 'import']);
 });
+
+
+
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/patients/{patient}/biometric-data', [BiometricDataController::class, 'update']);
