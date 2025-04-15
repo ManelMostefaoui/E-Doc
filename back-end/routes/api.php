@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PersonalHistoryController;
 use App\Http\Controllers\ScreeningController;
 use App\Http\Controllers\UserImportController;
+use App\Http\Middleware\AdminMiddleware;
 use App\Models\PersonalHistory;
 use App\Models\Screening;
 use Illuminate\Http\JsonResponse;
@@ -53,6 +55,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Import users (admin-only)
     Route::post('/import-users', [UserImportController::class, 'import']);
+    Route::middleware(['auth:sanctum'])->get('/user/{id}', [AdminController::class, 'getUserById']);
 });
 
 
@@ -84,4 +87,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 });
 Route::get('/patients', [PatientController::class, 'index']);
-Route::middleware(['auth:sanctum'])->get('/user/{id}', [AdminController::class, 'getUserById']);

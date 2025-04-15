@@ -10,11 +10,16 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::user();
+
+
+        $user = Auth::user()->load('role');
+
+
 
         if (!$user || !$user->hasRole('admin')) {
             return response()->json(['error' => 'Unauthorized from middleware'], 403);
         }
+
 
         return $next($request);
     }
