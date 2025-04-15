@@ -1,0 +1,1493 @@
+openapi: 3.0.3
+info:
+  title: 'E_Doc API Documentation'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+tags:
+  -
+    name: Endpoints
+    description: ''
+paths:
+  '/api/user/{id}':
+    get:
+      summary: ''
+      operationId: getApiUserId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/verify-email/{id}/{hash}':
+    get:
+      summary: "Mark the authenticated user's email address as verified."
+      operationId: markTheAuthenticatedUsersEmailAddressAsVerified
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the verify email.'
+        example: consequatur
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: hash
+        description: ''
+        example: consequatur
+        required: true
+        schema:
+          type: string
+  /api/email/verification-notification:
+    post:
+      summary: 'Send a new email verification notification.'
+      operationId: sendANewEmailVerificationNotification
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/logout:
+    post:
+      summary: 'Destroy an authenticated session.'
+      operationId: destroyAnAuthenticatedSession
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/admin/user-counts:
+    get:
+      summary: ''
+      operationId: getApiAdminUserCounts
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/admin/users:
+    get:
+      summary: ''
+      operationId: getApiAdminUsers
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/admin/users/{role}':
+    get:
+      summary: ''
+      operationId: getApiAdminUsersRole
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: role
+        description: ''
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/profile:
+    get:
+      summary: ''
+      operationId: getApiProfile
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/profile/update:
+    put:
+      summary: 'update profil .'
+      operationId: updateProfil
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: vmqeopfuudtdsufvyvddq
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: kunde.eloisa@example.com
+                  nullable: false
+                gender:
+                  type: string
+                  description: ''
+                  example: male
+                  nullable: false
+                  enum:
+                    - male
+                    - female
+                phone_num:
+                  type: string
+                  description: 'Must not be greater than 15 characters.'
+                  example: hfqcoynlazghd
+                  nullable: true
+                address:
+                  type: string
+                  description: 'Must not be greater than 500 characters.'
+                  example: tqtqxbajwbpilpmufinll
+                  nullable: true
+                birthdate:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-04-15T16:24:24'
+                  nullable: true
+              required:
+                - gender
+      security: []
+  /api/import-users:
+    post:
+      summary: ''
+      operationId: postApiImportUsers
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: false
+              required:
+                - file
+      security: []
+  '/api/patients/{patient}/biometric-data':
+    put:
+      summary: ''
+      operationId: putApiPatientsPatientBiometricData
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                height:
+                  type: number
+                  description: 'Must be at least 50. Must not be greater than 250.'
+                  example: 21
+                  nullable: true
+                weight:
+                  type: number
+                  description: 'Must be at least 10. Must not be greater than 500.'
+                  example: 13
+                  nullable: true
+      security: []
+    parameters:
+      -
+        in: path
+        name: patient
+        description: 'The patient.'
+        example: consequatur
+        required: true
+        schema:
+          type: string
+  '/api/patients/{patient_id}':
+    put:
+      summary: ''
+      operationId: putApiPatientsPatient_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                blood_group:
+                  type: string
+                  description: ''
+                  example: A+
+                  nullable: true
+                  enum:
+                    - A+
+                    - A-
+                    - B+
+                    - B-
+                    - AB+
+                    - AB-
+                    - O+
+                    - O-
+                social_security_no:
+                  type: string
+                  description: ''
+                  example: null
+                  nullable: false
+                family_status:
+                  type: string
+                  description: ''
+                  example: Single
+                  nullable: true
+                  enum:
+                    - Single
+                    - Married
+                    - Divorced
+                    - Widowed
+      security: []
+    parameters:
+      -
+        in: path
+        name: patient_id
+        description: 'The ID of the patient.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/patients/{id}':
+    get:
+      summary: ''
+      operationId: getApiPatientsId
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: manelm
+                  email: manelmllmlmojjjs@esi-sba.dz
+                  birthdate: '2005-03-25'
+                  phone_num: '0562684080'
+                  address: Tiaret
+                  blood_group: null
+                  family_status: null
+                  social_security_no: null
+                  weight: null
+                  height: null
+                  created_at: '2025-04-08T17:39:58.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: manelm
+                  email:
+                    type: string
+                    example: manelmllmlmojjjs@esi-sba.dz
+                  birthdate:
+                    type: string
+                    example: '2005-03-25'
+                  phone_num:
+                    type: string
+                    example: '0562684080'
+                  address:
+                    type: string
+                    example: Tiaret
+                  blood_group:
+                    type: string
+                    example: null
+                  family_status:
+                    type: string
+                    example: null
+                  social_security_no:
+                    type: string
+                    example: null
+                  weight:
+                    type: string
+                    example: null
+                  height:
+                    type: string
+                    example: null
+                  created_at:
+                    type: string
+                    example: '2025-04-08T17:39:58.000000Z'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the patient.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/patients/{id}/medical-history':
+    get:
+      summary: ''
+      operationId: getApiPatientsIdMedicalHistory
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the patient.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/patients/{patient}/medical-history':
+    post:
+      summary: ''
+      operationId: postApiPatientsPatientMedicalHistory
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                condition:
+                  type: string
+                  description: ''
+                  example: general_disease
+                  nullable: false
+                  enum:
+                    - congenital
+                    - general_disease
+                    - surgery
+                    - allergy
+                date_appeared:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-04-15T16:24:24'
+                  nullable: true
+                severity:
+                  type: string
+                  description: ''
+                  example: severe
+                  nullable: true
+                  enum:
+                    - mild
+                    - moderate
+                    - severe
+                implication:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+                treatment:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+              required:
+                - condition
+      security: []
+    parameters:
+      -
+        in: path
+        name: patient
+        description: 'The patient.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/medical-history/{id}':
+    put:
+      summary: ''
+      operationId: putApiMedicalHistoryId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                condition:
+                  type: string
+                  description: ''
+                  example: general_disease
+                  nullable: true
+                  enum:
+                    - congenital
+                    - general_disease
+                    - surgery
+                    - allergy
+                date_appeared:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-04-15T16:24:24'
+                  nullable: true
+                severity:
+                  type: string
+                  description: ''
+                  example: severe
+                  nullable: true
+                  enum:
+                    - mild
+                    - moderate
+                    - severe
+                implication:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+                treatment:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the medical history.'
+        example: consequatur
+        required: true
+        schema:
+          type: string
+  '/api/users/{id}':
+    delete:
+      summary: ''
+      operationId: deleteApiUsersId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/personal-history/store:
+    post:
+      summary: ''
+      operationId: postApiPersonalHistoryStore
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                patient_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the patients table.'
+                  example: consequatur
+                  nullable: false
+                smoker:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: true
+                cigarette_count:
+                  type: integer
+                  description: ''
+                  example: 17
+                  nullable: true
+                chewing_tobacco:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: true
+                chewing_tobacco_count:
+                  type: integer
+                  description: ''
+                  example: 17
+                  nullable: true
+                first_use_age:
+                  type: integer
+                  description: ''
+                  example: 17
+                  nullable: true
+                former_smoker:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: true
+                exposure_period:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+                alcohol:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+                medications:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+                other:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+              required:
+                - patient_id
+      security: []
+  '/api/Personal-history/update/{id}':
+    put:
+      summary: ''
+      operationId: putApiPersonalHistoryUpdateId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                patient_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the patients table.'
+                  example: consequatur
+                  nullable: false
+                smoker:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: true
+                cigarette_count:
+                  type: integer
+                  description: ''
+                  example: 17
+                  nullable: true
+                chewing_tobacco:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: true
+                chewing_tobacco_count:
+                  type: integer
+                  description: ''
+                  example: 17
+                  nullable: true
+                first_use_age:
+                  type: integer
+                  description: ''
+                  example: 17
+                  nullable: true
+                former_smoker:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: true
+                exposure_period:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+                alcohol:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+                medications:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+                other:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+              required:
+                - patient_id
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the update.'
+        example: consequatur
+        required: true
+        schema:
+          type: string
+  /api/Screening/store:
+    post:
+      summary: ''
+      operationId: postApiScreeningStore
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                patient_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the patients table.'
+                  example: consequatur
+                  nullable: false
+                test_type:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: false
+                result:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: true
+              required:
+                - patient_id
+                - test_type
+      security: []
+  '/api/Screening/update/{id}':
+    put:
+      summary: ''
+      operationId: putApiScreeningUpdateId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                patient_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the patients table.'
+                  example: consequatur
+                  nullable: false
+                test_type:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: false
+                result:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: false
+              required:
+                - patient_id
+                - test_type
+                - result
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the update.'
+        example: consequatur
+        required: true
+        schema:
+          type: string
+  /api/patients:
+    get:
+      summary: ''
+      operationId: getApiPatients
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Liste des patients'
+                  data:
+                    -
+                      id: 1
+                      user_id: 40
+                      blood_group: null
+                      social_security_no: null
+                      family_status: null
+                      created_at: '2025-04-08T17:39:58.000000Z'
+                      updated_at: '2025-04-08T17:39:58.000000Z'
+                      user:
+                        id: 40
+                        role_id: 1
+                        name: manelm
+                        email: manelmllmlmojjjs@esi-sba.dz
+                        email_verified_at: null
+                        created_at: '2025-04-08T17:39:58.000000Z'
+                        updated_at: '2025-04-08T17:39:58.000000Z'
+                        gender: female
+                        birthdate: '2005-03-25'
+                        phone_num: '0562684080'
+                        address: Tiaret
+                    -
+                      id: 2
+                      user_id: 43
+                      blood_group: null
+                      social_security_no: null
+                      family_status: null
+                      created_at: '2025-04-09T13:39:55.000000Z'
+                      updated_at: '2025-04-09T13:39:55.000000Z'
+                      user:
+                        id: 43
+                        role_id: 1
+                        name: manelm
+                        email: sasi@esi-sba.dz
+                        email_verified_at: null
+                        created_at: '2025-04-09T13:39:55.000000Z'
+                        updated_at: '2025-04-09T13:39:55.000000Z'
+                        gender: female
+                        birthdate: '2005-03-25'
+                        phone_num: '0562684080'
+                        address: Tiaret
+                    -
+                      id: 3
+                      user_id: 44
+                      blood_group: null
+                      social_security_no: null
+                      family_status: null
+                      created_at: '2025-04-09T13:40:27.000000Z'
+                      updated_at: '2025-04-09T13:40:27.000000Z'
+                      user:
+                        id: 44
+                        role_id: 1
+                        name: manelm
+                        email: samsi@esi-sba.dz
+                        email_verified_at: null
+                        created_at: '2025-04-09T13:40:27.000000Z'
+                        updated_at: '2025-04-09T13:40:27.000000Z'
+                        gender: female
+                        birthdate: '2005-03-25'
+                        phone_num: '0562684080'
+                        address: Tiaret
+                    -
+                      id: 4
+                      user_id: 45
+                      blood_group: null
+                      social_security_no: null
+                      family_status: null
+                      created_at: '2025-04-09T13:45:32.000000Z'
+                      updated_at: '2025-04-09T13:45:32.000000Z'
+                      user:
+                        id: 45
+                        role_id: 1
+                        name: manelm
+                        email: samnsi@esi-sba.dz
+                        email_verified_at: null
+                        created_at: '2025-04-09T13:45:32.000000Z'
+                        updated_at: '2025-04-09T13:45:32.000000Z'
+                        gender: female
+                        birthdate: '2005-03-25'
+                        phone_num: '0562684080'
+                        address: Tiaret
+                    -
+                      id: 5
+                      user_id: 46
+                      blood_group: null
+                      social_security_no: null
+                      family_status: null
+                      created_at: '2025-04-09T13:48:31.000000Z'
+                      updated_at: '2025-04-09T13:48:31.000000Z'
+                      user:
+                        id: 46
+                        role_id: 1
+                        name: manelm
+                        email: samjnsi@esi-sba.dz
+                        email_verified_at: null
+                        created_at: '2025-04-09T13:48:31.000000Z'
+                        updated_at: '2025-04-09T13:48:31.000000Z'
+                        gender: female
+                        birthdate: '2005-03-25'
+                        phone_num: '0562684080'
+                        address: Tiaret
+                    -
+                      id: 6
+                      user_id: 47
+                      blood_group: null
+                      social_security_no: null
+                      family_status: null
+                      created_at: '2025-04-09T13:53:40.000000Z'
+                      updated_at: '2025-04-09T13:53:40.000000Z'
+                      user:
+                        id: 47
+                        role_id: 1
+                        name: manelm
+                        email: samm@esi-sba.dz
+                        email_verified_at: null
+                        created_at: '2025-04-09T13:53:40.000000Z'
+                        updated_at: '2025-04-09T13:53:40.000000Z'
+                        gender: female
+                        birthdate: '2005-03-25'
+                        phone_num: '0562684080'
+                        address: Tiaret
+                    -
+                      id: 7
+                      user_id: 48
+                      blood_group: null
+                      social_security_no: null
+                      family_status: null
+                      created_at: '2025-04-09T13:56:33.000000Z'
+                      updated_at: '2025-04-09T13:56:33.000000Z'
+                      user:
+                        id: 48
+                        role_id: 1
+                        name: manelm
+                        email: sammm@esi-sba.dz
+                        email_verified_at: null
+                        created_at: '2025-04-09T13:56:33.000000Z'
+                        updated_at: '2025-04-09T13:56:33.000000Z'
+                        gender: female
+                        birthdate: '2005-03-25'
+                        phone_num: '0562684080'
+                        address: Tiaret
+                    -
+                      id: 8
+                      user_id: 49
+                      blood_group: null
+                      social_security_no: null
+                      family_status: null
+                      created_at: '2025-04-09T14:40:30.000000Z'
+                      updated_at: '2025-04-09T14:40:30.000000Z'
+                      user:
+                        id: 49
+                        role_id: 1
+                        name: manelm
+                        email: ap@esi-sba.dz
+                        email_verified_at: null
+                        created_at: '2025-04-09T14:40:30.000000Z'
+                        updated_at: '2025-04-09T14:40:30.000000Z'
+                        gender: female
+                        birthdate: '2005-03-25'
+                        phone_num: '0562684080'
+                        address: Tiaret
+                    -
+                      id: 9
+                      user_id: 50
+                      blood_group: null
+                      social_security_no: null
+                      family_status: null
+                      created_at: '2025-04-09T14:49:46.000000Z'
+                      updated_at: '2025-04-09T14:49:46.000000Z'
+                      user:
+                        id: 50
+                        role_id: 1
+                        name: manelm
+                        email: app@esi-sba.dz
+                        email_verified_at: null
+                        created_at: '2025-04-09T14:49:46.000000Z'
+                        updated_at: '2025-04-09T14:49:46.000000Z'
+                        gender: female
+                        birthdate: '2005-03-25'
+                        phone_num: '0562684080'
+                        address: Tiaret
+                    -
+                      id: 10
+                      user_id: 51
+                      blood_group: null
+                      social_security_no: null
+                      family_status: null
+                      created_at: '2025-04-10T13:46:25.000000Z'
+                      updated_at: '2025-04-10T13:46:25.000000Z'
+                      user:
+                        id: 51
+                        role_id: 1
+                        name: manel
+                        email: maneeeeel@esi-sba.dz
+                        email_verified_at: null
+                        created_at: '2025-04-10T13:46:25.000000Z'
+                        updated_at: '2025-04-10T13:46:25.000000Z'
+                        gender: female
+                        birthdate: '2005-03-28'
+                        phone_num: '0557377356'
+                        address: hhh
+                properties:
+                  message:
+                    type: string
+                    example: 'Liste des patients'
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        user_id: 40
+                        blood_group: null
+                        social_security_no: null
+                        family_status: null
+                        created_at: '2025-04-08T17:39:58.000000Z'
+                        updated_at: '2025-04-08T17:39:58.000000Z'
+                        user:
+                          id: 40
+                          role_id: 1
+                          name: manelm
+                          email: manelmllmlmojjjs@esi-sba.dz
+                          email_verified_at: null
+                          created_at: '2025-04-08T17:39:58.000000Z'
+                          updated_at: '2025-04-08T17:39:58.000000Z'
+                          gender: female
+                          birthdate: '2005-03-25'
+                          phone_num: '0562684080'
+                          address: Tiaret
+                      -
+                        id: 2
+                        user_id: 43
+                        blood_group: null
+                        social_security_no: null
+                        family_status: null
+                        created_at: '2025-04-09T13:39:55.000000Z'
+                        updated_at: '2025-04-09T13:39:55.000000Z'
+                        user:
+                          id: 43
+                          role_id: 1
+                          name: manelm
+                          email: sasi@esi-sba.dz
+                          email_verified_at: null
+                          created_at: '2025-04-09T13:39:55.000000Z'
+                          updated_at: '2025-04-09T13:39:55.000000Z'
+                          gender: female
+                          birthdate: '2005-03-25'
+                          phone_num: '0562684080'
+                          address: Tiaret
+                      -
+                        id: 3
+                        user_id: 44
+                        blood_group: null
+                        social_security_no: null
+                        family_status: null
+                        created_at: '2025-04-09T13:40:27.000000Z'
+                        updated_at: '2025-04-09T13:40:27.000000Z'
+                        user:
+                          id: 44
+                          role_id: 1
+                          name: manelm
+                          email: samsi@esi-sba.dz
+                          email_verified_at: null
+                          created_at: '2025-04-09T13:40:27.000000Z'
+                          updated_at: '2025-04-09T13:40:27.000000Z'
+                          gender: female
+                          birthdate: '2005-03-25'
+                          phone_num: '0562684080'
+                          address: Tiaret
+                      -
+                        id: 4
+                        user_id: 45
+                        blood_group: null
+                        social_security_no: null
+                        family_status: null
+                        created_at: '2025-04-09T13:45:32.000000Z'
+                        updated_at: '2025-04-09T13:45:32.000000Z'
+                        user:
+                          id: 45
+                          role_id: 1
+                          name: manelm
+                          email: samnsi@esi-sba.dz
+                          email_verified_at: null
+                          created_at: '2025-04-09T13:45:32.000000Z'
+                          updated_at: '2025-04-09T13:45:32.000000Z'
+                          gender: female
+                          birthdate: '2005-03-25'
+                          phone_num: '0562684080'
+                          address: Tiaret
+                      -
+                        id: 5
+                        user_id: 46
+                        blood_group: null
+                        social_security_no: null
+                        family_status: null
+                        created_at: '2025-04-09T13:48:31.000000Z'
+                        updated_at: '2025-04-09T13:48:31.000000Z'
+                        user:
+                          id: 46
+                          role_id: 1
+                          name: manelm
+                          email: samjnsi@esi-sba.dz
+                          email_verified_at: null
+                          created_at: '2025-04-09T13:48:31.000000Z'
+                          updated_at: '2025-04-09T13:48:31.000000Z'
+                          gender: female
+                          birthdate: '2005-03-25'
+                          phone_num: '0562684080'
+                          address: Tiaret
+                      -
+                        id: 6
+                        user_id: 47
+                        blood_group: null
+                        social_security_no: null
+                        family_status: null
+                        created_at: '2025-04-09T13:53:40.000000Z'
+                        updated_at: '2025-04-09T13:53:40.000000Z'
+                        user:
+                          id: 47
+                          role_id: 1
+                          name: manelm
+                          email: samm@esi-sba.dz
+                          email_verified_at: null
+                          created_at: '2025-04-09T13:53:40.000000Z'
+                          updated_at: '2025-04-09T13:53:40.000000Z'
+                          gender: female
+                          birthdate: '2005-03-25'
+                          phone_num: '0562684080'
+                          address: Tiaret
+                      -
+                        id: 7
+                        user_id: 48
+                        blood_group: null
+                        social_security_no: null
+                        family_status: null
+                        created_at: '2025-04-09T13:56:33.000000Z'
+                        updated_at: '2025-04-09T13:56:33.000000Z'
+                        user:
+                          id: 48
+                          role_id: 1
+                          name: manelm
+                          email: sammm@esi-sba.dz
+                          email_verified_at: null
+                          created_at: '2025-04-09T13:56:33.000000Z'
+                          updated_at: '2025-04-09T13:56:33.000000Z'
+                          gender: female
+                          birthdate: '2005-03-25'
+                          phone_num: '0562684080'
+                          address: Tiaret
+                      -
+                        id: 8
+                        user_id: 49
+                        blood_group: null
+                        social_security_no: null
+                        family_status: null
+                        created_at: '2025-04-09T14:40:30.000000Z'
+                        updated_at: '2025-04-09T14:40:30.000000Z'
+                        user:
+                          id: 49
+                          role_id: 1
+                          name: manelm
+                          email: ap@esi-sba.dz
+                          email_verified_at: null
+                          created_at: '2025-04-09T14:40:30.000000Z'
+                          updated_at: '2025-04-09T14:40:30.000000Z'
+                          gender: female
+                          birthdate: '2005-03-25'
+                          phone_num: '0562684080'
+                          address: Tiaret
+                      -
+                        id: 9
+                        user_id: 50
+                        blood_group: null
+                        social_security_no: null
+                        family_status: null
+                        created_at: '2025-04-09T14:49:46.000000Z'
+                        updated_at: '2025-04-09T14:49:46.000000Z'
+                        user:
+                          id: 50
+                          role_id: 1
+                          name: manelm
+                          email: app@esi-sba.dz
+                          email_verified_at: null
+                          created_at: '2025-04-09T14:49:46.000000Z'
+                          updated_at: '2025-04-09T14:49:46.000000Z'
+                          gender: female
+                          birthdate: '2005-03-25'
+                          phone_num: '0562684080'
+                          address: Tiaret
+                      -
+                        id: 10
+                        user_id: 51
+                        blood_group: null
+                        social_security_no: null
+                        family_status: null
+                        created_at: '2025-04-10T13:46:25.000000Z'
+                        updated_at: '2025-04-10T13:46:25.000000Z'
+                        user:
+                          id: 51
+                          role_id: 1
+                          name: manel
+                          email: maneeeeel@esi-sba.dz
+                          email_verified_at: null
+                          created_at: '2025-04-10T13:46:25.000000Z'
+                          updated_at: '2025-04-10T13:46:25.000000Z'
+                          gender: female
+                          birthdate: '2005-03-28'
+                          phone_num: '0557377356'
+                          address: hhh
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        user_id:
+                          type: integer
+                          example: 40
+                        blood_group:
+                          type: string
+                          example: null
+                        social_security_no:
+                          type: string
+                          example: null
+                        family_status:
+                          type: string
+                          example: null
+                        created_at:
+                          type: string
+                          example: '2025-04-08T17:39:58.000000Z'
+                        updated_at:
+                          type: string
+                          example: '2025-04-08T17:39:58.000000Z'
+                        user:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 40
+                            role_id:
+                              type: integer
+                              example: 1
+                            name:
+                              type: string
+                              example: manelm
+                            email:
+                              type: string
+                              example: manelmllmlmojjjs@esi-sba.dz
+                            email_verified_at:
+                              type: string
+                              example: null
+                            created_at:
+                              type: string
+                              example: '2025-04-08T17:39:58.000000Z'
+                            updated_at:
+                              type: string
+                              example: '2025-04-08T17:39:58.000000Z'
+                            gender:
+                              type: string
+                              example: female
+                            birthdate:
+                              type: string
+                              example: '2005-03-25'
+                            phone_num:
+                              type: string
+                              example: '0562684080'
+                            address:
+                              type: string
+                              example: Tiaret
+      tags:
+        - Endpoints
+      security: []
+  /api/register:
+    post:
+      summary: 'Handle an incoming registration request.'
+      operationId: handleAnIncomingRegistrationRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: vmqeopfuudtdsufvyvddq
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: kunde.eloisa@example.com
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: false
+                role_name:
+                  type: string
+                  description: 'The <code>name</code> of an existing record in the roles table.'
+                  example: consequatur
+                  nullable: false
+                gender:
+                  type: string
+                  description: ''
+                  example: male
+                  nullable: false
+                  enum:
+                    - male
+                    - female
+                birthdate:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-04-15T16:24:24'
+                  nullable: true
+                phone_num:
+                  type: string
+                  description: 'Must not be greater than 15 characters.'
+                  example: mqeopfuudtdsu
+                  nullable: true
+                address:
+                  type: string
+                  description: 'Must not be greater than 500 characters.'
+                  example: fvyvddqamniihfqcoynla
+                  nullable: true
+              required:
+                - name
+                - email
+                - password
+                - role_name
+                - gender
+      security: []
+  /api/login:
+    post:
+      summary: 'Handle an incoming authentication request.'
+      operationId: handleAnIncomingAuthenticationRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: ''
+                  example: qkunze@example.com
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: 'O[2UZ5ij-e/dl4m{o,'
+                  nullable: false
+              required:
+                - email
+                - password
+      security: []
+  /api/forgot-password:
+    post:
+      summary: 'Handle an incoming password reset link request.'
+      operationId: handleAnIncomingPasswordResetLinkRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: qkunze@example.com
+                  nullable: false
+              required:
+                - email
+      security: []
+  /api/reset-password:
+    post:
+      summary: 'Handle an incoming new password request.'
+      operationId: handleAnIncomingNewPasswordRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: carolyne.luettgen@example.org
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: consequatur
+                  nullable: false
+              required:
+                - token
+                - email
+                - password
+      security: []
