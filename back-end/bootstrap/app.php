@@ -19,7 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
             'doctor' => \App\Http\Middleware\DoctorMiddleware::class,  // Alias 'doctor' pour le middleware
-
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
 
         //

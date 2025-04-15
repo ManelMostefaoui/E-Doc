@@ -17,7 +17,7 @@ class DoctorMiddleware
     {
         // Vérifier si l'utilisateur a le rôle 'doctor'
         if (auth()->user()->role->name !== 'doctor') {
-            return response()->json(['error' => 'Accès interdit'], 403);
+            return response()->json(['error' => 'Unauthorized Role'], 403);
         }
 
         return $next($request); // Continuer si l'utilisateur a le rôle 'doctor'
