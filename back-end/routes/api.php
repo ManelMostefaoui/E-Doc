@@ -89,46 +89,39 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::put('/patients/{patient}', [PatientController::class, 'update']);
 Route::get('/patients/{id}', [PatientController::class, 'show']);
 
-
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/patients/{id}/medical-history', [MedicalHistoryController::class, 'showPatientHistory']);
-    Route::post('/patients/{patient}/medical-history', [MedicalHistoryController::class, 'store']);
-    Route::put('/medical-history/{id}', [MedicalHistoryController::class, 'update']);
-});
 Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [AuthenticatedSessionController::class, 'deleteuUser']);
 });
 
-Route::get('/patients', [PatientController::class, 'index']);
+Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/personal-history/store', [PersonalHistory::class, 'store']);
-});
+    //medical history
+    Route::get('/patients/{id}/medical-history', [MedicalHistoryController::class, 'showPatientHistory']);
+    Route::post('/patients/{patient}/medical-history', [MedicalHistoryController::class, 'store']);
+    Route::put('/medical-history/{id}', [MedicalHistoryController::class, 'update']);
 
-Route::middleware('auth:api')->group(function () {
-    Route::patch('/patients/{id}/archive', [PatientController::class, 'archive']);
-});
-
-Route::middleware('auth:api')->group(function () {
-    Route::patch('/patients/{id}/restore', [PatientController::class, 'restore']);
-});
-
-Route::middleware(['auth:sanctum'])->group(function () {
+    //personal history
     Route::post('/personal-history/store', [PersonalHistoryController::class, 'store']);
     Route::put('/Personal-history/update/{id}', [PersonalHistoryController::class, 'update']);
     Route::post('/Screening/store', [ScreeningController::class, 'store']);       // Create new screening
     Route::put('/Screening/update/{id}', [ScreeningController::class, 'update']);   // Update existing screening
 
-});
-
-Route::middleware('auth:sanctum')->post('/change-password', [AuthenticatedSessionController::class, 'changePassword']);
-
-Route::middleware('auth:sanctum')->group(function () {
+    //medication lists
     Route::get('/medications', [MedicationController::class, 'index']);
     Route::post('/medications-add', [MedicationController::class, 'store']);
     Route::put('/medications/{id}', [MedicationController::class, 'update']);
     Route::delete('/medications/{id}', [MedicationController::class, 'destroy']);
+    Route::post('/medications/import', [MedicationController::class, 'import'])->name('medications.import');
+
+    //get patient list
+    Route::get('/patients', [PatientController::class, 'index']);
+    Route::get('/patients-archived', [PatientController::class, 'showArchivedPatients']);
+
+    //archived and unarchived medical record of patient
+    Route::patch('/patients/{id}/archive', [PatientController::class, 'archive']);
+    Route::patch('/patients/{id}/restore', [PatientController::class, 'restore']);
 });
-Route::middleware('auth:sanctum')->post('/medications/import', [MedicationController::class, 'import'])->name('medications.import');
+
+Route::middleware('auth:sanctum')->post('/change-password', [AuthenticatedSessionController::class, 'changePassword']);
 
 Route::middleware(['auth:sanctum'])->get('/user/{id}', [AdminController::class, 'getUserById']);

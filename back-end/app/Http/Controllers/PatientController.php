@@ -97,5 +97,19 @@ public function restore($id)
         'data' => $patient
     ]);
 }
+    public function showArchivedPatients()
+    {
+        // Récupérer les patients archivés (is_archived = true) et inclure les informations de l'utilisateur
+        $archivedPatients = Patient::where('is_archived', true)
+        ->with('user')->get();// Charger les informations de l'utilisateur
+
+        // Si aucun patient n'est trouvé, renvoyer un message d'erreur avec le code 404
+        if ($archivedPatients->isEmpty()) {
+            return response()->json(['message' => 'No archived patients found.'], 404);
+        }
+
+        // Retourner la liste des patients archivés avec les informations de l'utilisateur
+        return response()->json($archivedPatients);
+    }
 
 }
