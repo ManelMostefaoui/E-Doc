@@ -13,13 +13,14 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BiometricDataController;
 use App\Http\Controllers\MedicalHistoryController;
 use App\Http\Controllers\PatientController;
+use App\Models\PersonalHistory;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\PersonalHistoryController;
 use App\Http\Controllers\ScreeningController;
 use App\Http\Controllers\UserImportController;
 use App\Http\Middleware\AdminMiddleware;
-use App\Models\PersonalHistory;
 use App\Models\Screening;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\MedicationController;
 
 
 Route::middleware(['auth:sanctum'])->get('/user/{id}', function (Request $request) {
@@ -40,7 +41,7 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthenticatedSessionControll
     ->name('logout');
 
 
-
+// -----------------------------------------------------------------------------------------------------------
 // Group all routes under both 'auth:sanctum' and 'admin' middleware
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     // Admin-specific routes
@@ -49,41 +50,57 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('/admin/users/{role}', [AdminController::class, 'listUsersByRole']);
 
     // Profile routes (admin-only)
-    Route::get('profile', [AuthenticatedSessionController::class, 'showProfile']);
-    Route::put('profile/update', [AuthenticatedSessionController::class, 'updateProfile']);
-    Route::put('profile/update-password', [AuthenticatedSessionController::class, 'updatePassword']);
+    Route::get('/user/{id}', [AdminController::class, 'getUserById']);
 
     // Import users (admin-only)
     Route::post('/import-users', [UserImportController::class, 'import']);
-    Route::middleware(['auth:sanctum'])->get('/user/{id}', [AdminController::class, 'getUserById']);
-});
 
-
-
-
-
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::put('/patients/{patient}/biometric-data', [BiometricDataController::class, 'update']);
-});
-
-Route::put('/patients/{patient}', [PatientController::class, 'update']);
-Route::get('/patients/{id}', [PatientController::class, 'show']);
-
-
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/patients/{id}/medical-history', [MedicalHistoryController::class, 'showPatientHistory']);
-    Route::post('/patients/{patient}/medical-history', [MedicalHistoryController::class, 'store']);
-    Route::put('/medical-history/{id}', [MedicalHistoryController::class, 'update']);
-});
-Route::middleware('auth:sanctum')->group(function () {
+    //delete user
     Route::delete('/users/{id}', [AuthenticatedSessionController::class, 'deleteuUser']);
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
+// -----------------------------------------------------------------------------------------------------------
+// Group all routes under both 'auth:sanctum' and 'doctor' middleware
+Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
+
+    //patient info edit
+    Route::put('/patients/{patient}/biometric-data', [BiometricDataController::class, 'update']);
+    Route::put('/patients/{patient}', [PatientController::class, 'update']); //blood-ssn-family status
+    Route::get('/patients/{id}', [PatientController::class, 'show']);
+
+    //medical history
+    Route::get('/patients/{id}/medical-history', [MedicalHistoryController::class, 'showPatientHistory']);
+    Route::post('/patients/{patient}/medical-history', [MedicalHistoryController::class, 'store']);
+    Route::put('/medical-history/{id}', [MedicalHistoryController::class, 'update']);
+
+    //personal history
     Route::post('/personal-history/store', [PersonalHistoryController::class, 'store']);
     Route::put('/Personal-history/update/{id}', [PersonalHistoryController::class, 'update']);
+
+    //screening
     Route::post('/Screening/store', [ScreeningController::class, 'store']);       // Create new screening
     Route::put('/Screening/update/{id}', [ScreeningController::class, 'update']);   // Update existing screening
 
+    //medication lists
+    Route::get('/medications', [MedicationController::class, 'index']);
+    Route::post('/medications-add', [MedicationController::class, 'store']);
+    Route::put('/medications/{id}', [MedicationController::class, 'update']);
+    Route::delete('/medications/{id}', [MedicationController::class, 'destroy']);
+    Route::post('/medications/import', [MedicationController::class, 'import'])->name('medications.import');
+
+    //get patient list
+    Route::get('/patients', [PatientController::class, 'index']);
+    Route::get('/patients-archived', [PatientController::class, 'showArchivedPatients']);
+
+    //archived and unarchived medical record of patient
+    Route::patch('/patients/{id}/archive', [PatientController::class, 'archive']);
+    Route::patch('/patients/{id}/restore', [PatientController::class, 'restore']);
 });
-Route::get('/patients', [PatientController::class, 'index']);
+
+// -----------------------------------------------------------------------------------------------------------
+//Group all routes under 'auth:sanctum' and personal info
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('profile', [AuthenticatedSessionController::class, 'showProfile']);
+    Route::put('profile/update', [AuthenticatedSessionController::class, 'updateProfile']);
+    Route::post('/change-password', [AuthenticatedSessionController::class, 'changePassword']);
+});

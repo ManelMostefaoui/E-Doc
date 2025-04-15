@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class ScreeningController extends Controller
 {
+    //
     public function store(Request $request)
     {
         $validated = $request->validate([

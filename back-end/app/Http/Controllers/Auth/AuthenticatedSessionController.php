@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-
 use Illuminate\Auth\Access\Response as AccessResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 
 
@@ -150,4 +151,42 @@ class AuthenticatedSessionController extends Controller
 
         return response()->json(['message' => 'User deleted successfully']);
     }
+
+
+    /**
+     * Méthode pour changer le mot de passe de l'utilisateur.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changePassword(Request $request)
+    {
+        // Validation des champs de la requête
+        $request->validate([
+            'current_password' => 'required', // L'ancien mot de passe est obligatoire
+            'new_password' => 'required|min:8|confirmed', // Le nouveau mot de passe doit être confirmé
+        ]);
+
+        // Récupérer l'utilisateur authentifié
+        $user = Auth::user(); // L'utilisateur authentifié via Sanctum
+
+        // Vérifier si l'utilisateur est bien authentifié
+        if (!$user) {
+            return response()->json(['error' => 'Utilisateur non authentifié'], 401);
+        }
+
+        // Vérification de l'ancien mot de passe
+        if (!Hash::check($request->current_password, $user->password)) {
+            // Retourner un message d'erreur détaillé lorsque l'ancien mot de passe est incorrect
+            return response()->json(['error' => 'L\'ancien mot de passe est incorrect.'], 400);
+        }
+
+        // Mise à jour du mot de passe
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        // Retourner une réponse de succès
+        return response()->json(['message' => 'Mot de passe mis à jour avec succès.']);
+    }
+
 }
