@@ -41,7 +41,7 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthenticatedSessionControll
     ->name('logout');
 
 
-
+// -----------------------------------------------------------------------------------------------------------
 // Group all routes under both 'auth:sanctum' and 'admin' middleware
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     // Admin-specific routes
@@ -50,31 +50,23 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('/admin/users/{role}', [AdminController::class, 'listUsersByRole']);
 
     // Profile routes (admin-only)
-    Route::get('profile', [AuthenticatedSessionController::class, 'showProfile']);
-    Route::put('profile/update', [AuthenticatedSessionController::class, 'updateProfile']);
-    Route::put('profile/update-password', [AuthenticatedSessionController::class, 'updatePassword']);
+    Route::get('/user/{id}', [AdminController::class, 'getUserById']);
 
     // Import users (admin-only)
     Route::post('/import-users', [UserImportController::class, 'import']);
-    Route::middleware(['auth:sanctum'])->get('/user/{id}', [AdminController::class, 'getUserById']);
-});
 
-
-
-
-
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::put('/patients/{patient}/biometric-data', [BiometricDataController::class, 'update']);
-});
-
-Route::put('/patients/{patient}', [PatientController::class, 'update']);
-Route::get('/patients/{id}', [PatientController::class, 'show']);
-
-Route::middleware('auth:sanctum')->group(function () {
+    //delete user
     Route::delete('/users/{id}', [AuthenticatedSessionController::class, 'deleteuUser']);
 });
 
+// -----------------------------------------------------------------------------------------------------------
+// Group all routes under both 'auth:sanctum' and 'doctor' middleware
 Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
+
+    //patient info edit
+    Route::put('/patients/{patient}/biometric-data', [BiometricDataController::class, 'update']);
+    Route::put('/patients/{patient}', [PatientController::class, 'update']); //blood-ssn-family status
+    Route::get('/patients/{id}', [PatientController::class, 'show']);
 
     //medical history
     Route::get('/patients/{id}/medical-history', [MedicalHistoryController::class, 'showPatientHistory']);
@@ -84,6 +76,8 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     //personal history
     Route::post('/personal-history/store', [PersonalHistoryController::class, 'store']);
     Route::put('/Personal-history/update/{id}', [PersonalHistoryController::class, 'update']);
+
+    //screening
     Route::post('/Screening/store', [ScreeningController::class, 'store']);       // Create new screening
     Route::put('/Screening/update/{id}', [ScreeningController::class, 'update']);   // Update existing screening
 
@@ -103,6 +97,10 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     Route::patch('/patients/{id}/restore', [PatientController::class, 'restore']);
 });
 
-Route::middleware('auth:sanctum')->post('/change-password', [AuthenticatedSessionController::class, 'changePassword']);
-
-Route::middleware(['auth:sanctum'])->get('/user/{id}', [AdminController::class, 'getUserById']);
+// -----------------------------------------------------------------------------------------------------------
+//Group all routes under 'auth:sanctum' and personal info
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('profile', [AuthenticatedSessionController::class, 'showProfile']);
+    Route::put('profile/update', [AuthenticatedSessionController::class, 'updateProfile']);
+    Route::post('/change-password', [AuthenticatedSessionController::class, 'changePassword']);
+});
