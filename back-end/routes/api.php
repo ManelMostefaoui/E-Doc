@@ -19,7 +19,6 @@ use App\Http\Controllers\PersonalHistoryController;
 use App\Http\Controllers\ScreeningController;
 use App\Http\Controllers\UserImportController;
 use App\Http\Middleware\AdminMiddleware;
-use App\Models\PersonalHistory;
 use App\Models\Screening;
 use App\Http\Controllers\MedicationController;
 
