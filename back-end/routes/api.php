@@ -23,8 +23,15 @@ use App\Models\Screening;
 use App\Http\Controllers\MedicationController;
 
 
-Route::middleware(['auth:sanctum'])->get('/user/{id}', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    $user = $request->user()->load('role');
+
+    return response()->json([
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email,
+        'role' => $user->role->name, // ICI ça récupère le nom depuis la table roles
+    ]);
 });
 
 
