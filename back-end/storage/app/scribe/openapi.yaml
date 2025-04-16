@@ -1,0 +1,1211 @@
+openapi: 3.0.3
+info:
+  title: 'E-Doc API Documentation'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+tags:
+  -
+    name: Endpoints
+    description: ''
+paths:
+  '/api/user/{id}':
+    get:
+      summary: ''
+      operationId: getApiUserId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/verify-email/{id}/{hash}':
+    get:
+      summary: "Mark the authenticated user's email address as verified."
+      operationId: markTheAuthenticatedUsersEmailAddressAsVerified
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the verify email.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: hash
+        description: ''
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/email/verification-notification:
+    post:
+      summary: 'Send a new email verification notification.'
+      operationId: sendANewEmailVerificationNotification
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/logout:
+    post:
+      summary: 'Destroy an authenticated session.'
+      operationId: destroyAnAuthenticatedSession
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/admin/user-counts:
+    get:
+      summary: ''
+      operationId: getApiAdminUserCounts
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/admin/users:
+    get:
+      summary: ''
+      operationId: getApiAdminUsers
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/admin/users/{role}':
+    get:
+      summary: ''
+      operationId: getApiAdminUsersRole
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: role
+        description: ''
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/import-users:
+    post:
+      summary: ''
+      operationId: postApiImportUsers
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+              required:
+                - file
+      security: []
+  '/api/users/{id}':
+    delete:
+      summary: ''
+      operationId: deleteApiUsersId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/patients/{patient}/biometric-data':
+    put:
+      summary: ''
+      operationId: putApiPatientsPatientBiometricData
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                height:
+                  type: number
+                  description: 'Must be at least 50. Must not be greater than 250.'
+                  example: 1
+                  nullable: true
+                weight:
+                  type: number
+                  description: 'Must be at least 10. Must not be greater than 500.'
+                  example: 22
+                  nullable: true
+      security: []
+    parameters:
+      -
+        in: path
+        name: patient
+        description: 'The patient.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  '/api/patients/{patient_id}':
+    put:
+      summary: ''
+      operationId: putApiPatientsPatient_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                blood_group:
+                  type: string
+                  description: ''
+                  example: O+
+                  nullable: true
+                  enum:
+                    - A+
+                    - A-
+                    - B+
+                    - B-
+                    - AB+
+                    - AB-
+                    - O+
+                    - O-
+                social_security_no:
+                  type: string
+                  description: ''
+                  example: null
+                  nullable: false
+                family_status:
+                  type: string
+                  description: ''
+                  example: Widowed
+                  nullable: true
+                  enum:
+                    - Single
+                    - Married
+                    - Divorced
+                    - Widowed
+      security: []
+    parameters:
+      -
+        in: path
+        name: patient_id
+        description: 'The ID of the patient.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/patients/{id}':
+    get:
+      summary: ''
+      operationId: getApiPatientsId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the patient.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/patients/{id}/medical-history':
+    get:
+      summary: ''
+      operationId: getApiPatientsIdMedicalHistory
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the patient.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/patients/{patient}/medical-history':
+    post:
+      summary: ''
+      operationId: postApiPatientsPatientMedicalHistory
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                condition:
+                  type: string
+                  description: ''
+                  example: congenital
+                  nullable: false
+                  enum:
+                    - congenital
+                    - general_disease
+                    - surgery
+                    - allergy
+                date_appeared:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-04-15T16:54:31'
+                  nullable: true
+                severity:
+                  type: string
+                  description: ''
+                  example: severe
+                  nullable: true
+                  enum:
+                    - mild
+                    - moderate
+                    - severe
+                implication:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                treatment:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+              required:
+                - condition
+      security: []
+    parameters:
+      -
+        in: path
+        name: patient
+        description: 'The patient.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/medical-history/{id}':
+    put:
+      summary: ''
+      operationId: putApiMedicalHistoryId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                condition:
+                  type: string
+                  description: ''
+                  example: surgery
+                  nullable: true
+                  enum:
+                    - congenital
+                    - general_disease
+                    - surgery
+                    - allergy
+                date_appeared:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-04-15T16:54:31'
+                  nullable: true
+                severity:
+                  type: string
+                  description: ''
+                  example: severe
+                  nullable: true
+                  enum:
+                    - mild
+                    - moderate
+                    - severe
+                implication:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                treatment:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the medical history.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/personal-history/store:
+    post:
+      summary: ''
+      operationId: postApiPersonalHistoryStore
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                patient_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the patients table.'
+                  example: architecto
+                  nullable: false
+                smoker:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: true
+                cigarette_count:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                chewing_tobacco:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: true
+                chewing_tobacco_count:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                first_use_age:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                former_smoker:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: true
+                exposure_period:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                alcohol:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                medications:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                other:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+              required:
+                - patient_id
+      security: []
+  '/api/Personal-history/update/{id}':
+    put:
+      summary: ''
+      operationId: putApiPersonalHistoryUpdateId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                patient_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the patients table.'
+                  example: architecto
+                  nullable: false
+                smoker:
+                  type: boolean
+                  description: ''
+                  example: true
+                  nullable: true
+                cigarette_count:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                chewing_tobacco:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: true
+                chewing_tobacco_count:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                first_use_age:
+                  type: integer
+                  description: ''
+                  example: 16
+                  nullable: true
+                former_smoker:
+                  type: boolean
+                  description: ''
+                  example: false
+                  nullable: true
+                exposure_period:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                alcohol:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                medications:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+                other:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+              required:
+                - patient_id
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the update.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/Screening/store:
+    post:
+      summary: ''
+      operationId: postApiScreeningStore
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                patient_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the patients table.'
+                  example: architecto
+                  nullable: false
+                test_type:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                result:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: true
+              required:
+                - patient_id
+                - test_type
+      security: []
+  '/api/Screening/update/{id}':
+    put:
+      summary: ''
+      operationId: putApiScreeningUpdateId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                patient_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the patients table.'
+                  example: architecto
+                  nullable: false
+                test_type:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                result:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+              required:
+                - patient_id
+                - test_type
+                - result
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the update.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/medications:
+    get:
+      summary: ''
+      operationId: getApiMedications
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/medications-add:
+    post:
+      summary: ''
+      operationId: postApiMedicationsAdd
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                category:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                dosage:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+              required:
+                - name
+                - category
+                - dosage
+      security: []
+  '/api/medications/{id}':
+    put:
+      summary: ''
+      operationId: putApiMedicationsId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                category:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                dosage:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+              required:
+                - name
+                - category
+                - dosage
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiMedicationsId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the medication.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/medications/import:
+    post:
+      summary: ''
+      operationId: postApiMedicationsImport
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+              required:
+                - file
+      security: []
+  /api/patients:
+    get:
+      summary: ''
+      operationId: getApiPatients
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/patients-archived:
+    get:
+      summary: ''
+      operationId: getApiPatientsArchived
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/patients/{id}/archive':
+    patch:
+      summary: ''
+      operationId: patchApiPatientsIdArchive
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the patient.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/patients/{id}/restore':
+    patch:
+      summary: ''
+      operationId: patchApiPatientsIdRestore
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the patient.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/profile:
+    get:
+      summary: ''
+      operationId: getApiProfile
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/profile/update:
+    put:
+      summary: 'update profil .'
+      operationId: updateProfil
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: zbailey@example.net
+                  nullable: false
+                gender:
+                  type: string
+                  description: ''
+                  example: female
+                  nullable: false
+                  enum:
+                    - male
+                    - female
+                phone_num:
+                  type: string
+                  description: 'Must not be greater than 15 characters.'
+                  example: i
+                  nullable: true
+                address:
+                  type: string
+                  description: 'Must not be greater than 500 characters.'
+                  example: 'y'
+                  nullable: true
+                birthdate:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-04-15T16:54:31'
+                  nullable: true
+              required:
+                - gender
+      security: []
+  /api/change-password:
+    post:
+      summary: "Méthode pour changer le mot de passe de l'utilisateur."
+      operationId: mthodePourChangerLeMotDePasseDeLutilisateur
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                current_password:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                new_password:
+                  type: string
+                  description: "L'ancien mot de passe est obligatoire. Must be at least 8 characters."
+                  example: ngzmiyvdljnikhwaykcmyuwpwl
+                  nullable: false
+              required:
+                - current_password
+                - new_password
+      security: []
+  /api/register:
+    post:
+      summary: 'Handle an incoming registration request.'
+      operationId: handleAnIncomingRegistrationRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: zbailey@example.net
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                role_name:
+                  type: string
+                  description: 'The <code>name</code> of an existing record in the roles table.'
+                  example: architecto
+                  nullable: false
+                gender:
+                  type: string
+                  description: ''
+                  example: male
+                  nullable: false
+                  enum:
+                    - male
+                    - female
+                birthdate:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-04-15T16:54:31'
+                  nullable: true
+                phone_num:
+                  type: string
+                  description: 'Must not be greater than 15 characters.'
+                  example: 'n'
+                  nullable: true
+                address:
+                  type: string
+                  description: 'Must not be greater than 500 characters.'
+                  example: g
+                  nullable: true
+              required:
+                - name
+                - email
+                - password
+                - role_name
+                - gender
+      security: []
+  /api/login:
+    post:
+      summary: 'Handle an incoming authentication request.'
+      operationId: handleAnIncomingAuthenticationRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: ''
+                  example: gbailey@example.net
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: '|]|{+-'
+                  nullable: false
+              required:
+                - email
+                - password
+      security: []
+  /api/forgot-password:
+    post:
+      summary: 'Handle an incoming password reset link request.'
+      operationId: handleAnIncomingPasswordResetLinkRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: gbailey@example.net
+                  nullable: false
+              required:
+                - email
+      security: []
+  /api/reset-password:
+    post:
+      summary: 'Handle an incoming new password request.'
+      operationId: handleAnIncomingNewPasswordRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: zbailey@example.net
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+              required:
+                - token
+                - email
+                - password
+      security: []
