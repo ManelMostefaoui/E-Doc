@@ -1,11 +1,19 @@
 openapi: 3.0.3
 info:
+<<<<<<< HEAD
   title: 'E_Doc API Documentation'
+=======
+  title: 'E-Doc API Documentation'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
   description: ''
   version: 1.0.0
 servers:
   -
+<<<<<<< HEAD
     url: 'http://localhost'
+=======
+    url: 'http://localhost:8000'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
 tags:
   -
     name: Endpoints
@@ -69,7 +77,11 @@ paths:
         in: path
         name: id
         description: 'The ID of the verify email.'
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         required: true
         schema:
           type: string
@@ -77,7 +89,11 @@ paths:
         in: path
         name: hash
         description: ''
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         required: true
         schema:
           type: string
@@ -176,6 +192,7 @@ paths:
         required: true
         schema:
           type: integer
+<<<<<<< HEAD
   /api/profile:
     get:
       summary: ''
@@ -250,6 +267,8 @@ paths:
               required:
                 - gender
       security: []
+=======
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
   /api/import-users:
     post:
       summary: ''
@@ -269,11 +288,37 @@ paths:
                 file:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
               required:
                 - file
       security: []
+<<<<<<< HEAD
+=======
+  '/api/users/{id}':
+    delete:
+      summary: ''
+      operationId: deleteApiUsersId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
   '/api/patients/{patient}/biometric-data':
     put:
       summary: ''
@@ -293,12 +338,20 @@ paths:
                 height:
                   type: number
                   description: 'Must be at least 50. Must not be greater than 250.'
+<<<<<<< HEAD
                   example: 21
+=======
+                  example: 1
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 weight:
                   type: number
                   description: 'Must be at least 10. Must not be greater than 500.'
+<<<<<<< HEAD
                   example: 13
+=======
+                  example: 22
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
       security: []
     parameters:
@@ -306,7 +359,11 @@ paths:
         in: path
         name: patient
         description: 'The patient.'
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         required: true
         schema:
           type: string
@@ -329,7 +386,11 @@ paths:
                 blood_group:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: A+
+=======
+                  example: O+
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                   enum:
                     - A+
@@ -348,7 +409,11 @@ paths:
                 family_status:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: Single
+=======
+                  example: Widowed
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                   enum:
                     - Single
@@ -372,13 +437,18 @@ paths:
       description: ''
       parameters: []
       responses:
+<<<<<<< HEAD
         200:
+=======
+        401:
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
           description: ''
           content:
             application/json:
               schema:
                 type: object
                 example:
+<<<<<<< HEAD
                   id: 1
                   name: manelm
                   email: manelmllmlmojjjs@esi-sba.dz
@@ -428,6 +498,13 @@ paths:
                   created_at:
                     type: string
                     example: '2025-04-08T17:39:58.000000Z'
+=======
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
       tags:
         - Endpoints
       security: []
@@ -490,7 +567,11 @@ paths:
                 condition:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: general_disease
+=======
+                  example: congenital
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                   enum:
                     - congenital
@@ -500,7 +581,11 @@ paths:
                 date_appeared:
                   type: string
                   description: 'Must be a valid date.'
+<<<<<<< HEAD
                   example: '2025-04-15T16:24:24'
+=======
+                  example: '2025-04-15T16:54:31'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 severity:
                   type: string
@@ -514,12 +599,20 @@ paths:
                 implication:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 treatment:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
               required:
                 - condition
@@ -552,7 +645,11 @@ paths:
                 condition:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: general_disease
+=======
+                  example: surgery
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                   enum:
                     - congenital
@@ -562,7 +659,11 @@ paths:
                 date_appeared:
                   type: string
                   description: 'Must be a valid date.'
+<<<<<<< HEAD
                   example: '2025-04-15T16:24:24'
+=======
+                  example: '2025-04-15T16:54:31'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 severity:
                   type: string
@@ -576,12 +677,20 @@ paths:
                 implication:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 treatment:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
       security: []
     parameters:
@@ -589,6 +698,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the medical history.'
+<<<<<<< HEAD
         example: consequatur
         required: true
         schema:
@@ -612,6 +722,12 @@ paths:
         required: true
         schema:
           type: integer
+=======
+        example: architecto
+        required: true
+        schema:
+          type: string
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
   /api/personal-history/store:
     post:
       summary: ''
@@ -631,7 +747,11 @@ paths:
                 patient_id:
                   type: string
                   description: 'The <code>id</code> of an existing record in the patients table.'
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 smoker:
                   type: boolean
@@ -641,22 +761,38 @@ paths:
                 cigarette_count:
                   type: integer
                   description: ''
+<<<<<<< HEAD
                   example: 17
+=======
+                  example: 16
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 chewing_tobacco:
                   type: boolean
                   description: ''
+<<<<<<< HEAD
                   example: false
+=======
+                  example: true
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 chewing_tobacco_count:
                   type: integer
                   description: ''
+<<<<<<< HEAD
                   example: 17
+=======
+                  example: 16
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 first_use_age:
                   type: integer
                   description: ''
+<<<<<<< HEAD
                   example: 17
+=======
+                  example: 16
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 former_smoker:
                   type: boolean
@@ -666,22 +802,38 @@ paths:
                 exposure_period:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 alcohol:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 medications:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 other:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
               required:
                 - patient_id
@@ -705,17 +857,29 @@ paths:
                 patient_id:
                   type: string
                   description: 'The <code>id</code> of an existing record in the patients table.'
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 smoker:
                   type: boolean
                   description: ''
+<<<<<<< HEAD
                   example: false
+=======
+                  example: true
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 cigarette_count:
                   type: integer
                   description: ''
+<<<<<<< HEAD
                   example: 17
+=======
+                  example: 16
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 chewing_tobacco:
                   type: boolean
@@ -725,12 +889,20 @@ paths:
                 chewing_tobacco_count:
                   type: integer
                   description: ''
+<<<<<<< HEAD
                   example: 17
+=======
+                  example: 16
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 first_use_age:
                   type: integer
                   description: ''
+<<<<<<< HEAD
                   example: 17
+=======
+                  example: 16
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 former_smoker:
                   type: boolean
@@ -740,22 +912,38 @@ paths:
                 exposure_period:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 alcohol:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 medications:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 other:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
               required:
                 - patient_id
@@ -765,7 +953,11 @@ paths:
         in: path
         name: id
         description: 'The ID of the update.'
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         required: true
         schema:
           type: string
@@ -788,17 +980,29 @@ paths:
                 patient_id:
                   type: string
                   description: 'The <code>id</code> of an existing record in the patients table.'
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 test_type:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 result:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
               required:
                 - patient_id
@@ -823,17 +1027,29 @@ paths:
                 patient_id:
                   type: string
                   description: 'The <code>id</code> of an existing record in the patients table.'
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 test_type:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 result:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
               required:
                 - patient_id
@@ -845,10 +1061,153 @@ paths:
         in: path
         name: id
         description: 'The ID of the update.'
+<<<<<<< HEAD
         example: consequatur
         required: true
         schema:
           type: string
+=======
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/medications:
+    get:
+      summary: ''
+      operationId: getApiMedications
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/medications-add:
+    post:
+      summary: ''
+      operationId: postApiMedicationsAdd
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                category:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                dosage:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+              required:
+                - name
+                - category
+                - dosage
+      security: []
+  '/api/medications/{id}':
+    put:
+      summary: ''
+      operationId: putApiMedicationsId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                category:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                dosage:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+              required:
+                - name
+                - category
+                - dosage
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiMedicationsId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the medication.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/medications/import:
+    post:
+      summary: ''
+      operationId: postApiMedicationsImport
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+              required:
+                - file
+      security: []
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
   /api/patients:
     get:
       summary: ''
@@ -856,13 +1215,18 @@ paths:
       description: ''
       parameters: []
       responses:
+<<<<<<< HEAD
         200:
+=======
+        401:
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
           description: ''
           content:
             application/json:
               schema:
                 type: object
                 example:
+<<<<<<< HEAD
                   message: 'Liste des patients'
                   data:
                     -
@@ -1335,6 +1699,180 @@ paths:
       tags:
         - Endpoints
       security: []
+=======
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/patients-archived:
+    get:
+      summary: ''
+      operationId: getApiPatientsArchived
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/patients/{id}/archive':
+    patch:
+      summary: ''
+      operationId: patchApiPatientsIdArchive
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the patient.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/patients/{id}/restore':
+    patch:
+      summary: ''
+      operationId: patchApiPatientsIdRestore
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the patient.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/profile:
+    get:
+      summary: ''
+      operationId: getApiProfile
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/profile/update:
+    put:
+      summary: 'update profil .'
+      operationId: updateProfil
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: zbailey@example.net
+                  nullable: false
+                gender:
+                  type: string
+                  description: ''
+                  example: female
+                  nullable: false
+                  enum:
+                    - male
+                    - female
+                phone_num:
+                  type: string
+                  description: 'Must not be greater than 15 characters.'
+                  example: i
+                  nullable: true
+                address:
+                  type: string
+                  description: 'Must not be greater than 500 characters.'
+                  example: 'y'
+                  nullable: true
+                birthdate:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2025-04-15T16:54:31'
+                  nullable: true
+              required:
+                - gender
+      security: []
+  /api/change-password:
+    post:
+      summary: "Méthode pour changer le mot de passe de l'utilisateur."
+      operationId: mthodePourChangerLeMotDePasseDeLutilisateur
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                current_password:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                new_password:
+                  type: string
+                  description: "L'ancien mot de passe est obligatoire. Must be at least 8 characters."
+                  example: ngzmiyvdljnikhwaykcmyuwpwl
+                  nullable: false
+              required:
+                - current_password
+                - new_password
+      security: []
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
   /api/register:
     post:
       summary: 'Handle an incoming registration request.'
@@ -1354,22 +1892,38 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
+<<<<<<< HEAD
                   example: vmqeopfuudtdsufvyvddq
+=======
+                  example: b
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 email:
                   type: string
                   description: 'Must be a valid email address. Must not be greater than 255 characters.'
+<<<<<<< HEAD
                   example: kunde.eloisa@example.com
+=======
+                  example: zbailey@example.net
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 password:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 role_name:
                   type: string
                   description: 'The <code>name</code> of an existing record in the roles table.'
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 gender:
                   type: string
@@ -1382,17 +1936,29 @@ paths:
                 birthdate:
                   type: string
                   description: 'Must be a valid date.'
+<<<<<<< HEAD
                   example: '2025-04-15T16:24:24'
+=======
+                  example: '2025-04-15T16:54:31'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 phone_num:
                   type: string
                   description: 'Must not be greater than 15 characters.'
+<<<<<<< HEAD
                   example: mqeopfuudtdsu
+=======
+                  example: 'n'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
                 address:
                   type: string
                   description: 'Must not be greater than 500 characters.'
+<<<<<<< HEAD
                   example: fvyvddqamniihfqcoynla
+=======
+                  example: g
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: true
               required:
                 - name
@@ -1420,12 +1986,20 @@ paths:
                 email:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: qkunze@example.com
+=======
+                  example: gbailey@example.net
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 password:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: 'O[2UZ5ij-e/dl4m{o,'
+=======
+                  example: '|]|{+-'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
               required:
                 - email
@@ -1450,7 +2024,11 @@ paths:
                 email:
                   type: string
                   description: 'Must be a valid email address.'
+<<<<<<< HEAD
                   example: qkunze@example.com
+=======
+                  example: gbailey@example.net
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
               required:
                 - email
@@ -1474,17 +2052,29 @@ paths:
                 token:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 email:
                   type: string
                   description: 'Must be a valid email address.'
+<<<<<<< HEAD
                   example: carolyne.luettgen@example.org
+=======
+                  example: zbailey@example.net
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
                 password:
                   type: string
                   description: ''
+<<<<<<< HEAD
                   example: consequatur
+=======
+                  example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
                   nullable: false
               required:
                 - token

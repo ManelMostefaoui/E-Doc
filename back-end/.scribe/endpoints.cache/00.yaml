@@ -74,7 +74,11 @@ endpoints:
         name: id
         description: 'The ID of the verify email.'
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -84,15 +88,24 @@ endpoints:
         name: hash
         description: ''
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
+<<<<<<< HEAD
       id: consequatur
       hash: consequatur
+=======
+      id: architecto
+      hash: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -304,6 +317,7 @@ endpoints:
     custom: []
   -
     httpMethods:
+<<<<<<< HEAD
       - GET
     uri: api/profile
     metadata:
@@ -441,6 +455,8 @@ endpoints:
     custom: []
   -
     httpMethods:
+=======
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
       - POST
     uri: api/import-users
     metadata:
@@ -464,14 +480,63 @@ endpoints:
         name: file
         description: ''
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       file: consequatur
+=======
+      file: architecto
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/users/{id}'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
@@ -501,14 +566,22 @@ endpoints:
         name: patient
         description: 'The patient.'
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
+<<<<<<< HEAD
       patient: consequatur
+=======
+      patient: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -516,7 +589,11 @@ endpoints:
         name: height
         description: 'Must be at least 50. Must not be greater than 250.'
         required: false
+<<<<<<< HEAD
         example: 21
+=======
+        example: 1
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -526,15 +603,24 @@ endpoints:
         name: weight
         description: 'Must be at least 10. Must not be greater than 500.'
         required: false
+<<<<<<< HEAD
         example: 13
+=======
+        example: 22
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: number
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       height: 21
       weight: 13
+=======
+      height: 1
+      weight: 22
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
@@ -579,7 +665,11 @@ endpoints:
         name: blood_group
         description: ''
         required: false
+<<<<<<< HEAD
         example: A+
+=======
+        example: O+
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues:
           - A+
@@ -607,7 +697,11 @@ endpoints:
         name: family_status
         description: ''
         required: false
+<<<<<<< HEAD
         example: Single
+=======
+        example: Widowed
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues:
           - Single
@@ -618,8 +712,13 @@ endpoints:
         nullable: true
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       blood_group: A+
       family_status: Single
+=======
+      blood_group: O+
+      family_status: Widowed
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
@@ -664,8 +763,13 @@ endpoints:
     fileParameters: []
     responses:
       -
+<<<<<<< HEAD
         status: 200
         content: '{"id":1,"name":"manelm","email":"manelmllmlmojjjs@esi-sba.dz","birthdate":"2005-03-25","phone_num":"0562684080","address":"Tiaret","blood_group":null,"family_status":null,"social_security_no":null,"weight":null,"height":null,"created_at":"2025-04-08T17:39:58.000000Z"}'
+=======
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -764,7 +868,11 @@ endpoints:
         name: condition
         description: ''
         required: true
+<<<<<<< HEAD
         example: general_disease
+=======
+        example: congenital
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues:
           - congenital
@@ -778,7 +886,11 @@ endpoints:
         name: date_appeared
         description: 'Must be a valid date.'
         required: false
+<<<<<<< HEAD
         example: '2025-04-15T16:24:24'
+=======
+        example: '2025-04-15T16:54:31'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -801,7 +913,11 @@ endpoints:
         name: implication
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -811,18 +927,30 @@ endpoints:
         name: treatment
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       condition: general_disease
       date_appeared: '2025-04-15T16:24:24'
       severity: severe
       implication: consequatur
       treatment: consequatur
+=======
+      condition: congenital
+      date_appeared: '2025-04-15T16:54:31'
+      severity: severe
+      implication: architecto
+      treatment: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
@@ -852,14 +980,22 @@ endpoints:
         name: id
         description: 'The ID of the medical history.'
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
+<<<<<<< HEAD
       id: consequatur
+=======
+      id: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -867,7 +1003,11 @@ endpoints:
         name: condition
         description: ''
         required: false
+<<<<<<< HEAD
         example: general_disease
+=======
+        example: surgery
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues:
           - congenital
@@ -881,7 +1021,11 @@ endpoints:
         name: date_appeared
         description: 'Must be a valid date.'
         required: false
+<<<<<<< HEAD
         example: '2025-04-15T16:24:24'
+=======
+        example: '2025-04-15T16:54:31'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -904,7 +1048,11 @@ endpoints:
         name: implication
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -914,13 +1062,18 @@ endpoints:
         name: treatment
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       condition: general_disease
       date_appeared: '2025-04-15T16:24:24'
       severity: severe
@@ -967,6 +1120,13 @@ endpoints:
     cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
+=======
+      condition: surgery
+      date_appeared: '2025-04-15T16:54:31'
+      severity: severe
+      implication: architecto
+      treatment: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
@@ -1000,7 +1160,11 @@ endpoints:
         name: patient_id
         description: 'The <code>id</code> of an existing record in the patients table.'
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1020,7 +1184,11 @@ endpoints:
         name: cigarette_count
         description: ''
         required: false
+<<<<<<< HEAD
         example: 17
+=======
+        example: 16
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -1030,7 +1198,11 @@ endpoints:
         name: chewing_tobacco
         description: ''
         required: false
+<<<<<<< HEAD
         example: false
+=======
+        example: true
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -1040,7 +1212,11 @@ endpoints:
         name: chewing_tobacco_count
         description: ''
         required: false
+<<<<<<< HEAD
         example: 17
+=======
+        example: 16
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -1050,7 +1226,11 @@ endpoints:
         name: first_use_age
         description: ''
         required: false
+<<<<<<< HEAD
         example: 17
+=======
+        example: 16
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -1070,7 +1250,11 @@ endpoints:
         name: exposure_period
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1080,7 +1264,11 @@ endpoints:
         name: alcohol
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1090,7 +1278,11 @@ endpoints:
         name: medications
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1100,13 +1292,18 @@ endpoints:
         name: other
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       patient_id: consequatur
       smoker: false
       cigarette_count: 17
@@ -1118,6 +1315,19 @@ endpoints:
       alcohol: consequatur
       medications: consequatur
       other: consequatur
+=======
+      patient_id: architecto
+      smoker: false
+      cigarette_count: 16
+      chewing_tobacco: true
+      chewing_tobacco_count: 16
+      first_use_age: 16
+      former_smoker: true
+      exposure_period: architecto
+      alcohol: architecto
+      medications: architecto
+      other: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
@@ -1147,14 +1357,22 @@ endpoints:
         name: id
         description: 'The ID of the update.'
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
+<<<<<<< HEAD
       id: consequatur
+=======
+      id: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -1162,7 +1380,11 @@ endpoints:
         name: patient_id
         description: 'The <code>id</code> of an existing record in the patients table.'
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1172,7 +1394,11 @@ endpoints:
         name: smoker
         description: ''
         required: false
+<<<<<<< HEAD
         example: false
+=======
+        example: true
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -1182,7 +1408,11 @@ endpoints:
         name: cigarette_count
         description: ''
         required: false
+<<<<<<< HEAD
         example: 17
+=======
+        example: 16
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -1202,7 +1432,11 @@ endpoints:
         name: chewing_tobacco_count
         description: ''
         required: false
+<<<<<<< HEAD
         example: 17
+=======
+        example: 16
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -1212,7 +1446,11 @@ endpoints:
         name: first_use_age
         description: ''
         required: false
+<<<<<<< HEAD
         example: 17
+=======
+        example: 16
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -1232,7 +1470,11 @@ endpoints:
         name: exposure_period
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1242,7 +1484,11 @@ endpoints:
         name: alcohol
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1252,7 +1498,11 @@ endpoints:
         name: medications
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1262,13 +1512,18 @@ endpoints:
         name: other
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       patient_id: consequatur
       smoker: false
       cigarette_count: 17
@@ -1280,6 +1535,19 @@ endpoints:
       alcohol: consequatur
       medications: consequatur
       other: consequatur
+=======
+      patient_id: architecto
+      smoker: true
+      cigarette_count: 16
+      chewing_tobacco: false
+      chewing_tobacco_count: 16
+      first_use_age: 16
+      former_smoker: false
+      exposure_period: architecto
+      alcohol: architecto
+      medications: architecto
+      other: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
@@ -1313,7 +1581,11 @@ endpoints:
         name: patient_id
         description: 'The <code>id</code> of an existing record in the patients table.'
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1323,7 +1595,11 @@ endpoints:
         name: test_type
         description: ''
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1333,16 +1609,26 @@ endpoints:
         name: result
         description: ''
         required: false
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       patient_id: consequatur
       test_type: consequatur
       result: consequatur
+=======
+      patient_id: architecto
+      test_type: architecto
+      result: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
@@ -1372,14 +1658,22 @@ endpoints:
         name: id
         description: 'The ID of the update.'
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanUrlParameters:
+<<<<<<< HEAD
       id: consequatur
+=======
+      id: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -1387,7 +1681,11 @@ endpoints:
         name: patient_id
         description: 'The <code>id</code> of an existing record in the patients table.'
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1397,7 +1695,11 @@ endpoints:
         name: test_type
         description: ''
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1407,16 +1709,284 @@ endpoints:
         name: result
         description: ''
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       patient_id: consequatur
       test_type: consequatur
       result: consequatur
+=======
+      patient_id: architecto
+      test_type: architecto
+      result: architecto
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/medications
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/medications-add
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      category:
+        name: category
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      dosage:
+        name: dosage
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      name: architecto
+      category: architecto
+      dosage: architecto
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'api/medications/{id}'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the medication.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: architecto
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      category:
+        name: category
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      dosage:
+        name: dosage
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      name: architecto
+      category: architecto
+      dosage: architecto
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/medications/{id}'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the medication.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: architecto
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/medications/import
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      file:
+        name: file
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      file: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
@@ -1450,8 +2020,13 @@ endpoints:
     fileParameters: []
     responses:
       -
+<<<<<<< HEAD
         status: 200
         content: '{"message":"Liste des patients","data":[{"id":1,"user_id":40,"blood_group":null,"social_security_no":null,"family_status":null,"created_at":"2025-04-08T17:39:58.000000Z","updated_at":"2025-04-08T17:39:58.000000Z","user":{"id":40,"role_id":1,"name":"manelm","email":"manelmllmlmojjjs@esi-sba.dz","email_verified_at":null,"created_at":"2025-04-08T17:39:58.000000Z","updated_at":"2025-04-08T17:39:58.000000Z","gender":"female","birthdate":"2005-03-25","phone_num":"0562684080","address":"Tiaret"}},{"id":2,"user_id":43,"blood_group":null,"social_security_no":null,"family_status":null,"created_at":"2025-04-09T13:39:55.000000Z","updated_at":"2025-04-09T13:39:55.000000Z","user":{"id":43,"role_id":1,"name":"manelm","email":"sasi@esi-sba.dz","email_verified_at":null,"created_at":"2025-04-09T13:39:55.000000Z","updated_at":"2025-04-09T13:39:55.000000Z","gender":"female","birthdate":"2005-03-25","phone_num":"0562684080","address":"Tiaret"}},{"id":3,"user_id":44,"blood_group":null,"social_security_no":null,"family_status":null,"created_at":"2025-04-09T13:40:27.000000Z","updated_at":"2025-04-09T13:40:27.000000Z","user":{"id":44,"role_id":1,"name":"manelm","email":"samsi@esi-sba.dz","email_verified_at":null,"created_at":"2025-04-09T13:40:27.000000Z","updated_at":"2025-04-09T13:40:27.000000Z","gender":"female","birthdate":"2005-03-25","phone_num":"0562684080","address":"Tiaret"}},{"id":4,"user_id":45,"blood_group":null,"social_security_no":null,"family_status":null,"created_at":"2025-04-09T13:45:32.000000Z","updated_at":"2025-04-09T13:45:32.000000Z","user":{"id":45,"role_id":1,"name":"manelm","email":"samnsi@esi-sba.dz","email_verified_at":null,"created_at":"2025-04-09T13:45:32.000000Z","updated_at":"2025-04-09T13:45:32.000000Z","gender":"female","birthdate":"2005-03-25","phone_num":"0562684080","address":"Tiaret"}},{"id":5,"user_id":46,"blood_group":null,"social_security_no":null,"family_status":null,"created_at":"2025-04-09T13:48:31.000000Z","updated_at":"2025-04-09T13:48:31.000000Z","user":{"id":46,"role_id":1,"name":"manelm","email":"samjnsi@esi-sba.dz","email_verified_at":null,"created_at":"2025-04-09T13:48:31.000000Z","updated_at":"2025-04-09T13:48:31.000000Z","gender":"female","birthdate":"2005-03-25","phone_num":"0562684080","address":"Tiaret"}},{"id":6,"user_id":47,"blood_group":null,"social_security_no":null,"family_status":null,"created_at":"2025-04-09T13:53:40.000000Z","updated_at":"2025-04-09T13:53:40.000000Z","user":{"id":47,"role_id":1,"name":"manelm","email":"samm@esi-sba.dz","email_verified_at":null,"created_at":"2025-04-09T13:53:40.000000Z","updated_at":"2025-04-09T13:53:40.000000Z","gender":"female","birthdate":"2005-03-25","phone_num":"0562684080","address":"Tiaret"}},{"id":7,"user_id":48,"blood_group":null,"social_security_no":null,"family_status":null,"created_at":"2025-04-09T13:56:33.000000Z","updated_at":"2025-04-09T13:56:33.000000Z","user":{"id":48,"role_id":1,"name":"manelm","email":"sammm@esi-sba.dz","email_verified_at":null,"created_at":"2025-04-09T13:56:33.000000Z","updated_at":"2025-04-09T13:56:33.000000Z","gender":"female","birthdate":"2005-03-25","phone_num":"0562684080","address":"Tiaret"}},{"id":8,"user_id":49,"blood_group":null,"social_security_no":null,"family_status":null,"created_at":"2025-04-09T14:40:30.000000Z","updated_at":"2025-04-09T14:40:30.000000Z","user":{"id":49,"role_id":1,"name":"manelm","email":"ap@esi-sba.dz","email_verified_at":null,"created_at":"2025-04-09T14:40:30.000000Z","updated_at":"2025-04-09T14:40:30.000000Z","gender":"female","birthdate":"2005-03-25","phone_num":"0562684080","address":"Tiaret"}},{"id":9,"user_id":50,"blood_group":null,"social_security_no":null,"family_status":null,"created_at":"2025-04-09T14:49:46.000000Z","updated_at":"2025-04-09T14:49:46.000000Z","user":{"id":50,"role_id":1,"name":"manelm","email":"app@esi-sba.dz","email_verified_at":null,"created_at":"2025-04-09T14:49:46.000000Z","updated_at":"2025-04-09T14:49:46.000000Z","gender":"female","birthdate":"2005-03-25","phone_num":"0562684080","address":"Tiaret"}},{"id":10,"user_id":51,"blood_group":null,"social_security_no":null,"family_status":null,"created_at":"2025-04-10T13:46:25.000000Z","updated_at":"2025-04-10T13:46:25.000000Z","user":{"id":51,"role_id":1,"name":"manel","email":"maneeeeel@esi-sba.dz","email_verified_at":null,"created_at":"2025-04-10T13:46:25.000000Z","updated_at":"2025-04-10T13:46:25.000000Z","gender":"female","birthdate":"2005-03-28","phone_num":"0557377356","address":"hhh"}}]}'
+=======
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -1466,6 +2041,319 @@ endpoints:
     custom: []
   -
     httpMethods:
+<<<<<<< HEAD
+=======
+      - GET
+    uri: api/patients-archived
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PATCH
+    uri: 'api/patients/{id}/archive'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the patient.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PATCH
+    uri: 'api/patients/{id}/restore'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the patient.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/profile
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: api/profile/update
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'update profil .'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: b
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      email:
+        name: email
+        description: 'Must be a valid email address. Must not be greater than 255 characters.'
+        required: false
+        example: zbailey@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      gender:
+        name: gender
+        description: ''
+        required: true
+        example: female
+        type: string
+        enumValues:
+          - male
+          - female
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      phone_num:
+        name: phone_num
+        description: 'Must not be greater than 15 characters.'
+        required: false
+        example: i
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      address:
+        name: address
+        description: 'Must not be greater than 500 characters.'
+        required: false
+        example: 'y'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      birthdate:
+        name: birthdate
+        description: 'Must be a valid date.'
+        required: false
+        example: '2025-04-15T16:54:31'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+    cleanBodyParameters:
+      name: b
+      email: zbailey@example.net
+      gender: female
+      phone_num: i
+      address: 'y'
+      birthdate: '2025-04-15T16:54:31'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/change-password
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Méthode pour changer le mot de passe de l'utilisateur."
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      current_password:
+        name: current_password
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      new_password:
+        name: new_password
+        description: "L'ancien mot de passe est obligatoire. Must be at least 8 characters."
+        required: true
+        example: ngzmiyvdljnikhwaykcmyuwpwl
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      current_password: architecto
+      new_password: ngzmiyvdljnikhwaykcmyuwpwl
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
       - POST
     uri: api/register
     metadata:
@@ -1489,7 +2377,11 @@ endpoints:
         name: name
         description: 'Must not be greater than 255 characters.'
         required: true
+<<<<<<< HEAD
         example: vmqeopfuudtdsufvyvddq
+=======
+        example: b
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1499,7 +2391,11 @@ endpoints:
         name: email
         description: 'Must be a valid email address. Must not be greater than 255 characters.'
         required: true
+<<<<<<< HEAD
         example: kunde.eloisa@example.com
+=======
+        example: zbailey@example.net
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1509,7 +2405,11 @@ endpoints:
         name: password
         description: ''
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1519,7 +2419,11 @@ endpoints:
         name: role_name
         description: 'The <code>name</code> of an existing record in the roles table.'
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1541,7 +2445,11 @@ endpoints:
         name: birthdate
         description: 'Must be a valid date.'
         required: false
+<<<<<<< HEAD
         example: '2025-04-15T16:24:24'
+=======
+        example: '2025-04-15T16:54:31'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1551,7 +2459,11 @@ endpoints:
         name: phone_num
         description: 'Must not be greater than 15 characters.'
         required: false
+<<<<<<< HEAD
         example: mqeopfuudtdsu
+=======
+        example: 'n'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1561,13 +2473,18 @@ endpoints:
         name: address
         description: 'Must not be greater than 500 characters.'
         required: false
+<<<<<<< HEAD
         example: fvyvddqamniihfqcoynla
+=======
+        example: g
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       name: vmqeopfuudtdsufvyvddq
       email: kunde.eloisa@example.com
       password: consequatur
@@ -1576,6 +2493,16 @@ endpoints:
       birthdate: '2025-04-15T16:24:24'
       phone_num: mqeopfuudtdsu
       address: fvyvddqamniihfqcoynla
+=======
+      name: b
+      email: zbailey@example.net
+      password: architecto
+      role_name: architecto
+      gender: male
+      birthdate: '2025-04-15T16:54:31'
+      phone_num: 'n'
+      address: g
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
@@ -1609,7 +2536,11 @@ endpoints:
         name: email
         description: ''
         required: true
+<<<<<<< HEAD
         example: qkunze@example.com
+=======
+        example: gbailey@example.net
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1619,15 +2550,24 @@ endpoints:
         name: password
         description: ''
         required: true
+<<<<<<< HEAD
         example: 'O[2UZ5ij-e/dl4m{o,'
+=======
+        example: '|]|{+-'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       email: qkunze@example.com
       password: 'O[2UZ5ij-e/dl4m{o,'
+=======
+      email: gbailey@example.net
+      password: '|]|{+-'
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
@@ -1661,14 +2601,22 @@ endpoints:
         name: email
         description: 'Must be a valid email address.'
         required: true
+<<<<<<< HEAD
         example: qkunze@example.com
+=======
+        example: gbailey@example.net
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       email: qkunze@example.com
+=======
+      email: gbailey@example.net
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
@@ -1702,7 +2650,11 @@ endpoints:
         name: token
         description: ''
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1712,7 +2664,11 @@ endpoints:
         name: email
         description: 'Must be a valid email address.'
         required: true
+<<<<<<< HEAD
         example: carolyne.luettgen@example.org
+=======
+        example: zbailey@example.net
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1722,16 +2678,26 @@ endpoints:
         name: password
         description: ''
         required: true
+<<<<<<< HEAD
         example: consequatur
+=======
+        example: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
+<<<<<<< HEAD
       token: consequatur
       email: carolyne.luettgen@example.org
       password: consequatur
+=======
+      token: architecto
+      email: zbailey@example.net
+      password: architecto
+>>>>>>> 77d53ae3733707bfbeec2004eb57b70c05c79784
     fileParameters: []
     responses: []
     responseFields: []
