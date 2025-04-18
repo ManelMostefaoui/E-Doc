@@ -16,9 +16,11 @@ const EditUserModal = ({ onClose, onSave, userData }) => {
   const [errors, setErrors] = useState({});
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [deleteIsSubmitting, setDeleteIsSubmitting] = useState(false);
   const [apiError, setApiError] = useState('');
   
-  const roles = ['student', 'teacher', 'employee'];
+  const roles = ['student', 'teacher', 'employer'];
   const genders = ['male', 'female'];
 
   const PenIcon = () => (

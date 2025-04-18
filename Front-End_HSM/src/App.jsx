@@ -21,30 +21,13 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         
-        <Route
-          path="/"
-          element={
-              <div className="h-screen overflow-auto flex flex-col">
-                {/* Navbar */}
-                <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
-                  <Sidebar />
-                  
-                  {/* Main content */}
-                  <div className=" flex-1 p-4">
-                    <DashboardPage />
-                  </div>
-                </div>
-              </div>
-          }
-        />
+        {/* Redirect root path to login if not logged in, otherwise to dashboard */}
+        <Route path="/" element={isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
 
         <Route
           path="/dashboard"
           element={
+            <PrivateRoute>
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
@@ -60,12 +43,14 @@ function App() {
                   </div>
                 </div>
               </div>
+            </PrivateRoute>
           }
         />
 
         <Route
           path="/users"
           element={
+            <PrivateRoute>
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
@@ -81,12 +66,14 @@ function App() {
                   </div>
                 </div>
               </div>
+            </PrivateRoute>
           }
         />
 
         <Route
           path="/users/:id"
           element={
+            <PrivateRoute>
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
@@ -102,12 +89,14 @@ function App() {
                   </div>
                 </div>
               </div>
+            </PrivateRoute>
           }
         />
 
         <Route
           path="/settings"
           element={
+            <PrivateRoute>
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
@@ -123,12 +112,14 @@ function App() {
                   </div>
                 </div>
               </div>
+            </PrivateRoute>
           }
         />
 
         <Route
           path="/settings/security"
           element={
+            <PrivateRoute>
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
@@ -144,12 +135,14 @@ function App() {
                   </div>
                 </div>
               </div>
+            </PrivateRoute>
           }
         />
 
         <Route
           path="/admin-settings"
           element={
+            <PrivateRoute>
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
@@ -165,6 +158,7 @@ function App() {
                   </div>
                 </div>
               </div>
+            </PrivateRoute>
           }
         />
 

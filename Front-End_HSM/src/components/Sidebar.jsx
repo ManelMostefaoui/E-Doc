@@ -1,14 +1,43 @@
 "use client"
 
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { useState } from "react"
-import { LogOut, ChevronDown, LayoutDashboard, Users, Settings } from "lucide-react"
+import { useState, useEffect } from "react"
+import { LogOut, ChevronDown, LayoutDashboard, Users, Settings, UserPlus } from "lucide-react"
+import axios from "axios"
 
 export default function Sidebar({ isVisible = true }) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(true)
+  const [userRole, setUserRole] = useState(null)
   const location = useLocation()
   const navigate = useNavigate()
   const currentPath = location.pathname
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          navigate('/login');
+          return;
+        }
+
+        const response = await axios.get('http://127.0.0.1:8000/api/user', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.data && response.data.role) {
+          setUserRole(response.data.role.name);
+        }
+      } catch (err) {
+        console.error('Error fetching user role:', err);
+      }
+    };
+
+    fetchUserRole();
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -28,13 +57,27 @@ export default function Sidebar({ isVisible = true }) {
           <LayoutDashboard size={20} />
           <span className='font-nunito text-[16px] font-normal text-[#1A1A1A]'>Dashboard</span>
         </Link>
-        <Link
-          to="/users"
-          className={`flex items-center gap-3 p-2 ${currentPath === "/users" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-        >
-          <Users size={20} />
-          <span className='font-nunito text-[16px] font-normal text-[#1A1A1A]'>Users management</span>
-        </Link>
+        
+        {userRole === 'admin' && (
+          <Link
+            to="/users"
+            className={`flex items-center gap-3 p-2 ${currentPath === "/users" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+          >
+            <Users size={20} />
+            <span className='font-nunito text-[16px] font-normal text-[#1A1A1A]'>Users management</span>
+          </Link>
+        )}
+
+        {userRole === 'doctor' && (
+          <Link
+            to="/patients"
+            className={`flex items-center gap-3 p-2 ${currentPath === "/patients" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+          >
+            <UserPlus size={20} />
+            <span className='font-nunito text-[16px] font-normal text-[#1A1A1A]'>Patients management</span>
+          </Link>
+        )}
+
         <div>
           <div
             className={`flex items-center justify-between p-2 ${currentPath.startsWith("/settings") || currentPath === "/admin-settings" ? "text-[#008080]" : ""} hover:bg-[#eef5f5] rounded-md cursor-pointer`}
