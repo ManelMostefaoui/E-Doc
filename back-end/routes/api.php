@@ -83,6 +83,7 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     //personal history
     Route::post('/personal-history/store', [PersonalHistoryController::class, 'store']);
     Route::put('/Personal-history/update/{id}', [PersonalHistoryController::class, 'update']);
+    Route::get('/personal-history/{id}', [PersonalHistoryController::class, 'show']);
 
     //screening
     Route::post('/Screening/store', [ScreeningController::class, 'store']);       // Create new screening

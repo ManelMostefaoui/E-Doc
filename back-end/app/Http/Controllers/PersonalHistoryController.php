@@ -53,4 +53,14 @@ class PersonalHistoryController extends Controller
 
         return response()->json(['message' => 'Personal history updated successfully.']);
     }
+    public function show($id)
+    {
+        $personalHistory = PersonalHistory::where('patient_id', $id)->first();
+
+        if (!$personalHistory) {
+            return response()->json(['message' => 'Personal history not found.'], 404);
+        }
+
+        return response()->json($personalHistory);
+    }
 }
