@@ -23,7 +23,8 @@ use App\Models\Screening;
 use App\Http\Controllers\MedicationController;
 use App\Http\Controllers\ConsultationRequestController;
 use App\Http\Controllers\NotificationController;
-
+use App\Http\Controllers\PatientVitalsController;
+use App\Http\Controllers\PrespectionController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     $user = $request->user()->load('role');
@@ -85,6 +86,7 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     //personal history
     Route::post('/personal-history/store', [PersonalHistoryController::class, 'store']);
     Route::put('/Personal-history/update/{id}', [PersonalHistoryController::class, 'update']);
+    Route::get('/personal-history/{id}', [PersonalHistoryController::class, 'show']);
 
     //screening
     Route::post('/Screening/store', [ScreeningController::class, 'store']);       // Create new screening
@@ -109,6 +111,16 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     Route::post('/consultation-request/{id}/schedule', [ConsultationRequestController::class, 'scheduleAppointment']);
     Route::put('/consultation-request/{id}/update-appointment', [ConsultationRequestController::class, 'updateAppointmentDate']);
     Route::get('/received-requests', [ConsultationRequestController::class, 'getReceivedRequests']);
+
+    //Patient vitals
+    Route::post('/patient-vitals/store', [PatientVitalsController::class, 'store']);
+    Route::put('/patient-vitals/update/{id}', [PatientVitalsController::class, 'update']);
+    Route::get('/patient-vitals/show/{id}', [PatientVitalsController::class, 'show']);
+
+    //prespections
+    Route::post('/prescriptions/store', [PrespectionController::class, 'store']);
+    Route::put('/prescriptions/update/{id}', [PrespectionController::class, 'update']);
+    Route::get('/prescriptions/{id}', [PrespectionController::class, 'show']);
 });
 
 // -----------------------------------------------------------------------------------------------------------

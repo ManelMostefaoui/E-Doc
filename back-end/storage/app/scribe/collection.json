@@ -5,12 +5,12 @@
             "key": "baseUrl",
             "type": "string",
             "name": "string",
-            "value": "http:\/\/localhost:8000"
+            "value": "http:\/\/localhost"
         }
     ],
     "info": {
-        "name": "E-Doc API Documentation",
-        "_postman_id": "e3ffb89e-9709-46bd-a107-4a17fbcc307b",
+        "name": "E_Doc API Documentation",
+        "_postman_id": "848c3e38-502f-48c2-be2d-8d802f6dc31c",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -87,13 +87,13 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "consequatur",
                                     "description": "The ID of the verify email."
                                 },
                                 {
                                     "id": "hash",
                                     "key": "hash",
-                                    "value": "architecto",
+                                    "value": "consequatur",
                                     "description": ""
                                 }
                             ]
@@ -346,6 +346,85 @@
                     ]
                 },
                 {
+                    "name": "GET api\/profile",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/profile",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/profile"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "update profil .",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/profile\/update",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/profile\/update"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"vmqeopfuudtdsufvyvddq\",\"email\":\"kunde.eloisa@example.com\",\"gender\":\"male\",\"phone_num\":\"hfqcoynlazghd\",\"address\":\"tqtqxbajwbpilpmufinll\",\"birthdate\":\"2025-04-15T16:24:24\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
                     "name": "POST api\/import-users",
                     "request": {
                         "url": {
@@ -367,44 +446,8 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"file\":\"architecto\"}"
+                            "raw": "{\"file\":\"consequatur\"}"
                         },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "DELETE api\/users\/{id}",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/users\/:id",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/users\/:id",
-                            "variable": [
-                                {
-                                    "id": "id",
-                                    "key": "id",
-                                    "value": "1",
-                                    "description": "The ID of the user."
-                                }
-                            ]
-                        },
-                        "method": "DELETE",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
                         "description": "",
                         "auth": {
                             "type": "noauth"
@@ -424,7 +467,7 @@
                                 {
                                     "id": "patient",
                                     "key": "patient",
-                                    "value": "architecto",
+                                    "value": "consequatur",
                                     "description": "The patient."
                                 }
                             ]
@@ -442,7 +485,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"height\":1,\"weight\":22}"
+                            "raw": "{\"height\":21,\"weight\":13}"
                         },
                         "description": "",
                         "auth": {
@@ -481,7 +524,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"blood_group\":\"O+\",\"family_status\":\"Widowed\"}"
+                            "raw": "{\"blood_group\":\"A+\",\"family_status\":\"Single\"}"
                         },
                         "description": "",
                         "auth": {
@@ -540,8 +583,8 @@
                                     "value": "Origin"
                                 }
                             ],
-                            "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "code": 200,
+                            "body": "{\"id\":1,\"name\":\"manelm\",\"email\":\"manelmllmlmojjjs@esi-sba.dz\",\"birthdate\":\"2005-03-25\",\"phone_num\":\"0562684080\",\"address\":\"Tiaret\",\"blood_group\":null,\"family_status\":null,\"social_security_no\":null,\"weight\":null,\"height\":null,\"created_at\":\"2025-04-08T17:39:58.000000Z\"}",
                             "name": ""
                         }
                     ]
@@ -632,7 +675,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"condition\":\"congenital\",\"date_appeared\":\"2025-04-15T16:54:31\",\"severity\":\"severe\",\"implication\":\"architecto\",\"treatment\":\"architecto\"}"
+                            "raw": "{\"condition\":\"general_disease\",\"date_appeared\":\"2025-04-15T16:24:24\",\"severity\":\"severe\",\"implication\":\"consequatur\",\"treatment\":\"consequatur\"}"
                         },
                         "description": "",
                         "auth": {
@@ -653,7 +696,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "consequatur",
                                     "description": "The ID of the medical history."
                                 }
                             ]
@@ -671,8 +714,44 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"condition\":\"surgery\",\"date_appeared\":\"2025-04-15T16:54:31\",\"severity\":\"severe\",\"implication\":\"architecto\",\"treatment\":\"architecto\"}"
+                            "raw": "{\"condition\":\"general_disease\",\"date_appeared\":\"2025-04-15T16:24:24\",\"severity\":\"severe\",\"implication\":\"consequatur\",\"treatment\":\"consequatur\"}"
                         },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "DELETE api\/users\/{id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/users\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/users\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the user."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
                         "description": "",
                         "auth": {
                             "type": "noauth"
@@ -702,7 +781,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"patient_id\":\"architecto\",\"smoker\":false,\"cigarette_count\":16,\"chewing_tobacco\":true,\"chewing_tobacco_count\":16,\"first_use_age\":16,\"former_smoker\":true,\"exposure_period\":\"architecto\",\"alcohol\":\"architecto\",\"medications\":\"architecto\",\"other\":\"architecto\"}"
+                            "raw": "{\"patient_id\":\"consequatur\",\"smoker\":false,\"cigarette_count\":17,\"chewing_tobacco\":false,\"chewing_tobacco_count\":17,\"first_use_age\":17,\"former_smoker\":true,\"exposure_period\":\"consequatur\",\"alcohol\":\"consequatur\",\"medications\":\"consequatur\",\"other\":\"consequatur\"}"
                         },
                         "description": "",
                         "auth": {
@@ -723,7 +802,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "consequatur",
                                     "description": "The ID of the update."
                                 }
                             ]
@@ -741,7 +820,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"patient_id\":\"architecto\",\"smoker\":true,\"cigarette_count\":16,\"chewing_tobacco\":false,\"chewing_tobacco_count\":16,\"first_use_age\":16,\"former_smoker\":false,\"exposure_period\":\"architecto\",\"alcohol\":\"architecto\",\"medications\":\"architecto\",\"other\":\"architecto\"}"
+                            "raw": "{\"patient_id\":\"consequatur\",\"smoker\":false,\"cigarette_count\":17,\"chewing_tobacco\":false,\"chewing_tobacco_count\":17,\"first_use_age\":17,\"former_smoker\":false,\"exposure_period\":\"consequatur\",\"alcohol\":\"consequatur\",\"medications\":\"consequatur\",\"other\":\"consequatur\"}"
                         },
                         "description": "",
                         "auth": {
@@ -772,7 +851,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"patient_id\":\"architecto\",\"test_type\":\"architecto\",\"result\":\"architecto\"}"
+                            "raw": "{\"patient_id\":\"consequatur\",\"test_type\":\"consequatur\",\"result\":\"consequatur\"}"
                         },
                         "description": "",
                         "auth": {
@@ -793,7 +872,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "consequatur",
                                     "description": "The ID of the update."
                                 }
                             ]
@@ -811,192 +890,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"patient_id\":\"architecto\",\"test_type\":\"architecto\",\"result\":\"architecto\"}"
-                        },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "GET api\/medications",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/medications",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/medications"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "vary",
-                                    "value": "Origin"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "POST api\/medications-add",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/medications-add",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/medications-add"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"name\":\"architecto\",\"category\":\"architecto\",\"dosage\":\"architecto\"}"
-                        },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "PUT api\/medications\/{id}",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/medications\/:id",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/medications\/:id",
-                            "variable": [
-                                {
-                                    "id": "id",
-                                    "key": "id",
-                                    "value": "architecto",
-                                    "description": "The ID of the medication."
-                                }
-                            ]
-                        },
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"name\":\"architecto\",\"category\":\"architecto\",\"dosage\":\"architecto\"}"
-                        },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "DELETE api\/medications\/{id}",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/medications\/:id",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/medications\/:id",
-                            "variable": [
-                                {
-                                    "id": "id",
-                                    "key": "id",
-                                    "value": "architecto",
-                                    "description": "The ID of the medication."
-                                }
-                            ]
-                        },
-                        "method": "DELETE",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "POST api\/medications\/import",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/medications\/import",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/medications\/import"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"file\":\"architecto\"}"
+                            "raw": "{\"patient_id\":\"consequatur\",\"test_type\":\"consequatur\",\"result\":\"consequatur\"}"
                         },
                         "description": "",
                         "auth": {
@@ -1047,241 +941,11 @@
                                     "value": "Origin"
                                 }
                             ],
-                            "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "code": 200,
+                            "body": "{\"message\":\"Liste des patients\",\"data\":[{\"id\":1,\"user_id\":40,\"blood_group\":null,\"social_security_no\":null,\"family_status\":null,\"created_at\":\"2025-04-08T17:39:58.000000Z\",\"updated_at\":\"2025-04-08T17:39:58.000000Z\",\"user\":{\"id\":40,\"role_id\":1,\"name\":\"manelm\",\"email\":\"manelmllmlmojjjs@esi-sba.dz\",\"email_verified_at\":null,\"created_at\":\"2025-04-08T17:39:58.000000Z\",\"updated_at\":\"2025-04-08T17:39:58.000000Z\",\"gender\":\"female\",\"birthdate\":\"2005-03-25\",\"phone_num\":\"0562684080\",\"address\":\"Tiaret\"}},{\"id\":2,\"user_id\":43,\"blood_group\":null,\"social_security_no\":null,\"family_status\":null,\"created_at\":\"2025-04-09T13:39:55.000000Z\",\"updated_at\":\"2025-04-09T13:39:55.000000Z\",\"user\":{\"id\":43,\"role_id\":1,\"name\":\"manelm\",\"email\":\"sasi@esi-sba.dz\",\"email_verified_at\":null,\"created_at\":\"2025-04-09T13:39:55.000000Z\",\"updated_at\":\"2025-04-09T13:39:55.000000Z\",\"gender\":\"female\",\"birthdate\":\"2005-03-25\",\"phone_num\":\"0562684080\",\"address\":\"Tiaret\"}},{\"id\":3,\"user_id\":44,\"blood_group\":null,\"social_security_no\":null,\"family_status\":null,\"created_at\":\"2025-04-09T13:40:27.000000Z\",\"updated_at\":\"2025-04-09T13:40:27.000000Z\",\"user\":{\"id\":44,\"role_id\":1,\"name\":\"manelm\",\"email\":\"samsi@esi-sba.dz\",\"email_verified_at\":null,\"created_at\":\"2025-04-09T13:40:27.000000Z\",\"updated_at\":\"2025-04-09T13:40:27.000000Z\",\"gender\":\"female\",\"birthdate\":\"2005-03-25\",\"phone_num\":\"0562684080\",\"address\":\"Tiaret\"}},{\"id\":4,\"user_id\":45,\"blood_group\":null,\"social_security_no\":null,\"family_status\":null,\"created_at\":\"2025-04-09T13:45:32.000000Z\",\"updated_at\":\"2025-04-09T13:45:32.000000Z\",\"user\":{\"id\":45,\"role_id\":1,\"name\":\"manelm\",\"email\":\"samnsi@esi-sba.dz\",\"email_verified_at\":null,\"created_at\":\"2025-04-09T13:45:32.000000Z\",\"updated_at\":\"2025-04-09T13:45:32.000000Z\",\"gender\":\"female\",\"birthdate\":\"2005-03-25\",\"phone_num\":\"0562684080\",\"address\":\"Tiaret\"}},{\"id\":5,\"user_id\":46,\"blood_group\":null,\"social_security_no\":null,\"family_status\":null,\"created_at\":\"2025-04-09T13:48:31.000000Z\",\"updated_at\":\"2025-04-09T13:48:31.000000Z\",\"user\":{\"id\":46,\"role_id\":1,\"name\":\"manelm\",\"email\":\"samjnsi@esi-sba.dz\",\"email_verified_at\":null,\"created_at\":\"2025-04-09T13:48:31.000000Z\",\"updated_at\":\"2025-04-09T13:48:31.000000Z\",\"gender\":\"female\",\"birthdate\":\"2005-03-25\",\"phone_num\":\"0562684080\",\"address\":\"Tiaret\"}},{\"id\":6,\"user_id\":47,\"blood_group\":null,\"social_security_no\":null,\"family_status\":null,\"created_at\":\"2025-04-09T13:53:40.000000Z\",\"updated_at\":\"2025-04-09T13:53:40.000000Z\",\"user\":{\"id\":47,\"role_id\":1,\"name\":\"manelm\",\"email\":\"samm@esi-sba.dz\",\"email_verified_at\":null,\"created_at\":\"2025-04-09T13:53:40.000000Z\",\"updated_at\":\"2025-04-09T13:53:40.000000Z\",\"gender\":\"female\",\"birthdate\":\"2005-03-25\",\"phone_num\":\"0562684080\",\"address\":\"Tiaret\"}},{\"id\":7,\"user_id\":48,\"blood_group\":null,\"social_security_no\":null,\"family_status\":null,\"created_at\":\"2025-04-09T13:56:33.000000Z\",\"updated_at\":\"2025-04-09T13:56:33.000000Z\",\"user\":{\"id\":48,\"role_id\":1,\"name\":\"manelm\",\"email\":\"sammm@esi-sba.dz\",\"email_verified_at\":null,\"created_at\":\"2025-04-09T13:56:33.000000Z\",\"updated_at\":\"2025-04-09T13:56:33.000000Z\",\"gender\":\"female\",\"birthdate\":\"2005-03-25\",\"phone_num\":\"0562684080\",\"address\":\"Tiaret\"}},{\"id\":8,\"user_id\":49,\"blood_group\":null,\"social_security_no\":null,\"family_status\":null,\"created_at\":\"2025-04-09T14:40:30.000000Z\",\"updated_at\":\"2025-04-09T14:40:30.000000Z\",\"user\":{\"id\":49,\"role_id\":1,\"name\":\"manelm\",\"email\":\"ap@esi-sba.dz\",\"email_verified_at\":null,\"created_at\":\"2025-04-09T14:40:30.000000Z\",\"updated_at\":\"2025-04-09T14:40:30.000000Z\",\"gender\":\"female\",\"birthdate\":\"2005-03-25\",\"phone_num\":\"0562684080\",\"address\":\"Tiaret\"}},{\"id\":9,\"user_id\":50,\"blood_group\":null,\"social_security_no\":null,\"family_status\":null,\"created_at\":\"2025-04-09T14:49:46.000000Z\",\"updated_at\":\"2025-04-09T14:49:46.000000Z\",\"user\":{\"id\":50,\"role_id\":1,\"name\":\"manelm\",\"email\":\"app@esi-sba.dz\",\"email_verified_at\":null,\"created_at\":\"2025-04-09T14:49:46.000000Z\",\"updated_at\":\"2025-04-09T14:49:46.000000Z\",\"gender\":\"female\",\"birthdate\":\"2005-03-25\",\"phone_num\":\"0562684080\",\"address\":\"Tiaret\"}},{\"id\":10,\"user_id\":51,\"blood_group\":null,\"social_security_no\":null,\"family_status\":null,\"created_at\":\"2025-04-10T13:46:25.000000Z\",\"updated_at\":\"2025-04-10T13:46:25.000000Z\",\"user\":{\"id\":51,\"role_id\":1,\"name\":\"manel\",\"email\":\"maneeeeel@esi-sba.dz\",\"email_verified_at\":null,\"created_at\":\"2025-04-10T13:46:25.000000Z\",\"updated_at\":\"2025-04-10T13:46:25.000000Z\",\"gender\":\"female\",\"birthdate\":\"2005-03-28\",\"phone_num\":\"0557377356\",\"address\":\"hhh\"}}]}",
                             "name": ""
                         }
                     ]
-                },
-                {
-                    "name": "GET api\/patients-archived",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/patients-archived",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/patients-archived"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "vary",
-                                    "value": "Origin"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "PATCH api\/patients\/{id}\/archive",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/patients\/:id\/archive",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/patients\/:id\/archive",
-                            "variable": [
-                                {
-                                    "id": "id",
-                                    "key": "id",
-                                    "value": "1",
-                                    "description": "The ID of the patient."
-                                }
-                            ]
-                        },
-                        "method": "PATCH",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "PATCH api\/patients\/{id}\/restore",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/patients\/:id\/restore",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/patients\/:id\/restore",
-                            "variable": [
-                                {
-                                    "id": "id",
-                                    "key": "id",
-                                    "value": "1",
-                                    "description": "The ID of the patient."
-                                }
-                            ]
-                        },
-                        "method": "PATCH",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "GET api\/profile",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/profile",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/profile"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "vary",
-                                    "value": "Origin"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "update profil .",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/profile\/update",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/profile\/update"
-                        },
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"email\":\"zbailey@example.net\",\"gender\":\"female\",\"phone_num\":\"i\",\"address\":\"y\",\"birthdate\":\"2025-04-15T16:54:31\"}"
-                        },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "M\u00e9thode pour changer le mot de passe de l'utilisateur.",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/change-password",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/change-password"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"current_password\":\"architecto\",\"new_password\":\"ngzmiyvdljnikhwaykcmyuwpwl\"}"
-                        },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
                 },
                 {
                     "name": "Handle an incoming registration request.",
@@ -1305,7 +969,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"email\":\"zbailey@example.net\",\"password\":\"architecto\",\"role_name\":\"architecto\",\"gender\":\"male\",\"birthdate\":\"2025-04-15T16:54:31\",\"phone_num\":\"n\",\"address\":\"g\"}"
+                            "raw": "{\"name\":\"vmqeopfuudtdsufvyvddq\",\"email\":\"kunde.eloisa@example.com\",\"password\":\"consequatur\",\"role_name\":\"consequatur\",\"gender\":\"male\",\"birthdate\":\"2025-04-15T16:24:24\",\"phone_num\":\"mqeopfuudtdsu\",\"address\":\"fvyvddqamniihfqcoynla\"}"
                         },
                         "description": "",
                         "auth": {
@@ -1336,7 +1000,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"gbailey@example.net\",\"password\":\"|]|{+-\"}"
+                            "raw": "{\"email\":\"qkunze@example.com\",\"password\":\"O[2UZ5ij-e\\\/dl4m{o,\"}"
                         },
                         "description": "",
                         "auth": {
@@ -1367,7 +1031,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"gbailey@example.net\"}"
+                            "raw": "{\"email\":\"qkunze@example.com\"}"
                         },
                         "description": "",
                         "auth": {
@@ -1398,7 +1062,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"token\":\"architecto\",\"email\":\"zbailey@example.net\",\"password\":\"architecto\"}"
+                            "raw": "{\"token\":\"consequatur\",\"email\":\"carolyne.luettgen@example.org\",\"password\":\"consequatur\"}"
                         },
                         "description": "",
                         "auth": {

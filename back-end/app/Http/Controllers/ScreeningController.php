@@ -20,6 +20,10 @@ class ScreeningController extends Controller
 
         return response()->json(['message' => 'Screening created successfully.']);
     }
+
+
+
+    
     public function update(Request $request, $id)
     {
         $screening = Screening::findOrFail($id);
