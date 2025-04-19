@@ -21,7 +21,8 @@ use App\Http\Controllers\UserImportController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\Screening;
 use App\Http\Controllers\MedicationController;
-
+use App\Http\Controllers\PatientVitalsController;
+use App\Http\Controllers\PrespectionController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     $user = $request->user()->load('role');
@@ -103,6 +104,17 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     //archived and unarchived medical record of patient
     Route::patch('/patients/{id}/archive', [PatientController::class, 'archive']);
     Route::patch('/patients/{id}/restore', [PatientController::class, 'restore']);
+
+    //Patient vitals
+    Route::post('/patient-vitals/store', [PatientVitalsController::class, 'store']);
+    Route::put('/patient-vitals/update/{id}', [PatientVitalsController::class, 'update']);
+    Route::get('/patient-vitals/show/{id}', [PatientVitalsController::class, 'show']);
+
+
+    //prespections
+    Route::post('/prescriptions/store', [PrespectionController::class, 'store']);
+    Route::put('/prescriptions/update/{id}', [PrespectionController::class, 'update']);
+    Route::get('/prescriptions/{id}', [PrespectionController::class, 'show']);
 });
 
 // -----------------------------------------------------------------------------------------------------------

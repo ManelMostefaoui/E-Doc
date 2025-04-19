@@ -11,4 +11,10 @@ class Medication extends Model
         'category',
         'dosage',
     ];
+    public function prescriptions()
+    {
+        return $this->belongsToMany(Prescription::class, 'medication_prescription')
+            ->withPivot(['dose', 'period'])
+            ->withTimestamps();
+    }
 }
