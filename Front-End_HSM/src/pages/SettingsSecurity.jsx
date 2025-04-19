@@ -20,7 +20,7 @@ export default function SettingsPage() {
     
     // Redirect to login if no token exists
     if (!token) {
-      navigate('/login')
+     //avigate('/login')
       return
     }
   }, [navigate])
@@ -113,7 +113,7 @@ export default function SettingsPage() {
         // Set a timer to redirect the user after they've seen the success message
         setTimeout(() => {
           // Redirect to homepage or login page to refresh the session
-          navigate('/')
+         //avigate('/')
         }, 5000) // 5-second delay to let the user read the message
       } else {
         setSuccess("Password updated successfully! Your new password is now active.")

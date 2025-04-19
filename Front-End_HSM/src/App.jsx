@@ -8,6 +8,7 @@ import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import UserDetails from "./pages/UserDetails";
 import LoginPage from "./pages/Login/Login";
+import Consultation from "./pages/Consultation";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
@@ -99,6 +100,26 @@ function App() {
                   {/* Main content */}
                   <div className=" flex-1 p-4">
                     <UserDetails />
+                  </div>
+                </div>
+              </div>
+          }
+        />
+   <Route
+          path="/consultation"
+          element={
+              <div className="h-screen overflow-auto flex flex-col">
+                {/* Navbar */}
+                <Navbar />
+
+                {/* Sidebar + Page content */}
+                <div className=" flex flex-1">
+                  {/* Sidebar */}
+                  <Sidebar />
+                  
+                  {/* Main content */}
+                  <div className=" flex-1 p-4">
+                    <Consultation />
                   </div>
                 </div>
               </div>

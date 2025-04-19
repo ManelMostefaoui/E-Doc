@@ -30,7 +30,7 @@ const AdminSettings = () => {
     
     // Redirect to login if no token exists
     if (!token) {
-      navigate('/login');
+     //avigate('/login');
       return;
     }
     
@@ -87,7 +87,7 @@ const AdminSettings = () => {
         if (err.response && err.response.status === 401) {
           // Unauthorized - token might be invalid
           localStorage.removeItem('token');
-          navigate('/login');
+         //avigate('/login');
         } else {
           setError("Failed to load user profile. Please try again later.");
         }
@@ -170,7 +170,7 @@ const AdminSettings = () => {
         if (err.response && err.response.status === 401) {
           // Unauthorized - token might be invalid
           localStorage.removeItem('token');
-          navigate('/login');
+         //avigate('/login');
         } else {
           setError("Failed to load user profile. Please try again later.");
         }
@@ -269,7 +269,7 @@ const AdminSettings = () => {
       const token = localStorage.getItem('token');
       
       if (!token) {
-        navigate('/login');
+       //avigate('/login');
         return;
       }
       

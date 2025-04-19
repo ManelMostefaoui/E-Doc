@@ -22,7 +22,7 @@ export default function DashboardPage() {
     
     // Redirect to login if no token exists
     if (!token) {
-      navigate('/login');
+   //   navigate('/login');
       return;
     }
     
@@ -67,7 +67,7 @@ export default function DashboardPage() {
         if (err.response && err.response.status === 401) {
           // Unauthorized - token might be invalid or user is not admin
           localStorage.removeItem('token');
-          navigate('/login');
+         // navigate('/login');
         } else {
           setError('Failed to load dashboard data. Please try again later.');
         }
@@ -204,7 +204,7 @@ export default function DashboardPage() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    navigate('/login');
+    //navigate('/login');
   };
 
   return (

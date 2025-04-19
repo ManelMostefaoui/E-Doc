@@ -175,7 +175,7 @@ const UserManagement = () => {
       
       if (err.response && err.response.status === 401) {
         localStorage.removeItem('token');
-        navigate('/login');
+       // navigate('/login');
       } else {
         setError("Failed to load users data. Please try again later.");
       }
@@ -189,7 +189,7 @@ const UserManagement = () => {
     
     // Redirect to login if no token exists
     if (!token) {
-      navigate('/login');
+    //  navigate('/login');
       return;
     }
     
@@ -359,7 +359,7 @@ const UserManagement = () => {
           setAddUserError("Unauthorized. Please log in again.");
           setTimeout(() => {
             localStorage.removeItem('token');
-            navigate('/login');
+          //navigate('/login');
           }, 2000);
         } else {
           setAddUserError(`Error: ${err.response.data.message}`);

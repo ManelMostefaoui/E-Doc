@@ -2,7 +2,7 @@
 
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { LogOut, ChevronDown, LayoutDashboard, Users, Settings } from "lucide-react"
+import { LogOut, ChevronDown, LayoutDashboard, Users, Settings, Stethoscope } from "lucide-react"
 
 export default function Sidebar({ isVisible = true }) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(true)
@@ -26,15 +26,23 @@ export default function Sidebar({ isVisible = true }) {
           className={`flex items-center gap-3 p-2 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
         >
           <LayoutDashboard size={20} />
-          <span className='font-nunito text-[16px] font-normal text-[#1A1A1A]'>Dashboard</span>
+          <span className='font-nunito text-[16px] font-normal '>Dashboard</span>
         </Link>
         <Link
           to="/users"
           className={`flex items-center gap-3 p-2 ${currentPath === "/users" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
         >
           <Users size={20} />
-          <span className='font-nunito text-[16px] font-normal text-[#1A1A1A]'>Users management</span>
+          <span className='font-nunito text-[16px] font-normal '>Users management</span>
         </Link>
+        <Link
+          to="/consultation"
+          className={`flex items-center gap-3 p-2 ${currentPath === "/consultation" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+        >
+          <Stethoscope size={20} />
+          <span className='font-nunito text-[16px] font-normal '>Consultation</span>
+        </Link>
+       
         <div>
           <div
             className={`flex items-center justify-between p-2 ${currentPath.startsWith("/settings") || currentPath === "/admin-settings" ? "text-[#008080]" : ""} hover:bg-[#eef5f5] rounded-md cursor-pointer`}
@@ -76,6 +84,7 @@ export default function Sidebar({ isVisible = true }) {
           <LogOut size={20} />
           <span className='font-nunito text-[16px] font-normal text-[#1A1A1A]'>Log out</span>
         </div>
+        
       </nav>
     </aside>
   )
