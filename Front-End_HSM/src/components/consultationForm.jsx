@@ -20,12 +20,12 @@ export default function ConsultationForm() {
     "Observations",
   ]
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-xl font-medium text-primary mb-6">Consultation :</h1>
+    <div className="max-w-4xl  mx-auto">
+      <h1 className="text-3xl font-bold text-[#008080]  mb-6">Consultation :</h1>
 
       {/* Patient Vitals & Information */}
       <section className="form-section">
-        <h2 className="form-section-title text-3xl">Patient vitals & informations :</h2>
+        <h2 className="form-section-title text-[#004D4D] font-bold  text-3xl">Patient vitals & informations :</h2>
         <div className="grid grid-cols-1 gap-4 mt-5">
         <div  className="grid grid-cols-[120px_1fr] items-center gap-4">
               <label className="form-label">Date :</label>
