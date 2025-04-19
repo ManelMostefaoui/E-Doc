@@ -21,6 +21,8 @@ use App\Http\Controllers\UserImportController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\Screening;
 use App\Http\Controllers\MedicationController;
+use App\Http\Controllers\ConsultationRequestController;
+use App\Http\Controllers\NotificationController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -102,6 +104,11 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     //archived and unarchived medical record of patient
     Route::patch('/patients/{id}/archive', [PatientController::class, 'archive']);
     Route::patch('/patients/{id}/restore', [PatientController::class, 'restore']);
+
+    //programmer une consulation
+    Route::post('/consultation-request/{id}/schedule', [ConsultationRequestController::class, 'scheduleAppointment']);
+    Route::put('/consultation-request/{id}/update-appointment', [ConsultationRequestController::class, 'updateAppointmentDate']);
+    Route::get('/received-requests', [ConsultationRequestController::class, 'getReceivedRequests']);
 });
 
 // -----------------------------------------------------------------------------------------------------------
@@ -110,4 +117,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('profile', [AuthenticatedSessionController::class, 'showProfile']);
     Route::put('profile/update', [AuthenticatedSessionController::class, 'updateProfile']);
     Route::post('/change-password', [AuthenticatedSessionController::class, 'changePassword']);
+
+    //demande consultation , confirmer ou annuler
+    Route::post('/consultation-request', [ConsultationRequestController::class, 'submitRequest']);
+    Route::post('/consultation-request/{id}/confirm', [ConsultationRequestController::class, 'confirmRequest']);
+    Route::post('/consultation-request/{id}/cancel', [ConsultationRequestController::class, 'cancelRequest']);
+
+    Route::get('/notifications', [NotificationController::class, 'getNotifications']);
+    Route::get('/sent-requests', [ConsultationRequestController::class, 'getSentRequests']);
+
 });
