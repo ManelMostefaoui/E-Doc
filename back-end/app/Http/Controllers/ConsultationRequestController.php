@@ -13,7 +13,6 @@ use App\Notifications\AppointmentScheduledForDoctor;
 use App\Notifications\AppointmentScheduledForPatient;
 use App\Notifications\ConsultationRequestConfirmedForDoctor;
 use App\Notifications\ConsultationRequestCancelledForDoctor;
-use App\Jobs\SendAppointmentReminderForPatient;
 use Carbon\Carbon;
 
 
@@ -156,7 +155,7 @@ public function scheduleAppointment(Request $request, $id)
 {
     // Vérifier si l'utilisateur est authentifié et s'il est un médecin
     $user = auth()->user();
-    if (!$user || !$user->hasRole('doctor')) { // Assurer que l'utilisateur est bien un médecin
+    if (!$user || !$user->hasRole('doctor')) {
         return response()->json(['message' => 'Utilisateur non autorisé à fixer une date'], 403);
     }
 
@@ -168,41 +167,32 @@ public function scheduleAppointment(Request $request, $id)
 
     // Vérifier si le statut est "pending" (en attente)
     if ($consultationRequest->status !== 'pending') {
-        return response()->json(['message' => 'Le statut de la demande n\'est pas en attente'], 400); // Le médecin ne peut fixer une date que si la demande est en attente
+        return response()->json(['message' => 'Le statut de la demande n\'est pas en attente'], 400);
     }
 
     // Valider la date du rendez-vous
     $request->validate([
-        'appointment_date' => 'required|date|after:today', // La date doit être dans le futur
+        'appointment_date' => 'required|date|after:today',
     ]);
 
     // Fixer la date du rendez-vous et mettre à jour le statut
     $consultationRequest->update([
         'appointment_date' => $request->appointment_date,
-        'status' => 'scheduled', // Passer le statut à "scheduled"
+        'status' => 'scheduled',
     ]);
 
     // Envoyer la notification au médecin
     $user->notify(new AppointmentScheduledForDoctor($consultationRequest));
 
     // Envoyer la notification au patient
-    $patientUser = $consultationRequest->patient->user; // Récupérer l'utilisateur du patient
+    $patientUser = $consultationRequest->patient->user;
 
-    // Vérifier si l'utilisateur existe (dans le cas où il n'y a pas de lien avec un user)
     if ($patientUser) {
-        // Envoyer la notification au patient
         $patientUser->notify(new AppointmentScheduledForPatient($consultationRequest));
-         // Planifier l'envoi de la notification de rappel 24 heures avant la consultation
-         $reminderTime = Carbon::parse($consultationRequest->appointment_date)->subMinutes(5);  // 24 heures avant le rendez-vous
-         SendAppointmentReminderForPatient::dispatch($consultationRequest)->delay($reminderTime);  // Planifier le job pour 24 heures avant le rendez-vous
     } else {
-        // Si aucun utilisateur n'est associé au patient, retourner une erreur ou effectuer une autre action
         return response()->json(['message' => 'Aucun utilisateur associé au patient'], 404);
     }
-    // envoi notification avant 24h
 
-
-    // Retourner une réponse de succès
     return response()->json([
         'message' => 'Rendez-vous programmé avec succès!',
         'data' => $consultationRequest,
@@ -245,6 +235,39 @@ public function scheduleAppointment(Request $request, $id)
         'data' => $consultationRequest,
     ]);
     }
+
+    public function getConsultationsByStatus(Request $request)
+{
+    // Verify if user is a doctor
+    $user = auth()->user();
+    if (!$user || !$user->hasRole('doctor')) {
+        return response()->json(['message' => 'Unauthorized access'], 403);
+    }
+
+    $status = $request->query('status');
+
+    // Validate status parameter
+    $validStatuses = ['pending', 'scheduled', 'cancelled', 'confirmed'];
+    if ($status && !in_array($status, $validStatuses)) {
+        return response()->json(['message' => 'Invalid status parameter'], 400);
+    }
+
+    // Build the query
+    $query = ConsultationRequest::with(['patient.user']);
+
+    // Apply status filter if provided
+    if ($status) {
+        $query->where('status', $status);
+    }
+
+    // Get the results ordered by latest first
+    $consultations = $query->orderBy('created_at', 'desc')->get();
+
+    return response()->json([
+        'message' => 'Consultations retrieved successfully',
+        'data' => $consultations
+    ]);
+}
 
 
 }

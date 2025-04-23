@@ -121,6 +121,9 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     Route::post('/prescriptions/store', [PrespectionController::class, 'store']);
     Route::put('/prescriptions/update/{id}', [PrespectionController::class, 'update']);
     Route::get('/prescriptions/{id}', [PrespectionController::class, 'show']);
+
+    //Show consultation
+    Route::get('/consultations', [ConsultationRequestController::class, 'getConsultationsByStatus']);
 });
 
 // -----------------------------------------------------------------------------------------------------------
