@@ -14,6 +14,7 @@ use App\Notifications\AppointmentScheduledForPatient;
 use App\Notifications\ConsultationRequestConfirmedForDoctor;
 use App\Notifications\ConsultationRequestCancelledForDoctor;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -266,6 +267,244 @@ public function scheduleAppointment(Request $request, $id)
     return response()->json([
         'message' => 'Consultations retrieved successfully',
         'data' => $consultations
+    ]);
+}
+
+public function getUserConsultations()
+{
+    $user = auth()->user();
+
+    // Check if user has an associated patient record
+    if (!$user->patient) {
+        return response()->json([
+            'message' => 'User does not have an associated patient record',
+            'error' => 'Unauthorized'
+        ], 403);
+    }
+
+    // Get all consultation requests for this patient
+    $consultations = ConsultationRequest::where('patient_id', $user->patient->id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return response()->json([
+        'message' => 'Historique des consultations récupéré avec succès',
+        'data' => $consultations
+    ]);
+}
+
+public function getConsultationStatsByDay(Request $request)
+{
+    $user = auth()->user();
+
+    // Check if user is doctor
+    if (!$user || !$user->hasRole('doctor')) {
+        return response()->json([
+            'message' => 'Accès non autorisé. Seuls les médecins peuvent voir ces statistiques.',
+            'error' => 'Unauthorized'
+        ], 403);
+    }
+
+    // Get month and year from request, default to current month and year
+    $month = $request->query('month', Carbon::now()->month);
+    $year = $request->query('year', Carbon::now()->year);
+
+    // Validate month and year
+    if (!is_numeric($month) || $month < 1 || $month > 12) {
+        return response()->json([
+            'message' => 'Le mois spécifié est invalide',
+            'error' => 'Invalid month'
+        ], 400);
+    }
+
+    if (!is_numeric($year) || $year < 2000 || $year > 2100) {
+        return response()->json([
+            'message' => 'L\'année spécifiée est invalide',
+            'error' => 'Invalid year'
+        ], 400);
+    }
+
+    // Set the start and end dates for the specified month
+    $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+    $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+
+    // Get consultations grouped by appointment date and status for the current doctor
+    $stats = ConsultationRequest::whereBetween('appointment_date', [$startDate, $endDate])
+        ->select(
+            DB::raw('DATE(appointment_date) as date'),
+            'status',
+            DB::raw('COUNT(*) as count')
+        )
+        ->whereIn('status', ['confirmed', 'cancelled'])
+        ->where(function($query) {
+            $query->whereNotNull('appointment_date');
+        })
+        ->groupBy('date', 'status')
+        ->orderBy('date', 'desc')
+        ->get();
+
+    // Format the data for response
+    $formattedStats = [];
+    foreach ($stats as $stat) {
+        $date = $stat->date;
+        if (!isset($formattedStats[$date])) {
+            $formattedStats[$date] = [
+                'confirmed' => 0,
+                'cancelled' => 0,
+                'date' => $date
+            ];
+        }
+        $formattedStats[$date][$stat->status] = $stat->count;
+    }
+
+    // Convert to array and sort by date
+    $formattedStats = array_values($formattedStats);
+
+    return response()->json([
+        'message' => 'Statistiques des consultations récupérées avec succès',
+        'data' => $formattedStats,
+        'period' => [
+            'month' => (int)$month,
+            'year' => (int)$year,
+            'start' => $startDate->format('Y-m-d'),
+            'end' => $endDate->format('Y-m-d')
+        ]
+    ]);
+}
+
+public function getConfirmedRequestsByDay(Request $request)
+{
+    $user = auth()->user();
+
+    // Check if user is doctor
+    if (!$user || !$user->hasRole('doctor')) {
+        return response()->json([
+            'message' => 'Accès non autorisé. Seuls les médecins peuvent voir ces détails.',
+            'error' => 'Unauthorized'
+        ], 403);
+    }
+
+    // Get date from request, default to current date
+    $date = $request->query('date') ? Carbon::parse($request->query('date')) : Carbon::today();
+
+    // Validate date
+    if (!$date->isValid()) {
+        return response()->json([
+            'message' => 'La date spécifiée est invalide',
+            'error' => 'Invalid date'
+        ], 400);
+    }
+
+    // Get confirmed consultations for the specified date with patient details
+    $consultations = ConsultationRequest::with(['patient.user'])
+        ->whereDate('appointment_date', $date)
+        ->where('status', 'confirmed')
+        ->orderBy('appointment_date', 'asc')
+        ->get()
+        ->map(function ($consultation) {
+            return [
+                'id' => $consultation->id,
+                'time' => Carbon::parse($consultation->appointment_date)->format('H:i'),
+                'patient' => [
+                    'full_name' => $consultation->patient->user->name,
+                    'email' => $consultation->patient->user->email
+                ],
+                'message' => $consultation->message
+            ];
+        });
+
+    return response()->json([
+        'message' => 'Liste des rendez-vous confirmés récupérée avec succès',
+        'date' => $date->format('Y-m-d'),
+        'data' => $consultations
+    ]);
+}
+
+public function getMonthlyBookingStatus(Request $request)
+{
+    $user = auth()->user();
+
+    // Check if user is doctor
+    if (!$user || !$user->hasRole('doctor')) {
+        return response()->json([
+            'message' => 'Accès non autorisé. Seuls les médecins peuvent voir ces statistiques.',
+            'error' => 'Unauthorized'
+        ], 403);
+    }
+
+    // Get month and year from request, default to current month and year
+    $month = $request->query('month', Carbon::now()->month);
+    $year = $request->query('year', Carbon::now()->year);
+
+    // Validate month and year
+    if (!is_numeric($month) || $month < 1 || $month > 12) {
+        return response()->json([
+            'message' => 'Le mois spécifié est invalide',
+            'error' => 'Invalid month'
+        ], 400);
+    }
+
+    if (!is_numeric($year) || $year < 2000 || $year > 2100) {
+        return response()->json([
+            'message' => 'L\'année spécifiée est invalide',
+            'error' => 'Invalid year'
+        ], 400);
+    }
+
+    // Set the start and end dates for the specified month
+    $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+    $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+
+    // Get confirmed consultations count for each day
+    $dailyBookings = ConsultationRequest::whereBetween('appointment_date', [$startDate, $endDate])
+        ->where('status', 'confirmed')
+        ->select(
+            DB::raw('DATE(appointment_date) as date'),
+            DB::raw('COUNT(*) as count')
+        )
+        ->groupBy('date')
+        ->get()
+        ->keyBy('date');
+
+    // Prepare the calendar data
+    $calendar = [];
+    $currentDate = clone $startDate;
+
+    while ($currentDate <= $endDate) {
+        $dateStr = $currentDate->format('Y-m-d');
+        $bookingCount = isset($dailyBookings[$dateStr]) ? $dailyBookings[$dateStr]->count : 0;
+
+        // Determine booking status
+        $status = 'no_appointment'; // Default status (0-5 appointments)
+        if ($bookingCount > 10) {
+            $status = 'fully_booked';
+        } elseif ($bookingCount > 5) {
+            $status = 'getting_filled';
+        }
+
+        $calendar[] = [
+            'date' => $dateStr,
+            'booking_count' => $bookingCount,
+            'status' => $status,
+            'color' => [
+                'no_appointment' => 'red',
+                'getting_filled' => 'yellow',
+                'fully_booked' => 'green'
+            ][$status]
+        ];
+
+        $currentDate->addDay();
+    }
+
+    return response()->json([
+        'message' => 'Statut des réservations récupéré avec succès',
+        'data' => $calendar,
+        'period' => [
+            'month' => (int)$month,
+            'year' => (int)$year,
+            'start' => $startDate->format('Y-m-d'),
+            'end' => $endDate->format('Y-m-d')
+        ]
     ]);
 }
 
