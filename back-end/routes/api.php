@@ -21,6 +21,8 @@ use App\Http\Controllers\UserImportController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\Screening;
 use App\Http\Controllers\MedicationController;
+use App\Http\Controllers\ConsultationRequestController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PatientVitalsController;
 use App\Http\Controllers\PrespectionController;
 
@@ -105,17 +107,34 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     Route::patch('/patients/{id}/archive', [PatientController::class, 'archive']);
     Route::patch('/patients/{id}/restore', [PatientController::class, 'restore']);
 
+    //programmer une consulation
+    Route::post('/consultation-request/{id}/schedule', [ConsultationRequestController::class, 'scheduleAppointment']);
+    Route::put('/consultation-request/{id}/update-appointment', [ConsultationRequestController::class, 'updateAppointmentDate']);
+    Route::get('/received-requests', [ConsultationRequestController::class, 'getReceivedRequests']);
+
     //Patient vitals
     Route::post('/patient-vitals/store', [PatientVitalsController::class, 'store']);
     Route::put('/patient-vitals/update/{id}', [PatientVitalsController::class, 'update']);
     Route::get('/patient-vitals/show/{id}', [PatientVitalsController::class, 'show']);
-
 
     //prespections
     Route::post('/prescriptions/store', [PrespectionController::class, 'store']);
     Route::put('/prescriptions/update/{id}', [PrespectionController::class, 'update']);
     Route::get('/prescriptions/{id}', [PrespectionController::class, 'show']);
     Route::get('/prescriptions/generate-report/{id}', [PrespectionController::class, 'generateReport']);
+
+    //Show consultation
+    Route::get('/consultations', [ConsultationRequestController::class, 'getConsultationsByStatus']);
+
+    //Show stats by day of confirmed cancelled consultation request in a month dashboard interface
+    Route::get('/consultations/stats/daily', [ConsultationRequestController::class, 'getConsultationStatsByDay']);
+
+        //Show stats by day of confirmed and details of consultation request in appointment interface
+    Route::get('/consultations/confirmed-by-day', [ConsultationRequestController::class, 'getConfirmedRequestsByDay']);
+
+    //Show Stats of the month if fully booked , geeting fulled , no appointement
+    Route::get('/consultations/monthly-booking-status', [ConsultationRequestController::class, 'getMonthlyBookingStatus']);
+
 });
 
 // -----------------------------------------------------------------------------------------------------------
@@ -124,4 +143,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('profile', [AuthenticatedSessionController::class, 'showProfile']);
     Route::put('profile/update', [AuthenticatedSessionController::class, 'updateProfile']);
     Route::post('/change-password', [AuthenticatedSessionController::class, 'changePassword']);
+
+    //demande consultation , confirmer ou annuler
+    Route::post('/consultation-request', [ConsultationRequestController::class, 'submitRequest']);
+    Route::post('/consultation-request/{id}/confirm', [ConsultationRequestController::class, 'confirmRequest']);
+    Route::post('/consultation-request/{id}/cancel', [ConsultationRequestController::class, 'cancelRequest']);
+
+    Route::get('/notifications', [NotificationController::class, 'getNotifications']);
+    Route::get('/sent-requests', [ConsultationRequestController::class, 'getSentRequests']);
+
+    Route::get('/consultations/user', [ConsultationRequestController::class, 'getUserConsultations']);
+
 });

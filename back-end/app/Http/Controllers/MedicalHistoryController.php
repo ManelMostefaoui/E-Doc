@@ -11,6 +11,12 @@ class MedicalHistoryController extends Controller
     // 🔍 Afficher les antécédents médicaux d'un patient
     public function store(Request $request, $patientId)
     {
+        // Check if patient exists and is not archived
+        $patient = Patient::findOrFail($patientId);
+        if ($patient->is_archived) {
+            return response()->json(['message' => 'Cannot add medical history to archived patient'], 403);
+        }
+
         $validated = $request->validate([
             'condition' => 'required|in:congenital,general_disease,surgery,allergy',
             'date_appeared' => 'nullable|date',
@@ -20,7 +26,6 @@ class MedicalHistoryController extends Controller
         ]);
 
         $validated['patient_id'] = $patientId;
-
         $history = MedicalHistory::create($validated);
 
         return response()->json(['message' => 'Medical history added successfully', 'data' => $history]);
@@ -29,6 +34,11 @@ class MedicalHistoryController extends Controller
     public function update(Request $request, $id)
     {
         $history = MedicalHistory::findOrFail($id);
+
+        // Check if patient is not archived
+        if ($history->patient->is_archived) {
+            return response()->json(['message' => 'Cannot update medical history of archived patient'], 403);
+        }
 
         $validated = $request->validate([
             'condition' => 'nullable|in:congenital,general_disease,surgery,allergy',
