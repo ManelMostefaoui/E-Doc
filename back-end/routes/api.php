@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\BiometricDataController;
 use App\Http\Controllers\MedicalHistoryController;
 use App\Http\Controllers\PatientController;
@@ -123,17 +124,25 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     Route::get('/prescriptions/{id}', [PrespectionController::class, 'show']);
     Route::get('/prescriptions/generate-report/{id}', [PrespectionController::class, 'generateReport']);
 
-    //Show consultation
+    //Show  Demande tous consultation
     Route::get('/consultations', [ConsultationRequestController::class, 'getConsultationsByStatus']);
 
     //Show stats by day of confirmed cancelled consultation request in a month dashboard interface
     Route::get('/consultations/stats/daily', [ConsultationRequestController::class, 'getConsultationStatsByDay']);
 
-        //Show stats by day of confirmed and details of consultation request in appointment interface
+    //Show stats by day of confirmed and details of consultation request in appointment interface
     Route::get('/consultations/confirmed-by-day', [ConsultationRequestController::class, 'getConfirmedRequestsByDay']);
 
     //Show Stats of the month if fully booked , geeting fulled , no appointement
     Route::get('/consultations/monthly-booking-status', [ConsultationRequestController::class, 'getMonthlyBookingStatus']);
+    //Schedule appointment
+    Route::post('/appointments/store', [ConsultationRequestController::class, 'storeAppointment']);
+    // ✅ Get consultation request with patient info (used to fill the form)
+    Route::get('/consultation-requests/{id}', [ConsultationRequestController::class, 'show']);
+    // ✅ Submit appointment
+    Route::post('/appointments/store', [AppointmentsController::class, 'store']); // Create a new appointment)
+    Route::get('/appointments/{id}', [AppointmentsController::class, 'show']); // Get appointment details
+    Route::put('/appointments/{id}/cancel', [AppointmentsController::class, 'cancel']); // Cancel an appointment
 
 });
 
@@ -150,8 +159,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/consultation-request/{id}/cancel', [ConsultationRequestController::class, 'cancelRequest']);
 
     Route::get('/notifications', [NotificationController::class, 'getNotifications']);
-    Route::get('/sent-requests', [ConsultationRequestController::class, 'getSentRequests']);
+    // Route::get('/sent-requests', [ConsultationRequestController::class, 'getSentRequests']);
 
     Route::get('/consultations/user', [ConsultationRequestController::class, 'getUserConsultations']);
-
 });
