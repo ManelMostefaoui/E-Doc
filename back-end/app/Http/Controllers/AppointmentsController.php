@@ -6,6 +6,12 @@ use App\Models\appointments;
 use App\Models\ConsultationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\AppointmentCancelledNotification;
+use App\Notifications\PatientCancelledAppointmentNotification;
+use App\Notifications\AppointmentScheduledNotification;
+use App\Notifications\AppointmentConfirmedNotification;
+use App\Models\User;
+
 
 class AppointmentsController extends Controller
 {
@@ -33,6 +39,12 @@ class AppointmentsController extends Controller
         $requestModel->appointment_date = $scheduledAt;
         $requestModel->save();
 
+        // Send notification to patient
+        $patient = $requestModel->patient->user;
+        if ($patient) {
+            $patient->notify(new AppointmentScheduledNotification($appointment));
+        }
+
         return response()->json([
             'message' => 'Appointment scheduled successfully!',
             'appointment' => $appointment
@@ -49,6 +61,12 @@ class AppointmentsController extends Controller
         // Find the appointment
         $appointment = appointments::findOrFail($id);
 
+        // Check if the authenticated user is a doctor
+        $user = auth()->user();
+        if (!$user || !$user->hasRole('doctor')) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         // Update appointment status
         $appointment->status = 'cancelled';
         $appointment->save();
@@ -59,6 +77,12 @@ class AppointmentsController extends Controller
             $consultationRequest->status = 'pending';
             $consultationRequest->appointment_date = null;
             $consultationRequest->save();
+
+            // Send notification to patient
+            $patient = $consultationRequest->patient->user;
+            if ($patient) {
+                $patient->notify(new AppointmentCancelledNotification($appointment));
+            }
         }
 
         return response()->json([
@@ -78,16 +102,24 @@ class AppointmentsController extends Controller
         if (!$user || !$user->patient || $appointment->consultationRequest->patient_id !== $user->patient->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
+
         // Update appointment status
         $appointment->status = 'completed';
-
         $appointment->save();
-
 
         // Update consultation request status to 'confirmed'
         $consultationRequest = $appointment->consultationRequest;
         $consultationRequest->status = 'confirmed';
         $consultationRequest->save();
+
+        // Send notification to doctors
+        $doctors = User::whereHas('role', function ($query) {
+            $query->where('name', 'doctor');
+        })->get();
+
+        foreach ($doctors as $doctor) {
+            $doctor->notify(new AppointmentConfirmedNotification($appointment));
+        }
 
         return response()->json([
             'message' => 'Appointment confirmed successfully!',
@@ -96,22 +128,38 @@ class AppointmentsController extends Controller
     }
     public function cancelbypatient($id)
     {
-        $appointment = appointments::findOrFail($id);
+        $appointment = appointments::with('consultationRequest.patient')->findOrFail($id);
 
         // Make sure the authenticated user is the owner (patient)
-        $user = auth::user();
-        if (!$user || !$user->patient || $appointment->consultationRequest->patient_id !== $user->patient->id) {
+        $user = auth()->user();
+
+        // Get the patient associated with the appointment
+        $consultationRequest = $appointment->consultationRequest;
+        if (!$consultationRequest) {
+            return response()->json(['message' => 'Consultation request not found'], 404);
+        }
+
+        // Check if the authenticated user is the patient who owns this appointment
+        if (!$user || !$user->patient || $consultationRequest->patient_id !== $user->patient->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
+
         // Update appointment status
         $appointment->status = 'cancelled';
-
         $appointment->save();
 
         // Update the consultation request status to 'cancelled'
-        $consultationRequest = $appointment->consultationRequest;
         $consultationRequest->status = 'cancelled';
         $consultationRequest->save();
+
+        // Send notification to doctor
+        $doctors = User::whereHas('role', function ($query) {
+            $query->where('name', 'doctor');
+        })->get();
+
+        foreach ($doctors as $doctor) {
+            $doctor->notify(new PatientCancelledAppointmentNotification($appointment));
+        }
 
         return response()->json([
             'message' => 'Appointment cancelled successfully!',
