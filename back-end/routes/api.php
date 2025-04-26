@@ -162,4 +162,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Route::get('/sent-requests', [ConsultationRequestController::class, 'getSentRequests']);
 
     Route::get('/consultations/user', [ConsultationRequestController::class, 'getUserConsultations']);
+    Route::put('/appointments/{id}/confirm', [AppointmentsController::class, 'confirm']); // Confirm an appointment
+    // Patient cancels an appointment
+    Route::post('/appointments/patient/{id}/cancel', [AppointmentsController::class, 'cancelbypatient']);
 });

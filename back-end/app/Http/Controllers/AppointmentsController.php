@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\appointments;
 use App\Models\ConsultationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentsController extends Controller
 {
@@ -64,6 +65,50 @@ class AppointmentsController extends Controller
         return response()->json([
             'message' => 'Appointment cancelled successfully!',
             'appointment' => $appointment
+        ]);
+    }
+    // App\Http\Controllers\Api\AppointmentsController.php
+
+
+
+    public function confirm($id)
+    {
+        $appointment = appointments::findOrFail($id);
+
+
+        $user = auth::user();
+        if (!$user || !$user->patient || $appointment->consultationRequest->patient_id !== $user->patient->id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // Update consultation request status to 'confirmed'
+        $consultationRequest = $appointment->consultationRequest;
+        $consultationRequest->status = 'confirmed';
+        $consultationRequest->save();
+
+        return response()->json([
+            'message' => 'Appointment confirmed successfully!',
+            'status' => 'confirmed'
+        ]);
+    }
+    public function cancelbypatient($id)
+    {
+        $appointment = appointments::findOrFail($id);
+
+        // Make sure the authenticated user is the owner (patient)
+        $user = auth::user();
+        if (!$user || !$user->patient || $appointment->consultationRequest->patient_id !== $user->patient->id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // Update the consultation request status to 'cancelled'
+        $consultationRequest = $appointment->consultationRequest;
+        $consultationRequest->status = 'cancelled';
+        $consultationRequest->save();
+
+        return response()->json([
+            'message' => 'Appointment cancelled successfully!',
+            'status' => 'cancelled'
         ]);
     }
 }
