@@ -91,7 +91,9 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
 
     //screening
     Route::post('/Screening/store', [ScreeningController::class, 'store']);       // Create new screening
-    Route::put('/Screening/update/{id}', [ScreeningController::class, 'update']);   // Update existing screening
+    Route::put('/Screening/update/{id}', [ScreeningController::class, 'update']);
+    Route::get('/Screening/{id}', [ScreeningController::class, 'show']); // Show screening details
+    // Update existing screening
 
     //medication lists
     Route::get('/medications', [MedicationController::class, 'index']);
@@ -124,17 +126,18 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     Route::get('/prescriptions/{id}', [PrespectionController::class, 'show']);
     Route::get('/prescriptions/generate-report/{id}', [PrespectionController::class, 'generateReport']);
 
-    //Show  Demande tous consultation
-   // Route::get('/consultations', [ConsultationRequestController::class, 'getConsultationsByStatus']);
 
     //Show stats by day of confirmed cancelled consultation request in a month dashboard interface
-   //  Route::get('/consultations/stats/daily', [ConsultationRequestController::class, 'getConsultationStatsByDay']);
+    Route::get('appointments/stats/monthly', [AppointmentsController::class, 'getMonthlyStats']);
 
-    //Show stats by day of confirmed and details of consultation request in appointment interface
-    // Route::get('/consultations/confirmed-by-day', [ConsultationRequestController::class, 'getConfirmedRequestsByDay']);
+    //Show stats by day of confirmed appointment and details consultation request in appointment interface
+    Route::get('/appointments/by-day', [AppointmentsController::class, 'getAppointmentsByDay']);
 
     //Show Stats of the month if fully booked , geeting fulled , no appointement
-    // Route::get('/consultations/monthly-booking-status', [ConsultationRequestController::class, 'getMonthlyBookingStatus']);
+    Route::get('/appointments/booking-status', [AppointmentsController::class, 'getMonthlyBookingStatus']);
+
+    Route::get('/pending-consultation-requests', [ConsultationRequestController::class, 'getPendingRequests']);
+
     //Schedule appointment
     Route::post('/appointments/store', [ConsultationRequestController::class, 'storeAppointment']);
     // ✅ Get consultation request with patient info (used to fill the form)

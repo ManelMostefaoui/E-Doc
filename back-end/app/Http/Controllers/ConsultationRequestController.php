@@ -525,4 +525,33 @@ class ConsultationRequestController extends Controller
             ],
         ]);
     }
+
+    public function getPendingRequests()
+    {
+    // Get consultation requests that are pending and not in appointments table
+    $pendingRequests = ConsultationRequest::with(['patient.user'])
+        ->where('status', 'pending')
+        ->whereNotExists(function ($query) {
+            $query->select('consultation_request_id')
+                  ->from('appointments')
+                  ->whereRaw('consultation_requests.id = appointments.consultation_request_id');
+        })
+        ->latest('id')  // This ensures ordering by ID in descending order
+        ->orderBy('created_at', 'desc')  // Secondary ordering by creation date
+        ->get()
+        ->map(function ($request) {
+            return [
+                'id' => $request->id,
+                'patient_name' => $request->patient->user->name,
+                'message' => $request->message,
+                'created_at' => $request->created_at,
+                'status' => $request->status
+            ];
+        });
+
+    return response()->json([
+        'message' => 'Pending consultation requests retrieved successfully',
+        'data' => $pendingRequests
+    ]);
+    }
 }
