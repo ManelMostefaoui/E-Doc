@@ -125,16 +125,16 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     Route::get('/prescriptions/generate-report/{id}', [PrespectionController::class, 'generateReport']);
 
     //Show  Demande tous consultation
-    Route::get('/consultations', [ConsultationRequestController::class, 'getConsultationsByStatus']);
+   // Route::get('/consultations', [ConsultationRequestController::class, 'getConsultationsByStatus']);
 
     //Show stats by day of confirmed cancelled consultation request in a month dashboard interface
-    Route::get('/consultations/stats/daily', [ConsultationRequestController::class, 'getConsultationStatsByDay']);
+   //  Route::get('/consultations/stats/daily', [ConsultationRequestController::class, 'getConsultationStatsByDay']);
 
     //Show stats by day of confirmed and details of consultation request in appointment interface
-    Route::get('/consultations/confirmed-by-day', [ConsultationRequestController::class, 'getConfirmedRequestsByDay']);
+    // Route::get('/consultations/confirmed-by-day', [ConsultationRequestController::class, 'getConfirmedRequestsByDay']);
 
     //Show Stats of the month if fully booked , geeting fulled , no appointement
-    Route::get('/consultations/monthly-booking-status', [ConsultationRequestController::class, 'getMonthlyBookingStatus']);
+    // Route::get('/consultations/monthly-booking-status', [ConsultationRequestController::class, 'getMonthlyBookingStatus']);
     //Schedule appointment
     Route::post('/appointments/store', [ConsultationRequestController::class, 'storeAppointment']);
     // ✅ Get consultation request with patient info (used to fill the form)
