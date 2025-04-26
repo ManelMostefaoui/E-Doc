@@ -91,7 +91,9 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
 
     //screening
     Route::post('/Screening/store', [ScreeningController::class, 'store']);       // Create new screening
-    Route::put('/Screening/update/{id}', [ScreeningController::class, 'update']);   // Update existing screening
+    Route::put('/Screening/update/{id}', [ScreeningController::class, 'update']);
+    Route::get('/Screening/{id}', [ScreeningController::class, 'show']); // Show screening details
+    // Update existing screening
 
     //medication lists
     Route::get('/medications', [MedicationController::class, 'index']);
