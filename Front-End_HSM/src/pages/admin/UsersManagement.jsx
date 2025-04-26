@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Search, ChevronDown, Plus } from "lucide-react";
-import UserTable from "../components/UserTable";
+import UserTable from "../../components/UserTable";
 import { useNavigate } from "react-router-dom";
-import AddUserModal from "../components/AddUserModal";
+import AddUserModal from "../../components/AddUserModal";
 import axios from "axios";
 
 const UserManagement = () => {
