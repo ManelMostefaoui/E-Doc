@@ -80,6 +80,11 @@ class AppointmentsController extends Controller
         if (!$user || !$user->patient || $appointment->consultationRequest->patient_id !== $user->patient->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
+        // Update appointment status
+        $appointment->status = 'completed';
+
+        $appointment->save();
+
 
         // Update consultation request status to 'confirmed'
         $consultationRequest = $appointment->consultationRequest;
@@ -100,6 +105,10 @@ class AppointmentsController extends Controller
         if (!$user || !$user->patient || $appointment->consultationRequest->patient_id !== $user->patient->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
+        // Update appointment status
+        $appointment->status = 'cancelled';
+
+        $appointment->save();
 
         // Update the consultation request status to 'cancelled'
         $consultationRequest = $appointment->consultationRequest;
