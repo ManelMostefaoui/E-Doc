@@ -322,9 +322,7 @@ const AdminSettings = () => {
       
       // Prepare API data
       const apiData = {
-        firstName: updatedUserData.firstName,
-        lastName: updatedUserData.lastName,
-        name: `${updatedUserData.firstName} ${updatedUserData.lastName}`,
+        name: `${updatedUserData.name}`,
         email: updatedUserData.email,
         gender: updatedUserData.gender,
         birthdate: updatedUserData.birthDate || updatedUserData.birthdate,
@@ -362,12 +360,8 @@ const AdminSettings = () => {
               ...adminData,
               ...updatedData,
               // Make sure we have both formats of fields for compatibility
-              firstName: updatedUserData.firstName,
-              lastName: updatedUserData.lastName,
-              name: `${updatedUserData.firstName} ${updatedUserData.lastName}`,
-              birthDate: updatedUserData.birthDate || updatedUserData.birthdate,
+              name: `${updatedUserData.name} `,
               birthdate: updatedUserData.birthDate || updatedUserData.birthdate,
-              phoneNumber: updatedUserData.phoneNumber || updatedUserData.phone_num,
               phone_num: updatedUserData.phoneNumber || updatedUserData.phone_num
             };
           } catch (err) {
@@ -506,10 +500,6 @@ const AdminSettings = () => {
             <div className="font-medium">{user.firstName || user.name?.split(' ')[0] || 'N/A'}</div>
           </div>
           <div>
-            <label className="block text-gray-600 mb-1">Last name :</label>
-            <div className="font-medium">{user.lastName || user.name?.split(' ')[1] || 'N/A'}</div>
-          </div>
-          <div>
             <label className="block text-gray-600 mb-1">Gender :</label>
             <div className="font-medium">{user.gender || 'N/A'}</div>
           </div>
@@ -527,7 +517,7 @@ const AdminSettings = () => {
           </div>
           <div>
             <label className="block text-gray-600 mb-1">Role :</label>
-            <div className="font-medium">{user.role?.name || 'N/A'}</div>
+            <div className="font-medium">{user.role?.name || user.role || 'N/A'}</div>
           </div>
           <div>
             <label className="block text-gray-600 mb-1">Address :</label>

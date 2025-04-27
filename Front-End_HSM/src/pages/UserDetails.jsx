@@ -84,7 +84,7 @@ const UserDetails = () => {
     const fetchFromAPI = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://127.0.0.1:8000/api/admin/users/${id}`, {
+        const response = await axios.get(`http://127.0.0.1:8000/api/user/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json'
@@ -209,7 +209,7 @@ const UserDetails = () => {
       try {
         // Use backend field names consistently
         const formattedUser = {
-          id: userId,
+          id: userData.id,
           name: userData.name || `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || '',
           gender: normalizeString(userData.gender) || '',
           birthdate: normalizeDate(userData.birthdate) || '',
@@ -502,7 +502,7 @@ const UserDetails = () => {
         formData.append('picture', file);
 
         const response = await axios.post(
-          `http://127.0.0.1:8000/api/admin/users/${id}/picture`,
+          `http://127.0.0.1:8000/api/user/${id}/picture`,
           formData,
           {
             headers: {
@@ -523,7 +523,7 @@ const UserDetails = () => {
           formData.append('_method', 'PUT');
 
           const response = await axios.post(
-            `http://127.0.0.1:8000/api/admin/users/${id}`,
+            `http://127.0.0.1:8000/api/user/${id}`,
             formData,
             {
               headers: {
@@ -543,7 +543,7 @@ const UserDetails = () => {
             formData.append('picture', file);
 
             const response = await axios.patch(
-              `http://127.0.0.1:8000/api/admin/users/${id}`,
+              `http://127.0.0.1:8000/api/user/${id}`,
               formData,
               {
                 headers: {
@@ -582,12 +582,6 @@ const UserDetails = () => {
         <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded mb-4">
           {error}
         </div>
-        <button 
-          onClick={() => navigate('/users')}
-          className="mt-4 px-4 py-2 bg-[#0a8a8a] text-white rounded-md hover:bg-[#086a6a]"
-        >
-          Back to Users List
-        </button>
       </div>
     );
   }
@@ -702,10 +696,6 @@ const UserDetails = () => {
               <div className="font-medium">{user.firstName || 'N/A'}</div>
             </div>
             <div>
-              <label className="block text-gray-600 mb-1">Last name :</label>
-              <div className="font-medium">{user.lastName || 'N/A'}</div>
-            </div>
-            <div>
               <label className="block text-gray-600 mb-1">Gender :</label>
               <div className="font-medium">{user.gender || 'N/A'}</div>
             </div>
@@ -723,7 +713,7 @@ const UserDetails = () => {
             </div>
             <div>
               <label className="block text-gray-600 mb-1">Role :</label>
-              <div className="font-medium">{user.role || 'N/A'}</div>
+              <div className="font-medium">{user.role?.name || user.role || 'N/A'}</div>
             </div>
             <div>
               <label className="block text-gray-600 mb-1">Address :</label>

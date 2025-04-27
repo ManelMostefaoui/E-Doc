@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Search, ChevronDown, Plus } from "lucide-react";
+import { Search, ChevronDown, Plus, Upload } from "lucide-react";
 import UserTable from "../components/UserTable";
 import { useNavigate } from "react-router-dom";
 import AddUserModal from "../components/AddUserModal";
@@ -7,13 +7,13 @@ import axios from "axios";
 
 const UserManagement = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedYear, setSelectedYear] = useState("2025");
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [addUserError, setAddUserError] = useState("");
+  const [importLoading, setImportLoading] = useState(false);
   const navigate = useNavigate();
 
   // Function to generate a unique ID for users missing one
@@ -371,26 +371,18 @@ const UserManagement = () => {
       // Process each selected user one by one
       for (const user of selectedUsers) {
         try {
-          // Check if user has a valid ID
-          if (!user.id) {
-            console.error('Cannot delete user without ID:', user);
-            results.failed.push(user);
+          // Use the user.id from the table directly for deletion
+          let userId = user.id;
+          // Only skip backend deletion if the id is a generated one
+          if (typeof userId === 'string' && userId.startsWith('u_')) {
+            console.log('Skipping backend deletion for generated ID:', userId);
+            results.successful.push(user);
+            sessionStorage.removeItem('tempUser_' + userId);
             continue;
           }
           
           // Log the complete user object to debug
           console.log(`Attempting to delete user:`, user);
-          
-          // Extract the raw ID - make sure to handle different ID formats
-          let userId = user.id;
-          if (typeof userId === 'object') {
-            userId = userId.id || userId._id;
-          }
-          
-          // If we still have an object path with user property, extract from there
-          if (user.user && typeof user.user === 'object' && user.user.id) {
-            userId = user.user.id;
-          }
           
           console.log(`Using ID for deletion: ${userId}`);
           
@@ -472,6 +464,46 @@ const UserManagement = () => {
     }
   };
 
+  // Function to handle Excel file import
+  const handleImportUsers = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      setImportLoading(true);
+      const token = localStorage.getItem('token');
+      
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/import-users',
+        formData,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+          }
+        }
+      );
+      
+      console.log('Import users response:', response.data);
+      
+      // Refresh the users list
+      fetchUsers();
+      
+      // Display success message
+      alert("Users imported successfully!");
+    } catch (error) {
+      console.error('Error importing users:', error);
+      setError(error.response?.data?.message || "Failed to import users. Please try again.");
+    } finally {
+      setImportLoading(false);
+      // Reset the file input
+      event.target.value = '';
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6 p-6">
       <h1 className="text-2xl font-semibold text-[#0a8a8a]">Users Management</h1>
@@ -517,28 +549,32 @@ const UserManagement = () => {
             </div>
           </div>
 
-          {/* Year Filter */}
+          {/* Import Users Button */}
           <div className="relative">
-            <select
-              className="appearance-none flex items-center gap-2 px-4 py-2 pr-8 rounded-full bg-white border border-gray-200"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
+            <input
+              type="file"
+              id="import-users"
+              className="hidden"
+              accept=".xlsx,.xls,.csv"
+              onChange={handleImportUsers}
+              disabled={importLoading}
+            />
+            <label
+              htmlFor="import-users"
+              className={`flex items-center gap-2 px-4 py-2 rounded-full ${importLoading ? 'bg-gray-400' : 'bg-[#0a8a8a] hover:bg-[#097979]'} text-white cursor-pointer`}
             >
-              <option value="2025">2025</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-            </select>
-            <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
-              <ChevronDown className="h-4 w-4 text-gray-400" />
-            </div>
+              <Upload className="h-4 w-4" />
+              {importLoading ? "Importing..." : "Import Users"}
+            </label>
           </div>
 
           {/* Add User Button */}
           <button
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#0a8a8a] text-white"
+            className={`flex items-center gap-2 px-4 py-2 rounded-full bg-[#0a8a8a] hover:bg-[#097979] text-white`}
             onClick={() => setIsAddModalOpen(true)}
           >
             <Plus className="h-4 w-4" />
+            Add User
           </button>
         </div>
       </div>

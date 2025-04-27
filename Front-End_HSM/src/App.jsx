@@ -8,6 +8,7 @@ import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import UserDetails from "./pages/UserDetails";
 import LoginPage from "./pages/Login/Login";
+import PatientsManagement from "./pages/PatientsManagement";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
@@ -27,7 +28,7 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={['admin']}>
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
@@ -155,6 +156,29 @@ function App() {
                   {/* Main content */}
                   <div className=" flex-1 p-4">
                     <AdminSettings user={{ firstName: 'Omar', lastName: 'Boudelia' }} />
+                  </div>
+                </div>
+              </div>
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/patients"
+          element={
+            <PrivateRoute>
+              <div className="h-screen overflow-auto flex flex-col">
+                {/* Navbar */}
+                <Navbar />
+
+                {/* Sidebar + Page content */}
+                <div className=" flex flex-1">
+                  {/* Sidebar */}
+                  <Sidebar />
+                  
+                  {/* Main content */}
+                  <div className=" flex-1 p-4">
+                    <PatientsManagement />
                   </div>
                 </div>
               </div>

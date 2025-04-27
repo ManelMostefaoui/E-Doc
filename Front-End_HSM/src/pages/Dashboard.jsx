@@ -45,7 +45,7 @@ export default function DashboardPage() {
           setDashboardData({
             students: userData.students || 0,
             teachers: userData.teachers || 0,
-            employees: userData.employees || 0
+            employees: userData.employer || 0
           });
           
           // Also save to localStorage for other components to access

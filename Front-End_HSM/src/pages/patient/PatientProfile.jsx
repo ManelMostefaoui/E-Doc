@@ -16,9 +16,65 @@ import {
   Droplet,
   Trash
 } from "lucide-react"
+import { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
+import axios from "axios"
 
 
 export default function PatientProfile() {
+  const { id: patientId } = useParams();
+  const [patient, setPatient] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchPatientData = async () => {
+      if (!patientId) return;
+      
+      try {
+        setLoading(true);
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`http://127.0.0.1:8000/api/patients/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
+          }
+        });
+        
+        console.log('Patient data:', response.data);
+        setPatient(response.data);
+        setError("");
+      } catch (err) {
+        console.error("Failed to fetch patient data:", err);
+        setError("Failed to load patient data. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchPatientData();
+  }, [patientId]);
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-600"></div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {error}
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
     <div className="space-y-6">
@@ -26,12 +82,12 @@ export default function PatientProfile() {
       {/* Patient header */}
       <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
         <div className="p-0.5 w-20 h-20 rounded-full overflow-hidden border-4 border-[#008080]">
-          <img src="/prfl.jpg" alt="Patient prodfile" className="w-full h-full object-cover rounded-full" />
+          <img src={patient.picture || "/prfl.jpg"} alt="Patient profile" className="w-full h-full object-cover rounded-full" />
         </div>
 
         <div space-y-4>
-          <h1 className="font-nunito text-[20px] text-[#1a1a1a] font-semibold">Manarri Nawal</h1>
-          <p className="font-nunito text-[20px] text-[#495057]">Student</p>
+          <h1 className="font-nunito text-[20px] text-[#1a1a1a] font-semibold">{patient.name || "Patient Name"}</h1>
+          <p className="font-nunito text-[20px] text-[#495057]">{patient.role || "Patient"}</p>
         </div>
       </div>
 
@@ -53,7 +109,7 @@ export default function PatientProfile() {
                 <User size={18} className="text-[#495057] mt-3" />
                 <div className="space-y-1">
                   <p className="font-nunito text-[16px] font-light text-[#495057]">Gender :</p>
-                  <p className="font-nunito text-[16px] text-[#1A1A1A]">Female</p>
+                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.gender || "Not specified"}</p>
                 </div>
               </div>
 
@@ -61,7 +117,7 @@ export default function PatientProfile() {
                 <Calendar size={18} className="text-[#495057] mt-3" />
                 <div className="space-y-1">
                   <p className="font-nunito text-[16px] font-light text-[#495057]">Date and birthday place :</p>
-                  <p className="font-nunito text-[16px] text-[#1A1A1A]">25/04/2004 Alger-Kobba</p>
+                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.birthdate || "Not specified"} {patient.birthplace || ""}</p>
                 </div>
               </div>
 
@@ -69,7 +125,7 @@ export default function PatientProfile() {
                 <Phone size={18} className="text-[#495057] mt-3" />
                 <div className="space-y-1">
                   <p className="font-nunito text-[16px] font-light text-[#495057]">Phone number :</p>
-                  <p className="font-nunito text-[16px] text-[#1A1A1A]">0523333311</p>
+                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.phone_num || "Not specified"}</p>
                 </div>
               </div>
 
@@ -77,7 +133,7 @@ export default function PatientProfile() {
                 <Mail size={18} className="text-[#495057] mt-3" />
                 <div className="space-y-1">
                   <p className="font-nunito text-[16px] font-light text-[#495057]">Email :</p>
-                  <p className="font-nunito text-[16px] text-[#1A1A1A]">n.manarri@esi-sba.dz</p>
+                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.email || "Not specified"}</p>
                 </div>
               </div>
 
@@ -85,7 +141,7 @@ export default function PatientProfile() {
                 <Shield size={18} className="text-[#495057] mt-3" />
                 <div className="space-y-1">
                   <p className="font-nunito text-[16px] font-light text-[#495057]">Social security number :</p>
-                  <p className="font-nunito text-[16px] text-[#1A1A1A]">01259962242323</p>
+                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.SSN || "Not specified"}</p>
                 </div>
               </div>
 
@@ -93,7 +149,7 @@ export default function PatientProfile() {
                 <Droplet size={18} className="text-[#495057] mt-3" />
                 <div className="space-y-1">
                   <p className="font-nunito text-[16px] font-light text-[#495057]">Blood type :</p>
-                  <p className="font-nunito text-[16px] text-[#1A1A1A]">AB+</p>
+                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.blood_type || "Not specified"}</p>
                 </div>
               </div>
 
@@ -101,7 +157,7 @@ export default function PatientProfile() {
                 <MapPin size={18} className="text-[#495057] mt-3" />
                 <div className="space-y-1">
                   <p className="font-nunito text-[16px] font-light text-[#495057]">Address :</p>
-                  <p className="font-nunito text-[16px] text-[#1A1A1A]">Sidi bel_abbès</p>
+                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.address || "Not specified"}</p>
                 </div>
               </div>
 

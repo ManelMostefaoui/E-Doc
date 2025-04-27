@@ -20,7 +20,7 @@ const EditUserModal = ({ onClose, onSave, userData }) => {
   const [deleteIsSubmitting, setDeleteIsSubmitting] = useState(false);
   const [apiError, setApiError] = useState('');
   
-  const roles = ['student', 'teacher', 'employer'];
+  const roles = ['student', 'teacher', 'employer', 'doctor'];
   const genders = ['male', 'female'];
 
   const PenIcon = () => (
@@ -172,8 +172,8 @@ const EditUserModal = ({ onClose, onSave, userData }) => {
         // For regular IDs, try multiple approaches to update via the API
         try {
           // Try a POST request first (most commonly supported)
-          const response = await axios.post(
-            `http://127.0.0.1:8000/api/admin/users/${userData.id}`,
+          const response = await axios.put(
+            `http://127.0.0.1:8000/api/users/update/${userData.id}`,
             requestData,
             { headers }
           );
@@ -312,7 +312,7 @@ const EditUserModal = ({ onClose, onSave, userData }) => {
           <form onSubmit={handleSubmit} className="w-full">
             <div className="space-y-4">
               <div className="flex items-center">
-                <div className="w-[90px] text-black text-sm">First name :</div>
+                <div className="w-[90px] text-black text-sm">Full name :</div>
                 <div className="flex-1 relative">
                   <input
                     type="text"
@@ -330,24 +330,6 @@ const EditUserModal = ({ onClose, onSave, userData }) => {
                 </div>
               </div>
 
-              <div className="flex items-center">
-                <div className="w-[90px] text-black text-sm">Last name :</div>
-                <div className="flex-1 relative">
-                  <input
-                    type="text"
-                    name="lastName"
-                    placeholder="Last name"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-teal-500 text-sm pr-8"
-                    disabled={isSubmitting}
-                  />
-                  <div className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
-                    <PenIcon />
-                  </div>
-                  {errors.lastName && <div className="text-red-500 text-xs mt-1">{errors.lastName}</div>}
-                </div>
-              </div>
 
               <div className="flex items-center">
                 <div className="w-[90px] text-black text-sm">Gender :</div>

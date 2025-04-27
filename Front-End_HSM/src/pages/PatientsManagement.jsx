@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Search, ChevronDown, ClipboardList } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
 import PatientTable from "../components/PatientTable";
-import MedicalHistoryModal from "../components/MedicalHistoryModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -11,8 +10,6 @@ const PatientsManagement = () => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [showMedicalHistoryModal, setShowMedicalHistoryModal] = useState(false);
-  const [selectedPatient, setSelectedPatient] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,18 +21,13 @@ const PatientsManagement = () => {
           return;
         }
 
-        const response = await axios.get('http://127.0.0.1:8000/api/user', {
+        const response = await axios.get('http://127.0.0.1:8000/api/patients', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json'
           }
         });
 
-        const user = response.data;
-        if (!user || !user.role || user.role.name !== 'doctor') {
-          navigate('/dashboard');
-          return;
-        }
       } catch (err) {
         console.error('Error checking user role:', err);
         navigate('/login');
@@ -151,18 +143,25 @@ const PatientsManagement = () => {
     return updatedPatients;
   };
 
+  // Function to calculate age from birthdate
+  const calculateAge = (birthdate) => {
+    if (!birthdate) return '';
+    const birth = new Date(birthdate);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
   // Function to refresh the patients list
   const fetchPatients = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      let endpoint = '/admin/users';
-      
-      if (selectedFilter !== 'All') {
-        endpoint = `/admin/users/${selectedFilter.toLowerCase()}`;
-      }
-      
-      const response = await axios.get(`http://127.0.0.1:8000/api${endpoint}`, {
+      const response = await axios.get(`http://127.0.0.1:8000/api/patients`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'
@@ -177,9 +176,20 @@ const PatientsManagement = () => {
       
       let formattedPatients = matchGeneratedPatients(backendPatients, patients);
       formattedPatients = formattedPatients.map(patient => ensurePatientHasId(patient));
-      
-      console.log('Formatted patients with IDs:', formattedPatients);
-      setPatients(formattedPatients);
+
+      // Map to only required fields for the table, extracting from patient.user
+      const mappedPatients = formattedPatients.map(patient => {
+        const user = patient.user || {};
+        return {
+          fullName: user.name || '',
+          age: user.birthdate ? calculateAge(user.birthdate) : '',
+          gender: user.gender || '',
+          email: user.email || '',
+          urgentContact: user.phone_num || '',
+        };
+      });
+
+      setPatients(mappedPatients);
       setError("");
     } catch (err) {
       console.error("Failed to fetch patients:", err);
@@ -239,35 +249,10 @@ const PatientsManagement = () => {
     setSelectedFilter(e.target.value);
   };
 
-  const handleViewMedicalHistory = (patient) => {
-    setSelectedPatient(patient);
-    setShowMedicalHistoryModal(true);
-  };
-
-  const handleSaveMedicalHistory = async (medicalHistoryData) => {
-    try {
-      // Replace with your actual API endpoint
-      const response = await axios.post('/api/medical-history', medicalHistoryData);
-      console.log('Medical history saved successfully:', response.data);
-      // Refresh patients list or update the specific patient's data
-      fetchPatients();
-    } catch (error) {
-      console.error('Error saving medical history:', error);
-      setError('Failed to save medical history');
-    }
-  };
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold text-[#0a8a8a]">Patients Management</h1>
-        <button
-          onClick={() => setShowMedicalHistoryModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-[#0a8a8a] text-white rounded-md hover:bg-[#097a7a] transition-colors"
-        >
-          <ClipboardList className="w-5 h-5" />
-          Add Medical History
-        </button>
       </div>
 
       {error && (
@@ -314,21 +299,15 @@ const PatientsManagement = () => {
       </div>
 
       {/* Patient Table */}
-      {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-600"></div>
-        </div>
-      ) : (
-        <PatientTable patients={patients} onPatientSelect={handlePatientSelect} />
-      )}
-
-      {showMedicalHistoryModal && (
-        <MedicalHistoryModal
-          onClose={() => setShowMedicalHistoryModal(false)}
-          onSave={handleSaveMedicalHistory}
-          patientId={selectedPatient?.id}
-        />
-      )}
+      <div className="mt-6">
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-600"></div>
+          </div>
+        ) : (
+          <PatientTable patients={patients} onPatientSelect={handlePatientSelect} />
+        )}
+      </div>
     </div>
   );
 };
