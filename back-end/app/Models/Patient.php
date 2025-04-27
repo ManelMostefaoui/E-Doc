@@ -5,10 +5,12 @@ namespace App\Models;
 use App\Http\Controllers\BiometricDataController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 class Patient extends Model
 {
     use HasFactory;
+    use Notifiable;
 
     protected $fillable = ['user_id', 'blood_group', 'social_security_no', 'family_status'];
 

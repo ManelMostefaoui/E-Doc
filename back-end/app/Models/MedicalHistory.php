@@ -18,15 +18,6 @@ class MedicalHistory extends Model
         'treatment',
     ];
 
-    protected $hidden = [
-        'congenital_disease',
-        'general_disease',
-        'surgery',
-        'allergy',
-        'description',
-        'date',
-    ];
-
     public function patient()
     {
         return $this->belongsTo(Patient::class);

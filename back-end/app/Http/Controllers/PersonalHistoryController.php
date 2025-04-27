@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PersonalHistory;
-
+use App\Models\Patient;
 
 class PersonalHistoryController extends Controller
 {
-
-
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -27,13 +24,26 @@ class PersonalHistoryController extends Controller
             'other' => 'nullable|string',
         ]);
 
+        // Check if patient is archived
+        $patient = Patient::findOrFail($validated['patient_id']);
+        if ($patient->is_archived) {
+            return response()->json(['message' => 'Cannot add personal history for archived patient'], 403);
+        }
+
         PersonalHistory::create($validated);
 
         return response()->json(['message' => 'Personal history saved successfully.']);
     }
+
     public function update(Request $request, $id)
     {
         $personalHistory = PersonalHistory::findOrFail($id);
+
+        // Check if patient is archived
+        $patient = Patient::findOrFail($personalHistory->patient_id);
+        if ($patient->is_archived) {
+            return response()->json(['message' => 'Cannot update personal history for archived patient'], 403);
+        }
 
         $validated = $request->validate([
             'patient_id' => 'required|exists:patients,id',
@@ -52,5 +62,16 @@ class PersonalHistoryController extends Controller
         $personalHistory->update($validated);
 
         return response()->json(['message' => 'Personal history updated successfully.']);
+    }
+
+    public function show($id)
+    {
+        $personalHistory = PersonalHistory::where('patient_id', $id)->first();
+
+        if (!$personalHistory) {
+            return response()->json(['message' => 'Personal history not found.'], 404);
+        }
+
+        return response()->json($personalHistory);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Screening;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 
 class ScreeningController extends Controller
@@ -15,13 +16,25 @@ class ScreeningController extends Controller
             'result' => 'nullable|string',
         ]);
 
+        // Check if patient is archived
+        $patient = Patient::findOrFail($validated['patient_id']);
+        if ($patient->is_archived) {
+            return response()->json(['message' => 'Cannot add screening for archived patient'], 403);
+        }
+
         Screening::create($validated);
 
         return response()->json(['message' => 'Screening created successfully.']);
     }
+
     public function update(Request $request, $id)
     {
         $screening = Screening::findOrFail($id);
+
+        // Check if patient is archived
+        if ($screening->patient->is_archived) {
+            return response()->json(['message' => 'Cannot update screening for archived patient'], 403);
+        }
 
         $validated = $request->validate([
             'patient_id' => 'required|exists:patients,id',

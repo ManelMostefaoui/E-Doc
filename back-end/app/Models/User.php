@@ -65,4 +65,21 @@ class User extends Authenticatable
     {
         return optional($this->role)->name === $roleName;
     }
+
+        // Relation avec les demandes de consultation (un utilisateur peut avoir plusieurs demandes)
+        public function consultationRequests()
+        {
+            return $this->hasManyThrough(ConsultationRequest::class, Patient::class);
+        }
+
+        public function patient()
+    {
+        return $this->hasOne(Patient::class, 'user_id'); // user_id est la clé étrangère dans la table patients
+    }
+
+    public function isDoctor()
+    {
+        return $this->role === 'doctor'; // Vérifie si le rôle de l'utilisateur est 'doctor'
+    }
+
 }
