@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Medication;
 use App\Models\Prescription;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PrespectionController extends Controller
 {
@@ -21,13 +22,18 @@ class PrespectionController extends Controller
         foreach ($request->medications as $med) {
             $medication = Medication::where('name', $med['name'])->first();
 
-            if ($medication) {
-                $syncData[$medication->id] = [
-                    'dose' => $med['dose'],
-                    'period' => $med['period'],
-                ];
+            if (!$medication) {
+                return response()->json([
+                    'message' => "Medication '{$med['name']}' does not exist in the database."
+                ], 422);
             }
+
+            $syncData[$medication->id] = [
+                'dose' => $med['dose'],
+                'period' => $med['period'],
+            ];
         }
+
 
         $prescription->medications()->sync($syncData);
 
@@ -71,5 +77,17 @@ class PrespectionController extends Controller
             'message' => 'Prescription updated successfully',
             'prescription_id' => $prescription->id
         ]);
+    }
+
+
+
+
+    public function generateReport($id)
+    {
+        $prescription = Prescription::with('medications')->findOrFail($id);
+
+        $pdf = Pdf::loadView('pdf.prescription_pdf', compact('prescription'));
+
+        return $pdf->download('prescription_' . $prescription->id . '.pdf');
     }
 }

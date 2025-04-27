@@ -46,4 +46,16 @@ class ScreeningController extends Controller
 
         return response()->json(['message' => 'Screening updated successfully.']);
     }
+
+    function show($id)
+    {
+        $screening = Screening::with('patient')->findOrFail($id);
+
+        // Check if patient is archived
+        if ($screening->patient->is_archived) {
+            return response()->json(['message' => 'Cannot view screening for archived patient'], 403);
+        }
+
+        return response()->json($screening);
+    }
 }

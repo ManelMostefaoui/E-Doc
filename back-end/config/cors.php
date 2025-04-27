@@ -20,6 +20,8 @@ return [
         'sanctum/csrf-cookie',
         'login',
         'logout',
+        'prescriptions/*'
+
         // any other route you need cross-origin access for
     ],
 
