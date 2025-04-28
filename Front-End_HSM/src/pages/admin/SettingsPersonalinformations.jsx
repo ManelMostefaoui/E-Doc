@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DefaultUserPhoto from '../assets/DefaultUserPhoto.jpg';
-import AdminEditUserModal from '../components/AdminEditUserModal';
+import DefaultUserPhoto from '../../assets/DefaultUserPhoto.jpg';
+import AdminEditUserModal from '../../components/CAdmin/AdminEditUserModal';
 import axios from 'axios';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB

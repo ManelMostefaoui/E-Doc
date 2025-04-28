@@ -1,6 +1,10 @@
-import Layout from "../../components/Layout"
-import Editbtn from "../../components/Editbtn"
-import FileUpload from "../../components/FileUpload"
+import Editbtn from "../../components/CDoctor/Editbtn"
+import FileUpload from "../../components/CDoctor/FileUpload"
+import BasicInfosForm from "../../components/CDoctor/BasicInfosForm"
+import ClinicalForm from "../../components/CDoctor/ClinicalForm"
+import PersonalHistoryForm from "../../components/CDoctor/PersonalHistoryForm"
+import MedicalHistoryModal from "../../components/CDoctor/MedicalHistoryModal"
+
 import {
   Calendar,
   Download,
@@ -22,6 +26,10 @@ import axios from "axios"
 
 
 export default function PatientProfile() {
+  const [showBasicInofsForm, setShowBasicInofsForm] = useState(false)
+  const [showClinicalForm, setShowClinicalForm] = useState(false)
+  const [showPersonalHistoryForm, setShowPersonalHistoryForm] = useState(false)
+  const [showMedicalHistoryModal, setShowMedicalHistoryModal] = useState(false)
   const { id: patientId } = useParams();
   const [patient, setPatient] = useState({});
   const [loading, setLoading] = useState(true);
@@ -57,26 +65,22 @@ export default function PatientProfile() {
 
   if (loading) {
     return (
-      <Layout>
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-600"></div>
         </div>
-      </Layout>
     );
   }
 
   if (error) {
     return (
-      <Layout>
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           {error}
         </div>
-      </Layout>
     );
   }
 
   return (
-    <Layout>
+    <>
     <div className="space-y-6">
 
       {/* Patient header */}
@@ -99,7 +103,7 @@ export default function PatientProfile() {
 
           <div className="flex justify-between items-center ">
             <h2 className="font-nunito text-[20px] text-[#004d4d] font-bold">Basic informations</h2>
-            <Editbtn text="Edit Basic infos" />
+            <Editbtn onClick={() => setShowBasicInfosForm(true)}  text="Edit Basic infos" />
           </div>
 
           <div className="py-4">
@@ -172,7 +176,7 @@ export default function PatientProfile() {
   <h2 className="font-nunito text-[20px] text-[#004d4d] font-bold">
     Personal History
   </h2>
-  <Editbtn text="Edit Personal History" />
+  <Editbtn onClick={() => setShowPersonalHistoryForm(true)}  text="Edit Personal History" /> 
 </div>
 
 <div className="font-nunito text-[16px] text-[#1A1A1A] py-6">
@@ -232,7 +236,7 @@ export default function PatientProfile() {
         <div className="px-10 py-8 bg-[#F7F9F9] rounded-lg shadow-[2px_2px_12px_rgba(0,0,0,0.25)]">
           <div className="flex justify-between items-center ">
             <h2 className="font-nunito text-[20px] text-[#004d4d] font-bold">Medical History</h2>
-            <Editbtn text="Edit Medical History" />
+            <Editbtn onClick={() => setShowMedicalHistoryModal(true)}  text="Edit Medical History" />
           </div>
 
           <div className="py-4">
@@ -312,7 +316,7 @@ export default function PatientProfile() {
         <div className="px-10 py-8 bg-[#F7F9F9] rounded-lg shadow-[2px_2px_12px_rgba(0,0,0,0.25)]">
           <div className="flex justify-between items-center">
             <h2 className="font-nunito text-[20px] text-[#004d4d] font-bold">Health & Clinical Data</h2>
-            <Editbtn text="Health And Clinic" />
+            <Editbtn onClick={() => setShowClinicalForm(true)} text="Health And Clinic" />
           </div>
 
           <div className="py-3">
@@ -337,7 +341,12 @@ export default function PatientProfile() {
         </div>
       </div>
     </div>
-    </Layout>
+
+    {showBasicInofsForm && <BasicInfosForm onClose={() => setShowBasicInofsForm(false)} />}
+      {showClinicalForm && <ClinicalForm onClose={() => setShowClinicalForm(false)} />}
+      {showPersonalHistoryForm && <PersonalHistoryForm onClose={() => setShowPersonalHistoryForm(false)} />}
+      {showMedicalHistoryModal && <MedicalHistoryModal onClose={() => setShowMedicalHistoryModal(false)} />}
+        </>
   )
 }
 

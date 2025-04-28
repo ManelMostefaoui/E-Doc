@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
-import DefaultUserPhoto from '../assets/DefaultUserPhoto.jpg';
+import DefaultUserPhoto from '../../assets/DefaultUserPhoto.jpg';
 
 const EditUserModal = ({ onClose, onSave, userData }) => {
   const [formData, setFormData] = useState({

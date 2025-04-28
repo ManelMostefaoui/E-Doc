@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Search, ChevronDown } from "lucide-react";
-import PatientTable from "../components/PatientTable";
+import PatientTable from "../../components/CDoctor/PatientTable";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 

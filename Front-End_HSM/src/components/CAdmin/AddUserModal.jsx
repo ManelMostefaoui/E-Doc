@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import DefaultUserPhoto from '../assets/DefaultUserPhoto.jpg';
+import DefaultUserPhoto from '../../assets/DefaultUserPhoto.jpg';
 
 const AddUserModal = ({ onClose, onSave, error }) => {
   const fileInputRef = useRef(null);

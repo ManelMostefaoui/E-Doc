@@ -1,4 +1,4 @@
-import { DonutChart } from "../components/DonutChart";
+import { DonutChart } from "../../components/CAdmin/DonutChart";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";

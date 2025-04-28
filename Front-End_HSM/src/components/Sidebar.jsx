@@ -21,7 +21,7 @@ export default function Sidebar({ isVisible = true }) {
           navigate('/login');
           return;
         }
-
+  
         // Try to get user info from localStorage first
         const userData = localStorage.getItem('user');
         if (userData) {
@@ -36,7 +36,7 @@ export default function Sidebar({ isVisible = true }) {
             localStorage.removeItem('user');
           }
         }
-
+  
         // If we're here, we need to fetch user data from the server
         // First, try to get role information from the authentication token
         // For admin users, we'll use the admin endpoint
@@ -75,11 +75,30 @@ export default function Sidebar({ isVisible = true }) {
             }
           } catch (doctorErr) {
             console.error('Failed to determine user role:', doctorErr);
-            // If we can't determine the role, we might need to redirect to login
-            if (doctorErr.response && (doctorErr.response.status === 401 || doctorErr.response.status === 403)) {
-              localStorage.removeItem('token');
-              localStorage.removeItem('user');
-              navigate('/login');
+            // If we can't determine the role, we might need to check for a patient
+            try {
+              const response = await axios.get(`${API_BASE_URL}/patients/me`, {
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Accept': 'application/json'
+                }
+              });
+  
+              if (response.data) {
+                // This is a patient
+                setUserRole('patient');
+                // Save to localStorage for future reference
+                const userData = { role: { name: 'patient' } };
+                localStorage.setItem('user', JSON.stringify(userData));
+              }
+            } catch (patientErr) {
+              console.error('Failed to determine if user is a patient:', patientErr);
+              // If auth fails, redirect to login
+              if (patientErr.response && (patientErr.response.status === 401 || patientErr.response.status === 403)) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                navigate('/login');
+              }
             }
           }
         }
@@ -93,9 +112,10 @@ export default function Sidebar({ isVisible = true }) {
         }
       }
     };
-
+  
     fetchUserRole();
   }, [navigate]);
+  
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -136,6 +156,16 @@ export default function Sidebar({ isVisible = true }) {
             <UserPlus size={20} />
             <span className='font-nunito text-[16px] font-normal'>Patients management</span>
           </Link>
+        )}
+
+       {userRole === 'patient' && (
+        <Link
+        to="/contact-center"
+         className={`flex items-center gap-3 p-2 ${currentPath === "/contact-center" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
+         >
+        <Users size={20} />
+          <span className='font-nunito text-[16px] font-normal'>Contact Center</span>
+        </Link>
         )}
 
         <div>
