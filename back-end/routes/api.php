@@ -68,6 +68,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     //delete user
     Route::delete('/users/{id}', [AuthenticatedSessionController::class, 'deleteuUser']);
+    Route::put('/users/update/{id}', [AdminController::class, 'updateUser']);
 });
 
 // -----------------------------------------------------------------------------------------------------------
