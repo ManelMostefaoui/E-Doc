@@ -9,6 +9,8 @@ import Navbar from "./components/Navbar";
 import UserDetails from "./pages/UserDetails";
 import LoginPage from "./pages/Login/Login";
 import Consultation from "./pages/Consultation";
+import Appointements from "./components/Appointements";
+import Notifications from "./components/Notifications";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
@@ -105,7 +107,8 @@ function App() {
               </div>
           }
         />
-   <Route
+
+        <Route
           path="/consultation"
           element={
               <div className="h-screen overflow-auto flex flex-col">
@@ -120,6 +123,27 @@ function App() {
                   {/* Main content */}
                   <div className=" flex-1 p-4">
                     <Consultation />
+                  </div>
+                </div>
+              </div>
+          }
+        />
+
+        <Route
+          path="/appointements"
+          element={
+              <div className="h-screen overflow-auto flex flex-col">
+                {/* Navbar */}
+                <Navbar />
+
+                {/* Sidebar + Page content */}
+                <div className=" flex flex-1">
+                  {/* Sidebar */}
+                  <Sidebar />
+                  
+                  {/* Main content */}
+                  <div className=" flex-1 p-4">
+                    <Appointements />
                   </div>
                 </div>
               </div>
@@ -162,6 +186,27 @@ function App() {
                   {/* Main content */}
                   <div className=" flex-1 p-4">
                     <SettingsPage />
+                  </div>
+                </div>
+              </div>
+          }
+        />
+
+        <Route
+          path="/settings/notifications"
+          element={
+              <div className="h-screen overflow-auto flex flex-col">
+                {/* Navbar */}
+                <Navbar />
+
+                {/* Sidebar + Page content */}
+                <div className=" flex flex-1">
+                  {/* Sidebar */}
+                  <Sidebar />
+                  
+                  {/* Main content */}
+                  <div className=" flex-1 p-4">
+                    <Notifications />
                   </div>
                 </div>
               </div>

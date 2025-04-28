@@ -20,7 +20,7 @@ export default function SettingsPage() {
     
     // Redirect to login if no token exists
     if (!token) {
-     //avigate('/login')
+     //navigate('/login')
       return
     }
   }, [navigate])

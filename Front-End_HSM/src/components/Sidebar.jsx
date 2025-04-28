@@ -2,7 +2,7 @@
 
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { LogOut, ChevronDown, LayoutDashboard, Users, Settings, Stethoscope } from "lucide-react"
+import { LogOut, ChevronDown, LayoutDashboard, Users, Settings, Stethoscope, Calendar, Bell, Shield, User } from "lucide-react"
 
 export default function Sidebar({ isVisible = true }) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(true)
@@ -42,6 +42,14 @@ export default function Sidebar({ isVisible = true }) {
           <Stethoscope size={20} />
           <span className='font-nunito text-[16px] font-normal '>Consultation</span>
         </Link>
+        <Link
+          to="/Appointements"
+          className={`flex items-center gap-3 p-2 ${currentPath === "/Appointements" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+        >
+          <Calendar size={20} />
+          <span className='font-nunito text-[16px] font-normal '>Appointements</span>
+        </Link>
+        
        
         <div>
           <div
@@ -55,23 +63,26 @@ export default function Sidebar({ isVisible = true }) {
             <ChevronDown size={16} className={`transition-transform ${isSettingsOpen ? "rotate-180" : ""}`} />
           </div>
           {isSettingsOpen && (
-            <div className="ml-8 mt-2 flex flex-col gap-2">
+            <div className="mt-2 flex flex-col gap-2">
               <Link
                 to="/admin-settings"
-                className={`p-2 ${currentPath === "/admin-settings" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+                className={`flex items-center gap-2 p-2 ${currentPath === "/admin-settings" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
               >
-                Personal informations
+                <User size={18} />
+                <span>Personal informations</span>
               </Link>
               <Link
                 to="/settings/security"
                 className={`p-2 ${currentPath === "/settings/security" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
               >
+                <Shield size={18} className="inline mr-2" />
                 Security
               </Link>
               <Link
                 to="/settings/notifications"
                 className={`p-2 ${currentPath === "/settings/notifications" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
               >
+                <Bell size={18} className="inline mr-2" />
                 Notifications
               </Link>
             </div>

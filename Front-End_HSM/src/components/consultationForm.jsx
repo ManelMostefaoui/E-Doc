@@ -1,13 +1,36 @@
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { ChevronDown, Pencil, Printer, Trash2, Upload, FileText } from "lucide-react"
 import { EsiLogo, EsiText } from "../assets"
 import EsiForm from "./EsiForm"
 import UploadDocuments from "./UploadDocuments"
+import  jsPDF  from "jspdf"
+import html2canvas from "html2canvas"
+import Ordonnance from "./ordonnance"
 
 export default function ConsultationForm() {
   const [selectedCategory, setSelectedCategory] = useState("")
-
+  const ordonnanceRef = useRef(null)
+  const generatePDF = async () => { console.log(ordonnanceRef.current)
+    if (!ordonnanceRef.current) return
+  
+    const element = ordonnanceRef.current
+    const canvas = await html2canvas(element, { scale: 2 })
+    const data = canvas.toDataURL("image/png")
+  
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+    })
+  
+    const imgProps = pdf.getImageProperties(data)
+    const pdfWidth = pdf.internal.pageSize.getWidth()
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width
+  
+    pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight)
+    pdf.save("medical-prescription.pdf")
+  }
   const inputFields = [
     "Full name",
     "Age",
@@ -19,6 +42,17 @@ export default function ConsultationForm() {
     "Blood sugar",
     "Observations",
   ]
+  const [patient, setPatient] = useState({
+    name: "John Doe",
+    age: 45,
+    gender: "Male",
+    id: "P12345",
+  })
+  const [prescriptions, setPrescriptions] = useState([
+    { id: 1, medication: "Paracetamol", dosage: "500mg", frequency: "3 times a day", duration: "5 days" },
+    { id: 2, medication: "Amoxicillin", dosage: "250mg", frequency: "2 times a day", duration: "7 days" },
+  ])
+
   return (
     <div className="max-w-4xl  mx-auto">
       <h1 className="text-3xl font-bold text-[#008080]  mb-6">Consultation :</h1>
@@ -49,32 +83,19 @@ export default function ConsultationForm() {
       </section>
 
       {/* Medical Prescription */}
-      <section className="form-section mt-10">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="form-section-title text-xl font-bold  ">Medical prescription :</h2>
-          <div className="flex gap-2">
-            <button className="bg-primary hover:bg-primary-dark text-white  bg-[#008080] px-4 py-2 rounded-md text-sm font-medium transition-colors">
-              Save the report
-            </button>
-            <button className="border border-primary bg-white text-[#008080]  cursor-pointer p-2 rounded-md transition-colors">
-              <Printer size={18} />
-            </button>
-          </div>
-        </div>
-
-        <EsiForm />
-      </section>
+      <EsiForm />
+      
 
       {/* Medical Report */}
       <section className="form-section mt-10">
         <div className="flex justify-between items-center mb-4">
           <h2 className="form-section-title text-xl font-bold  ">Medical report :</h2>
-          <button className="border border-primary text-primary hover:bg-primary text-[#008080]  bg-white p-2 rounded-md transition-colors">
+          <button className="border border-primary text-primary hover:bg-primary text-[#008080]  bg-white p-2 rounded-md transition-colors" >
             <Printer size={18} />
           </button>
         </div>
 
-        <div className=" bg-white rounded-lg p-6 border border-gray-200">
+        <div className=" bg-white rounded-lg p-6 border border-gray-200" >
         <div className="flex justify-between w-full relative text-sm text-center text-teal-900 font-medium">
     
     {/* Left side */}

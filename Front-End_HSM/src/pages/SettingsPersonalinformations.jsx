@@ -269,7 +269,7 @@ const AdminSettings = () => {
       const token = localStorage.getItem('token');
       
       if (!token) {
-       //avigate('/login');
+       //navigate('/login');
         return;
       }
       
