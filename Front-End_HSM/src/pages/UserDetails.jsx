@@ -21,7 +21,7 @@ const UserDetails = () => {
       const token = localStorage.getItem('token');
       
       if (!token) {
-        navigate('/login');
+       //avigate('/login');
         return;
       }
       
@@ -124,7 +124,7 @@ const UserDetails = () => {
         if (err.response && err.response.status === 401) {
           // Unauthorized - token might be invalid
           localStorage.removeItem('token');
-          navigate('/login');
+       // navigate('/login');
         } else if (err.response && err.response.status === 404) {
           setError("User not found");
         } else {

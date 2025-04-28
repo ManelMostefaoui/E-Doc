@@ -8,8 +8,9 @@ import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import UserDetails from "./pages/UserDetails";
 import LoginPage from "./pages/Login/Login";
-import PatientsManagement from "./pages/PatientsManagement";
-import PatientProfile from "./pages/patient/PatientProfile";
+import Consultation from "./pages/Consultation";
+import Appointements from "./components/Appointements";
+import Notifications from "./components/Notifications";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
@@ -96,6 +97,48 @@ function App() {
         />
 
         <Route
+          path="/consultation"
+          element={
+              <div className="h-screen overflow-auto flex flex-col">
+                {/* Navbar */}
+                <Navbar />
+
+                {/* Sidebar + Page content */}
+                <div className=" flex flex-1">
+                  {/* Sidebar */}
+                  <Sidebar />
+                  
+                  {/* Main content */}
+                  <div className=" flex-1 p-4">
+                    <Consultation />
+                  </div>
+                </div>
+              </div>
+          }
+        />
+
+        <Route
+          path="/appointements"
+          element={
+              <div className="h-screen overflow-auto flex flex-col">
+                {/* Navbar */}
+                <Navbar />
+
+                {/* Sidebar + Page content */}
+                <div className=" flex flex-1">
+                  {/* Sidebar */}
+                  <Sidebar />
+                  
+                  {/* Main content */}
+                  <div className=" flex-1 p-4">
+                    <Appointements />
+                  </div>
+                </div>
+              </div>
+          }
+        />
+
+        <Route
           path="/settings"
           element={
             <PrivateRoute>
@@ -138,6 +181,27 @@ function App() {
                 </div>
               </div>
             </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/settings/notifications"
+          element={
+              <div className="h-screen overflow-auto flex flex-col">
+                {/* Navbar */}
+                <Navbar />
+
+                {/* Sidebar + Page content */}
+                <div className=" flex flex-1">
+                  {/* Sidebar */}
+                  <Sidebar />
+                  
+                  {/* Main content */}
+                  <div className=" flex-1 p-4">
+                    <Notifications />
+                  </div>
+                </div>
+              </div>
           }
         />
 
