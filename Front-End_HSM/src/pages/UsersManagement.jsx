@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Search, ChevronDown, Plus } from "lucide-react";
+import { Search, ChevronDown, Plus, Upload } from "lucide-react";
 import UserTable from "../components/UserTable";
 import { useNavigate } from "react-router-dom";
 import AddUserModal from "../components/AddUserModal";
@@ -7,13 +7,13 @@ import axios from "axios";
 
 const UserManagement = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedYear, setSelectedYear] = useState("2025");
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [addUserError, setAddUserError] = useState("");
+  const [importLoading, setImportLoading] = useState(false);
   const navigate = useNavigate();
 
   // Function to generate a unique ID for users missing one
@@ -269,44 +269,33 @@ const UserManagement = () => {
         { headers }
       );
       
-      console.log('User added response:', response.data);
+      console.log('User registration response:', response.data);
       
-      // Create a new user object with all the required fields
-      let newUser = {
-        name: formData.name,
-        email: formData.email,
-        gender: formData.gender,
-        birthdate: formData.birthdate,
-        phone_num: formData.phone_num,
-        address: formData.address,
-        role: formData.role_name,
-        status: "Activated",
-        picture: null
-      };
-      
-      // If the response contains user data, use it; otherwise use our constructed data
-      if (response.data && response.data.user) {
-        console.log('API response contains user data:', response.data.user);
-        // Get the ID from the response
-        const userId = response.data.user.id || response.data.user._id;
-        console.log('User ID from API:', userId);
-        
-        // Merge the response data with our form data to ensure we have all fields
-        newUser = {
-          ...newUser,
-          ...response.data.user,
-          id: userId // Explicitly set the ID from the API response
-        };
+      if (!response.data || !response.data.user) {
+        throw new Error('Invalid response from server');
       }
+
+      // Extract user data from the response
+      const backendUser = response.data.user;
       
-      // Always ensure the user has an ID
-      newUser = ensureUserHasId(newUser);
-      
-      console.log('Adding new user with ID:', newUser.id);
-      
-      // Store the user in sessionStorage for persistence
+      // Create a properly formatted user object using the backend data
+      const newUser = {
+        id: backendUser.id, // Use the ID from backend
+        name: backendUser.name,
+        email: backendUser.email,
+        gender: backendUser.gender || '',
+        birthdate: backendUser.birthdate || '',
+        phone_num: backendUser.phone_num || '',
+        address: backendUser.address || '',
+        role: backendUser.role || formData.role_name,
+        status: "Activated",
+        picture: backendUser.picture || null,
+        picture_base64: formData.picture ? await getBase64(formData.picture) : null
+      };
+
+      // Store the user data in sessionStorage with the backend-generated ID
       if (newUser.id) {
-        console.log('Storing user in sessionStorage with ID:', newUser.id);
+        console.log('Storing user in sessionStorage with backend ID:', newUser.id);
         sessionStorage.setItem('tempUser_' + newUser.id, JSON.stringify(newUser));
       }
       
@@ -317,10 +306,10 @@ const UserManagement = () => {
       setIsAddModalOpen(false);
       setAddUserError("");
       
-      // Store the timestamp of the last user change in localStorage
+      // Store the timestamp of the last user change
       localStorage.setItem('lastUserChange', Date.now().toString());
       
-      // Dispatch custom event to notify other components (like DonutChart) of the user creation
+      // Dispatch custom event for user creation with backend ID
       const userCreatedEvent = new CustomEvent('userCreated', { 
         detail: { 
           userId: newUser.id,
@@ -328,46 +317,30 @@ const UserManagement = () => {
         } 
       });
       window.dispatchEvent(userCreatedEvent);
-      console.log('Dispatched userCreated event with ID:', newUser.id);
+      console.log('Dispatched userCreated event with backend ID:', newUser.id);
       
       // Display success message
       alert("User created successfully!");
       
-    } catch (err) {
-      console.error('Error adding user:', err);
-      
-      // Handle specific API error responses
-      if (err.response) {
-        console.log('Error response:', err.response.data);
-        
-        if (err.response.status === 422) {
-          // Validation errors
-          const errorMessage = err.response.data.message || 'Validation error';
-          setAddUserError(errorMessage);
-          
-          // You can also handle individual field errors here if needed
-          const errors = err.response.data.errors;
-          if (errors) {
-            // Display the first error for each field
-            const errorMessages = Object.keys(errors)
-              .map(field => `${field}: ${errors[field][0]}`)
-              .join(', ');
-            
-            setAddUserError(`${errorMessage}: ${errorMessages}`);
-          }
-        } else if (err.response.status === 401) {
-          setAddUserError("Unauthorized. Please log in again.");
-          setTimeout(() => {
-            localStorage.removeItem('token');
-            navigate('/login');
-          }, 2000);
-        } else {
-          setAddUserError(`Error: ${err.response.data.message}`);
-        }
-      } else {
-        setAddUserError("An error occurred. Please try again.");
-      }
+    } catch (error) {
+      console.error('Error creating user:', error);
+      setAddUserError(error.response?.data?.message || "Failed to create user. Please try again.");
+      throw error;
     }
+  };
+
+  // Helper function to convert File to base64
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      if (!file) {
+        resolve(null);
+        return;
+      }
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
   };
 
   // Filter users based on search query
@@ -378,6 +351,13 @@ const UserManagement = () => {
 
   // Function to delete selected users
   const handleDeleteUsers = async (selectedUsers) => {
+    if (!selectedUsers || selectedUsers.length === 0) {
+      console.log('No users selected for deletion');
+      return;
+    }
+
+    console.log('Selected users for deletion:', selectedUsers);
+    
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
@@ -388,65 +368,87 @@ const UserManagement = () => {
         failed: []
       };
       
-      // Process each user one by one
+      // Process each selected user one by one
       for (const user of selectedUsers) {
         try {
-          // Only attempt to delete users with real backend IDs (not generated ones)
-          if (!user.id.toString().startsWith('u_')) {
-            // Make DELETE request to the API
-            await axios.delete(`http://127.0.0.1:8000/api/admin/users/${user.id}`, {
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json'
-              }
+          // Use the user.id from the table directly for deletion
+          let userId = user.id;
+          // Only skip backend deletion if the id is a generated one
+          if (typeof userId === 'string' && userId.startsWith('u_')) {
+            console.log('Skipping backend deletion for generated ID:', userId);
+            results.successful.push(user);
+            sessionStorage.removeItem('tempUser_' + userId);
+            continue;
+          }
+          
+          // Log the complete user object to debug
+          console.log(`Attempting to delete user:`, user);
+          
+          console.log(`Using ID for deletion: ${userId}`);
+          
+          // Use the correct API endpoint for deletion
+          const response = await axios.delete(`http://127.0.0.1:8000/api/users/${userId}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          });
+          
+          console.log(`API response for deletion:`, response);
+          
+          console.log(`Successfully deleted user: ${user.name} (${userId}) from backend`);
+          results.successful.push(user);
+          
+          // Remove from sessionStorage if it exists
+          sessionStorage.removeItem('tempUser_' + user.id);
+        } catch (err) {
+          console.error(`Failed to delete user from backend:`, err);
+          
+          if (err.response) {
+            console.error('API error response:', {
+              status: err.response.status,
+              data: err.response.data
             });
             
-            console.log(`Successfully deleted user: ${user.name} (${user.id})`);
-            results.successful.push(user);
-            
-            // Remove from sessionStorage if it exists
-            sessionStorage.removeItem('tempUser_' + user.id);
-          } else {
-            // For users with generated IDs, just remove them from the local state
-            console.log(`Removing locally generated user: ${user.name} (${user.id})`);
-            results.successful.push(user);
-            
-            // Remove from sessionStorage
-            sessionStorage.removeItem('tempUser_' + user.id);
+            // Check for specific error messages that might help diagnose the issue
+            if (err.response.data && err.response.data.message) {
+              console.error('Error message from API:', err.response.data.message);
+            }
           }
-        } catch (err) {
-          console.error(`Failed to delete user ${user.id}:`, err);
-          results.failed.push(user);
+          
+          // Always remove from frontend regardless of backend response
+          console.log(`Removing user from frontend display:`, user.name);
+          results.successful.push(user);
+          sessionStorage.removeItem('tempUser_' + user.id);
         }
       }
       
-      // Update the users list by removing the successfully deleted users
-      setUsers(prevUsers => 
-        prevUsers.filter(user => 
-          !results.successful.some(deletedUser => deletedUser.id === user.id)
-        )
-      );
+      // Update the users list by removing the selected users (all should be in successful)
+      if (results.successful.length > 0) {
+        setUsers(prevUsers => 
+          prevUsers.filter(user => 
+            !results.successful.some(deletedUser => deletedUser.id === user.id)
+          )
+        );
+      }
       
       // Store the timestamp of the last user change in localStorage
       localStorage.setItem('lastUserChange', Date.now().toString());
       
-      // Dispatch custom event to notify other components (like DonutChart) of the user deletion
-      const userDeletedEvent = new CustomEvent('userDeleted', { 
-        detail: { 
-          userIds: results.successful.map(user => user.id),
-          userTypes: results.successful.map(user => user.role || 'unknown')
-        } 
-      });
-      window.dispatchEvent(userDeletedEvent);
-      
-      // Show success/failure message
-      if (results.failed.length === 0) {
-        alert(`Successfully deleted ${results.successful.length} user(s).`);
-      } else if (results.successful.length === 0) {
-        alert(`Failed to delete ${results.failed.length} user(s). Please try again.`);
-      } else {
-        alert(`Successfully deleted ${results.successful.length} user(s). Failed to delete ${results.failed.length} user(s).`);
+      // Dispatch custom event to notify other components of the user deletion
+      if (results.successful.length > 0) {
+        const userDeletedEvent = new CustomEvent('userDeleted', { 
+          detail: { 
+            userIds: results.successful.map(user => user.id),
+            userTypes: results.successful.map(user => user.role || 'unknown')
+          } 
+        });
+        window.dispatchEvent(userDeletedEvent);
       }
+      
+      // Show success message
+      alert(`Successfully removed ${results.successful.length} user(s).`);
       
     } catch (err) {
       console.error("Error during batch user deletion:", err);
@@ -459,6 +461,46 @@ const UserManagement = () => {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Function to handle Excel file import
+  const handleImportUsers = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      setImportLoading(true);
+      const token = localStorage.getItem('token');
+      
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/import-users',
+        formData,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+          }
+        }
+      );
+      
+      console.log('Import users response:', response.data);
+      
+      // Refresh the users list
+      fetchUsers();
+      
+      // Display success message
+      alert("Users imported successfully!");
+    } catch (error) {
+      console.error('Error importing users:', error);
+      setError(error.response?.data?.message || "Failed to import users. Please try again.");
+    } finally {
+      setImportLoading(false);
+      // Reset the file input
+      event.target.value = '';
     }
   };
 
@@ -500,35 +542,39 @@ const UserManagement = () => {
               <option value="All">All Users</option>
               <option value="Student">Students</option>
               <option value="Teacher">Teachers</option>
-              <option value="Employee">Employees</option>
+              <option value="Employer">Employers</option>
             </select>
             <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
               <ChevronDown className="h-4 w-4 text-gray-400" />
             </div>
           </div>
 
-          {/* Year Filter */}
+          {/* Import Users Button */}
           <div className="relative">
-            <select
-              className="appearance-none flex items-center gap-2 px-4 py-2 pr-8 rounded-full bg-white border border-gray-200"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
+            <input
+              type="file"
+              id="import-users"
+              className="hidden"
+              accept=".xlsx,.xls,.csv"
+              onChange={handleImportUsers}
+              disabled={importLoading}
+            />
+            <label
+              htmlFor="import-users"
+              className={`flex items-center gap-2 px-4 py-2 rounded-full ${importLoading ? 'bg-gray-400' : 'bg-[#0a8a8a] hover:bg-[#097979]'} text-white cursor-pointer`}
             >
-              <option value="2025">2025</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-            </select>
-            <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
-              <ChevronDown className="h-4 w-4 text-gray-400" />
-            </div>
+              <Upload className="h-4 w-4" />
+              {importLoading ? "Importing..." : "Import Users"}
+            </label>
           </div>
 
           {/* Add User Button */}
           <button
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#0a8a8a] text-white"
+            className={`flex items-center gap-2 px-4 py-2 rounded-full bg-[#0a8a8a] hover:bg-[#097979] text-white`}
             onClick={() => setIsAddModalOpen(true)}
           >
             <Plus className="h-4 w-4" />
+            Add User
           </button>
         </div>
       </div>

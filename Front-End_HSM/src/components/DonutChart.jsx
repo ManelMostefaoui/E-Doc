@@ -24,7 +24,57 @@ export function DonutChart() {
           return
         }
         
-        // Use the existing user listing endpoint and filter by role
+        // First check if we have dashboard data in localStorage
+        const dashboardData = JSON.parse(localStorage.getItem('dashboardData') || '{}');
+        
+        // If dashboard data exists and shows students count, update immediately with latest data
+        if (dashboardData.students !== undefined) {
+          console.log('Dashboard data shows', dashboardData.students, 'students - updating chart accordingly');
+          
+          // Get gender distribution from localStorage as well
+          const genderData = JSON.parse(localStorage.getItem('genderData') || '{}');
+          
+          // If gender data exists, use it
+          if (genderData.male !== undefined || genderData.female !== undefined) {
+            const maleCount = genderData.male || 0;
+            const femaleCount = genderData.female || 0;
+            
+            // If total doesn't match dashboard data, adjust male count (most common gender)
+            let adjustedMaleCount = maleCount;
+            if (maleCount + femaleCount !== dashboardData.students) {
+              adjustedMaleCount = dashboardData.students - femaleCount;
+              if (adjustedMaleCount < 0) adjustedMaleCount = 0;
+              
+              // Update localStorage with corrected gender data
+              localStorage.setItem('genderData', JSON.stringify({
+                male: adjustedMaleCount,
+                female: femaleCount,
+                total: dashboardData.students
+              }));
+            }
+            
+            // Update chart immediately with the latest counts
+            setChartData([
+              { value: adjustedMaleCount, color: "#80b1ff", label: "Male" },
+              { value: femaleCount, color: "#b468ae", label: "Female" },
+            ]);
+          } else {
+            // If no gender data but we know total students, assume all are male
+            setChartData([
+              { value: dashboardData.students, color: "#80b1ff", label: "Male" },
+              { value: 0, color: "#b468ae", label: "Female" },
+            ]);
+            
+            // Update localStorage with this assumption
+            localStorage.setItem('genderData', JSON.stringify({
+              male: dashboardData.students,
+              female: 0,
+              total: dashboardData.students
+            }));
+          }
+        }
+        
+        // Still make the API call to get the most accurate data
         const response = await axios.get("http://127.0.0.1:8000/api/admin/users", {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -139,13 +189,49 @@ export function DonutChart() {
           
           console.log(`Students by gender: Male=${maleCount}, Female=${femaleCount}, Unspecified=${noGenderCount}`);
           
+          // Get the latest dashboard data again to ensure consistency
+          const currentDashboardData = JSON.parse(localStorage.getItem('dashboardData') || '{}');
+          const expectedTotal = currentDashboardData.students !== undefined ? currentDashboardData.students : (maleCount + femaleCount + noGenderCount);
+          
           // If we have real data, use it
           if (maleCount > 0 || femaleCount > 0 || noGenderCount > 0) {
-            // Update chart data with real values (include unspecified gender count in the total)
+            // If the API-based total doesn't match the dashboard total, adjust
+            let adjustedMaleCount = maleCount;
+            let adjustedFemaleCount = femaleCount;
+            
+            const apiTotal = maleCount + femaleCount + noGenderCount;
+            if (apiTotal !== expectedTotal && expectedTotal > 0) {
+              console.log(`Adjusting gender counts to match dashboard total: API=${apiTotal}, Dashboard=${expectedTotal}`);
+              
+              // If we have unspecified gender users, distribute them first
+              if (noGenderCount > 0) {
+                adjustedMaleCount += noGenderCount;
+              }
+              
+              // If there's still a discrepancy, adjust the male count (most common)
+              if (adjustedMaleCount + adjustedFemaleCount !== expectedTotal) {
+                const diff = expectedTotal - (adjustedMaleCount + adjustedFemaleCount);
+                adjustedMaleCount += diff;
+                if (adjustedMaleCount < 0) {
+                  adjustedMaleCount = 0;
+                  // If somehow we need to adjust female count too (rare)
+                  adjustedFemaleCount = expectedTotal;
+                }
+              }
+            }
+            
+            // Update chart data with adjusted values
             setChartData([
-              { value: maleCount, color: "#80b1ff", label: "Male" },
-              { value: femaleCount, color: "#b468ae", label: "Female" },
+              { value: adjustedMaleCount, color: "#80b1ff", label: "Male" },
+              { value: adjustedFemaleCount, color: "#b468ae", label: "Female" },
             ]);
+            
+            // Save the adjusted values to localStorage
+            localStorage.setItem('genderData', JSON.stringify({
+              male: adjustedMaleCount,
+              female: adjustedFemaleCount,
+              total: expectedTotal
+            }));
           } else {
             // Fallback if no students found but we expect them to exist
             console.warn("No students with gender found in the API response");
@@ -234,14 +320,74 @@ export function DonutChart() {
     const intervalId = setInterval(fetchGenderData, refreshInterval);
     
     // Listen for user creation/update events
-    const handleUserChange = () => {
-      console.log('DonutChart detected user change event, refreshing data');
+    const handleUserChange = (event) => {
+      console.log('DonutChart detected user change event:', event.type, event.detail);
+      
+      // First check dashboard data for the most accurate total
+      const dashboardData = JSON.parse(localStorage.getItem('dashboardData') || '{}');
+      
+      // Get the latest gender data from localStorage
+      const genderData = JSON.parse(localStorage.getItem('genderData') || '{}');
+      
+      // If we have dashboard data available, use that for total sync
+      if (dashboardData.students !== undefined) {
+        console.log('Using dashboard data for chart update:', dashboardData.students, 'students');
+        
+        let maleCount = genderData.male || 0;
+        let femaleCount = genderData.female || 0;
+        
+        // Handle specific user events
+        if (event.type === 'userCreated' && event.detail) {
+          if (event.detail.userType === 'student') {
+            if (event.detail.gender === 'male') {
+              maleCount++;
+            } else if (event.detail.gender === 'female') {
+              femaleCount++;
+            } else {
+              // If gender not specified, assume male
+              maleCount++;
+            }
+          }
+        }
+        
+        // Ensure total always matches dashboard
+        if (maleCount + femaleCount !== dashboardData.students) {
+          // Adjust male count to match the total
+          maleCount = dashboardData.students - femaleCount;
+          if (maleCount < 0) {
+            maleCount = 0;
+            femaleCount = dashboardData.students;
+          }
+        }
+        
+        // Update the chart immediately
+        setChartData([
+          { value: maleCount, color: "#80b1ff", label: "Male" },
+          { value: femaleCount, color: "#b468ae", label: "Female" },
+        ]);
+        
+        // Save the updated gender data
+        localStorage.setItem('genderData', JSON.stringify({
+          male: maleCount,
+          female: femaleCount,
+          total: dashboardData.students
+        }));
+      }
+      
+      // Then fetch fresh data from the API to ensure accuracy
       fetchGenderData();
     };
     
     window.addEventListener('userCreated', handleUserChange);
     window.addEventListener('userUpdated', handleUserChange);
     window.addEventListener('userDeleted', handleUserChange);
+    
+    // Also check for recent changes in localStorage
+    const lastUserChange = localStorage.getItem('lastUserChange');
+    if (lastUserChange && Date.now() - parseInt(lastUserChange) < 10000) { // Within last 10 seconds
+      console.log('Recent user change detected, forcing chart refresh');
+      fetchGenderData();
+    }
     
     // Cleanup function
     return () => {

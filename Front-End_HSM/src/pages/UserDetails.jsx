@@ -84,7 +84,7 @@ const UserDetails = () => {
     const fetchFromAPI = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://127.0.0.1:8000/api/admin/users/${id}`, {
+        const response = await axios.get(`http://127.0.0.1:8000/api/user/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json'
@@ -138,83 +138,165 @@ const UserDetails = () => {
     const formatAndSetUserData = (userData) => {
       console.log('User data to format:', userData);
       
-      // Ensure the user ID is preserved
-      const userId = userData.id || userData._id || userData.user_id || id;
+      // Input validation
+      if (!userData) {
+        console.error('No user data provided to format');
+        setError('Invalid user data received');
+        return;
+      }
+
+      // Ensure the user ID is preserved with validation
+      const userId = validateUserId(userData);
       if (!userId) {
-        console.warn('User data does not have a valid ID');
-      } else {
-        console.log('Using user ID:', userId);
+        console.error('Invalid or missing user ID');
+        setError('Invalid user identification');
+        return;
       }
-      
-      let firstName = '';
-      let lastName = '';
-      
-      if (userData.name) {
-        const nameParts = userData.name.split(' ');
-        firstName = nameParts[0] || '';
-        lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
-      }
-      
-      const formattedUser = {
-        id: userId,
-        firstName: firstName,
-        lastName: lastName,
-        gender: userData.gender || '',
-        birthDate: userData.birthdate || '',
-        phoneNumber: userData.phone_num || '',
-        email: userData.email || '',
-        role: userData.role?.name || (typeof userData.role === 'string' ? userData.role : ''),
-        address: userData.address || '',
-        status: userData.status || 'Activated',
-        picture: userData.picture,
-        picture_base64: userData.picture_base64 // Preserve any base64 backup image
+
+      // Data normalization functions
+      const normalizeString = (str) => {
+        if (!str) return '';
+        return str.trim().replace(/\s+/g, ' ');
       };
-      
-      console.log('Formatted user data:', formattedUser);
-      
-      // Update sessionStorage with the formatted data to ensure consistency
-      if (userId) {
+
+      const normalizeEmail = (email) => {
+        if (!email) return '';
+        return email.trim().toLowerCase();
+      };
+
+      const normalizePhoneNumber = (phone) => {
+        if (!phone) return '';
+        const cleaned = phone.replace(/\D/g, '');
+        if (cleaned.length !== 10) {
+          console.warn('Phone number does not have 10 digits:', phone);
+          return phone; // Return original if not valid
+        }
+        return cleaned.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+      };
+
+      const normalizeDate = (dateString) => {
+        if (!dateString) return '';
         try {
-          // Important: We need to store the complete userData object, not just formatted parts
-          sessionStorage.setItem('tempUser_' + userId, JSON.stringify({
-            ...userData,
-            id: userId // Ensure the ID is explicitly set
-          }));
-          console.log('Updated user data in sessionStorage with formatted ID');
-        } catch (err) {
-          console.error('Error updating sessionStorage with formatted user data:', err);
+          const date = new Date(dateString);
+          if (isNaN(date.getTime())) {
+            console.warn('Invalid date:', dateString);
+            return '';
+          }
+          return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+        } catch (e) {
+          console.error('Error formatting date:', e);
+          return '';
         }
+      };
+
+      const normalizeRole = (role) => {
+        if (!role) return '';
+        const roleName = (role?.name || role || '').toLowerCase();
+        return roleName.charAt(0).toUpperCase() + roleName.slice(1);
+      };
+
+      // Name parsing with validation
+      const parseName = (fullName) => {
+        const name = normalizeString(fullName);
+        if (!name) return { name: '' };
+        return { name: name };
+      };
+
+      try {
+        // Use backend field names consistently
+        const formattedUser = {
+          id: userData.id,
+          name: userData.name || `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || '',
+          gender: normalizeString(userData.gender) || '',
+          birthdate: normalizeDate(userData.birthdate) || '',
+          phone_num: normalizePhoneNumber(userData.phone_num || userData.phoneNumber) || '',
+          email: normalizeEmail(userData.email) || '',
+          role: normalizeRole(userData.role),
+          address: normalizeString(userData.address) || '',
+          status: normalizeString(userData.status) || 'Activated',
+          picture: userData.picture || null,
+          picture_base64: userData.picture_base64 || null
+        };
+
+        // Validate critical fields
+        validateCriticalFields(formattedUser);
+
+        // Store the complete data in sessionStorage
+        storeUserData(userId, formattedUser);
+
+        // Create display version with frontend field names (for backward compatibility)
+        const displayUser = {
+          ...formattedUser,
+          firstName: formattedUser.name.split(' ')[0] || '',
+          lastName: formattedUser.name.split(' ').slice(1).join(' ') || '',
+          birthDate: formattedUser.birthdate,
+          phoneNumber: formattedUser.phone_num
+        };
+
+        // Update state with display version
+        setUser(displayUser);
+        setError(null);
+
+        // Handle profile image
+        handleProfileImage(formattedUser);
+
+      } catch (error) {
+        console.error('Error formatting user data:', error);
+        setError('Error processing user data: ' + error.message);
       }
-      
-      setUser(formattedUser);
-      
-      // Set profile image with fallback logic
-      // First try to use the main picture if available
-      if (userData.picture) {
-        // Check if the picture is a base64 string (starts with data:image)
-        if (typeof userData.picture === 'string' && userData.picture.startsWith('data:image')) {
-          console.log('Setting profile image from base64 data in picture field');
-          setProfileImage(userData.picture);
-        } 
-        // Check if it's a URL with http
-        else if (typeof userData.picture === 'string' && (userData.picture.startsWith('http') || userData.picture.includes('://'))) {
-          console.log('Setting profile image from external URL:', userData.picture);
-          setProfileImage(userData.picture);
-        }
-        // Otherwise assume it's a path relative to the storage directory
-        else {
-          console.log('Setting profile image from storage path:', userData.picture);
-          setProfileImage(`http://127.0.0.1:8000/storage/${userData.picture}`);
-        }
-      } 
-      // If no main picture, check for the backup base64 version
-      else if (userData.picture_base64) {
-        console.log('Using base64 backup image');
-        setProfileImage(userData.picture_base64);
+    };
+    
+    // Helper functions
+    const validateUserId = (userData) => {
+      const userId = userData.id || userData._id || userData.user_id || id;
+      if (!userId) return null;
+      return userId.toString();
+    };
+
+    const validateCriticalFields = (user) => {
+      if (!user.email) {
+        throw new Error('Email is required');
       }
-      // Fallback to default if no images found
-      else {
-        console.log('No profile image available, using default');
+      if (!user.name) {
+        throw new Error('Name is required');
+      }
+    };
+
+    const storeUserData = (userId, userData) => {
+      try {
+        sessionStorage.setItem('tempUser_' + userId, JSON.stringify(userData));
+        console.log('Successfully stored user data in sessionStorage');
+      } catch (err) {
+        console.error('Error storing user data:', err);
+        throw new Error('Failed to store user data');
+      }
+    };
+
+    const handleProfileImage = (userData) => {
+      if (!userData) return;
+
+      try {
+        if (userData.picture) {
+          if (typeof userData.picture === 'string') {
+            if (userData.picture.startsWith('data:image')) {
+              setProfileImage(userData.picture);
+            } else if (userData.picture.startsWith('http') || userData.picture.includes('://')) {
+              setProfileImage(userData.picture);
+            } else {
+              setProfileImage(`http://127.0.0.1:8000/storage/${userData.picture}`);
+            }
+          }
+        } else if (userData.picture_base64) {
+          setProfileImage(userData.picture_base64);
+        } else {
+          setProfileImage(DefaultUserPhoto);
+        }
+      } catch (error) {
+        console.error('Error setting profile image:', error);
         setProfileImage(DefaultUserPhoto);
       }
     };
@@ -420,7 +502,7 @@ const UserDetails = () => {
         formData.append('picture', file);
 
         const response = await axios.post(
-          `http://127.0.0.1:8000/api/admin/users/${id}/picture`,
+          `http://127.0.0.1:8000/api/user/${id}/picture`,
           formData,
           {
             headers: {
@@ -441,7 +523,7 @@ const UserDetails = () => {
           formData.append('_method', 'PUT');
 
           const response = await axios.post(
-            `http://127.0.0.1:8000/api/admin/users/${id}`,
+            `http://127.0.0.1:8000/api/user/${id}`,
             formData,
             {
               headers: {
@@ -461,7 +543,7 @@ const UserDetails = () => {
             formData.append('picture', file);
 
             const response = await axios.patch(
-              `http://127.0.0.1:8000/api/admin/users/${id}`,
+              `http://127.0.0.1:8000/api/user/${id}`,
               formData,
               {
                 headers: {
@@ -500,12 +582,6 @@ const UserDetails = () => {
         <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded mb-4">
           {error}
         </div>
-        <button 
-          onClick={() => navigate('/users')}
-          className="mt-4 px-4 py-2 bg-[#0a8a8a] text-white rounded-md hover:bg-[#086a6a]"
-        >
-          Back to Users List
-        </button>
       </div>
     );
   }
@@ -620,10 +696,6 @@ const UserDetails = () => {
               <div className="font-medium">{user.firstName || 'N/A'}</div>
             </div>
             <div>
-              <label className="block text-gray-600 mb-1">Last name :</label>
-              <div className="font-medium">{user.lastName || 'N/A'}</div>
-            </div>
-            <div>
               <label className="block text-gray-600 mb-1">Gender :</label>
               <div className="font-medium">{user.gender || 'N/A'}</div>
             </div>
@@ -641,7 +713,7 @@ const UserDetails = () => {
             </div>
             <div>
               <label className="block text-gray-600 mb-1">Role :</label>
-              <div className="font-medium">{user.role || 'N/A'}</div>
+              <div className="font-medium">{user.role?.name || user.role || 'N/A'}</div>
             </div>
             <div>
               <label className="block text-gray-600 mb-1">Address :</label>

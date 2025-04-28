@@ -20,7 +20,7 @@ const AddUserModal = ({ onClose, onSave, error }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const roles = ['student', 'teacher', 'employee'];
+  const roles = ['student', 'teacher', 'employer', 'doctor'];
   const genders = ['male', 'female'];
 
   const validateForm = () => {
@@ -58,7 +58,13 @@ const AddUserModal = ({ onClose, onSave, error }) => {
 
     // Role validation
     if (!roles.includes(formData.role_name.toLowerCase())) {
-      newErrors.role_name = 'Role must be declared';
+      newErrors.role_name = 'Please select a valid role';
+    }
+
+    // Additional validation for doctor role
+    if (formData.role_name.toLowerCase() === 'doctor') {
+      // You can add specific validation for doctors here if needed
+      // For example, requiring certain fields or specific formats
     }
 
     // Birthdate validation

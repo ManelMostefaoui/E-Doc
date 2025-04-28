@@ -10,7 +10,7 @@ export default function SettingsPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
@@ -41,7 +41,7 @@ export default function SettingsPage() {
       return
     }
     
-    if (newPassword !== confirmPassword) {
+    if (newPassword !== newPasswordConfirmation) {
       setError("New passwords do not match")
       return
     }
@@ -56,10 +56,10 @@ export default function SettingsPage() {
       setLoading(true)
       const token = localStorage.getItem('token')
       
-      const response = await axios.put('http://127.0.0.1:8000/api/profile/update-password', {
+      const response = await axios.post('http://127.0.0.1:8000/api/change-password', {
         current_password: currentPassword,
-        password: newPassword,
-        password_confirmation: confirmPassword
+        new_password: newPassword,
+        new_password_confirmation: newPasswordConfirmation
       }, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -104,7 +104,7 @@ export default function SettingsPage() {
       // Clear form
       setCurrentPassword("")
       setNewPassword("")
-      setConfirmPassword("")
+      setNewPasswordConfirmation("")
       
       // Show success message with appropriate follow-up
       if (tokenUpdated) {
@@ -212,14 +212,14 @@ export default function SettingsPage() {
             </div>
 
             <div className="max-w-[600px]">
-              <label className="block mb-3 font-nunito text-[16px] font-norma text-[#1A1A1A] font-semibold">Confirm password :</label>
+              <label className="block mb-3 font-nunito text-[16px] font-norma text-[#1A1A1A] font-semibold">Confirm new password :</label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#008080] pr-10"
-                  placeholder="Confirm password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm new password"
+                  value={newPasswordConfirmation}
+                  onChange={(e) => setNewPasswordConfirmation(e.target.value)}
                   disabled={loading}
                 />
                 <button

@@ -99,7 +99,6 @@ const AdminSettings = () => {
     // Function to fetch from API
     const fetchFromAPI = async () => {
       try {
-        // Get current user profile from the API
         const response = await axios.get('http://127.0.0.1:8000/api/profile', {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -107,74 +106,16 @@ const AdminSettings = () => {
           }
         });
         
-        console.log('User profile from API:', response.data);
+        console.log('Profile data from API:', response.data);
         
-        // Only update if we have actual data
-        if (response.data && response.data.email) {
-          const profileData = response.data;
-          
-          // Store in sessionStorage for future use
-          const adminKey = 'admin_user_data';
-          try {
-            // Check if we already have data to merge with
-            const existingData = sessionStorage.getItem(adminKey);
-            let mergedData = profileData;
-            
-            if (existingData) {
-              try {
-                const parsedData = JSON.parse(existingData);
-                
-                // Preserve any picture data which might not be in the API response
-                mergedData = {
-                  ...parsedData,
-                  ...profileData
-                };
-                
-                // Ensure we have both field formats for compatibility
-                if (profileData.birthdate && !mergedData.birthDate) {
-                  mergedData.birthDate = profileData.birthdate;
-                }
-                if (profileData.phone_num && !mergedData.phoneNumber) {
-                  mergedData.phoneNumber = profileData.phone_num;
-                }
-              } catch (err) {
-                console.error('Error merging existing admin data:', err);
-                mergedData = profileData;
-              }
-            }
-            
-            sessionStorage.setItem(adminKey, JSON.stringify(mergedData));
-            console.log('Stored admin profile data in sessionStorage');
-          } catch (err) {
-            console.error('Error storing admin profile in sessionStorage:', err);
-          }
-          
-          setUser(profileData);
-          
-          // If the response includes a picture, update the profile image
-          if (profileData.picture) {
-            if (typeof profileData.picture === 'string' && profileData.picture.startsWith('data:image')) {
-              setProfileImage(profileData.picture);
-            } else if (typeof profileData.picture === 'string' && 
-                     (profileData.picture.startsWith('http') || profileData.picture.includes('//'))) {
-              setProfileImage(profileData.picture);
-            } else {
-              setProfileImage(`http://127.0.0.1:8000/storage/${profileData.picture}`);
-            }
-          }
-        }
-        setError(null);
-      } catch (err) {
-        console.error("API fetch error:", err);
-        
-        if (err.response && err.response.status === 401) {
-          // Unauthorized - token might be invalid
-          localStorage.removeItem('token');
-          navigate('/login');
+        if (response.data && response.data.data) {
+          formatAndSetProfileData(response.data.data);
         } else {
-          setError("Failed to load user profile. Please try again later.");
+          throw new Error('Invalid response format from API');
         }
-        throw err;
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+        setError('Failed to load profile data');
       }
     };
 
@@ -264,6 +205,110 @@ const AdminSettings = () => {
   
   const handleEditClick = () => setIsModalOpen(true);
 
+  const formatAndSetProfileData = (profileData) => {
+    console.log('Profile data to format:', profileData);
+    
+    // Input validation
+    if (!profileData) {
+      console.error('No profile data provided to format');
+      setError('Invalid profile data received');
+      return;
+    }
+
+    // Data normalization functions
+    const normalizeString = (str) => {
+      if (!str) return '';
+      return str.trim().replace(/\s+/g, ' ');
+    };
+
+    const normalizeEmail = (email) => {
+      if (!email) return '';
+      return email.trim().toLowerCase();
+    };
+
+    const normalizePhoneNumber = (phone) => {
+      if (!phone) return '';
+      const cleaned = phone.replace(/\D/g, '');
+      if (cleaned.length !== 10) {
+        console.warn('Phone number does not have 10 digits:', phone);
+        return phone; // Return original if not valid
+      }
+      return cleaned.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+    };
+
+    const normalizeDate = (dateString) => {
+      if (!dateString) return '';
+      try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+          console.warn('Invalid date:', dateString);
+          return '';
+        }
+        return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD for input type="date"
+      } catch (e) {
+        console.error('Error formatting date:', e);
+        return '';
+      }
+    };
+
+    try {
+      // Use backend field names consistently
+      const formattedProfile = {
+        name: normalizeString(profileData.name) || '',
+        email: normalizeEmail(profileData.email) || '',
+        gender: normalizeString(profileData.gender) || '',
+        birthdate: normalizeDate(profileData.birthdate || profileData.birthDate) || '',
+        phone_num: normalizePhoneNumber(profileData.phone_num || profileData.phoneNumber) || '',
+        address: normalizeString(profileData.address) || '',
+        role: profileData.role?.name || profileData.role || ''
+      };
+
+      // Validate critical fields
+      validateCriticalFields(formattedProfile);
+
+      // Store in sessionStorage
+      storeProfileData(formattedProfile);
+
+      // Create form data version (for the form inputs)
+      const formData = {
+        ...formattedProfile,
+        birthDate: formattedProfile.birthdate,
+        phoneNumber: formattedProfile.phone_num
+      };
+
+      // Update state
+      setUser(formattedProfile);
+      setError(null);
+
+    } catch (error) {
+      console.error('Error formatting profile data:', error);
+      setError('Error processing profile data: ' + error.message);
+    }
+  };
+
+  const validateCriticalFields = (profile) => {
+    if (!profile.email) {
+      throw new Error('Email is required');
+    }
+    if (!profile.name) {
+      throw new Error('Name is required');
+    }
+    if (!profile.email.endsWith('@esi-sba.dz')) {
+      throw new Error('Email must be an @esi-sba.dz email address');
+    }
+  };
+
+  const storeProfileData = (profileData) => {
+    try {
+      const adminKey = 'admin_user_data';
+      sessionStorage.setItem(adminKey, JSON.stringify(profileData));
+      console.log('Successfully stored profile data in sessionStorage');
+    } catch (err) {
+      console.error('Error storing profile data:', err);
+      throw new Error('Failed to store profile data');
+    }
+  };
+
   const handleSaveChanges = async (updatedUserData) => {
     try {
       const token = localStorage.getItem('token');
@@ -277,9 +322,7 @@ const AdminSettings = () => {
       
       // Prepare API data
       const apiData = {
-        firstName: updatedUserData.firstName,
-        lastName: updatedUserData.lastName,
-        name: `${updatedUserData.firstName} ${updatedUserData.lastName}`,
+        name: `${updatedUserData.name}`,
         email: updatedUserData.email,
         gender: updatedUserData.gender,
         birthdate: updatedUserData.birthDate || updatedUserData.birthdate,
@@ -317,12 +360,8 @@ const AdminSettings = () => {
               ...adminData,
               ...updatedData,
               // Make sure we have both formats of fields for compatibility
-              firstName: updatedUserData.firstName,
-              lastName: updatedUserData.lastName,
-              name: `${updatedUserData.firstName} ${updatedUserData.lastName}`,
-              birthDate: updatedUserData.birthDate || updatedUserData.birthdate,
+              name: `${updatedUserData.name} `,
               birthdate: updatedUserData.birthDate || updatedUserData.birthdate,
-              phoneNumber: updatedUserData.phoneNumber || updatedUserData.phone_num,
               phone_num: updatedUserData.phoneNumber || updatedUserData.phone_num
             };
           } catch (err) {
@@ -461,10 +500,6 @@ const AdminSettings = () => {
             <div className="font-medium">{user.firstName || user.name?.split(' ')[0] || 'N/A'}</div>
           </div>
           <div>
-            <label className="block text-gray-600 mb-1">Last name :</label>
-            <div className="font-medium">{user.lastName || user.name?.split(' ')[1] || 'N/A'}</div>
-          </div>
-          <div>
             <label className="block text-gray-600 mb-1">Gender :</label>
             <div className="font-medium">{user.gender || 'N/A'}</div>
           </div>
@@ -482,7 +517,7 @@ const AdminSettings = () => {
           </div>
           <div>
             <label className="block text-gray-600 mb-1">Role :</label>
-            <div className="font-medium">{user.role?.name || 'N/A'}</div>
+            <div className="font-medium">{user.role?.name || user.role || 'N/A'}</div>
           </div>
           <div>
             <label className="block text-gray-600 mb-1">Address :</label>

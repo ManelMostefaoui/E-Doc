@@ -3,12 +3,12 @@ import axios from 'axios';
 
 const AdminEditUserModal = ({ onClose, onSave, userData }) => {
   const [formData, setFormData] = useState({
-    firstName: userData?.firstName || '',
-    lastName: userData?.lastName || '',
-    gender: userData?.gender || '',
-    birthDate: userData?.birthDate || userData?.birthdate || '',
-    phoneNumber: userData?.phoneNumber || userData?.phone_num || '',
+    name: userData?.name || '',
     email: userData?.email || '',
+    gender: userData?.gender || '',
+    birthdate: userData?.birthdate || userData?.birthDate || '',
+    phone_num: userData?.phone_num || userData?.phoneNumber || '',
+    address: userData?.address || ''
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,14 +24,9 @@ const AdminEditUserModal = ({ onClose, onSave, userData }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    // First name validation
-    if (!formData.firstName) {
-      newErrors.firstName = 'First name is required';
-    }
-
-    // Last name validation
-    if (!formData.lastName) {
-      newErrors.lastName = 'Last name is required';
+    // Name validation
+    if (!formData.name) {
+      newErrors.name = 'Name is required';
     }
 
     // Gender validation
@@ -40,15 +35,15 @@ const AdminEditUserModal = ({ onClose, onSave, userData }) => {
     }
 
     // Birth date validation
-    if (!formData.birthDate) {
-      newErrors.birthDate = 'Birth date is required';
+    if (!formData.birthdate) {
+      newErrors.birthdate = 'Birth date is required';
     }
 
     // Phone number validation
-    if (!formData.phoneNumber) {
-      newErrors.phoneNumber = 'Phone number is required';
-    } else if (!/^\d{10}$/.test(formData.phoneNumber)) {
-      newErrors.phoneNumber = 'Phone number must be 10 digits';
+    if (!formData.phone_num) {
+      newErrors.phone_num = 'Phone number is required';
+    } else if (!/^\d{10}$/.test(formData.phone_num)) {
+      newErrors.phone_num = 'Phone number must be 10 digits';
     }
 
     // Email validation (@esi-sba.dz)
@@ -93,15 +88,12 @@ const AdminEditUserModal = ({ onClose, onSave, userData }) => {
         
         // Map front-end field names to back-end field names if needed
         const apiData = {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          name: `${formData.firstName} ${formData.lastName}`,
+          name: formData.name,
           email: formData.email,
           gender: formData.gender,
-          birthDate: formData.birthDate,
-          birthdate: formData.birthDate,
-          phoneNumber: formData.phoneNumber,
-          phone_num: formData.phoneNumber
+          birthdate: formData.birthdate,
+          phone_num: formData.phone_num,
+          address: formData.address
         };
         
         // Store the updated admin data in sessionStorage for persistence
@@ -117,14 +109,6 @@ const AdminEditUserModal = ({ onClose, onSave, userData }) => {
               userData = {
                 ...parsedData,
                 ...apiData,
-                // Make sure we have both formats of fields for compatibility
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                name: `${formData.firstName} ${formData.lastName}`,
-                birthDate: formData.birthDate,
-                birthdate: formData.birthDate,
-                phoneNumber: formData.phoneNumber,
-                phone_num: formData.phoneNumber
               };
             } catch (err) {
               console.error('Error parsing existing admin data:', err);
@@ -202,13 +186,13 @@ const AdminEditUserModal = ({ onClose, onSave, userData }) => {
           <form onSubmit={handleSubmit} className="w-full">
             <div className="space-y-4">
               <div className="flex items-center">
-                <div className="w-[90px] text-black text-sm">First name :</div>
+                <div className="w-[90px] text-black text-sm">Name :</div>
                 <div className="flex-1 relative">
                   <input
                     type="text"
-                    name="firstName"
-                    placeholder="First name"
-                    value={formData.firstName}
+                    name="name"
+                    placeholder="Full name"
+                    value={formData.name}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-teal-500 text-sm pr-8"
                     disabled={isSubmitting}
@@ -216,26 +200,7 @@ const AdminEditUserModal = ({ onClose, onSave, userData }) => {
                   <div className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
                     <PenIcon />
                   </div>
-                  {errors.firstName && <div className="text-red-500 text-xs mt-1">{errors.firstName}</div>}
-                </div>
-              </div>
-
-              <div className="flex items-center">
-                <div className="w-[90px] text-black text-sm">Last name :</div>
-                <div className="flex-1 relative">
-                  <input
-                    type="text"
-                    name="lastName"
-                    placeholder="Last name"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-teal-500 text-sm pr-8"
-                    disabled={isSubmitting}
-                  />
-                  <div className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
-                    <PenIcon />
-                  </div>
-                  {errors.lastName && <div className="text-red-500 text-xs mt-1">{errors.lastName}</div>}
+                  {errors.name && <div className="text-red-500 text-xs mt-1">{errors.name}</div>}
                 </div>
               </div>
 
@@ -268,9 +233,9 @@ const AdminEditUserModal = ({ onClose, onSave, userData }) => {
                 <div className="flex-1 relative">
                   <input
                     type="date"
-                    name="birthDate"
+                    name="birthdate"
                     placeholder="YYYY-MM-DD"
-                    value={formData.birthDate}
+                    value={formData.birthdate}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-teal-500 text-sm pr-8 placeholder-gray-400"
                     disabled={isSubmitting}
@@ -278,7 +243,7 @@ const AdminEditUserModal = ({ onClose, onSave, userData }) => {
                   <div className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
                     <PenIcon />
                   </div>
-                  {errors.birthDate && <div className="text-red-500 text-xs mt-1">{errors.birthDate}</div>}
+                  {errors.birthdate && <div className="text-red-500 text-xs mt-1">{errors.birthdate}</div>}
                 </div>
               </div>
 
@@ -287,9 +252,9 @@ const AdminEditUserModal = ({ onClose, onSave, userData }) => {
                 <div className="flex-1 relative">
                   <input
                     type="tel"
-                    name="phoneNumber"
+                    name="phone_num"
                     placeholder="Phone number (10 digits)"
-                    value={formData.phoneNumber}
+                    value={formData.phone_num}
                     onChange={handleInputChange}
                     pattern="\d{10}"
                     className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-teal-500 text-sm pr-8"
@@ -298,7 +263,7 @@ const AdminEditUserModal = ({ onClose, onSave, userData }) => {
                   <div className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
                     <PenIcon />
                   </div>
-                  {errors.phoneNumber && <div className="text-red-500 text-xs mt-1">{errors.phoneNumber}</div>}
+                  {errors.phone_num && <div className="text-red-500 text-xs mt-1">{errors.phone_num}</div>}
                 </div>
               </div>
 
@@ -318,6 +283,25 @@ const AdminEditUserModal = ({ onClose, onSave, userData }) => {
                     <PenIcon />
                   </div>
                   {errors.email && <div className="text-red-500 text-xs mt-1">{errors.email}</div>}
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <div className="w-[90px] text-black text-sm">Address :</div>
+                <div className="flex-1 relative">
+                  <input
+                    type="text"
+                    name="address"
+                    placeholder="Address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-teal-500 text-sm pr-8"
+                    disabled={isSubmitting}
+                  />
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
+                    <PenIcon />
+                  </div>
+                  {errors.address && <div className="text-red-500 text-xs mt-1">{errors.address}</div>}
                 </div>
               </div>
             </div>

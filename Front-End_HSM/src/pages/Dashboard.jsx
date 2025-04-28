@@ -45,7 +45,7 @@ export default function DashboardPage() {
           setDashboardData({
             students: userData.students || 0,
             teachers: userData.teachers || 0,
-            employees: userData.employees || 0
+            employees: userData.employer || 0
           });
           
           // Also save to localStorage for other components to access
@@ -174,12 +174,129 @@ export default function DashboardPage() {
       }
     };
 
-    // Initial data fetch
-    fetchDashboardData();
-    
     // Set up event listeners for user creation/updates
-    const handleUserChange = () => {
-      console.log('Dashboard detected user change event, refreshing data');
+    const handleUserChange = (event) => {
+      console.log('Dashboard detected user change event:', event.type, event.detail);
+      
+      // Update counts based on the event type
+      if (event.type === 'userCreated' && event.detail) {
+        const userType = event.detail.userType;
+        console.log('User created with type:', userType);
+        
+        // Immediately update the counts in state and localStorage
+        if (userType) {
+          const newDashboardData = {...dashboardData};
+          
+          if (userType.toLowerCase() === 'student') {
+            newDashboardData.students += 1;
+            console.log(`Incrementing student count to ${newDashboardData.students}`);
+            
+            // Also update gender data if available
+            if (event.detail.gender) {
+              const gender = event.detail.gender.toLowerCase();
+              const newGenderData = {...genderData};
+              
+              if (gender === 'male' || gender === 'm') {
+                newGenderData.male += 1;
+                console.log(`Incrementing male count to ${newGenderData.male}`);
+              } else if (gender === 'female' || gender === 'f') {
+                newGenderData.female += 1;
+                console.log(`Incrementing female count to ${newGenderData.female}`);
+              } else {
+                // Default to male if gender is not specified
+                newGenderData.male += 1;
+                console.log(`Incrementing male count to ${newGenderData.male} (default)`);
+              }
+              
+              // Ensure total is correct
+              newGenderData.total = newDashboardData.students;
+              
+              setGenderData(newGenderData);
+              localStorage.setItem('genderData', JSON.stringify(newGenderData));
+            } else {
+              // If gender not specified, assume male
+              const newGenderData = {
+                ...genderData,
+                male: genderData.male + 1,
+                total: newDashboardData.students
+              };
+              console.log(`Incrementing male count to ${newGenderData.male} (no gender specified)`);
+              setGenderData(newGenderData);
+              localStorage.setItem('genderData', JSON.stringify(newGenderData));
+            }
+          } else if (userType.toLowerCase() === 'teacher') {
+            newDashboardData.teachers += 1;
+            console.log(`Incrementing teacher count to ${newDashboardData.teachers}`);
+          } else if (userType.toLowerCase() === 'employer') {
+            newDashboardData.employees += 1;
+            console.log(`Incrementing employer count to ${newDashboardData.employees}`);
+          }
+          
+          setDashboardData(newDashboardData);
+          localStorage.setItem('dashboardData', JSON.stringify(newDashboardData));
+        }
+      } else if (event.type === 'userDeleted' && event.detail) {
+        // Handle user deletion
+        const userTypes = event.detail.userTypes;
+        if (Array.isArray(userTypes) && userTypes.length > 0) {
+          const newDashboardData = {...dashboardData};
+          
+          // Count deletions by type
+          let studentDeleteCount = 0;
+          let teacherDeleteCount = 0;
+          let employerDeleteCount = 0;
+          
+          userTypes.forEach(type => {
+            const typeStr = String(type).toLowerCase();
+            if (typeStr.includes('student')) {
+              studentDeleteCount++;
+            } else if (typeStr.includes('teacher')) {
+              teacherDeleteCount++;
+            } else if (typeStr.includes('employer') || typeStr.includes('employee')) {
+              employerDeleteCount++;
+            }
+          });
+          
+          // Update counts
+          if (studentDeleteCount > 0) {
+            newDashboardData.students = Math.max(0, newDashboardData.students - studentDeleteCount);
+            console.log(`Decreasing student count by ${studentDeleteCount} to ${newDashboardData.students}`);
+            
+            // Adjust gender data proportionally (assume same ratio)
+            const totalGender = genderData.male + genderData.female;
+            if (totalGender > 0) {
+              const maleRatio = genderData.male / totalGender;
+              const newGenderData = {...genderData};
+              
+              // Calculate how many of each gender to remove
+              const malesToRemove = Math.round(studentDeleteCount * maleRatio);
+              const femalesToRemove = studentDeleteCount - malesToRemove;
+              
+              newGenderData.male = Math.max(0, newGenderData.male - malesToRemove);
+              newGenderData.female = Math.max(0, newGenderData.female - femalesToRemove);
+              newGenderData.total = newDashboardData.students;
+              
+              console.log(`Adjusting gender counts: male -${malesToRemove}, female -${femalesToRemove}`);
+              
+              setGenderData(newGenderData);
+              localStorage.setItem('genderData', JSON.stringify(newGenderData));
+            }
+          }
+          if (teacherDeleteCount > 0) {
+            newDashboardData.teachers = Math.max(0, newDashboardData.teachers - teacherDeleteCount);
+            console.log(`Decreasing teacher count by ${teacherDeleteCount} to ${newDashboardData.teachers}`);
+          }
+          if (employerDeleteCount > 0) {
+            newDashboardData.employees = Math.max(0, newDashboardData.employees - employerDeleteCount);
+            console.log(`Decreasing employer count by ${employerDeleteCount} to ${newDashboardData.employees}`);
+          }
+          
+          setDashboardData(newDashboardData);
+          localStorage.setItem('dashboardData', JSON.stringify(newDashboardData));
+        }
+      }
+      
+      // Then fetch fresh data from the API to ensure accuracy
       fetchDashboardData();
     };
     
@@ -193,6 +310,9 @@ export default function DashboardPage() {
       console.log('Recent user change detected, ensuring data is fresh');
       fetchDashboardData();
     }
+    
+    // Initial data fetch
+    fetchDashboardData();
     
     return () => {
       window.removeEventListener('userCreated', handleUserChange);

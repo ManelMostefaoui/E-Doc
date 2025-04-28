@@ -7,18 +7,44 @@ import LogoImage from "../../assets/Layer_1.png";
 import image_7 from "../../assets/image 7.png";
 import Axios from "axios";
 
+// Configure Axios to include credentials
+Axios.defaults.withCredentials = true;
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Check if user is already logged in
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      navigate('/dashboard');
+      // Fetch user role
+      const fetchUserRole = async () => {
+        try {
+          const response = await Axios.get('http://127.0.0.1:8000/api/user', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json'
+            }
+          });
+
+          const userRole = response.data.role.name;
+          if (userRole === 'doctor') {
+            navigate('/patients');
+          } else {
+            navigate('/dashboard');
+          }
+        } catch (error) {
+          console.error('Error fetching user role:', error);
+          navigate('/login');
+        }
+      };
+
+      fetchUserRole();
     }
   }, [navigate]);
 
@@ -29,7 +55,14 @@ const LoginPage = () => {
 
     try {
       console.log('Attempting login with:', { email, password });
-      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      
+      // Get CSRF cookie first
+      try {
+        await Axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
+      } catch (csrfError) {
+        console.error('Failed to get CSRF cookie:', csrfError);
+        // Continue anyway since we've set exceptions in the backend
+      }
       
       // Use the direct Laravel server URL
       const response = await Axios.post('http://127.0.0.1:8000/api/login', {
@@ -38,8 +71,10 @@ const LoginPage = () => {
       }, {
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
         },
+        withCredentials: true,
         timeout: 10000 // 10 second timeout
       });
       
