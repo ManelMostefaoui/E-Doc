@@ -1,4 +1,3 @@
-import Layout from "../../components/Layout"
 import Editbtn from "../../components/Editbtn"
 import FileUpload from "../../components/FileUpload"
 import {
@@ -34,7 +33,7 @@ export default function PatientProfile() {
       try {
         setLoading(true);
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://127.0.0.1:8000/api/patients/${id}`, {
+        const response = await axios.get(`http://127.0.0.1:8000/api/patients/${patientid}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json'
