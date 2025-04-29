@@ -2,7 +2,7 @@
 
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { LogOut, ChevronDown, LayoutDashboard, Users, Settings, UserPlus } from "lucide-react"
+import { LogOut, ChevronDown, LayoutDashboard, Users, Settings, UserPlus, Stethoscope, Calendar, User, Shield, Bell } from "lucide-react"
 import axios from "axios"
 
 export default function Sidebar({ isVisible = true }) {
@@ -21,7 +21,7 @@ export default function Sidebar({ isVisible = true }) {
           navigate('/login');
           return;
         }
-
+  
         // Try to get user info from localStorage first
         const userData = localStorage.getItem('user');
         if (userData) {
@@ -36,7 +36,7 @@ export default function Sidebar({ isVisible = true }) {
             localStorage.removeItem('user');
           }
         }
-
+  
         // If we're here, we need to fetch user data from the server
         // First, try to get role information from the authentication token
         // For admin users, we'll use the admin endpoint
@@ -75,11 +75,30 @@ export default function Sidebar({ isVisible = true }) {
             }
           } catch (doctorErr) {
             console.error('Failed to determine user role:', doctorErr);
-            // If we can't determine the role, we might need to redirect to login
-            if (doctorErr.response && (doctorErr.response.status === 401 || doctorErr.response.status === 403)) {
-              localStorage.removeItem('token');
-              localStorage.removeItem('user');
-              navigate('/login');
+            // If we can't determine the role, we might need to check for a patient
+            try {
+              const response = await axios.get(`${API_BASE_URL}/patients/me`, {
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Accept': 'application/json'
+                }
+              });
+  
+              if (response.data) {
+                // This is a patient
+                setUserRole('patient');
+                // Save to localStorage for future reference
+                const userData = { role: { name: 'patient' } };
+                localStorage.setItem('user', JSON.stringify(userData));
+              }
+            } catch (patientErr) {
+              console.error('Failed to determine if user is a patient:', patientErr);
+              // If auth fails, redirect to login
+              if (patientErr.response && (patientErr.response.status === 401 || patientErr.response.status === 403)) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                navigate('/login');
+              }
             }
           }
         }
@@ -93,9 +112,10 @@ export default function Sidebar({ isVisible = true }) {
         }
       }
     };
-
+  
     fetchUserRole();
   }, [navigate]);
+  
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -108,20 +128,32 @@ export default function Sidebar({ isVisible = true }) {
       className={`${isVisible ? "block" : "hidden"} md:block bg-[#F7F9F9] w-64 border-r border-gray-200 flex-shrink-0 shadow-[2px_2px_12px_rgba(0,0,0,0.25)]`}
     >
       <nav className="p-4 flex flex-col gap-4 ">
-        {userRole === 'admin' && (
-          <Link
-            to="/dashboard"
-            className={`flex items-center gap-3 p-2 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
-          >
-            <LayoutDashboard size={20} />
-            <span className='font-nunito text-[16px] font-normal'>Dashboard</span>
-          </Link>
-        )}
+        <Link
+          to="/dashboard"
+          className={`flex items-center gap-3 p-3 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+        >
+          <LayoutDashboard size={20} />
+          <span className='font-nunito text-[16px] font-normal '>Dashboard</span>
+        </Link>
+        <Link
+          to="/consultation"
+          className={`flex items-center gap-3 p-3 ${currentPath === "/consultation" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+        >
+          <Stethoscope size={20} />
+          <span className='font-nunito text-[16px] font-normal '>Consultation</span>
+        </Link>
+        <Link
+          to="/Appointements"
+          className={`flex items-center gap-3 p-3 ${currentPath === "/Appointements" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+        >
+          <Calendar size={20} />
+          <span className='font-nunito text-[16px] font-normal '>Appointements</span>
+        </Link>
         
         {userRole === 'admin' && (
           <Link
             to="/users"
-            className={`flex items-center gap-3 p-2 ${currentPath === "/users" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
+            className={`flex items-center gap-3 p-3 ${currentPath === "/users" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
           >
             <Users size={20} />
             <span className='font-nunito text-[16px] font-normal'>Users management</span>
@@ -131,16 +163,26 @@ export default function Sidebar({ isVisible = true }) {
         {userRole === 'doctor' && (
           <Link
             to="/patients"
-            className={`flex items-center gap-3 p-2 ${currentPath === "/patients" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
+            className={`flex items-center gap-3 p-3 ${currentPath === "/patients" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
           >
             <UserPlus size={20} />
             <span className='font-nunito text-[16px] font-normal'>Patients management</span>
           </Link>
         )}
 
+       {userRole === 'teacher' && (
+        <Link
+        to="/contact-center"
+         className={`flex items-center gap-3 p-3 ${currentPath === "/contact-center" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
+         >
+        <Users size={20} />
+          <span className='font-nunito text-[16px] font-normal'>Contact Center</span>
+        </Link>
+        )}
+
         <div>
           <div
-            className={`flex items-center justify-between p-2 ${currentPath.startsWith("/settings") || currentPath === "/admin-settings" ? "text-[#008080]" : ""} hover:bg-[#eef5f5] rounded-md cursor-pointer`}
+            className={`flex items-center justify-between p-3 ${currentPath.startsWith("/settings") || currentPath === "/admin-settings" ? "text-[#008080]" : ""} hover:bg-[#eef5f5] rounded-md cursor-pointer`}
             onClick={() => setIsSettingsOpen(!isSettingsOpen)}
           >
             <div className="flex items-center gap-3">
@@ -150,23 +192,26 @@ export default function Sidebar({ isVisible = true }) {
             <ChevronDown size={16} className={`transition-transform ${isSettingsOpen ? "rotate-180" : ""}`} />
           </div>
           {isSettingsOpen && (
-            <div className="ml-8 mt-2 flex flex-col gap-2">
+            <div className="mt-2 flex flex-col gap-2">
               <Link
                 to="/admin-settings"
-                className={`p-2 ${currentPath === "/admin-settings" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
+                className={`flex items-center gap-2 p-3 ${currentPath === "/admin-settings" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
               >
-                Personal informations
+                <User size={18} />
+                <span>Personal informations</span>
               </Link>
               <Link
                 to="/settings/security"
-                className={`p-2 ${currentPath === "/settings/security" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
+                className={`p-3 ${currentPath === "/settings/security" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
               >
+                <Shield size={18} className="inline mr-2" />
                 Security
               </Link>
               <Link
                 to="/settings/notifications"
-                className={`p-2 ${currentPath === "/settings/notifications" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
+                className={`p-3 ${currentPath === "/settings/notifications" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
               >
+                <Bell size={18} className="inline mr-2" />
                 Notifications
               </Link>
             </div>
@@ -174,11 +219,12 @@ export default function Sidebar({ isVisible = true }) {
         </div>
         <div 
           onClick={handleLogout}
-          className="flex items-center gap-3 p-2 hover:bg-[#eef5f5] rounded-md cursor-pointer mt-auto"
+          className="flex items-center gap-3 p-3 hover:bg-[#eef5f5] rounded-md cursor-pointer mt-auto"
         >
           <LogOut size={20} />
           <span className='font-nunito text-[16px] font-normal text-[#1A1A1A]'>Log out</span>
         </div>
+        
       </nav>
     </aside>
   )

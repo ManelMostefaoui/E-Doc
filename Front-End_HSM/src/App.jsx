@@ -1,14 +1,23 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
-import SettingsPage from "./pages/SettingsSecurity";
-import DashboardPage from "./pages/Dashboard";
-import UsersManagementPage from "./pages/UsersManagement";
-import AdminSettings from "./pages/SettingsPersonalinformations";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
-import UserDetails from "./pages/UserDetails";
 import LoginPage from "./pages/Login/Login";
-import PatientsManagement from "./pages/PatientsManagement";
+import Consultation from "./pages/Consultation";
+import Appointements from "./components/Appointements";
+import Notifications from "./components/Notifications";
+
+import SettingsPage from "./pages/admin/SettingsSecurity";
+import DashboardPage from "./pages/admin/Dashboard";
+import UsersManagementPage from "./pages/admin/UsersManagement";
+import AdminSettings from "./pages/admin/SettingsPersonalinformations";
+import UserDetails from "./pages/admin/UserDetails";
+
+import PatientsManagement from "./pages/doctor/PatientsManagement";
+import PatientProfile from "./pages/doctor/PatientProfile";
+
+import ContactCenter from "./pages/patient/ContactCenter"
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
@@ -20,7 +29,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage/>} />
         
         {/* Redirect root path to login if not logged in, otherwise to dashboard */}
         <Route path="/" element={isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
@@ -95,6 +104,48 @@ function App() {
         />
 
         <Route
+          path="/consultation"
+          element={
+              <div className="h-screen overflow-auto flex flex-col">
+                {/* Navbar */}
+                <Navbar />
+
+                {/* Sidebar + Page content */}
+                <div className=" flex flex-1">
+                  {/* Sidebar */}
+                  <Sidebar />
+                  
+                  {/* Main content */}
+                  <div className=" flex-1 p-4">
+                    <Consultation />
+                  </div>
+                </div>
+              </div>
+          }
+        />
+
+        <Route
+          path="/appointements"
+          element={
+              <div className="h-screen overflow-auto flex flex-col">
+                {/* Navbar */}
+                <Navbar />
+
+                {/* Sidebar + Page content */}
+                <div className=" flex flex-1">
+                  {/* Sidebar */}
+                  <Sidebar />
+                  
+                  {/* Main content */}
+                  <div className=" flex-1 p-4">
+                    <Appointements />
+                  </div>
+                </div>
+              </div>
+          }
+        />
+
+        <Route
           path="/settings"
           element={
             <PrivateRoute>
@@ -137,6 +188,27 @@ function App() {
                 </div>
               </div>
             </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/settings/notifications"
+          element={
+              <div className="h-screen overflow-auto flex flex-col">
+                {/* Navbar */}
+                <Navbar />
+
+                {/* Sidebar + Page content */}
+                <div className=" flex flex-1">
+                  {/* Sidebar */}
+                  <Sidebar />
+                  
+                  {/* Main content */}
+                  <div className=" flex-1 p-4">
+                    <Notifications />
+                  </div>
+                </div>
+              </div>
           }
         />
 
@@ -185,6 +257,43 @@ function App() {
             </PrivateRoute>
           }
         />
+
+          <Route
+          path="/patients/:id"
+           element={
+           <PrivateRoute>
+           <div className="h-screen overflow-auto flex flex-col">
+           <Navbar />
+           <div className="flex flex-1">
+          <Sidebar />
+           <div className="flex-1 p-4">
+            <PatientProfile />
+          </div>
+        </div>
+          </div>
+          </PrivateRoute>
+           }
+          />
+
+          <Route
+          path="/contact-center"
+           element={
+           <PrivateRoute>
+           <div className="h-screen overflow-auto flex flex-col">
+           <Navbar />
+           <div className="flex flex-1">
+          <Sidebar />
+           <div className="flex-1 p-4">
+            <ContactCenter />
+          </div>
+        </div>
+          </div>
+          </PrivateRoute>
+           }
+          />
+
+          
+
 
         {/* Redirect to login if not logged in */}
         <Route path="*" element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />} />
