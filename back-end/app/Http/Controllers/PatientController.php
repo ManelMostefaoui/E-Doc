@@ -45,6 +45,7 @@ class PatientController extends Controller
         return response()->json([
             'id' => $patient->id,
             'name' => $patient->user->name,
+            'gender' => $patient->user->gender,
             'email' => $patient->user->email,
             'birthdate' => $patient->user->birthdate,
             'phone_num' => $patient->user->phone_num,

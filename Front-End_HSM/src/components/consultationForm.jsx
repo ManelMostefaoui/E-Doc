@@ -1,5 +1,4 @@
-
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { ChevronDown, Pencil, Printer, Trash2, Upload, FileText } from "lucide-react"
 import { EsiLogo, EsiText } from "../assets"
 import EsiForm from "./EsiForm"
@@ -7,10 +6,63 @@ import UploadDocuments from "./UploadDocuments"
 import  jsPDF  from "jspdf"
 import html2canvas from "html2canvas"
 import Ordonnance from "./ordonnance"
+import axios from "axios"
+
+// Configure axios base URL
+axios.defaults.baseURL = 'http://127.0.0.1:8000'
 
 export default function ConsultationForm() {
   const [selectedCategory, setSelectedCategory] = useState("")
   const ordonnanceRef = useRef(null)
+  const [patientVitals, setPatientVitals] = useState({
+    fullName: "",
+    age: "",
+    height: "",
+    weight: "",
+    bloodPressure: "",
+    temperature: "",
+    heartRate: "",
+    bloodSugar: "",
+    observations: "",
+    date: new Date().toISOString().split('T')[0]
+  })
+
+  // Fetch patient vitals when component mounts
+  useEffect(() => {
+    const fetchPatientVitals = async () => {
+      try {
+        const response = await axios.get(`/patient-vitals/show/${patient.id}`)
+        if (response.data) {
+          setPatientVitals(response.data)
+        }
+      } catch (error) {
+        console.error("Error fetching patient vitals:", error)
+      }
+    }
+
+
+  }, )
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setPatientVitals(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleSaveVitals = async () => {
+    try {
+      await axios.post('http://127.0.0.1:8000/patient-vitals/store', {
+        ...patientVitals,
+      })
+      alert("Patient vitals saved successfully!")
+    } catch (error) {
+      console.error("Error saving patient vitals:", error)
+      alert("Failed to save patient vitals")
+    }
+  }
+
   const generatePDF = async () => { console.log(ordonnanceRef.current)
     if (!ordonnanceRef.current) return
   
@@ -64,21 +116,36 @@ export default function ConsultationForm() {
         <div  className="grid grid-cols-[120px_1fr] items-center gap-4">
               <label className="form-label">Date :</label>
               <div className="relative">
-                <input type="date" placeholder={'Date'} className="form-input pr-10" />
-                
+                <input 
+                  type="date" 
+                  name="date"
+                  value={patientVitals.date}
+                  onChange={handleInputChange}
+                  className="form-input pr-10" 
+                />
               </div>
             </div>
-          {inputFields.map((label, index) => (
-            <div key={index} className="grid grid-cols-[120px_1fr] items-center gap-4">
-              <label className="form-label">{label} :</label>
-              <div className="relative">
-                <input type="text" placeholder={label} className="form-input pr-10" />
-                <button className=" absolute right-22 top-1/2 -translate-y-1/2  hover:text-primary">
-                  <Pencil size={16} />
-                </button>
+          {inputFields.map((label, index) => {
+            const fieldName = label.toLowerCase().replace(/\s+/g, '')
+            return (
+              <div key={index} className="grid grid-cols-[120px_1fr] items-center gap-4">
+                <label className="form-label">{label} :</label>
+                <div className="relative">
+                  <input 
+                    type="text" 
+                    name={fieldName}
+                    value={patientVitals[fieldName]}
+                    onChange={handleInputChange}
+                    placeholder={label} 
+                    className="form-input pr-10" 
+                  />
+                  <button className="absolute right-22 top-1/2 -translate-y-1/2 hover:text-primary">
+                    <Pencil size={16} />
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </section>
 
@@ -174,7 +241,10 @@ export default function ConsultationForm() {
 
       {/* Action Buttons */}
       <div className="flex gap-4 mt-8">
-        <button className="bg-[#008080] hover:bg-primary-dark text-white px-6 py-2 rounded-md text-sm font-medium w-40 transition-colors">
+        <button 
+          onClick={handleSaveVitals}
+          className="bg-[#008080] hover:bg-primary-dark text-white px-6 py-2 rounded-md text-sm font-medium w-40 transition-colors"
+        >
           Save
         </button>
         <button className="border border-red-500 bg-white text-red-700 hover:bg-red-600 hover:text-white w-40 px-6 py-2 rounded-md text-sm font-medium transition-colors">
