@@ -2,7 +2,7 @@
 
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { LogOut, ChevronDown, LayoutDashboard, Users, Settings, Stethoscope, Calendar, Bell, Shield, User } from "lucide-react"
+import { LogOut, ChevronDown, LayoutDashboard, Users, Settings, Stethoscope, Calendar, Bell, Shield, User, FileText } from "lucide-react"
 
 export default function Sidebar({ isVisible = true }) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(true)
@@ -41,6 +41,13 @@ export default function Sidebar({ isVisible = true }) {
         >
           <Stethoscope size={20} />
           <span className='font-nunito text-[16px] font-normal '>Consultation</span>
+        </Link>
+        <Link
+          to="/medications"
+          className={`flex items-center gap-3 p-2 ${currentPath === "/medications" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+        >
+          <FileText size={20} />
+          <span className='font-nunito text-[16px] font-normal '>Medications</span>
         </Link>
         <Link
           to="/Appointements"

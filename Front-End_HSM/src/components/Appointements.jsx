@@ -146,14 +146,14 @@ export default function Appointments() {
   )
 
   return (
-    <div className="flex h-screen bg-[#eef5f5]">
+    <div className="flex h-screen bg-[#eef5f5] flex-col lg:flex-row w-full">
       {/* Main Content */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto w-full">
         {/* Content */}
-        <main className="p-6">
+        <main className="p-4 sm:p-6">
           <h1 className="text-2xl font-medium text-[#008080] mb-6">Appointments :</h1>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
             {/* Calendar */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg p-6 shadow-sm">
@@ -404,11 +404,11 @@ export default function Appointments() {
           </div>
 
           {/* Appointments Table */}
-          <div className="bg-white rounded-lg mt-6 overflow-hidden shadow-sm">
+          <div className="bg-white rounded-lg mt-6 overflow-hidden shadow-sm w-full">
             <div className="p-4 border-b">
               <h2 className="text-lg font-medium text-gray-900">Appointments List</h2>
             </div>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto w-full">
               <table className="w-full">
                 <thead>
                   <tr className="border-b bg-gray-50">

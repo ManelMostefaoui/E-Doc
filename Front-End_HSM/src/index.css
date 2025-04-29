@@ -4,8 +4,8 @@
 :root {
   --primary: #008080;
 }
-body {
-  background-color: #f7f9f9;
+body, #root {
+  background-color: #f7f9f9 !important;
 }
 
 /* Hide scrollbar for Chrome, Safari, and Edge */
@@ -57,6 +57,13 @@ body {
 
 .form-input:focus {
   box-shadow: 0 0 0 1px #3b82f6; /* Ring-primary */
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 

@@ -21,8 +21,8 @@ function NotificationCard({ name, role, date, title, message, avatarUrl, status,
         </div>
         {status === "Pending" && (
           <button className="w-56 h-12 flex items-center justify-center px-6 py-2 bg-[#008080] text-white rounded-xl font-semibold text-md shadow-sm hover:bg-[#004d4d] transition-colors whitespace-nowrap" onClick={onSchedule}>
-            Schedule an appointment
-          </button>
+          Schedule an appointment
+        </button>
         )}
         {status === "Approved" && (
           <span className="w-56 px-6 py-2 border-2 border-[#008080] text-[#008080] rounded-xl font-semibold text-md shadow-sm bg-transparent flex items-center justify-center">
@@ -169,14 +169,14 @@ export default function Notifications() {
   return (
     <div className="flex h-screen bg-[#f7f9f9]">
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden w-full">
         {/* Content */}
-        <main className="flex-1 overflow-auto p-6 bg-[#eef5f5]">
-          <div className="max-w-5xl mx-auto">
+        <main className="flex-1 overflow-auto p-4 sm:p-6 bg-[#eef5f5]">
+          <div className="max-w-5xl mx-auto w-full">
             <h1 className="text-2xl font-semibold text-[#008080] mb-6">Notifications :</h1>
 
             {/* Search and Filter */}
-            <div className="flex justify-between mb-6">
+            <div className="flex justify-between mb-6 flex-col sm:flex-row gap-4">
               <div className="relative w-80">
                 <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
                   <Search size={18} className="text-gray-400" />
@@ -242,7 +242,7 @@ export default function Notifications() {
             </div>
 
             {/* Notifications */}
-            <div className="space-y-6">
+            <div className="space-y-6 w-full">
               {filteredNotifications.map((notification) => (
                 <NotificationCard
                   key={notification.id}
