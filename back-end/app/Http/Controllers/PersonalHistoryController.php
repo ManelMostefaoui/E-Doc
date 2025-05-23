@@ -8,10 +8,9 @@ use App\Models\Patient;
 
 class PersonalHistoryController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         $validated = $request->validate([
-            'patient_id' => 'required|exists:patients,id',
             'smoker' => 'nullable|boolean',
             'cigarette_count' => 'nullable|integer',
             'chewing_tobacco' => 'nullable|boolean',
@@ -25,10 +24,13 @@ class PersonalHistoryController extends Controller
         ]);
 
         // Check if patient is archived
-        $patient = Patient::findOrFail($validated['patient_id']);
+        $patient = Patient::findOrFail($id);
         if ($patient->is_archived) {
             return response()->json(['message' => 'Cannot add personal history for archived patient'], 403);
         }
+
+        // Add patient_id to validated data
+        $validated['patient_id'] = $id;
 
         PersonalHistory::create($validated);
 

@@ -85,12 +85,12 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     Route::put('/medical-history/{id}', [MedicalHistoryController::class, 'update']);
 
     //personal history
-    Route::post('/personal-history/store', [PersonalHistoryController::class, 'store']);
+    Route::post('/personal-history/store/{id}', [PersonalHistoryController::class, 'store']);
     Route::put('/Personal-history/update/{id}', [PersonalHistoryController::class, 'update']);
     Route::get('/personal-history/{id}', [PersonalHistoryController::class, 'show']);
 
     //screening
-    Route::post('/Screening/store', [ScreeningController::class, 'store']);       // Create new screening
+    Route::post('/Screening/store/{id}', [ScreeningController::class, 'store']);       // Create new screening
     Route::put('/Screening/update/{id}', [ScreeningController::class, 'update']);
     Route::get('/Screening/{id}', [ScreeningController::class, 'show']); // Show screening details
     // Update existing screening

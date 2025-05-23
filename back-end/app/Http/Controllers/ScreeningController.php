@@ -8,19 +8,21 @@ use Illuminate\Http\Request;
 
 class ScreeningController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         $validated = $request->validate([
-            'patient_id' => 'required|exists:patients,id',
             'test_type' => 'required|string',
             'result' => 'nullable|string',
         ]);
 
-        // Check if patient is archived
-        $patient = Patient::findOrFail($validated['patient_id']);
+        // Check if patient exists and is archived
+        $patient = Patient::findOrFail($id);
         if ($patient->is_archived) {
             return response()->json(['message' => 'Cannot add screening for archived patient'], 403);
         }
+
+        // Add patient_id to validated data
+        $validated['patient_id'] = $id;
 
         Screening::create($validated);
 
