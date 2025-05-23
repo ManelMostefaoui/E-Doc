@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PatientVitals extends Model
 {
     protected $fillable = [
-        'patient_id',
+
         'full_name',
         'Age',
         'height',

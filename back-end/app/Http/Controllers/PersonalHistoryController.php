@@ -10,6 +10,14 @@ class PersonalHistoryController extends Controller
 {
     public function store(Request $request, $id)
     {
+        $patient = Patient::findOrFail($id);
+
+        // Check if patient is archived
+        if ($patient->is_archived) {
+            return response()->json(['message' => 'Cannot add personal history for archived patient'], 403);
+        }
+
+        // Validate the request
         $validated = $request->validate([
             'smoker' => 'nullable|boolean',
             'cigarette_count' => 'nullable|integer',
@@ -23,15 +31,10 @@ class PersonalHistoryController extends Controller
             'other' => 'nullable|string',
         ]);
 
-        // Check if patient is archived
-        $patient = Patient::findOrFail($id);
-        if ($patient->is_archived) {
-            return response()->json(['message' => 'Cannot add personal history for archived patient'], 403);
-        }
+        // Add patient_id manually to the validated data
+        $validated['patient_id'] = $patient->id;
 
-        // Add patient_id to validated data
-        $validated['patient_id'] = $id;
-
+        // Create the personal history
         PersonalHistory::create($validated);
 
         return response()->json(['message' => 'Personal history saved successfully.']);

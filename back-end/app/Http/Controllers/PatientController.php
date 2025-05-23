@@ -45,6 +45,7 @@ class PatientController extends Controller
         return response()->json([
             'id' => $patient->id,
             'name' => $patient->user->name,
+            'gender' => $patient->user->gender,
             'email' => $patient->user->email,
             'birthdate' => $patient->user->birthdate,
             'phone_num' => $patient->user->phone_num,
@@ -58,50 +59,50 @@ class PatientController extends Controller
         ], 200);
     }
 
-public function index()
-{
-    $patients = Patient::where('is_archived', false)->with('user')->get();
+    public function index()
+    {
+        $patients = Patient::where('is_archived', false)->with('user')->get();
 
-    return response()->json($patients);
-}
-
-
-public function archive($id)
-{
-    $patient = Patient::findOrFail($id);
-
-    $patient->is_archived = true;
-    $patient->save();
-
-    return response()->json([
-        'message' => 'Dossier médical archivé avec succès.',
-        'data' => $patient
-    ]);
-}
-
-public function restore($id)
-{
-    $patient = Patient::findOrFail($id);
-
-    if (!$patient->is_archived) {
-        return response()->json([
-            'message' => 'Le dossier n\'est pas archivé.',
-        ], 400);
+        return response()->json($patients);
     }
 
-    $patient->is_archived = false;
-    $patient->save();
 
-    return response()->json([
-        'message' => 'Dossier médical restauré avec succès.',
-        'data' => $patient
-    ]);
-}
+    public function archive($id)
+    {
+        $patient = Patient::findOrFail($id);
+
+        $patient->is_archived = true;
+        $patient->save();
+
+        return response()->json([
+            'message' => 'Dossier médical archivé avec succès.',
+            'data' => $patient
+        ]);
+    }
+
+    public function restore($id)
+    {
+        $patient = Patient::findOrFail($id);
+
+        if (!$patient->is_archived) {
+            return response()->json([
+                'message' => 'Le dossier n\'est pas archivé.',
+            ], 400);
+        }
+
+        $patient->is_archived = false;
+        $patient->save();
+
+        return response()->json([
+            'message' => 'Dossier médical restauré avec succès.',
+            'data' => $patient
+        ]);
+    }
     public function showArchivedPatients()
     {
         // Récupérer les patients archivés (is_archived = true) et inclure les informations de l'utilisateur
         $archivedPatients = Patient::where('is_archived', true)
-        ->with('user')->get();// Charger les informations de l'utilisateur
+            ->with('user')->get(); // Charger les informations de l'utilisateur
 
         // Si aucun patient n'est trouvé, renvoyer un message d'erreur avec le code 404
         if ($archivedPatients->isEmpty()) {
@@ -111,5 +112,4 @@ public function restore($id)
         // Retourner la liste des patients archivés avec les informations de l'utilisateur
         return response()->json($archivedPatients);
     }
-
 }
