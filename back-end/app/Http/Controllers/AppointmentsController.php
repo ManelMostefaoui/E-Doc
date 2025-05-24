@@ -15,34 +15,48 @@ use App\Models\User;
 
 class AppointmentsController extends Controller
 {
-    public function store(Request $request)
-    {
-        $request->validate([
-            'consultation_request_id' => 'required|exists:consultation_requests,id',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
-            'duration' => 'required|integer',
-        ]);
+    public function store(Request $request, $consultation_request_id = null) {
+        // Case 1: Appointment with consultation request
+        if ($consultation_request_id) {
+            $consultationRequest = ConsultationRequest::findOrFail($consultation_request_id);
+            $patient_id = $consultationRequest->patient_id;
 
-        $scheduledAt = $request->input('date') . ' ' . $request->input('time');
+            $appointmentData = [
+                'consultation_request_id' => $consultation_request_id,
+                'patient_id' => $patient_id,
+                'scheduled_at' => $request->input('date') . ' ' . $request->input('time'),
+                'duration' => $request->duration
+            ];
 
-        // Create the appointment
-        $appointment = appointments::create([
-            'consultation_request_id' => $request->consultation_request_id,
-            'scheduled_at' => $scheduledAt,
-            'duration' => $request->duration,
-        ]);
+            $appointment = appointments::create($appointmentData);
 
-        // Update the request status
-        $requestModel = ConsultationRequest::find($request->consultation_request_id);
-        $requestModel->status = 'scheduled';
-        $requestModel->appointment_date = $scheduledAt;
-        $requestModel->save();
+            // Update consultation request status
+            $consultationRequest->status = 'scheduled';
+            $consultationRequest->appointment_date = $appointmentData['scheduled_at'];
+            $consultationRequest->save();
 
-        // Send notification to patient
-        $patient = $requestModel->patient->user;
-        if ($patient) {
-            $patient->notify(new AppointmentScheduledNotification($appointment));
+            // Send notification to patient
+            $patient = $consultationRequest->patient->user;
+            if ($patient) {
+                $patient->notify(new AppointmentScheduledNotification($appointment));
+            }
+        }
+        // Case 2: Direct appointment without consultation request
+        else {
+            $request->validate([
+                'patient_id' => 'required|exists:patients,id',
+                'date' => 'required|date',
+                'time' => 'required',
+                'duration' => 'required|integer'
+            ]);
+
+            $appointmentData = [
+                'patient_id' => $request->input('patient_id'),
+                'scheduled_at' => $request->input('date') . ' ' . $request->input('time'),
+                'duration' => $request->duration
+            ];
+
+            $appointment = appointments::create($appointmentData);
         }
 
         return response()->json([
@@ -50,6 +64,7 @@ class AppointmentsController extends Controller
             'appointment' => $appointment
         ]);
     }
+
     public function show($id)
     {
         $appointment = appointments::with('consultationRequest')->findOrFail($id);
@@ -304,5 +319,4 @@ class AppointmentsController extends Controller
         ]);
     }
 
-    // ... existing code ...
 }
