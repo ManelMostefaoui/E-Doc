@@ -48,7 +48,7 @@ class MedicalHistoryController extends Controller
         }
 
         $validated = $request->validate([
-            'condition' => 'nullable|in:congenital,general_disease,surgery,allergy',
+            'condition' => 'required|in:congenital,general_disease,surgery,allergy',
             'date_appeared' => 'nullable|date',
             'severity' => 'nullable|in:mild,moderate,severe',
             'implication' => 'nullable|string',

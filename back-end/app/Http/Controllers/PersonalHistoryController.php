@@ -51,7 +51,6 @@ class PersonalHistoryController extends Controller
         }
 
         $validated = $request->validate([
-
             'smoker' => 'nullable|boolean',
             'cigarette_count' => 'nullable|integer',
             'chewing_tobacco' => 'nullable|boolean',

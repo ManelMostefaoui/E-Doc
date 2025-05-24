@@ -7,12 +7,6 @@ use App\Models\ConsultationRequest;
 use Illuminate\Support\Facades\Log;
 use App\Models\Role;
 use App\Models\User;
-use App\Notifications\PatientConsultationRequestSubmitted;
-use App\Notifications\ConsultationRequestSubmitted;
-use App\Notifications\AppointmentScheduledForDoctor;
-use App\Notifications\AppointmentScheduledForPatient;
-use App\Notifications\ConsultationRequestConfirmedForDoctor;
-use App\Notifications\ConsultationRequestCancelledForDoctor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -39,8 +33,6 @@ class ConsultationRequestController extends Controller
             'status' => 'pending', // Le statut initial est "pending"
         ]);
 
-        // Envoyer une notification au patient
-        $user->notify(new PatientConsultationRequestSubmitted($consultationRequest));
 
         // Récupérer tous les médecins
 
@@ -48,10 +40,6 @@ class ConsultationRequestController extends Controller
             $query->where('name', 'doctor');  // Utilise 'name' au lieu de 'role' si la colonne s'appelle 'name'
         })->get();  // Récupérer tous les médecins
 
-        // Envoyer la notification à tous les médecins
-        foreach ($doctors as $doctor) {
-            $doctor->notify(new ConsultationRequestSubmitted($consultationRequest));
-        }
 
         // Retourner une réponse de succès
         return response()->json([
@@ -100,9 +88,7 @@ class ConsultationRequestController extends Controller
         })->get();
 
         // Envoi de la notification à chaque médecin
-        foreach ($doctors as $doctor) {
-            $doctor->notify(new ConsultationRequestConfirmedForDoctor($consultationRequest));  // Envoi de la notification à chaque médecin
-        }
+
 
         return response()->json([
             'message' => 'Demande confirmée avec succès',
@@ -141,9 +127,6 @@ class ConsultationRequestController extends Controller
         })->get();
 
         // Envoi de la notification à chaque médecin
-        foreach ($doctors as $doctor) {
-            $doctor->notify(new ConsultationRequestCancelledForDoctor($consultationRequest));  // Envoi de la notification
-        }
 
         return response()->json([
             'message' => 'Demande annulée avec succès',
@@ -183,8 +166,6 @@ class ConsultationRequestController extends Controller
             'status' => 'scheduled',
         ]);
 
-        // Envoyer la notification au médecin
-        $user->notify(new AppointmentScheduledForDoctor($consultationRequest));
 
         // Envoyer la notification au patient
         $patientUser = $consultationRequest->patient->user;
@@ -524,5 +505,34 @@ class ConsultationRequestController extends Controller
                 'gender' => $request->patient->user->gender,
             ],
         ]);
+    }
+
+    public function getPendingRequests()
+    {
+    // Get consultation requests that are pending and not in appointments table
+    $pendingRequests = ConsultationRequest::with(['patient.user'])
+        ->where('status', 'pending')
+        ->whereNotExists(function ($query) {
+            $query->select('consultation_request_id')
+                  ->from('appointments')
+                  ->whereRaw('consultation_requests.id = appointments.consultation_request_id');
+        })
+        ->latest('id')  // This ensures ordering by ID in descending order
+        ->orderBy('created_at', 'desc')  // Secondary ordering by creation date
+        ->get()
+        ->map(function ($request) {
+            return [
+                'id' => $request->id,
+                'patient_name' => $request->patient->user->name,
+                'message' => $request->message,
+                'created_at' => $request->created_at,
+                'status' => $request->status
+            ];
+        });
+
+    return response()->json([
+        'message' => 'Pending consultation requests retrieved successfully',
+        'data' => $pendingRequests
+    ]);
     }
 }

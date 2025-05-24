@@ -235,7 +235,7 @@ class ScreeningController extends Controller
         $screenings = Screening::where('patient_id', $patientId)
             ->orderBy('created_at', 'desc')
             ->get();
-    
+
         return response()->json($screenings);
     }
 }
