@@ -128,28 +128,33 @@ export default function Sidebar({ isVisible = true }) {
       className={`${isVisible ? "block" : "hidden"} md:block bg-[#F7F9F9] w-64 border-r border-gray-200 flex-shrink-0 shadow-[2px_2px_12px_rgba(0,0,0,0.25)]`}
     >
       <nav className="p-4 flex flex-col gap-4 ">
-        <Link
-          to="/dashboard"
-          className={`flex items-center gap-3 p-3 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-        >
-          <LayoutDashboard size={20} />
-          <span className='font-nunito text-[16px] font-normal '>Dashboard</span>
-        </Link>
-        <Link
-          to="/consultation"
-          className={`flex items-center gap-3 p-3 ${currentPath === "/consultation" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-        >
-          <Stethoscope size={20} />
-          <span className='font-nunito text-[16px] font-normal '>Consultation</span>
-        </Link>
-        <Link
-          to="/Appointements"
-          className={`flex items-center gap-3 p-3 ${currentPath === "/Appointements" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-        >
-          <Calendar size={20} />
-          <span className='font-nunito text-[16px] font-normal '>Appointements</span>
-        </Link>
-        
+        {userRole === 'admin' && (
+          <Link
+            to="/dashboard"
+            className={`flex items-center gap-3 p-3 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+          >
+            <LayoutDashboard size={20} />
+            <span className='font-nunito text-[16px] font-normal '>Dashboard</span>
+          </Link>
+        )}
+        {userRole === 'doctor' && (
+          <>
+            <Link
+              to="/consultation"
+              className={`flex items-center gap-3 p-3 ${currentPath === "/consultation" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+            >
+              <Stethoscope size={20} />
+              <span className='font-nunito text-[16px] font-normal '>Consultation</span>
+            </Link>
+            <Link
+              to="/Appointements"
+              className={`flex items-center gap-3 p-3 ${currentPath === "/Appointements" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+            >
+              <Calendar size={20} />
+              <span className='font-nunito text-[16px] font-normal '>Appointements</span>
+            </Link>
+          </>
+        )}
         {userRole === 'admin' && (
           <Link
             to="/users"
@@ -159,7 +164,7 @@ export default function Sidebar({ isVisible = true }) {
             <span className='font-nunito text-[16px] font-normal'>Users management</span>
           </Link>
         )}
-
+        
         {userRole === 'doctor' && (
           <Link
             to="/patients"

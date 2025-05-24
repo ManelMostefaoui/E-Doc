@@ -79,7 +79,23 @@ export default function PatientProfile() {
         });
         
         if (response.data) {
-          setPersonalHistory(response.data);
+          // Convert fields to match backend field names
+          setPersonalHistory({
+            ...response.data,
+            smoker: response.data.smoker === true || response.data.smoker === 1 ? "Yes" : 
+                    response.data.smoker === false || response.data.smoker === 0 ? "No" : "Empty",
+            cigarette_count: response.data.cigarette_count ?? "Empty",
+            chewing_tobacco: response.data.chewing_tobacco === true || response.data.chewing_tobacco === 1 ? "Yes" : 
+                            response.data.chewing_tobacco === false || response.data.chewing_tobacco === 0 ? "No" : "Empty",
+            chewing_tobacco_count: response.data.chewing_tobacco_count ?? "Empty",
+            first_use_age: response.data.first_use_age ?? "Empty",
+            former_smoker: response.data.former_smoker === true || response.data.former_smoker === 1 ? "Yes" : 
+                          response.data.former_smoker === false || response.data.former_smoker === 0 ? "No" : "Empty",
+            exposure_period: response.data.exposure_period ?? "Empty",
+            alcohol: response.data.alcohol ?? "Empty",
+            medications: response.data.medications ?? "Empty",
+            other: response.data.other ?? "Empty"
+          });
         }
       } catch (err) {
         console.error("Failed to fetch personal history:", err);
@@ -261,7 +277,7 @@ export default function PatientProfile() {
                 <Shield size={18} className="text-[#495057] mt-3" />
                 <div className="space-y-1">
                   <p className="font-nunito text-[16px] font-light text-[#495057]">Social security number :</p>
-                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.SSN || "Not specified"}</p>
+                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.social_security_no || "Not specified"}</p>
                 </div>
               </div>
 
@@ -269,7 +285,7 @@ export default function PatientProfile() {
                 <Droplet size={18} className="text-[#495057] mt-3" />
                 <div className="space-y-1">
                   <p className="font-nunito text-[16px] font-light text-[#495057]">Blood type :</p>
-                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.blood_type || "Not specified"}</p>
+                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.blood_group || "Not specified"}</p>
                 </div>
               </div>
 
@@ -296,41 +312,38 @@ export default function PatientProfile() {
 
           <div className="font-nunito text-[16px] text-[#1A1A1A] py-6">
             <div className="space-y-6 py-3">
-              <div>
-                <p className="text-[#495057]">Tobacco :</p>
-                <div className="mt-4 space-y-4">
-                  <div className="grid grid-cols-2 gap-2 ">
-                    <p className="font-semibold">Smoking : <span className="font-normal">{personalHistory.smoking || "Empty"}</span></p>
-                    <p className="font-semibold">Cigarettes per day : <span className="font-normal">{personalHistory.cigarettes_per_day || "Empty"}</span></p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2 ">
-                    <p className="font-semibold">Chewing tobacco : <span className="font-normal">{personalHistory.chewing_tobacco || "Empty"}</span></p> 
-                    <p className="font-semibold">Number of boxes : <span className="font-normal">{personalHistory.number_of_boxes || "Empty"}</span></p>
-                  </div>
-
-                  <p className="font-semibold">Other forms : <span className="font-normal">{personalHistory.other_forms || "Empty"}</span></p>
-                  <p className="font-semibold">Age at first use : <span className="font-normal">{personalHistory.age_at_first_use || "N/A"}</span></p>
-                
-                  <div className="grid grid-cols-2 gap-2 ">
-                    <p className="font-semibold">Former smoker : <span className="font-normal">{personalHistory.former_smoker || "Empty"}</span></p>
-                    <p className="font-semibold">Quit date : <span className="font-normal">{personalHistory.quit_date || "N/A"}</span></p>
+              <div className="space-y-6 py-3">
+                <div>
+                  <p className="text-[#495057]">Tobacco :</p>
+                  <div className="mt-4 space-y-4">
+                    <div className="grid grid-cols-2 gap-2 ">
+                      <p className="font-semibold">Smoking : <span className="font-normal">{personalHistory.smoker || "Empty"}</span></p>
+                      <p className="font-semibold">Cigarettes per day : <span className="font-normal">{personalHistory.cigarette_count || "Empty"}</span></p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 ">
+                      <p className="font-semibold">Chewing tobacco : <span className="font-normal">{personalHistory.chewing_tobacco || "Empty"}</span></p>
+                      <p className="font-semibold">Number of boxes : <span className="font-normal">{personalHistory.chewing_tobacco_count || "Empty"}</span></p>
+                    </div>
+                    <p className="font-semibold">Other forms : <span className="font-normal">{personalHistory.other || "Empty"}</span></p>
+                    <p className="font-semibold">Age at first use : <span className="font-normal">{personalHistory.first_use_age || "N/A"}</span></p>
+                    <div className="grid grid-cols-2 gap-2 ">
+                      <p className="font-semibold">Former smoker : <span className="font-normal">{personalHistory.former_smoker || "Empty"}</span></p>
+                      <p className="font-semibold">Quit date : <span className="font-normal">{personalHistory.quit_date || "N/A"}</span></p>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="font-nunito text-[16px] text-[#1A1A1A] space-y-4 py-5">
-                <p className="text-[#495057]">Alcohol :</p>
-                <div className="grid grid-cols-2 gap-2 mt-4">
-                  <p className="font-semibold">Consumption : <span className="font-normal">{personalHistory.consumption || "Empty"}</span></p>
-                  <p className="font-semibold">Period of exposure : <span className="font-normal">{personalHistory.periode_of_exposure || "N/A"}</span></p>
+                <div className="font-nunito text-[16px] text-[#1A1A1A] space-y-4 py-5">
+                  <p className="text-[#495057]">Alcohol :</p>
+                  <div className="grid grid-cols-2 gap-2 mt-4">
+                    <p className="font-semibold">Consumption : <span className="font-normal">{personalHistory.alcohol || "Empty"}</span></p>
+                    <p className="font-semibold">Period of exposure : <span className="font-normal">{personalHistory.exposure_period || "N/A"}</span></p>
+                  </div>
                 </div>
-              </div>
-
-              <div className="font-nunito text-[16px] text-[#1A1A1A] space-y-4">
-                <p className="text-[#495057]">Medications :</p>
-                <p className="mt-4 font-semibold">Current medications : <span className="font-normal">{personalHistory.current_medications || "Empty"}</span></p>
-                <p className="font-semibold mt-2">Past medications : <span className="font-normal">{personalHistory.past_medications || "Empty"}</span></p>
+                <div className="font-nunito text-[16px] text-[#1A1A1A] space-y-4">
+                  <p className="text-[#495057]">Medications :</p>
+                  <p className="mt-4 font-semibold">Current medications : <span className="font-normal">{personalHistory.medications || "Empty"}</span></p>
+                  <p className="font-semibold mt-2">Past medications : <span className="font-normal">{personalHistory.past_medications || "Empty"}</span></p>
+                </div>
               </div>
             </div>
           </div>
