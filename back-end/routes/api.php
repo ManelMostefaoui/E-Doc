@@ -91,7 +91,9 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     Route::get('/personal-history/{id}', [PersonalHistoryController::class, 'show']);
 
     //screening
-    Route::post('/Screening/store/{id}', [ScreeningController::class, 'store']);       // Create new screening    Route::get('/Screening/{id}', [ScreeningController::class, 'show']); // Show screening details
+    Route::post('/Screening/store/{id}', [ScreeningController::class, 'store']);       // Create new screening
+    Route::get('/Screening/{id}', [ScreeningController::class, 'getPatientScreenings']);
+    Route::put('/Screening/update/{id}', [ScreeningController::class, 'update']); // Update existing screening
     // Update existing screening
 
     //medication lists
@@ -228,4 +230,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/appointments/{id}/confirm', [AppointmentsController::class, 'confirm']); // Confirm an appointment
     // Patient cancels an appointment
     Route::post('/appointments/patient/{id}/cancel', [AppointmentsController::class, 'cancelbypatient']);
+    Route::get('/screening/statistics', [ScreeningController::class, 'getStatistics']);
+    Route::get('/screening/statistics/{category}', [ScreeningController::class, 'getCategoryStatistics']);
 });
