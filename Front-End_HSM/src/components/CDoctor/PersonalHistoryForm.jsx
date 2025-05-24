@@ -6,19 +6,18 @@ import { useParams } from "react-router-dom"
 function PersonalHistoryForm({ onClose, onSave }) {
   const { id: patientId } = useParams();
   const [formData, setFormData] = useState({
-    smoking: "",
-    cigarettesPerDay: "",
-    chewingTobacco: "",
-    numberOfBoxes: "",
-    otherForms: "",
-    ageAtFirstUse: "",
-    formerSmoker: "",
-    quitDate: "",
-    consumption: "",
-    periodeOfExposure: "",
-    currentMedications: "",
-    pastMedications: "",
-  })
+    smoker: "",
+    cigarette_count: "",
+    chewing_tobacco: "",
+    chewing_tobacco_count: "",
+    first_use_age: "",
+    former_smoker: "",
+    exposure_period: "",
+    alcohol: "",
+    medications: "",
+    other: "",
+  });
+  const [personalHistoryId, setPersonalHistoryId] = useState(null);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
@@ -26,7 +25,6 @@ function PersonalHistoryForm({ onClose, onSave }) {
   useEffect(() => {
     const fetchPersonalHistory = async () => {
       if (!patientId) return;
-      
       try {
         setLoading(true);
         const token = localStorage.getItem('token');
@@ -36,30 +34,31 @@ function PersonalHistoryForm({ onClose, onSave }) {
             'Accept': 'application/json'
           }
         });
-        
+        console.log("Personal history response:", response.data);
         if (response.data) {
           setFormData({
-            smoking: response.data.smoking || "",
-            cigarettesPerDay: response.data.cigarettes_per_day || "",
-            chewingTobacco: response.data.chewing_tobacco || "",
-            numberOfBoxes: response.data.number_of_boxes || "",
-            otherForms: response.data.other_forms || "",
-            ageAtFirstUse: response.data.age_at_first_use || "",
-            formerSmoker: response.data.former_smoker || "",
-            quitDate: response.data.quit_date || "",
-            consumption: response.data.consumption || "",
-            periodeOfExposure: response.data.periode_of_exposure || "",
-            currentMedications: response.data.current_medications || "",
-            pastMedications: response.data.past_medications || "",
+            smoker: response.data.smoker === 1 ? "true" : response.data.smoker === 0 ? "false" : "",
+            cigarette_count: response.data.cigarette_count ?? "",
+            chewing_tobacco: response.data.chewing_tobacco === 1 ? "true" : response.data.chewing_tobacco === 0 ? "false" : "",
+            chewing_tobacco_count: response.data.chewing_tobacco_count ?? "",
+            first_use_age: response.data.first_use_age ?? "",
+            former_smoker: response.data.former_smoker === 1 ? "true" : response.data.former_smoker === 0 ? "false" : "",
+            exposure_period: response.data.exposure_period ?? "",
+            alcohol: response.data.alcohol ?? "",
+            medications: response.data.medications ?? "",
+            other: response.data.other ?? "",
           });
+          setPersonalHistoryId(response.data.id);
+        } else {
+          setPersonalHistoryId(null);
         }
       } catch (err) {
         console.error("Failed to fetch personal history:", err);
+        setPersonalHistoryId(null);
       } finally {
         setLoading(false);
       }
     };
-    
     fetchPersonalHistory();
   }, [patientId]);
 
@@ -67,63 +66,70 @@ function PersonalHistoryForm({ onClose, onSave }) {
     setFormData({
       ...formData,
       [field]: value,
-    })
-  }
+    });
+  };
 
   const handleSave = async () => {
     if (!patientId) {
       setError("Patient ID is missing. Cannot save information.");
       return;
     }
-
     try {
       setLoading(true);
       setError("");
-      
       const token = localStorage.getItem('token');
-      
-      // Prepare data for API
       const postData = {
-        smoking: formData.smoking,
-        cigarettes_per_day: formData.cigarettesPerDay,
-        chewing_tobacco: formData.chewingTobacco,
-        number_of_boxes: formData.numberOfBoxes,
-        other_forms: formData.otherForms,
-        age_at_first_use: formData.ageAtFirstUse,
-        former_smoker: formData.formerSmoker,
-        quit_date: formData.quitDate,
-        consumption: formData.consumption,
-        periode_of_exposure: formData.periodeOfExposure,
-        current_medications: formData.currentMedications,
-        past_medications: formData.pastMedications,
+        patient_id: patientId,
+        smoker: formData.smoker === "true" ? true : formData.smoker === "false" ? false : null,
+        cigarette_count: formData.cigarette_count === "" ? null : parseInt(formData.cigarette_count, 10),
+        chewing_tobacco: formData.chewing_tobacco === "true" ? true : formData.chewing_tobacco === "false" ? false : null,
+        chewing_tobacco_count: formData.chewing_tobacco_count === "" ? null : parseInt(formData.chewing_tobacco_count, 10),
+        first_use_age: formData.first_use_age === "" ? null : parseInt(formData.first_use_age, 10),
+        former_smoker: formData.former_smoker === "true" ? true : formData.former_smoker === "false" ? false : null,
+        exposure_period: formData.exposure_period || null,
+        alcohol: formData.alcohol || null,
+        medications: formData.medications || null,
+        other: formData.other || null,
       };
-      
-      // Make POST request to save personal history
-      const response = await axios.post(
-        `http://127.0.0.1:8000/api/personal-history/store/${patientId}`,
-        postData,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+
+      let response;
+      if (personalHistoryId) {
+        // Update existing personal history
+        response = await axios.put(
+          `http://127.0.0.1:8000/api/Personal-history/update/${patientId}`,
+          postData,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
           }
-        }
-      );
-      
+        );
+      } else {
+        // Add new personal history
+        response = await axios.post(
+          `http://127.0.0.1:8000/api/personal-history/store/${patientId}`,
+          postData,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+      }
+
       console.log('Save response:', response.data);
       setSuccess(true);
-      
-      // Call onSave callback with updated data
       if (onSave) {
         onSave(postData);
       }
-      
-      // Close form after short delay
       setTimeout(() => {
         if (onClose) onClose();
       }, 1500);
-      
+
     } catch (err) {
       console.error('Error saving personal history:', err);
       setError(err.response?.data?.message || "Failed to save personal history. Please try again.");
@@ -228,48 +234,37 @@ function PersonalHistoryForm({ onClose, onSave }) {
           <div className="mb-6">
             <h3 className="text-teal-600 font-medium mb-4">Tobacco :</h3>
             <div className="space-y-4">
-              {renderField("Smoking", "smoking", "select", [
-                { value: "yes", label: "Yes" },
-                { value: "no", label: "No" },
+              {renderField("Smoking", "smoker", "select", [
+                { value: "true", label: "Yes" },
+                { value: "false", label: "No" },
               ])}
-
-              {renderField("Cigarettes per day", "cigarettesPerDay", "select", [
-                { value: "1-5", label: "1-5" },
-                { value: "6-10", label: "6-10" },
-                { value: "11-20", label: "11-20" },
-                { value: "20+", label: "20+" },
+              {renderField("Cigarettes count", "cigarette_count", "select", [
+                { value: "1", label: "1-5" },
+                { value: "2", label: "5-10" },
+                { value: "3", label: "10-15" },
+                { value: "4", label: "15-20" },
+                { value: "5", label: "more than 20" },
               ])}
-
-              {renderField("Chewing tobacco", "chewingTobacco", "select", [
-                { value: "yes", label: "Yes" },
-                { value: "no", label: "No" },
+              {renderField("Chewing tobacco", "chewing_tobacco", "select", [
+                { value: "true", label: "Yes" },
+                { value: "false", label: "No" },
               ])}
-
-              {renderField("Number of boxes", "numberOfBoxes", "select", [
-                { value: "1-5", label: "1-5" },
-                { value: "6-10", label: "6-10" },
-                { value: "11-20", label: "11-20" },
-                { value: "20+", label: "20+" },
+              {renderField("Chewing tobacco count", "chewing_tobacco_count", "select", [
+                { value: "1", label: "1" },
+                { value: "2", label: "2" },
+                { value: "3", label: "3" },
+                { value: "more than 3", label: "more than 3" },
               ])}
-
-              {renderField("Other forms", "otherForms", "input")}
-
-              {renderField("Age at first use", "ageAtFirstUse", "select", [
-                { value: "under-18", label: "Under 18" },
-                { value: "18-21", label: "18-21" },
-                { value: "22-30", label: "22-30" },
-                { value: "over-30", label: "Over 30" },
+              {renderField("Other forms", "other", "input")}
+              {renderField("First use age", "first_use_age", "select", [
+                { value: "10", label: "10" },
+                { value: "15", label: "15" },
+                { value: "18", label: "18" },
+                { value: "21", label: "21" },
               ])}
-
-              {renderField("Former smoker", "formerSmoker", "select", [
-                { value: "yes", label: "Yes" },
-                { value: "no", label: "No" },
-              ])}
-
-              {renderField("Quit date", "quitDate", "select", [
-                { value: "less-than-1-year", label: "Less than 1 year ago" },
-                { value: "1-5-years", label: "1-5 years ago" },
-                { value: "more-than-5-years", label: "More than 5 years ago" },
+              {renderField("Former smoker", "former_smoker", "select", [
+                { value: "true", label: "Yes" },
+                { value: "false", label: "No" },
               ])}
             </div>
           </div>
@@ -278,14 +273,13 @@ function PersonalHistoryForm({ onClose, onSave }) {
           <div className="mb-6">
             <h3 className="text-teal-600 font-medium mb-4">Alcohol :</h3>
             <div className="space-y-4">
-              {renderField("Consumption", "consumption", "select", [
+              {renderField("Alcohol consumption", "alcohol", "select", [
                 { value: "none", label: "None" },
                 { value: "occasional", label: "Occasional" },
                 { value: "moderate", label: "Moderate" },
                 { value: "heavy", label: "Heavy" },
               ])}
-
-              {renderField("Period of exposure", "periodeOfExposure", "select", [
+              {renderField("Exposure period", "exposure_period", "select", [
                 { value: "less-than-1-year", label: "Less than 1 year" },
                 { value: "1-5-years", label: "1-5 years" },
                 { value: "5-10-years", label: "5-10 years" },
@@ -298,8 +292,7 @@ function PersonalHistoryForm({ onClose, onSave }) {
           <div className="mb-6">
             <h3 className="text-teal-600 font-medium mb-4">Medications :</h3>
             <div className="space-y-4">
-              {renderField("Current medications", "currentMedications", "input")}
-              {renderField("Past medications", "pastMedications", "input")}
+              {renderField("Medications", "medications", "input")}
             </div>
           </div>
         </div>

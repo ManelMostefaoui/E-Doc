@@ -11,6 +11,7 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
+  const [medicalHistoryId, setMedicalHistoryId] = useState(null)
   const [sections, setSections] = useState([
     {
       id: "1",
@@ -85,12 +86,21 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
         });
         
         if (response.data) {
-          // Transform the API data to match our sections structure
-          const transformedData = [
+          console.log("Medical history response:", response.data);
+          
+          // Check if we have existing medical history data (could be an array or single object)
+          const medicalHistoryData = Array.isArray(response.data) ? response.data : [response.data];
+          
+          if (medicalHistoryData.length > 0 && medicalHistoryData[0].id) {
+            setMedicalHistoryId(medicalHistoryData[0].id);
+          }
+          
+          // Initialize the sections with empty conditions
+          const initialSections = [
             {
               id: "1",
               title: "Congenital Conditions",
-              conditions: response.data.congenital_conditions || [{
+              conditions: [{
                 id: "1-1",
                 condition: "",
                 dateAppeared: "",
@@ -102,7 +112,7 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
             {
               id: "2",
               title: "General Diseases",
-              conditions: response.data.general_diseases || [{
+              conditions: [{
                 id: "2-1",
                 condition: "",
                 dateAppeared: "",
@@ -114,7 +124,7 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
             {
               id: "3",
               title: "Surgical Interventions",
-              conditions: response.data.surgical_interventions || [{
+              conditions: [{
                 id: "3-1",
                 condition: "",
                 dateAppeared: "",
@@ -126,7 +136,7 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
             {
               id: "4",
               title: "Allergic Reactions",
-              conditions: response.data.allergic_reactions || [{
+              conditions: [{
                 id: "4-1",
                 condition: "",
                 dateAppeared: "",
@@ -137,11 +147,50 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
             },
           ];
           
-          setSections(transformedData);
+          // Process each medical history record and add to appropriate section
+          medicalHistoryData.forEach(record => {
+            const sectionMap = {
+              'congenital': 0,      // Congenital Conditions
+              'general_disease': 1, // General Diseases  
+              'surgery': 2,         // Surgical Interventions
+              'allergy': 3          // Allergic Reactions
+            };
+            
+            const sectionIndex = sectionMap[record.condition];
+            
+            if (sectionIndex !== undefined) {
+              // If this is the first condition in the section, replace the empty placeholder
+              if (initialSections[sectionIndex].conditions.length === 1 && 
+                  !initialSections[sectionIndex].conditions[0].condition) {
+                initialSections[sectionIndex].conditions[0] = {
+                  id: `${sectionIndex+1}-1`,
+                  condition: record.condition,
+                  dateAppeared: record.date_appeared || "",
+                  severity: record.severity || "",
+                  implications: record.implication || "",
+                  treatment: record.treatment || "",
+                };
+              } else {
+                // Otherwise add as a new condition
+                initialSections[sectionIndex].conditions.push({
+                  id: `${sectionIndex+1}-${initialSections[sectionIndex].conditions.length + 1}`,
+                  condition: record.condition,
+                  dateAppeared: record.date_appeared || "",
+                  severity: record.severity || "",
+                  implications: record.implication || "",
+                  treatment: record.treatment || "",
+                });
+              }
+            }
+          });
+          
+          setSections(initialSections);
+        } else {
+          setMedicalHistoryId(null);
         }
       } catch (err) {
         console.error("Failed to fetch medical history:", err);
-        setError("Failed to load medical history data. Please try again.");
+        setMedicalHistoryId(null);
       } finally {
         setLoading(false);
       }
@@ -193,40 +242,84 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
       setError("Patient ID is missing. Cannot save information.");
       return;
     }
-
+  
+    // Clear previous errors
+    setError("");
+  
+    // Collect all valid conditions from all sections
+    const allConditions = [];
+    
+    // Process each section and map to backend categories
+    sections.forEach((section, index) => {
+      const categoryMap = {
+        0: 'congenital',      // Congenital Conditions
+        1: 'general_disease', // General Diseases  
+        2: 'surgery',         // Surgical Interventions
+        3: 'allergy'          // Allergic Reactions
+      };
+      
+      section.conditions.forEach(condition => {
+        // Only include conditions that have actual content
+        if (condition.condition && condition.condition.trim() !== "") {
+          allConditions.push({
+            condition: categoryMap[index], // This is the required enum value
+            date_appeared: condition.dateAppeared || null,
+            severity: condition.severity || null,
+            implication: condition.implications || null,
+            treatment: condition.treatment || null,
+          });
+        }
+      });
+    });
+  
+    // Validate that we have at least one valid condition
+    if (allConditions.length === 0) {
+      setError("At least one condition field is required.");
+      return;
+    }
+  
     try {
       setLoading(true);
-      setError("");
       
       const token = localStorage.getItem('token');
       
-      // Transform sections data to match API structure
-      const postData = {
-        congenital_conditions: sections[0].conditions,
-        general_diseases: sections[1].conditions,
-        surgical_interventions: sections[2].conditions,
-        allergic_reactions: sections[3].conditions,
-      };
+      console.log('Sending data:', allConditions); // Debug log
       
-      // Make POST request to save medical history
-      const response = await axios.post(
-        `http://127.0.0.1:8000/api/patients/${patientId}/medical-history`,
-        postData,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+      let response;
+      if (medicalHistoryId) {
+        // Update existing medical history using the medical history record ID
+        response = await axios.put(
+          `http://127.0.0.1:8000/api/medical-history/${medicalHistoryId}`,
+          allConditions, // Send array directly, not wrapped in object
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
           }
-        }
-      );
+        );
+      } else {
+        // Create new medical history
+        response = await axios.post(
+          `http://127.0.0.1:8000/api/patients/${patientId}/medical-history`,
+          allConditions, // Send array directly, not wrapped in object
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+      }
       
       console.log('Save response:', response.data);
       setSuccess(true);
       
       // Call onSave callback with updated data
       if (onSave) {
-        onSave(postData);
+        onSave(allConditions);
       }
       
       // Close form after short delay
@@ -236,7 +329,17 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
       
     } catch (err) {
       console.error('Error saving medical history:', err);
-      setError(err.response?.data?.message || "Failed to save medical history. Please try again.");
+      console.error('Error response:', err.response?.data);
+      
+      if (err.response?.data?.errors) {
+        // Handle Laravel validation errors
+        const validationErrors = Object.values(err.response.data.errors).flat();
+        setError(validationErrors.join(', '));
+      } else if (err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Failed to save medical history. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -308,10 +411,8 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
                       <label className="block text-sm mb-1">Condition :</label>
                     </div>
                     <div className="col-span-2 relative">
-                      <input
-                        type="text"
-                        placeholder="Condition"
-                        className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm"
+                      <select
+                        className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm appearance-none"
                         value={condition.condition}
                         onChange={(e) => {
                           setSections(prevSections =>
@@ -329,9 +430,15 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
                             )
                           );
                         }}
-                      />
-                      <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400">
-                        <Edit size={16} />
+                      >
+                        <option value="">Select Type</option>
+                        <option value="congenital">Congenital</option>
+                        <option value="general_disease">General Disease</option>
+                        <option value="surgery">Surgery</option>
+                        <option value="allergy">Allergy</option>
+                      </select>
+                      <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
+                        <ChevronDown size={16} />
                       </button>
                     </div>
                   </div>
@@ -374,10 +481,8 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
                       <label className="block text-sm mb-1">Severity :</label>
                     </div>
                     <div className="col-span-2 relative">
-                      <input
-                        type="text"
-                        placeholder="Severity"
-                        className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm"
+                      <select
+                        className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm appearance-none"
                         value={condition.severity}
                         onChange={(e) => {
                           setSections(prevSections =>
@@ -395,8 +500,13 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
                             )
                           );
                         }}
-                      />
-                      <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400">
+                      >
+                        <option value="">Select Severity</option>
+                        <option value="mild">Mild</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="severe">Severe</option>
+                      </select>
+                      <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
                         <ChevronDown size={16} />
                       </button>
                     </div>

@@ -18,17 +18,24 @@ class MedicalHistoryController extends Controller
         }
 
         $validated = $request->validate([
-            'condition' => 'required|in:congenital,general_disease,surgery,allergy',
-            'date_appeared' => 'nullable|date',
-            'severity' => 'nullable|in:mild,moderate,severe',
-            'implication' => 'nullable|string',
-            'treatment' => 'nullable|string',
+            '*' => 'required|array',
+            '*.condition' => 'required|in:congenital,general_disease,surgery,allergy',
+            '*.date_appeared' => 'nullable|date',
+            '*.severity' => 'nullable|in:mild,moderate,severe',
+            '*.implication' => 'nullable|string',
+            '*.treatment' => 'nullable|string',
         ]);
 
-        $validated['patient_id'] = $patientId;
-        $history = MedicalHistory::create($validated);
+        $histories = [];
+        foreach ($request->all() as $item) {
+            $item['patient_id'] = $patientId;
+            $histories[] = MedicalHistory::create($item);
+        }
 
-        return response()->json(['message' => 'Medical history added successfully', 'data' => $history]);
+        return response()->json([
+            'message' => 'Medical histories added successfully',
+            'data' => $histories
+        ]);
     }
 
     public function update(Request $request, $id)

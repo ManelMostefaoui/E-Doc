@@ -149,7 +149,7 @@ export default function Sidebar({ isVisible = true }) {
             <span className='font-nunito text-[16px] font-normal'>Users management</span>
           </Link>
         )}
-
+        
         {userRole === 'doctor' && (
           <Link
             to="/patients"
