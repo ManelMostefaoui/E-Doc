@@ -261,7 +261,7 @@ export default function PatientProfile() {
                 <Shield size={18} className="text-[#495057] mt-3" />
                 <div className="space-y-1">
                   <p className="font-nunito text-[16px] font-light text-[#495057]">Social security number :</p>
-                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.SSN || "Not specified"}</p>
+                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.social_security_no || "Not specified"}</p>
                 </div>
               </div>
 
@@ -269,7 +269,7 @@ export default function PatientProfile() {
                 <Droplet size={18} className="text-[#495057] mt-3" />
                 <div className="space-y-1">
                   <p className="font-nunito text-[16px] font-light text-[#495057]">Blood type :</p>
-                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.blood_type || "Not specified"}</p>
+                  <p className="font-nunito text-[16px] text-[#1A1A1A]">{patient.blood_group || "Not specified"}</p>
                 </div>
               </div>
 

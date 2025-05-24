@@ -42,7 +42,7 @@ class PersonalHistoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        $personalHistory = PersonalHistory::findOrFail($id);
+        $personalHistory = PersonalHistory::where('patient_id', $id)->first();
 
         // Check if patient is archived
         $patient = Patient::findOrFail($personalHistory->patient_id);
@@ -51,7 +51,7 @@ class PersonalHistoryController extends Controller
         }
 
         $validated = $request->validate([
-            'patient_id' => 'required|exists:patients,id',
+
             'smoker' => 'nullable|boolean',
             'cigarette_count' => 'nullable|integer',
             'chewing_tobacco' => 'nullable|boolean',

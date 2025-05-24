@@ -181,12 +181,11 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     //Show stats by day of confirmed cancelled consultation request in a month dashboard interface
     Route::get('/consultations/stats/daily', [ConsultationRequestController::class, 'getConsultationStatsByDay']);
 
-        //Show stats by day of confirmed and details of consultation request in appointment interface
+    //Show stats by day of confirmed and details of consultation request in appointment interface
     Route::get('/consultations/confirmed-by-day', [ConsultationRequestController::class, 'getConfirmedRequestsByDay']);
 
     //Show Stats of the month if fully booked , geeting fulled , no appointement
     Route::get('/consultations/monthly-booking-status', [ConsultationRequestController::class, 'getMonthlyBookingStatus']);
-
 });
 
 // -----------------------------------------------------------------------------------------------------------
@@ -205,7 +204,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/sent-requests', [ConsultationRequestController::class, 'getSentRequests']);
 
     Route::get('/consultations/user', [ConsultationRequestController::class, 'getUserConsultations']);
-
 });
 
 // -----------------------------------------------------------------------------------------------------------

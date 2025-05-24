@@ -32,8 +32,8 @@ function BasicInfosForm({ onClose, onSave }) {
         
         // Update form with existing data
         setFormData({
-          SSN: response.data.SSN || "",
-          bloodType: response.data.blood_type || "",
+          SSN: response.data.social_security_no || "",
+          bloodType: response.data.blood_group || "",
         });
         
         setError("");
@@ -71,36 +71,14 @@ function BasicInfosForm({ onClose, onSave }) {
       
       // Prepare data for API
       const updateData = {
-        SSN: formData.SSN,
-        blood_type: formData.bloodType
-      };
-
-      // Prepare vitals data (example: adjust fields as needed)
-      const vitalsData = {
-        // Example fields, replace/add as needed
-        height: formData.height,
-        weight: formData.weight,
-        temperature: formData.temperature,
-        blood_pressure: formData.bloodPressure
+        social_security_no: formData.SSN,
+        blood_group: formData.bloodType
       };
 
       // Make PUT request to update patient data
       const response = await axios.put(
         `http://127.0.0.1:8000/api/patients/update/${patientId}`,
         updateData,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      // Make PUT request to update patient vitals
-      await axios.put(
-        `http://127.0.0.1:8000/api/patients/vitals/update/${patientId}`,
-        vitalsData,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -116,9 +94,8 @@ function BasicInfosForm({ onClose, onSave }) {
       // Call onSave callback with updated data
       if (onSave) {
         onSave({
-          SSN: formData.SSN,
-          blood_type: formData.bloodType,
-          ...vitalsData
+          social_security_no: formData.SSN,
+          blood_group: formData.bloodType
         });
       }
       
