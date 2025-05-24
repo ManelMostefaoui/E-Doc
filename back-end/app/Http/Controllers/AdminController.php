@@ -39,6 +39,7 @@ class AdminController extends Controller
         return response()->json(
             User::with('role')->get()->map(function ($user) {
                 return [
+                    'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
                     'role' => $user->role->name ?? null, // Assuming role has a 'name' field
@@ -74,12 +75,25 @@ class AdminController extends Controller
 
             'name' => $user->name,
             'email' => $user->email,
-            'role_id' => $user->role_id,
+            'role' => $user->role->name,
             'gender' => $user->gender,
             'birthdate' => $user->birthdate,
             'phone_num' => $user->phone_num,
             'address' => $user->address,
 
         ]);
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $user->update($request->all());
+
+        return response()->json(['message' => 'User updated successfully']);
     }
 }

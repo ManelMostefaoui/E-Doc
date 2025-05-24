@@ -22,7 +22,6 @@ export default function Sidebar({ isVisible = true }) {
           return;
         }
   
-        // Try to get user info from localStorage first
         const userData = localStorage.getItem('user');
         if (userData) {
           try {
@@ -37,9 +36,6 @@ export default function Sidebar({ isVisible = true }) {
           }
         }
   
-        // If we're here, we need to fetch user data from the server
-        // First, try to get role information from the authentication token
-        // For admin users, we'll use the admin endpoint
         try {
           const response = await axios.get(`${API_BASE_URL}/admin/users`, {
             headers: {
@@ -49,15 +45,11 @@ export default function Sidebar({ isVisible = true }) {
           });
           
           if (response.data) {
-            // This would mean we're an admin user
             setUserRole('admin');
-            // Save to localStorage for future reference
             const userData = { role: { name: 'admin' } };
             localStorage.setItem('user', JSON.stringify(userData));
           }
         } catch (adminErr) {
-          // If not an admin, try to determine if a doctor
-          // We'll check if they can access the patient endpoint
           try {
             const response = await axios.get(`${API_BASE_URL}/patients`, {
               headers: {
@@ -67,15 +59,12 @@ export default function Sidebar({ isVisible = true }) {
             });
             
             if (response.data) {
-              // This is likely a doctor
               setUserRole('doctor');
-              // Save to localStorage for future reference
               const userData = { role: { name: 'doctor' } };
               localStorage.setItem('user', JSON.stringify(userData));
             }
           } catch (doctorErr) {
             console.error('Failed to determine user role:', doctorErr);
-            // If we can't determine the role, we might need to check for a patient
             try {
               const response = await axios.get(`${API_BASE_URL}/patients/me`, {
                 headers: {
@@ -85,15 +74,12 @@ export default function Sidebar({ isVisible = true }) {
               });
   
               if (response.data) {
-                // This is a patient
                 setUserRole('patient');
-                // Save to localStorage for future reference
                 const userData = { role: { name: 'patient' } };
                 localStorage.setItem('user', JSON.stringify(userData));
               }
             } catch (patientErr) {
               console.error('Failed to determine if user is a patient:', patientErr);
-              // If auth fails, redirect to login
               if (patientErr.response && (patientErr.response.status === 401 || patientErr.response.status === 403)) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
@@ -104,7 +90,6 @@ export default function Sidebar({ isVisible = true }) {
         }
       } catch (err) {
         console.error('Error fetching user role:', err);
-        // If auth is invalid, redirect to login
         if (err.response && (err.response.status === 401 || err.response.status === 403)) {
           localStorage.removeItem('token');
           localStorage.removeItem('user');
@@ -128,15 +113,14 @@ export default function Sidebar({ isVisible = true }) {
       className={`${isVisible ? "block" : "hidden"} md:block bg-[#F7F9F9] w-64 border-r border-gray-200 flex-shrink-0 shadow-[2px_2px_12px_rgba(0,0,0,0.25)]`}
     >
       <nav className="p-4 flex flex-col gap-4 ">
-        {userRole === 'admin' && (
-          <Link
-            to="/dashboard"
-            className={`flex items-center gap-3 p-3 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-          >
-            <LayoutDashboard size={20} />
-            <span className='font-nunito text-[16px] font-normal '>Dashboard</span>
-          </Link>
-        )}
+        <Link
+          to="/dashboard"
+          className={`flex items-center gap-3 p-3 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+        >
+          <LayoutDashboard size={20} />
+          <span className='font-nunito text-[16px] font-normal '>Dashboard</span>
+        </Link>
+        
         {userRole === 'doctor' && (
           <>
             <Link
@@ -155,6 +139,7 @@ export default function Sidebar({ isVisible = true }) {
             </Link>
           </>
         )}
+
         {userRole === 'admin' && (
           <Link
             to="/users"
@@ -203,33 +188,26 @@ export default function Sidebar({ isVisible = true }) {
                 className={`flex items-center gap-2 p-3 ${currentPath === "/admin-settings" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
               >
                 <User size={18} />
-                <span>Personal informations</span>
+                <span className='font-nunito text-[16px] font-normal'>Personal informations</span>
               </Link>
               <Link
                 to="/settings/security"
-                className={`p-3 ${currentPath === "/settings/security" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
+                className={`flex items-center gap-2 p-3 ${currentPath === "/settings/security" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
               >
-                <Shield size={18} className="inline mr-2" />
-                Security
-              </Link>
-              <Link
-                to="/settings/notifications"
-                className={`p-3 ${currentPath === "/settings/notifications" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
-              >
-                <Bell size={18} className="inline mr-2" />
-                Notifications
+                <Shield size={18} />
+                <span className='font-nunito text-[16px] font-normal'>Security</span>
               </Link>
             </div>
           )}
         </div>
-        <div 
+
+        <button
           onClick={handleLogout}
           className="flex items-center gap-3 p-3 hover:bg-[#eef5f5] rounded-md cursor-pointer mt-auto"
         >
           <LogOut size={20} />
-          <span className='font-nunito text-[16px] font-normal text-[#1A1A1A]'>Log out</span>
-        </div>
-        
+          <span className='font-nunito text-[16px] font-normal'>Log out</span>
+        </button>
       </nav>
     </aside>
   )
