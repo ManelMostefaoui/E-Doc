@@ -209,6 +209,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/consultations/user', [ConsultationRequestController::class, 'getUserConsultations']);
 
+    Route::post('/appointments/create-with-consultation/{consultation_request_id}', [AppointmentsController::class, 'store']);
+
+    Route::post('/appointments/create-direct', [AppointmentsController::class, 'store']);
 });
 
 // -----------------------------------------------------------------------------------------------------------

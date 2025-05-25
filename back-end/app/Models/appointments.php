@@ -8,6 +8,7 @@ class appointments extends Model
 {
     protected $fillable = [
         'consultation_request_id',
+        'patient_id',
         'scheduled_at',
         'duration',
         'status',
@@ -16,5 +17,10 @@ class appointments extends Model
     public function consultationRequest()
     {
         return $this->belongsTo(ConsultationRequest::class);
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
     }
 }
