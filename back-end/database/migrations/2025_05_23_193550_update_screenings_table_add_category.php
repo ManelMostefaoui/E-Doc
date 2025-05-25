@@ -9,8 +9,28 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // First, update the category enum values
+        // Add the missing columns to the screenings table
         Schema::table('screenings', function (Blueprint $table) {
+            // Add category column
+            $table->enum('category', [
+                'respiratory_diseases',
+                'heart_and_vascular_diseases',
+                'digestive_system_diseases',
+                'endocrine_diseases',
+                'reproductive_system_diseases',
+                'blood_disorders',
+                'urinary_tract_and_kidney_diseases',
+                'skin_diseases',
+                'ent_diseases',
+                'eye_diseases',
+                'neurological_and_mental_disorders',
+                'rheumatic_diseases',
+                'cancers'
+            ])->default('respiratory_diseases');
+
+            // Add type column (will replace test_type functionality)
+            $table->string('type')->after('category');
+
             // Make result nullable if it's not already
             $table->text('result')->nullable()->change();
         });
@@ -20,7 +40,7 @@ return new class extends Migration
             $newCategory = 'respiratory_diseases'; // default category
             $newType = 'Other'; // default type
 
-            // Map existing types to new categories and types
+            // Map existing test_type values to new categories and types
             $categoryMap = [
                 'respiratory_diseases' => ['Asthma', 'Allergy', 'Tuberculosis', 'Pneumonia', 'Other'],
                 'heart_and_vascular_diseases' => ['High blood pressure (Hypertension)', 'Acute rheumatic fever (ARF)', 'Arrhythmia (Heart rhythm disorder)'],
@@ -37,11 +57,11 @@ return new class extends Migration
                 'cancers' => ['Cancer']
             ];
 
-            // Try to find a matching category and type
+            // Try to find a matching category and type based on existing test_type
             foreach ($categoryMap as $category => $types) {
-                if (in_array($screening->type, $types)) {
+                if (in_array($screening->test_type, $types)) {
                     $newCategory = $category;
-                    $newType = $screening->type;
+                    $newType = $screening->test_type;
                     break;
                 }
             }
@@ -53,11 +73,18 @@ return new class extends Migration
                     'type' => $newType
                 ]);
         });
+
+        // Drop the old test_type column
+        Schema::table('screenings', function (Blueprint $table) {
+            $table->dropColumn('test_type');
+        });
     }
 
     public function down(): void
     {
-        // No need to revert the changes as we're just updating existing data
-        // The column structure remains the same
+        // Drop the added columns
+        Schema::table('screenings', function (Blueprint $table) {
+            $table->dropColumn(['category', 'type']);
+        });
     }
 };
