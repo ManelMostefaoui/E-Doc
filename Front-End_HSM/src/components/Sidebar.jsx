@@ -197,17 +197,26 @@ export default function Sidebar({ isVisible = true }) {
                 <Shield size={18} />
                 <span className='font-nunito text-[16px] font-normal'>Security</span>
               </Link>
+              <Link
+                to="/settings/notifications"
+                className={`flex items-center gap-2 p-3 ${currentPath === "/settings/notifications" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+              >
+                <Bell size={18} />
+                <span className='font-nunito text-[16px] font-normal'>Notifications</span>
+              </Link>
             </div>
           )}
         </div>
 
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-3 p-3 hover:bg-[#eef5f5] rounded-md cursor-pointer mt-auto"
-        >
-          <LogOut size={20} />
-          <span className='font-nunito text-[16px] font-normal'>Log out</span>
-        </button>
+        <div className="mt-auto">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 p-3 hover:bg-[#eef5f5] rounded-md cursor-pointer"
+          >
+            <LogOut size={20} />
+            <span className='font-nunito text-[16px] font-normal'>Log out</span>
+          </button>
+        </div>
       </nav>
     </aside>
   )

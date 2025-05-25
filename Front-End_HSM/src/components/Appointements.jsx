@@ -5,9 +5,14 @@ import {
   Ban,
 } from "lucide-react"
 import { Link } from "react-router-dom"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from "axios"
+import AppointmentForm from "./CDoctor/AppointmentForm"
 
 export default function Appointments() {
+  // Add this state near your other state declarations
+  const [showAppointmentForm, setShowAppointmentForm] = useState(false)
+  
   // State for selected date and settings
   const [selectedDate, setSelectedDate] = useState("25")
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -20,22 +25,53 @@ export default function Appointments() {
     to: "16 : 00"
   })
   const [maxAppointments, setMaxAppointments] = useState(25)
-  const [appointments, setAppointments] = useState([
-    { id: 1, time: "08 : 00", duration: "30 min", name: "Boudelia Dhikra", gender: "Female" },
-    { id: 2, time: "08 : 30", duration: "45 min", name: "Mostefaoui Manel", gender: "Female" },
-    { id: 3, time: "09 : 15", duration: "20 min", name: "Laichaoui Amira", gender: "Female" },
-    { id: 4, time: "09 : 35", duration: "30 min", name: "Aini Ines", gender: "Female" },
-    { id: 5, time: "09 : 55", duration: "15 min", name: "Saidi Malek", gender: "Female" },
-    { id: 6, time: "10 : 10", duration: "20 min", name: "Dadna Fatima Zahra", gender: "Female" },
-    { id: 7, time: "10 : 40", duration: "10 min", name: "Houari Mohamed", gender: "Male" },
-    { id: 8, time: "10 : 50", duration: "20 min", name: "Benikhlef Houssam Eddine", gender: "Male" },
-    { id: 9, time: "11 : 10", duration: "20 min", name: "Guerfi Ahmed Yacine", gender: "Male" },
-    { id: 10, time: "11 : 30", duration: "30 min", name: "Zaidi Basma Douaa", gender: "Female" },
-    { id: 11, time: "12 : 00", duration: "10 min", name: "Belala Ahmed mohamed", gender: "Male" },
-  ])
+  const [appointments, setAppointments] = useState([])
+  const [loadingAppointments, setLoadingAppointments] = useState(false)
   const [editingAppointment, setEditingAppointment] = useState(null)
   const [searchTerm, setSearchTerm] = useState("")
-  
+
+  // Fetch appointments for selected date
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      setLoadingAppointments(true)
+      try {
+        const token = localStorage.getItem('token')
+        const selectedDateFormatted = `${getYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate).padStart(2, '0')}`
+        
+        const response = await axios.get(`http://127.0.0.1:8000/api/appointments/by-day?date=${selectedDateFormatted}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
+          }
+        })
+        
+        console.log('Fetched appointments:', response.data)
+        
+        // Transform API data to match your component structure
+        const transformedAppointments = response.data.data?.map((appointment, index) => ({
+          id: appointment.id,
+          time: appointment.time,
+          duration: "30 min", // Default duration since it's not in API response
+          name: appointment.patient?.full_name || appointment.patient?.email || `Patient ${appointment.id}`,
+          gender: "Unknown" // Default value since not in API response
+        })) || []
+        
+        setAppointments(transformedAppointments)
+      } catch (error) {
+        console.error('Error fetching appointments:', error)
+        if (error.response?.status === 401) {
+          localStorage.removeItem('token')
+        }
+        // Fallback to empty array on error
+        setAppointments([])
+      } finally {
+        setLoadingAppointments(false)
+      }
+    }
+
+    fetchAppointments()
+  }, [selectedDate, currentDate]) // Refetch when date changes
+
   // Options for dropdowns
   const dayOptions = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
   const hourOptions = ["8 : 00", "9 : 00", "10 : 00", "11 : 00", "12 : 00", "13 : 00", "14 : 00", "15 : 00", "16 : 00", "17 : 00", "18 : 00"]
@@ -115,10 +151,7 @@ export default function Appointments() {
   
   // Handle add appointment click
   const handleAddAppointment = () => {
-    console.log("Adding appointment for date:", selectedDate)
-    console.log("Working days:", workingDays)
-    console.log("Working hours:", workingHours)
-    console.log("Max appointments:", maxAppointments)
+    setShowAppointmentForm(true)
   }
 
   // Handle edit appointment
@@ -406,7 +439,10 @@ export default function Appointments() {
           {/* Appointments Table */}
           <div className="bg-white rounded-lg mt-6 overflow-hidden shadow-sm">
             <div className="p-4 border-b">
-              <h2 className="text-lg font-medium text-gray-900">Appointments List</h2>
+              <h2 className="text-lg font-medium text-gray-900">
+                Appointments List
+                {loadingAppointments && <span className="ml-2 text-sm text-gray-500">(Loading...)</span>}
+              </h2>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -420,25 +456,44 @@ export default function Appointments() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredAppointments.map((appointment) => (
-                    <AppointmentRow
-                      key={appointment.id}
-                      appointment={appointment}
-                      onEdit={() => handleEditAppointment(appointment)}
-                      onDelete={() => handleDeleteAppointment(appointment.id)}
-                    />
-                  ))}
+                  {loadingAppointments ? (
+                    <tr>
+                      <td colSpan="5" className="px-6 py-8 text-center text-gray-500">
+                        Loading appointments...
+                      </td>
+                    </tr>
+                  ) : filteredAppointments.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="px-6 py-8 text-center text-gray-500">
+                        No appointments found for {getMonthName()} {selectedDate}, {getYear()}
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredAppointments.map((appointment) => (
+                      <AppointmentRow
+                        key={appointment.id}
+                        appointment={appointment}
+                        onEdit={() => handleEditAppointment(appointment)}
+                        onDelete={() => handleDeleteAppointment(appointment.id)}
+                      />
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
           </div>
         </main>
       </div>
+
+      {/* Conditional rendering for AppointmentForm */}
+      {showAppointmentForm && (
+        <AppointmentForm onClose={() => setShowAppointmentForm(false)} />
+      )}
     </div>
   )
 }
 
-function CalendarDay({ day, status, isSelected = false, onClick }) {
+function CalendarDay({ day, status, isSelected, onClick }) {
   const getStatusColor = () => {
     switch (status) {
       case "fully-booked":
