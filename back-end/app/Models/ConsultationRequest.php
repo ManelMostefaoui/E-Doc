@@ -25,6 +25,11 @@ class ConsultationRequest extends Model
         return $this->belongsTo(Patient::class, 'patient_id');
     }
 
+    public function appointment()
+    {
+        return $this->hasOne(appointments::class, 'consultation_request_id');
+    }
+
     protected static function boot()
     {
         parent::boot();
