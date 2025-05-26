@@ -54,7 +54,8 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthenticatedSessionControll
 //Storage for all auth users
 Route::middleware('auth:sanctum')->post('/profile/upload-pic', [StorageController::class, 'uploadProfilePhoto'])
     ->name('upload.profile.photo');
-
+Route::middleware('auth:sanctum')->post('/documents/upload', [StorageController::class, 'storeDocument'])
+    ->name('documents.upload');
 
 
 // -----------------------------------------------------------------------------------------------------------

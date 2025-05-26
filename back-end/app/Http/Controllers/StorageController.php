@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -29,5 +30,27 @@ class StorageController extends Controller
         $user->save();
 
         return back()->with('success', 'Profile photo updated!');
+    }
+
+    public function storeDocument(Request $request)
+    {
+        $request->validate([
+            'document' => 'required|file|mimes:pdf,doc,docx,jpg,png', // adjust types as needed
+            'title' => 'nullable|string|max:255',
+            'consultation_id' => 'nullable|exists:consultation,id',
+        ]);
+
+        // Store file
+        $path = $request->file('document')->store('documents', 'public');
+
+        // Create document record
+        Document::create([
+            'title' => $request->title,
+            'document' => $path,
+            'user_id' => Auth::id(), // assuming user is logged in
+            'consultation_id' => $request->consultation_id,
+        ]);
+
+        return back()->with('success', 'Document uploaded successfully.');
     }
 }
