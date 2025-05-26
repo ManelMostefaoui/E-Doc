@@ -29,28 +29,34 @@ class StorageController extends Controller
         $user->profile_photo = $path;
         $user->save();
 
-        return back()->with('success', 'Profile photo updated!');
+        return response()->json(['message' => 'Photo uploaded successfully.'], 201);
     }
 
     public function storeDocument(Request $request)
     {
         $request->validate([
-            'document' => 'required|file|mimes:pdf,doc,docx,jpg,png', // adjust types as needed
+            'document' => 'required|file|mimes:pdf,doc,docx,jpg,png',
             'title' => 'nullable|string|max:255',
             'consultation_id' => 'nullable|exists:consultation,id',
+            'patient_id' => 'required|exists:users,id', 
         ]);
-
-        // Store file
+    
         $path = $request->file('document')->store('documents', 'public');
-
-        // Create document record
+    
         Document::create([
             'title' => $request->title,
             'document' => $path,
-            'user_id' => Auth::id(), // assuming user is logged in
+            'user_id' => $request->patient_id, 
             'consultation_id' => $request->consultation_id,
         ]);
+    
+        return response()->json(['message' => 'Document uploaded successfully.'], 201);
+    }
+    public function getDocument($id)
+    {
+       
+    $documents = Document::where('user_id', $id)->get();
 
-        return back()->with('success', 'Document uploaded successfully.');
+    return response()->json($documents);
     }
 }

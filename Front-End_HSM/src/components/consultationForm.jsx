@@ -11,6 +11,23 @@ import axios from "axios"
 // Configure axios base URL
 axios.defaults.baseURL = 'http://127.0.0.1:8000'
 
+// Define the same categories list as in PatientProfile.jsx for clinical data rendering
+const categories = [
+  { value: "respiratory_diseases", label: "Respiratory Diseases" },
+  { value: "heart_and_vascular_diseases", label: "Heart and Vascular Diseases" },
+  { value: "digestive_system_diseases", label: "Digestive System Diseases" },
+  { value: "endocrine_diseases", label: "Endocrine Diseases" },
+  { value: "reproductive_system_diseases", label: "Reproductive System Diseases" },
+  { value: "blood_disorders", label: "Blood Disorders" },
+  { value: "urinary_tract_and_kidney_diseases", label: "Urinary Tract and Kidney Diseases" },
+  { value: "skin_diseases", label: "Skin Diseases" },
+  { value: "ent_diseases", label: "ENT Diseases" },
+  { value: "eye_diseases", label: "Eye Diseases" },
+  { value: "neurological_and_mental_disorders", label: "Neurological and Mental Disorders" },
+  { value: "rheumatic_diseases", label: "Rheumatic Diseases" },
+  { value: "cancers", label: "Cancers" },
+];
+
 export default function ConsultationForm({ selectedPatient }) {
   const [selectedCategory, setSelectedCategory] = useState("")
   const ordonnanceRef = useRef(null)
@@ -31,6 +48,11 @@ export default function ConsultationForm({ selectedPatient }) {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [loadingPatients, setLoadingPatients] = useState(false);
   const [errorLoadingPatients, setErrorLoadingPatients] = useState(null);
+
+  // Add new state for detailed patient information
+  const [medicalHistory, setMedicalHistory] = useState({});
+  const [personalHistory, setPersonalHistory] = useState({});
+  const [clinicalData, setClinicalData] = useState({}); // For height, weight, and health issues
 
   // Calculate age from birthdate
   const calculateAge = (birthdate) => {
@@ -63,6 +85,8 @@ export default function ConsultationForm({ selectedPatient }) {
     const fetchPatientVitals = async () => {
       if (!patientVitals.id) return; // Only fetch if a patient with an ID is in patientVitals (selected from search)
 
+      // We will now fetch all detailed data in handlePatientSelect, so this useEffect might become redundant
+      // Keep it for now in case it's used elsewhere or for initial load of basic vitals if no selectedPatient prop
       try {
         const token = localStorage.getItem('token')
         const response = await axios.get(`/api/patient-vitals/show/${patientVitals.id}`, {
@@ -71,12 +95,17 @@ export default function ConsultationForm({ selectedPatient }) {
             'Accept': 'application/json'
           }
         })
-        
+
         if (response.data) {
-          setPatientVitals(prev => ({
-            ...prev,
-            ...response.data
-          }))
+          // Only update specific vital fields here to avoid overwriting detailed data fetched in handlePatientSelect
+           setPatientVitals(prev => ({
+             ...prev,
+             bloodPressure: response.data.bloodPressure || "",
+             temperature: response.data.temperature || "",
+             heartRate: response.data.heartRate || "",
+             bloodSugar: response.data.bloodSugar || "",
+             observations: response.data.observations || "",
+           }));
         }
       } catch (error) {
         console.error("Error fetching patient vitals after selection:", error)
@@ -182,6 +211,183 @@ export default function ConsultationForm({ selectedPatient }) {
       // Keep other vital information as they might have been entered manually or fetched separately
     }));
     setShowSuggestions(false); // Hide suggestions after selection
+
+    // Fetch detailed patient information after selecting a patient
+    if (patient.id) {
+      fetchMedicalHistory(patient.id);
+      fetchPersonalHistory(patient.id);
+      fetchClinicalData(patient.id);
+    }
+  };
+
+  // Define fetch functions for detailed patient information
+
+  const fetchMedicalHistory = async (patientId) => {
+    if (!patientId) return;
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`/api/patients/${patientId}/medical-history`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      });
+
+      const medicalHistoryData = response.data?.data;
+      if (medicalHistoryData && Array.isArray(medicalHistoryData)) {
+         const categorizedHistory = { // Categorize data similar to PatientProfile.jsx
+            congenital_conditions: [],
+            general_diseases: [],
+            surgical_interventions: [],
+            allergic_reactions: [],
+          };
+
+          medicalHistoryData.forEach(item => {
+            const conditionText = item.condition ? item.condition.toLowerCase() : '';
+            if (conditionText.includes('congenital') || conditionText.includes('birth defect')) {
+              categorizedHistory.congenital_conditions.push(item);
+            } else if (conditionText.includes('allergy') || conditionText.includes('allergic')) {
+              categorizedHistory.allergic_reactions.push(item);
+            } else if (conditionText.includes('surgery') || conditionText.includes('surgical')) {
+              categorizedHistory.surgical_interventions.push(item);
+            } else {
+              categorizedHistory.general_diseases.push(item);
+            }
+          });
+          setMedicalHistory(categorizedHistory);
+      } else {
+           setMedicalHistory({
+            congenital_conditions: [],
+            general_diseases: [],
+            surgical_interventions: [],
+            allergic_reactions: [],
+          });
+      }
+
+    } catch (err) {
+      console.error("Failed to fetch medical history:", err);
+      setMedicalHistory({}); // Clear medical history on error
+    }
+  };
+
+  const fetchPersonalHistory = async (patientId) => {
+    if (!patientId) return;
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`http://127.0.0.1:8000/api/patient/${patientId}/personal-history`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      });
+
+       if (response.data) {
+          // Convert fields to match backend field names and set state
+          setPersonalHistory({
+            ...response.data,
+            smoker: response.data.smoker === true || response.data.smoker === 1 ? "Yes" : 
+                    response.data.smoker === false || response.data.smoker === 0 ? "No" : "Empty",
+            cigarette_count: response.data.cigarette_count ?? "Empty",
+            chewing_tobacco: response.data.chewing_tobacco === true || response.data.chewing_tobacco === 1 ? "Yes" : 
+                            response.data.chewing_tobacco === false || response.data.chewing_tobacco === 0 ? "No" : "Empty",
+            chewing_tobacco_count: response.data.chewing_tobacco_count ?? "Empty",
+            first_use_age: response.data.first_use_age ?? "Empty",
+            former_smoker: response.data.former_smoker === true || response.data.former_smoker === 1 ? "Yes" : 
+                          response.data.former_smoker === false || response.data.former_smoker === 0 ? "No" : "Empty",
+            exposure_period: response.data.exposure_period ?? "Empty",
+            alcohol: response.data.alcohol ?? "Empty",
+            medications: response.data.medications ?? "Empty",
+            other: response.data.other ?? "Empty"
+          });
+        } else {
+           setPersonalHistory({}); // Clear personal history if no data
+        }
+    } catch (err) {
+      console.error("Failed to fetch personal history:", err);
+      setPersonalHistory({}); // Clear personal history on error
+    }
+  };
+
+  const fetchClinicalData = async (patientId) => {
+    if (!patientId) return;
+    console.log('Fetching clinical data for patient ID:', patientId);
+    try {
+      const token = localStorage.getItem('token');
+
+      // Fetch patient data for height and weight
+       const patientResponse = await axios.get(`http://127.0.0.1:8000/api/patients/${patientId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+      console.log('Patient data response:', patientResponse.data);
+      const clinicalDataFromPatient = patientResponse.data || {};
+
+      // Fetch screenings for health issues
+      const screeningsResponse = await axios.get(`http://127.0.0.1:8000/api/Screening/${patientId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+      console.log('Screenings data response:', screeningsResponse.data);
+      const screeningsData = Array.isArray(screeningsResponse.data) ? screeningsResponse.data : [];
+
+      // Combine and map data to clinicalData state
+      let updatedClinicalData = {
+        height: clinicalDataFromPatient.height || "",
+        weight: clinicalDataFromPatient.weight || "",
+        // Initialize health issue fields
+        respiratory_diseases: "",
+        heart_and_vascular_diseases: "",
+        digestive_system_diseases: "",
+        endocrine_diseases: "",
+        reproductive_system_diseases: "",
+        blood_disorders: "",
+        urinary_tract_and_kidney_diseases: "",
+        skin_diseases: "",
+        ent_diseases: "",
+        eye_diseases: "",
+        neurological_and_mental_disorders: "",
+        rheumatic_diseases: "",
+        cancers: "",
+        respiratory_diseases_notes: "",
+        heart_and_vascular_diseases_notes: "",
+        digestive_system_diseases_notes: "",
+        endocrine_diseases_notes: "",
+        reproductive_system_diseases_notes: "",
+        blood_disorders_notes: "",
+        urinary_tract_and_kidney_diseases_notes: "",
+        skin_diseases_notes: "",
+        ent_diseases_notes: "",
+        eye_diseases_notes: "",
+        neurological_and_mental_disorders_notes: "",
+        rheumatic_diseases_notes: "",
+        cancers_notes: "",
+      };
+
+       screeningsData.forEach(screening => {
+        const category = screening.category;
+        const type = screening.type;
+        const result = screening.result; // Assuming result contains the notes
+
+         if (updatedClinicalData.hasOwnProperty(category)) {
+          updatedClinicalData[category] = type || "";
+          const notesField = `${category}_notes`;
+          if (updatedClinicalData.hasOwnProperty(notesField)) {
+            updatedClinicalData[notesField] = result || "";
+          }
+        }
+      });
+
+      console.log('Updated clinical data before setting state:', updatedClinicalData);
+      setClinicalData(updatedClinicalData);
+
+    } catch (err) {
+      console.error("Failed to fetch clinical data:", err);
+      setClinicalData({}); // Clear clinical data on error
+    }
   };
 
   const handleSaveVitals = async () => {
@@ -268,16 +474,34 @@ export default function ConsultationForm({ selectedPatient }) {
                 </ul>
               )}
             </div>
-          </div>
+              </div>
           {/* Age display (non-editable) */}
           <div className="grid grid-cols-[120px_1fr] items-center gap-4">
             <label className="form-label">Age :</label>
             <div className="relative">
-              <span className="form-input bg-gray-50 flex items-center text-gray-700">{patientVitals.age}</span>
+              <span className="form-input bg-gray-50 flex items-center text-gray-700">{patientVitals.age || 'N/A'}</span>
             </div>
           </div>
+          {/* Height and Weight display (fetched clinical data) */}
+          <div className="grid grid-cols-[120px_1fr] items-center gap-4">
+              <label className="form-label">Height :</label>
+              <div className="relative">
+                  <span className="form-input bg-gray-50 flex items-center text-gray-700">{clinicalData.height || 'Empty'} cm</span>
+              </div>
+          </div>
+           <div className="grid grid-cols-[120px_1fr] items-center gap-4">
+              <label className="form-label">Weight :</label>
+              <div className="relative">
+                  <span className="form-input bg-gray-50 flex items-center text-gray-700">{clinicalData.weight || 'Empty'} kg</span>
+              </div>
+          </div>
+          {/* Editable input fields for other vitals */}
           {inputFields.map((label, index) => {
             const fieldName = label.toLowerCase().replace(/\s+/g, '')
+             // Exclude Height and Weight from this mapping as they are displayed separately
+             if (fieldName === 'height' || fieldName === 'weight') {
+                 return null;
+             }
             return (
               <div key={index} className="grid grid-cols-[120px_1fr] items-center gap-4">
                 <label className="form-label">{label} :</label>
@@ -285,7 +509,7 @@ export default function ConsultationForm({ selectedPatient }) {
                   <input
                     type="text"
                     name={fieldName}
-                    value={patientVitals[fieldName]}
+                    value={patientVitals[fieldName] || ''} // Use patientVitals for editable fields
                     onChange={handleInputChange}
                     placeholder={label}
                     className="form-input pr-10"
@@ -296,26 +520,22 @@ export default function ConsultationForm({ selectedPatient }) {
             )
           })}
         </div>
+        {/* Move Save button here and remove Cancel button */}
+        <div className="flex gap-4 mt-4">
+          <button 
+            onClick={handleSaveVitals}
+            className="bg-[#008080] hover:bg-primary-dark text-white px-6 py-2 rounded-md text-sm font-medium w-40 transition-colors"
+          >
+            Save Vitals
+          </button>
+        </div>
       </section>
 
       {/* Medical Prescription */}
-      <EsiForm selectedPatient={patientVitals} /> {/* Pass patientVitals which now includes selected patient info */}
+      <EsiForm selectedPatient={patientVitals} />
       
       {/* Upload Documents */}
-      <UploadDocuments />
-
-      {/* Action Buttons */}
-      <div className="flex gap-4 mt-8">
-        <button 
-          onClick={handleSaveVitals}
-          className="bg-[#008080] hover:bg-primary-dark text-white px-6 py-2 rounded-md text-sm font-medium w-40 transition-colors"
-        >
-          Save
-        </button>
-        <button className="border border-red-500 bg-white text-red-700 hover:bg-red-600 hover:text-white w-40 px-6 py-2 rounded-md text-sm font-medium transition-colors">
-          Cancel
-        </button>
-      </div>
+      <UploadDocuments patientId={patientVitals.id} /> {/* Pass patientId to UploadDocuments */}
     </div>
   )
 }

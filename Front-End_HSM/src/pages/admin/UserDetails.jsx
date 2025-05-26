@@ -15,44 +15,44 @@ const UserDetails = () => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
-  
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       const token = localStorage.getItem('token');
-      
+
       if (!token) {
-       //avigate('/login');
+        //avigate('/login');
         return;
       }
-      
+
       try {
         setIsLoading(true);
         setError(null);
-        
+
         console.log(`Fetching user with ID: ${id}`);
-        
+
         if (id === 'undefined' || !id) {
           console.error("Invalid user ID provided:", id);
           setError("Invalid user ID. Please go back and select a valid user.");
           setIsLoading(false);
           return;
         }
-        
+
         // Always check sessionStorage first to get the most recent version including pictures
         const storedUserData = sessionStorage.getItem('tempUser_' + id);
         if (storedUserData) {
           try {
             console.log('Found user data in sessionStorage for ID:', id);
             const userData = JSON.parse(storedUserData);
-            
+
             // Verify that the userData has an ID
             if (!userData.id) {
               console.warn('Stored user data is missing ID property');
               userData.id = id; // Ensure the ID is present
             }
-            
+
             formatAndSetUserData(userData);
-            
+
             // If this is not a generated ID, still fetch from API in the background to ensure fresh data
             if (!id.toString().startsWith('u_')) {
               fetchFromAPI();
@@ -65,7 +65,7 @@ const UserDetails = () => {
         } else {
           console.log('No stored user data found for ID:', id);
         }
-        
+
         // If not in sessionStorage or error occurred, fetch from API
         if (!id.toString().startsWith('u_')) {
           await fetchFromAPI();
@@ -79,7 +79,7 @@ const UserDetails = () => {
         setIsLoading(false);
       }
     };
-    
+
     // Function to fetch user data from API
     const fetchFromAPI = async () => {
       try {
@@ -90,12 +90,12 @@ const UserDetails = () => {
             'Accept': 'application/json'
           }
         });
-        
+
         console.log('API Response:', response);
-        
+
         if (response.data) {
           const userData = response.data;
-          
+
           // Ensure the user data has the correct ID
           const userId = userData.id || userData._id || userData.user_id;
           if (!userId) {
@@ -109,10 +109,10 @@ const UserDetails = () => {
             // Use the API ID as it's more authoritative
             userData.id = userId;
           }
-          
+
           // Format and display the data
           formatAndSetUserData(userData);
-          
+
           // Store the fresh API data in sessionStorage for persistence
           // This ensures the data remains available when navigating back from other pages
           sessionStorage.setItem('tempUser_' + userData.id, JSON.stringify(userData));
@@ -120,11 +120,11 @@ const UserDetails = () => {
         }
       } catch (err) {
         console.error("API fetch error:", err);
-        
+
         if (err.response && err.response.status === 401) {
           // Unauthorized - token might be invalid
           localStorage.removeItem('token');
-       // navigate('/login');
+          // navigate('/login');
         } else if (err.response && err.response.status === 404) {
           setError("User not found");
         } else {
@@ -133,11 +133,11 @@ const UserDetails = () => {
         throw err;
       }
     };
-    
+
     // Helper function to format and set user data
     const formatAndSetUserData = (userData) => {
       console.log('User data to format:', userData);
-      
+
       // Input validation
       if (!userData) {
         console.error('No user data provided to format');
@@ -249,7 +249,7 @@ const UserDetails = () => {
         setError('Error processing user data: ' + error.message);
       }
     };
-    
+
     // Helper functions
     const validateUserId = (userData) => {
       const userId = userData.id || userData._id || userData.user_id || id;
@@ -300,7 +300,7 @@ const UserDetails = () => {
         setProfileImage(DefaultUserPhoto);
       }
     };
-    
+
     fetchUserDetails();
   }, [id, navigate]);
 
@@ -333,12 +333,12 @@ const UserDetails = () => {
       reader.onload = async (e) => {
         const imageData = e.target.result;
         setProfileImage(imageData);
-        
+
         // Store the base64 image data right away for immediate persistence
         try {
           // Always save the current image state to ensure persistence
           const userId = id;
-          
+
           // Get existing data to preserve all other fields
           const existingData = sessionStorage.getItem('tempUser_' + userId);
           let userData = {
@@ -346,7 +346,7 @@ const UserDetails = () => {
             picture: imageData,
             picture_base64: imageData // Keep a backup copy in case the main picture gets lost
           };
-          
+
           if (existingData) {
             try {
               const parsedData = JSON.parse(existingData);
@@ -361,11 +361,11 @@ const UserDetails = () => {
               // Continue with just the basic user data
             }
           }
-          
+
           // Save the updated data back to sessionStorage
           sessionStorage.setItem('tempUser_' + userId, JSON.stringify(userData));
           console.log('Saved user with image to sessionStorage:', userId);
-          
+
           // Update the user state
           setUser(prev => ({
             ...prev,
@@ -375,22 +375,22 @@ const UserDetails = () => {
         } catch (error) {
           console.error('Error saving image to sessionStorage:', error);
         }
-        
+
         // For generated IDs, we're done - the picture is now in sessionStorage
         if (id.toString().startsWith('u_')) {
           console.log('Profile picture updated in sessionStorage for generated ID user');
           alert('Profile picture updated successfully!');
           setIsLoading(false);
-          
+
           // Store the timestamp of the last user change in localStorage
           localStorage.setItem('lastUserChange', Date.now().toString());
-          
+
           // Dispatch custom event to notify other components (like DonutChart) of the user update
-          const userUpdatedEvent = new CustomEvent('userUpdated', { 
-            detail: { 
+          const userUpdatedEvent = new CustomEvent('userUpdated', {
+            detail: {
               userId: id,
               userType: user.role || 'student'
-            } 
+            }
           });
           window.dispatchEvent(userUpdatedEvent);
           console.log('Dispatched userUpdated event for picture change with ID:', id);
@@ -401,11 +401,11 @@ const UserDetails = () => {
         if (!id.toString().startsWith('u_')) {
           try {
             const responseData = await uploadProfilePicture(file);
-            
+
             // If the response contains picture data, update the user state
             if (responseData && (responseData.picture || responseData.user?.picture)) {
               const picturePath = responseData.picture || responseData.user?.picture;
-              
+
               // Update sessionStorage with the server path too, but preserve the base64 version as backup
               try {
                 const existingData = sessionStorage.getItem('tempUser_' + id);
@@ -416,60 +416,60 @@ const UserDetails = () => {
                     picture: picturePath,
                     picture_base64: imageData // Keep the base64 version as backup
                   };
-                  
+
                   // Update sessionStorage with both versions
                   sessionStorage.setItem('tempUser_' + id, JSON.stringify(updatedData));
-                  
+
                   // Update the user state
                   setUser(prev => ({
                     ...prev,
                     picture: picturePath,
                     picture_base64: imageData
                   }));
-                  
+
                   console.log('Updated user in sessionStorage with server picture path and base64 backup');
                 }
               } catch (err) {
                 console.error('Error updating sessionStorage after server upload:', err);
               }
-              
+
               console.log('Profile picture uploaded to server successfully');
             } else {
               console.log('Picture upload succeeded but response did not contain picture path');
               // The base64 version is already in sessionStorage, so we're covered
             }
-            
+
             // Show success message
             alert('Profile picture updated successfully!');
-            
+
             // Store the timestamp of the last user change in localStorage
             localStorage.setItem('lastUserChange', Date.now().toString());
-            
+
             // Dispatch custom event to notify other components (like DonutChart) of the user update
-            const userUpdatedEvent = new CustomEvent('userUpdated', { 
-              detail: { 
+            const userUpdatedEvent = new CustomEvent('userUpdated', {
+              detail: {
                 userId: id,
                 userType: user.role || 'student'
-              } 
+              }
             });
             window.dispatchEvent(userUpdatedEvent);
             console.log('Dispatched userUpdated event for picture change with ID:', id);
           } catch (err) {
             console.error('Error uploading profile picture to server:', err);
             setError('Failed to upload profile picture to server. The image will be available for this session but may not persist after logout.');
-            
+
             // We still have the base64 version in sessionStorage, so it will work for this session
           }
         }
-        
+
         setIsLoading(false);
       };
-      
+
       reader.onerror = () => {
         setError('Error reading image file.');
         setIsLoading(false);
       };
-      
+
       reader.readAsDataURL(file);
     } catch (err) {
       setError(err.message);
@@ -494,78 +494,22 @@ const UserDetails = () => {
       throw new Error('Authentication required');
     }
 
-    // Try multiple endpoints and methods
-    const tryUploadMethods = async () => {
-      try {
-        // Method 1: Try dedicated upload endpoint
-        const formData = new FormData();
-        formData.append('picture', file);
+    const formData = new FormData();
+    formData.append('picture', file);
 
-        const response = await axios.post(
-          `http://127.0.0.1:8000/api/user/${id}/picture`,
-          formData,
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Accept': 'application/json',
-              'Content-Type': 'multipart/form-data'
-            }
-          }
-        );
-        return response;
-      } catch (err) {
-        console.log('Method 1 failed, trying Method 2');
-        
-        try {
-          // Method 2: Try PUT with form method spoofing
-          const formData = new FormData();
-          formData.append('picture', file);
-          formData.append('_method', 'PUT');
-
-          const response = await axios.post(
-            `http://127.0.0.1:8000/api/user/${id}`,
-            formData,
-            {
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-                'Content-Type': 'multipart/form-data'
-              }
-            }
-          );
-          return response;
-        } catch (err2) {
-          console.log('Method 2 failed, trying Method 3');
-          
-          try {
-            // Method 3: Try patch endpoint
-            const formData = new FormData();
-            formData.append('picture', file);
-
-            const response = await axios.patch(
-              `http://127.0.0.1:8000/api/user/${id}`,
-              formData,
-              {
-                headers: {
-                  'Authorization': `Bearer ${token}`,
-                  'Accept': 'application/json',
-                  'Content-Type': 'multipart/form-data'
-                }
-              }
-            );
-            return response;
-          } catch (err3) {
-            // If all methods fail, throw the last error
-            throw err3;
-          }
+    const response = await axios.post(
+      'http://localhost:8000/api/profile/upload-pic',
+      formData,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data'
         }
       }
-    };
+    );
 
-    const response = await tryUploadMethods();
-    console.log('Profile picture upload response:', response);
-    
-    return response.data;
+    return response;
   };
 
   if (isLoading) {
@@ -592,7 +536,7 @@ const UserDetails = () => {
         <div className="bg-yellow-50 border border-yellow-300 text-yellow-700 px-4 py-3 rounded mb-4">
           No user data available. The user might not exist or there's an issue retrieving their information.
         </div>
-        <button 
+        <button
           onClick={() => navigate('/users')}
           className="mt-4 px-4 py-2 bg-[#0a8a8a] text-white rounded-md hover:bg-[#086a6a]"
         >
@@ -612,18 +556,18 @@ const UserDetails = () => {
             <div className="relative w-[128px] h-[128px]">
               <img
                 src={profileImage}
-                alt="User profile" 
+                alt="User profile"
                 className={`w-[128px] h-[128px] rounded-full object-cover border-4 border-[#004d4d] ${isLoading ? 'opacity-50' : ''}`}
                 onError={(e) => {
                   console.log('User profile image failed to load, trying fallback');
-                  
+
                   // Try the base64 backup image if available
                   if (user && user.picture_base64) {
                     console.log('Using base64 backup image');
                     e.target.src = user.picture_base64;
                     return;
                   }
-                  
+
                   // If no user yet, or no base64 backup, check sessionStorage directly
                   try {
                     const storedData = sessionStorage.getItem('tempUser_' + id);
@@ -638,7 +582,7 @@ const UserDetails = () => {
                   } catch (err) {
                     console.error('Error checking sessionStorage for backup image:', err);
                   }
-                  
+
                   // Fall back to default photo if all else fails
                   console.log('Using default photo for user');
                   e.target.src = DefaultUserPhoto;
@@ -646,13 +590,13 @@ const UserDetails = () => {
               />
             </div>
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white rounded-lg shadow-sm min-w-[120px]">
-              <button 
+              <button
                 onClick={handleEditPictureClick}
                 className="w-full flex items-center justify-center gap-2 px-3 py-2"
               >
                 <span className="text-sm text-gray-600">Edit picture</span>
                 <svg className="h-3.5 w-3.5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
             </div>
@@ -664,7 +608,7 @@ const UserDetails = () => {
               onChange={handleImageChange}
             />
           </div>
-          
+
           {/* Right side - Title and Description */}
           <div className="flex-1">
             <h2 className="text-[#008080] text-2xl font-semibold">User details :</h2>
@@ -679,13 +623,13 @@ const UserDetails = () => {
         <div className="bg-white rounded-xl shadow-sm p-8">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-lg font-semibold">Personal informations :</h3>
-            <button 
+            <button
               onClick={handleEditClick}
               className="flex items-center gap-1.5 bg-white rounded-lg py-1.5 px-3 shadow-[0_2px_8px_rgb(0,0,0,0.1)] hover:shadow-[0_4px_12px_rgb(0,0,0,0.15)] transition-shadow"
             >
               <span className="text-sm text-gray-600">Edit</span>
               <svg className="w-3.5 h-3.5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>
@@ -739,45 +683,45 @@ const UserDetails = () => {
                 // Log the updated user data
                 console.log('User successfully updated:', updatedUser);
                 setIsModalOpen(false);
-                
+
                 // Show success message
                 alert("User information updated successfully!");
-                
+
                 // Store the timestamp of the last user change in localStorage
                 localStorage.setItem('lastUserChange', Date.now().toString());
-                
+
                 // Dispatch custom event to notify other components (like DonutChart) of the user update
-                const userUpdatedEvent = new CustomEvent('userUpdated', { 
-                  detail: { 
+                const userUpdatedEvent = new CustomEvent('userUpdated', {
+                  detail: {
                     userId: id,
                     userType: updatedUser.role_name || updatedUser.role
-                  } 
+                  }
                 });
                 window.dispatchEvent(userUpdatedEvent);
                 console.log('Dispatched userUpdated event with ID:', id);
-                
+
                 // For users with generated IDs, we need to reload data from sessionStorage
                 if (id.toString().startsWith('u_')) {
                   setIsLoading(true);
-                  
+
                   // Get the updated data from sessionStorage
                   const storedUserData = sessionStorage.getItem('tempUser_' + id);
                   if (storedUserData) {
                     try {
                       const userData = JSON.parse(storedUserData);
-                      
+
                       // Make sure the picture is preserved
                       if (!userData.picture && user.picture) {
                         userData.picture = user.picture;
                         console.log('Restored missing picture field');
                       }
-                      
+
                       // Make sure the base64 backup is preserved
                       if (!userData.picture_base64 && user.picture_base64) {
                         userData.picture_base64 = user.picture_base64;
                         console.log('Restored missing base64 backup picture');
                       }
-                      
+
                       // Update the user state with the new data
                       formatAndSetUserData(userData);
                       setIsLoading(false);
@@ -795,7 +739,7 @@ const UserDetails = () => {
                   // First ensure we preserve the picture in sessionStorage
                   try {
                     const storedUserData = sessionStorage.getItem('tempUser_' + id);
-                    
+
                     // Merge the updated user data with the existing data
                     const mergedUser = {
                       ...user,                   // Keep existing user data as base
@@ -803,10 +747,10 @@ const UserDetails = () => {
                       picture: user.picture,     // Preserve the picture
                       picture_base64: user.picture_base64 // Preserve the base64 backup
                     };
-                    
+
                     // Update the user state immediately to show changes
                     setUser(mergedUser);
-                    
+
                     // Update sessionStorage with merged data
                     if (storedUserData) {
                       try {
@@ -817,7 +761,7 @@ const UserDetails = () => {
                           picture: storedData.picture || user.picture,
                           picture_base64: storedData.picture_base64 || user.picture_base64
                         };
-                        
+
                         sessionStorage.setItem('tempUser_' + id, JSON.stringify(updatedData));
                         console.log('Updated user in sessionStorage while preserving picture data');
                       } catch (err) {
@@ -829,7 +773,7 @@ const UserDetails = () => {
                       // No existing data, just store the merged user
                       sessionStorage.setItem('tempUser_' + id, JSON.stringify(mergedUser));
                     }
-                    
+
                     // Refresh the user from the API in the background
                     // But don't wait for it to complete before showing the updated data
                     fetchFromAPI().catch(err => {
@@ -838,7 +782,7 @@ const UserDetails = () => {
                     });
                   } catch (err) {
                     console.error('Error preserving user data:', err);
-                    
+
                     // If we had an error, just refresh from API
                     setIsLoading(true);
                     fetchFromAPI().finally(() => {

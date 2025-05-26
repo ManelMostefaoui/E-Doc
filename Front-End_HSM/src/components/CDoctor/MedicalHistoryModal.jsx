@@ -5,7 +5,7 @@ import { X, Edit, ChevronDown, Trash2 } from "lucide-react"
 import axios from "axios"
 import { useParams } from "react-router-dom"
 
-export default function MedicalHistoryModal({ onClose, onSave }) {
+export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) {
   const { id: patientId } = useParams();
   const [isOpen, setIsOpen] = useState(true)
   const [loading, setLoading] = useState(false)
@@ -245,110 +245,115 @@ export default function MedicalHistoryModal({ onClose, onSave }) {
   
     // Clear previous errors
     setError("");
+    setSuccess(false); // Clear previous success message
   
     // Collect all valid conditions from all sections
     const allConditions = [];
-    
-    // Process each section and map to backend categories
-    sections.forEach((section, index) => {
-      const categoryMap = {
-        0: 'congenital',      // Congenital Conditions
-        1: 'general_disease', // General Diseases  
-        2: 'surgery',         // Surgical Interventions
-        3: 'allergy'          // Allergic Reactions
-      };
-      
+
+    sections.forEach(section => {
       section.conditions.forEach(condition => {
-        // Only include conditions that have actual content
-        if (condition.condition && condition.condition.trim() !== "") {
+        // Only include conditions that have a condition name filled out
+        if (condition.condition) {
+          // Find the correct backend condition string based on the section title
+          let backendConditionType = '';
+          switch (section.title) {
+            case 'Congenital Conditions':
+              backendConditionType = 'congenital';
+              break;
+            case 'General Diseases':
+              backendConditionType = 'general_disease';
+              break;
+            case 'Surgical Interventions':
+              backendConditionType = 'surgery';
+              break;
+            case 'Allergic Reactions':
+              backendConditionType = 'allergy';
+              break;
+            default:
+              // Fallback or error handling if section title doesn't match
+              console.error(`Unknown section title: ${section.title}`);
+              return; // Skip this condition if section title is not recognized
+          }
+
           allConditions.push({
-            condition: categoryMap[index], // This is the required enum value
+            condition: backendConditionType, // Use the correctly mapped backend string
             date_appeared: condition.dateAppeared || null,
             severity: condition.severity || null,
-            implication: condition.implications || null,
+            implication: condition.implications || null, // Corrected field name to singular
             treatment: condition.treatment || null,
           });
         }
       });
     });
-  
-    // Validate that we have at least one valid condition
+
     if (allConditions.length === 0) {
-      setError("At least one condition field is required.");
-      return;
+        setError("Please add at least one medical history condition to save.");
+        return;
     }
-  
+
+    setLoading(true);
+
     try {
-      setLoading(true);
-      
       const token = localStorage.getItem('token');
-      
-      console.log('Sending data:', allConditions); // Debug log
-      
-      let response;
-      if (medicalHistoryId) {
-        // Update existing medical history using the medical history record ID
-        response = await axios.put(
-          `http://127.0.0.1:8000/api/medical-history/${medicalHistoryId}`,
-          allConditions, // Send array directly, not wrapped in object
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-          }
-        );
-      } else {
-        // Create new medical history
-        response = await axios.post(
-          `http://127.0.0.1:8000/api/patients/${patientId}/medical-history`,
-          allConditions, // Send array directly, not wrapped in object
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-          }
-        );
+      if (!token) {
+        setError("Authentication token not found. Please log in.");
+        setLoading(false);
+        return;
       }
+
+      // Determine if it's an update or create operation
+      const apiEndpoint = medicalHistoryId 
+        ? `http://127.0.0.1:8000/api/medical-history/${medicalHistoryId}` // Assuming an update endpoint with ID
+        : `http://127.0.0.1:8000/api/patients/${patientId}/medical-history`; // Corrected create endpoint
+
+      const method = medicalHistoryId ? 'put' : 'post';
+
+      // Adjust the data sent based on the method (POST or PUT)
+      const requestData = method === 'post' ? allConditions : { patient_id: patientId, medical_histories: allConditions };
+
+      const response = await axios[method](apiEndpoint, requestData, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+      });
       
-      console.log('Save response:', response.data);
+      console.log("Save response:", response.data);
       setSuccess(true);
-      
-      // Call onSave callback with updated data
-      if (onSave) {
-        onSave(allConditions);
+      setError(""); // Clear any previous errors on success
+
+      // If onSaveSuccess prop is provided, call it to trigger refetch in parent
+      if (onSaveSuccess) {
+        onSaveSuccess();
       }
-      
-      // Close form after short delay
-      setTimeout(() => {
-        if (onClose) onClose();
-      }, 1500);
-      
+
+      // Optionally close the modal after a delay or on user action
+      // onClose(); // Consider if you want to auto-close or wait for user
+
     } catch (err) {
-      console.error('Error saving medical history:', err);
-      console.error('Error response:', err.response?.data);
-      
-      if (err.response?.data?.errors) {
-        // Handle Laravel validation errors
-        const validationErrors = Object.values(err.response.data.errors).flat();
-        setError(validationErrors.join(', '));
-      } else if (err.response?.data?.message) {
-        setError(err.response.data.message);
+      console.error("Error saving medical history:", err);
+      let errorMessage = "Failed to save medical history. ";
+      if (err.response) {
+        errorMessage += `Server error: ${err.response.status} - ${err.response.data?.message || 'Unknown error'}`;
+      } else if (err.request) {
+        errorMessage += "No response from server. Please check your internet connection.";
       } else {
-        setError("Failed to save medical history. Please try again.");
+        errorMessage += err.message || 'Unknown error occurred';
       }
+      setError(errorMessage);
+      setSuccess(false); // Clear success message on error
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const handleClose = () => {
-    setIsOpen(false)
-    if (onClose) onClose()
-  }
+    setIsOpen(false);
+    if (onClose) {
+      onClose();
+    }
+  };
 
   if (!isOpen) return null
 

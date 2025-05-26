@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import DefaultUserPhoto from '../../assets/DefaultUserPhoto.jpg';
+import axios from 'axios';
 
 const AddUserModal = ({ onClose, onSave, error }) => {
   const fileInputRef = useRef(null);
@@ -25,12 +26,12 @@ const AddUserModal = ({ onClose, onSave, error }) => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     // Name validation
     if (!formData.name) {
       newErrors.name = 'Name is required';
     }
-    
+
     // Phone number validation (exactly 10 digits)
     if (!/^\d{10}$/.test(formData.phone_num)) {
       newErrors.phone_num = 'Phone number must be exactly 10 digits';
@@ -91,11 +92,36 @@ const AddUserModal = ({ onClose, onSave, error }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setLocalErrors(prev => ({
+          ...prev,
+          picture: 'File must be an image'
+        }));
+        return;
+      }
+
+      // Validate file size (5MB max)
+      const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+      if (file.size > maxSize) {
+        setLocalErrors(prev => ({
+          ...prev,
+          picture: 'Image size must be less than 5MB'
+        }));
+        return;
+      }
+
       setFormData(prev => ({
         ...prev,
         picture: file
       }));
-      
+
+      // Clear any previous picture errors
+      setLocalErrors(prev => ({
+        ...prev,
+        picture: ''
+      }));
+
       // Create a preview URL
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -110,7 +136,73 @@ const AddUserModal = ({ onClose, onSave, error }) => {
     if (validateForm()) {
       setIsSubmitting(true);
       try {
-        await onSave(formData);
+        const token = localStorage.getItem('token');
+        let pictureUrl = null;
+
+        // If there's a picture to upload
+        if (formData.picture) {
+          const formDataImage = new FormData();
+          formDataImage.append('picture', formData.picture);
+
+          try {
+            // Upload the image first
+            const uploadResponse = await axios.post(
+              'http://localhost:8000/api/profile/upload-pic',
+              formDataImage,
+              {
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Accept': 'application/json',
+                  'Content-Type': 'multipart/form-data'
+                }
+              }
+            );
+
+            // Get the image URL from the response
+            pictureUrl = uploadResponse.data.url || uploadResponse.data.picture;
+          } catch (uploadError) {
+            console.error('Error uploading image:', uploadError);
+            // Show validation errors from the server
+            if (uploadError.response?.data?.errors) {
+              const serverErrors = uploadError.response.data.errors;
+              setLocalErrors(prev => ({
+                ...prev,
+                picture: Object.values(serverErrors).flat().join(', ')
+              }));
+            } else {
+              setLocalErrors(prev => ({
+                ...prev,
+                picture: uploadError.response?.data?.message || 'Failed to upload image'
+              }));
+            }
+            setIsSubmitting(false);
+            return;
+          }
+        }
+
+        // Create a copy of formData without the picture file
+        const userData = {
+          ...formData,
+          picture: pictureUrl // Replace the file with the URL
+        };
+
+        // Call the original onSave with the updated data
+        await onSave(userData);
+      } catch (error) {
+        console.error('Error in handleSubmit:', error);
+        // Show validation errors from the server
+        if (error.response?.data?.errors) {
+          const serverErrors = error.response.data.errors;
+          setLocalErrors(prev => ({
+            ...prev,
+            submit: Object.values(serverErrors).flat().join(', ')
+          }));
+        } else {
+          setLocalErrors(prev => ({
+            ...prev,
+            submit: error.response?.data?.message || 'Failed to save user data'
+          }));
+        }
       } finally {
         setIsSubmitting(false);
       }

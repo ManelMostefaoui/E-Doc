@@ -52,11 +52,10 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 Route::middleware('auth:sanctum')->post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 //Storage for all auth users
-Route::middleware('auth:sanctum')->post('/profile/upload-pic', [StorageController::class, 'uploadProfilePhoto'])
-    ->name('upload.profile.photo');
-Route::middleware('auth:sanctum')->post('/documents/upload', [StorageController::class, 'storeDocument'])
-    ->name('documents.upload');
-
+Route::middleware('auth:sanctum')->post('/profile/upload-pic', [StorageController::class, 'uploadProfilePhoto']);
+Route::middleware('auth:sanctum')->post('/documents/upload', [StorageController::class, 'storeDocument']);
+Route::middleware('auth:sanctum')->get('/documents/{id}', [StorageController::class, 'getDocument'])
+    ->name('documents.get');
 
 // -----------------------------------------------------------------------------------------------------------
 // Group all routes under both 'auth:sanctum' and 'admin' middleware
@@ -75,6 +74,9 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     //delete user
     Route::delete('/users/{id}', [AuthenticatedSessionController::class, 'deleteuUser']);
     Route::put('/users/update/{id}', [AdminController::class, 'updateUser']);
+
+    
+
 });
 
 // -----------------------------------------------------------------------------------------------------------
@@ -110,7 +112,7 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     Route::post('/medications/import', [MedicationController::class, 'import'])->name('medications.import');
 
     //get patient list
-    Route::get('/patients', [PatientController::class, 'index']);
+    
     Route::get('/patients-archived', [PatientController::class, 'showArchivedPatients']);
 
     //archived and unarchived medical record of patient

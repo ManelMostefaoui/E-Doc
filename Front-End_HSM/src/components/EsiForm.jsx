@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import { Pencil, Printer, Trash2 } from "lucide-react"
-import Group56Logo from '../assets/Group56.png';
+import Group56Logo from '../assets/Group56.png'; // Re-import the original logo
+import OrdonnanceLogo from '../assets/OrdonnanceLogo.png'; // Import your new logo file with the correct name
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
 import axios from "axios"
@@ -67,76 +68,126 @@ export default function EsiForm({ selectedPatient }) {
       // Set font for French text
       pdf.setFont("helvetica", "normal")
       pdf.setFontSize(8)
-      // Removed French header lines
-      // pdf.text("République Algérienne Démocratique et Populaire", 105, 20, { align: "center" })
-      // pdf.text("Ministère de l'Enseignement Supérieur et de la Recherche Scientifique", 105, 25, { align: "center" })
       
-      // Add logo ONLY (full width at the top)
-      const logo = new Image()
-      logo.src = Group56Logo
-      await new Promise((resolve) => {
-        logo.onload = resolve
-      })
-      // A4 width is 210mm, so use x=0, width=210mm, height=auto (e.g., 35mm)
-      pdf.addImage(logo, "PNG", 0, 10, 210, 35)
+      // Get page dimensions and calculate initial positioning variables
+      const pageCenterX = pdf.internal.pageSize.getWidth() / 2;
+      const topY = 10; // Starting vertical position for logo (adjust as needed)
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const logoWidth = pageWidth - 20; // Increased width: Example width (page width minus smaller margins)
+      const logoX = (pageWidth - logoWidth) / 2; // Center the logo horizontally
 
-      // Add prescription title above the double lines, below the logo
-      pdf.setFontSize(20)
-      pdf.setFont(undefined, 'bold')
-      pdf.setTextColor(0, 128, 128) // #008080
-      pdf.text("Medical Prescription", 105, 55, { align: "center" })
-      pdf.setFont(undefined, 'normal')
-      pdf.setFontSize(16)
-      // Add bottom teal line with double lines
-      pdf.setDrawColor(0, 128, 128) // #008080
-      pdf.setLineWidth(0.5)
-      pdf.line(20, 75, 190, 75)
-      pdf.line(20, 76, 190, 76)
+      // Add logo at the top, spanning the width
+      const logo = new Image()
+      // Replace the next line with your new logo source
+      logo.src = OrdonnanceLogo; // Use your imported logo source for the PDF
+      // Keeping the old logo source for now as a placeholder:
+      // logo.src = "/src/assets/Group56.png"; // TEMPORARY: REPLACE WITH YOUR NEW LOGO SOURCE - Removed
+      
+      // Add the logo image to the PDF immediately (position and width are known)
+      pdf.addImage(logo, "PNG", logoX, topY, logoWidth, 0); // Use 0 for height to auto-scale
+
+      // Wait for the logo to load to get its intrinsic dimensions (though not strictly needed for current positioning)
+      // This promise will resolve once the logo is fully loaded
+      await new Promise((resolve, reject) => {
+        logo.onload = () => {
+          // Removed estimatedLogoHeight calculation to avoid ReferenceError
+          // Removed titleY calculation and text drawing
+
+          // Debugging log
+          console.log("Logo loaded inside onload.", { originalWidth: logo.width, originalHeight: logo.height });
+
+          // Resolve the promise now that logo is loaded
+          resolve();
+        };
+
+        // Handle potential image loading errors
+        logo.onerror = (error) => {
+            console.error("Error loading logo image:", error);
+            // Reject the promise on error so the catch block is triggered
+            reject(error);
+        };
+      })
+      
+      // Removed previous calculation and log for estimatedLogoHeight (already done, keeping comment)
 
       // Format the date if it exists
       const formattedDate = formData.date ? new Date(formData.date).toLocaleDateString() : ""
 
-      // Patient info box design improvements (no color change)
-      const patientBoxY = 100;
-      const patientBoxHeight = 40;
-      pdf.setDrawColor(200, 200, 200); // Light gray border
-      pdf.setFillColor(245, 245, 245); // Light gray background
-      pdf.roundedRect(20, patientBoxY, 170, patientBoxHeight, 6, 6, 'FD'); // Larger border radius
-
-      // Title
-      pdf.setFontSize(12);
-      pdf.setFont(undefined, 'bold');
-      pdf.setTextColor(0, 128, 128);
-      pdf.text("Patient Information", 105, patientBoxY + 9, { align: "center" });
-
-      // Details (two columns, more vertical spacing)
-      pdf.setFont(undefined, 'normal');
-      pdf.setFontSize(11);
-      pdf.setTextColor(0, 0, 0);
-      pdf.text(`Date: ${formattedDate}`, 30, patientBoxY + 22);
-      pdf.text(`Age: ${formData.age}`, 30, patientBoxY + 32);
-      pdf.text(`Full Name: ${formData.name}`, 120, patientBoxY + 27);
-
-      // Add treatments section
-      pdf.setFontSize(14)
-      pdf.setTextColor(0, 128, 128) // #008080
-      pdf.text("Treatment needed:", 20, 150)
-      pdf.setDrawColor(0, 128, 128)
-      pdf.line(20, 152, 190, 152)
+      // Patient details (removed box and adjusted positioning)
+      // Use a consistent fixed estimate for positioning below the logo
+      const fixedLogoHeightEstimate = 45; // Use a fixed height estimate for positioning (adjust as needed)
       
-      let yPosition = 160
+      // Removed the main "Medical Prescription" title calculation and drawing from here (already done, keeping comment)
+
+      // Adjust vertical positioning for patient details relative to the estimated space below the logo
+      // Using titleY calculated above for spacing
+      const patientDetailsY = topY + fixedLogoHeightEstimate + 10; // Adjusted spacing after logo
+
+      pdf.setFont(undefined, 'normal'); // Ensure font is normal initially
+      pdf.setFontSize(14); // Set font size for patient details
+      // pdf.setFont(undefined, 'bold'); // Keep font bold for patient details - Removed
+
+      // Adjusted vertical spacing based on new starting point and larger font size
+      const labelX = 30; // X position for labels
+      const valueX = 65; // X position for values (adjust as needed)
+
+      // Draw Date label (bold) and value (normal)
+      pdf.setFont(undefined, 'bold'); // Set font to bold for label
+      pdf.text("Date:", labelX, patientDetailsY);
+      pdf.setFont(undefined, 'normal'); // Set font back to normal for value
+      pdf.text(`${formattedDate}`, valueX, patientDetailsY);
+
+      // Draw Age label (bold) and value (normal)
+      pdf.setFont(undefined, 'bold'); // Set font to bold for label
+      pdf.text("Age:", labelX, patientDetailsY + 8); // Use same vertical spacing as before
+      pdf.setFont(undefined, 'normal'); // Set font back to normal for value
+      pdf.text(`${formData.age}`, valueX, patientDetailsY + 8);
+
+      // Draw Full Name label (bold) and value (normal)
+      const fullNameLabelX = 120; // X position for Full Name label (adjust as needed)
+      const fullNameValueX = 155; // X position for Full Name value (adjust as needed)
+      pdf.setFont(undefined, 'bold'); // Set font to bold for label
+      pdf.text("Full Name:", fullNameLabelX, patientDetailsY + 8); // Use same vertical spacing as Age
+      pdf.setFont(undefined, 'normal'); // Set font back to normal for value
+      pdf.text(`${formData.name}`, fullNameValueX, patientDetailsY + 8);
+
+      // pdf.setFont(undefined, 'normal'); // Added: Reset font back to normal - Removed as font is reset after each value
+
+      // Removed the date display below the inputs as it's in the info box (already done, keeping comment)
+
+      // Add "Medical Prescription" title below patient details and center it
+      const medicalPrescriptionTitleY = patientDetailsY + 25; // Adjusted: Increase vertical position below patient details + spacing
+      pdf.setFontSize(16); // Adjusted: Increase font size for this title
+      pdf.setFont(undefined, 'bold'); // Make the new title bold
+      pdf.setTextColor(0, 0, 0) // Set text color to black
+      pdf.text("Medical Prescription", pageCenterX, medicalPrescriptionTitleY, { align: "center" }); // Centered title
+
+      // Add table headers for treatments (adjust vertical position)
+      // Position headers relative to the new Medical Prescription title
+      const tableHeaderY = medicalPrescriptionTitleY + 15; // Adjusted spacing below the new title and some spacing
+      pdf.setFontSize(10); // Revert font size for table headers
+      pdf.setFont(undefined, 'bold');
+      pdf.text("Medicine Name", 30, tableHeaderY);
+      pdf.text("Dose", 100, tableHeaderY); // Adjust x position as needed
+      pdf.text("Period", 140, tableHeaderY); // Adjust x position as needed
+
+      pdf.setFont(undefined, 'normal'); // Revert to normal font for content
+
+      let yPosition = tableHeaderY + 8; // Revert starting position for treatments below headers
       treatment.forEach((t, index) => {
-        // Add treatment box
-        pdf.setDrawColor(200, 200, 200)
-        pdf.setFillColor(245, 245, 245)
-        pdf.roundedRect(20, yPosition - 5, 170, 25, 3, 3, 'FD')
+        // Removed treatment box (already done, keeping comment)
+        // pdf.setDrawColor(200, 200, 200)
+        // pdf.setFillColor(245, 245, 245)
+        // pdf.roundedRect(20, yPosition - 5, 170, 25, 3, 3, 'FD')
         
-        pdf.setFontSize(10)
-        pdf.setTextColor(0, 0, 0)
-        pdf.text(`${index + 1}. ${t.name}`, 30, yPosition)
-        pdf.text(`Dose: ${t.dose}`, 30, yPosition + 8)
-        pdf.text(`Period: ${t.period}`, 30, yPosition + 16)
-        yPosition += 30
+        pdf.setFontSize(14) // Revert font size for treatment details
+        pdf.setTextColor(0, 0, 0) // Set text color to black
+        // Display medicine name, dose, and period on the same row
+        pdf.text(`${index + 1}. ${t.name}`, 30, yPosition);
+        pdf.text(t.dose, 100, yPosition); // Align with Dose header
+        pdf.text(t.period, 140, yPosition); // Align with Period header
+
+        yPosition += 8; // Revert vertical spacing between treatment rows
       })
 
       // Save the PDF
@@ -152,19 +203,13 @@ export default function EsiForm({ selectedPatient }) {
     window.print()
   }
 
-  // Update internal form data when selectedPatient prop changes
+  // Update form data when selectedPatient changes
   useEffect(() => {
     if (selectedPatient) {
       setFormData(prev => ({
         ...prev,
-        name: selectedPatient.name || "",
+        name: selectedPatient.fullName || "",
         age: selectedPatient.age || ""
-      }))
-    } else {
-       setFormData(prev => ({
-        ...prev,
-        name: "",
-        age: ""
       }))
     }
   }, [selectedPatient])
@@ -239,18 +284,7 @@ export default function EsiForm({ selectedPatient }) {
       <div className="flex justify-between items-center mb-4">
         <h2 className="form-section-title text-xl font-bold">Medical prescription :</h2>
         <div className="flex gap-2">
-          <button 
-            className="bg-primary hover:bg-primary-dark text-white bg-[#008080] px-4 py-2 rounded-md text-sm font-medium transition-colors"
-            onClick={generatePDF}
-          >
-            Save the report
-          </button>
-          <button 
-            className="border border-primary bg-white text-[#008080] cursor-pointer p-2 rounded-md transition-colors"
-            onClick={handlePrint}
-          >
-            <Printer size={18} />
-          </button>
+          {/* Moved 'Save the report' button down */}
         </div>
       </div>
 
@@ -264,7 +298,7 @@ export default function EsiForm({ selectedPatient }) {
           <div className="flex justify-center w-full relative text-sm text-center text-teal-900 font-medium">
             {/* Center Logo ONLY */}
             <img
-              src={Group56Logo}
+              src={Group56Logo} // Use the original logo for the on-page display
               alt="Logo"
               className="w-full h-auto object-cover relative z-10 mx-auto block"
               crossOrigin="anonymous"
@@ -394,6 +428,15 @@ export default function EsiForm({ selectedPatient }) {
               </div>
             ))}
           </div>
+        </div>
+        {/* Add 'Save the report' button here */} 
+        <div className="flex justify-end mt-4">
+          <button
+            className="bg-primary hover:bg-primary-dark text-white bg-[#008080] px-4 py-2 rounded-md text-sm font-medium transition-colors"
+            onClick={generatePDF}
+          >
+            Save the report
+          </button>
         </div>
       </div>
     </section>

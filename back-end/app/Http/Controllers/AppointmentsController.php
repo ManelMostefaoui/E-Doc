@@ -304,18 +304,35 @@ class AppointmentsController extends Controller
             ]);
         }
 
-        $appointments = appointments::with(['consultationRequest' => function($query) {
-                $query->with('patient.user');
-            }])
+        // Get pagination parameters
+        $perPage = $request->input('per_page', 10);
+        $page = $request->input('page', 1);
+
+        // Optimize the query to select only needed fields and eager load minimal data
+        $appointments = appointments::select([
+                'id',
+                'scheduled_at',
+                'duration',
+                'status',
+                'consultation_request_id'
+            ])
+            ->with(['consultationRequest:id,patient_id', 'consultationRequest.patient:id,user_id', 'consultationRequest.patient.user:id,name,gender'])
             ->whereDate('scheduled_at', $date)
-            ->where('status', 'completed')  // Only get completed appointments
             ->orderBy('scheduled_at', 'asc')
-            ->get();
+            ->paginate($perPage, ['*'], 'page', $page);
 
         return response()->json([
             'message' => 'Appointments retrieved successfully',
             'date' => $date,
-            'appointments' => $appointments
+            'appointments' => $appointments->items(),
+            'pagination' => [
+                'total' => $appointments->total(),
+                'per_page' => $appointments->perPage(),
+                'current_page' => $appointments->currentPage(),
+                'last_page' => $appointments->lastPage(),
+                'from' => $appointments->firstItem(),
+                'to' => $appointments->lastItem()
+            ]
         ]);
     }
 

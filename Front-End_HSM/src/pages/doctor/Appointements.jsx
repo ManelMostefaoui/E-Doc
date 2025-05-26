@@ -28,6 +28,12 @@ export default function Appointments() {
   const [appointments, setAppointments] = useState([])
   const [loadingAppointments, setLoadingAppointments] = useState(false)
   const [editingAppointment, setEditingAppointment] = useState(null)
+  const [pagination, setPagination] = useState({
+    total: 0,
+    per_page: 10,
+    current_page: 1,
+    last_page: 1
+  })
   const [searchTerm, setSearchTerm] = useState("")
 
   // Fetch appointments for selected date
@@ -37,12 +43,16 @@ export default function Appointments() {
       try {
         const token = localStorage.getItem('token');
         const selectedDateFormatted = `${getYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate).padStart(2, '0')}`;
-        const response = await axios.get(`http://127.0.0.1:8000/api/appointments/by-day?date=${selectedDateFormatted}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json'
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/appointments/by-day?date=${selectedDateFormatted}&page=${pagination.current_page}&per_page=${pagination.per_page}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json'
+            }
           }
-        });
+        );
+
         console.log('Fetched appointments:', response.data);
         const transformedAppointments = response.data.appointments.map((appointment) => {
           const scheduledTime = new Date(appointment.scheduled_at).toLocaleTimeString('en-US', {
@@ -60,7 +70,9 @@ export default function Appointments() {
             status: appointment.status
           };
         });
+
         setAppointments(transformedAppointments);
+        setPagination(response.data.pagination);
       } catch (error) {
         console.error('Error fetching appointments:', error);
         if (error.response?.status === 401) {
@@ -73,7 +85,7 @@ export default function Appointments() {
     };
 
     fetchAppointments();
-  }, [selectedDate, currentDate]);
+  }, [selectedDate, currentDate, pagination.current_page]);
 
   // Set body background color
   useEffect(() => {
@@ -181,11 +193,19 @@ export default function Appointments() {
     setEditingAppointment(null)
   }
 
+  // Handle page change
+  const handlePageChange = (newPage) => {
+    setPagination(prev => ({
+      ...prev,
+      current_page: newPage
+    }));
+  };
+
   // Filter appointments based on search term
   const filteredAppointments = appointments.filter(appointment =>
     appointment.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     appointment.time.includes(searchTerm)
-  )
+  );
 
   return (
     <div className="flex h-screen">
@@ -468,7 +488,9 @@ export default function Appointments() {
                   {loadingAppointments ? (
                     <tr>
                       <td colSpan="5" className="px-6 py-8 text-center text-gray-500">
-                        Loading appointments...
+                        <div className="flex justify-center items-center">
+                          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-teal-600"></div>
+                        </div>
                       </td>
                     </tr>
                   ) : filteredAppointments.length === 0 ? (
@@ -490,6 +512,33 @@ export default function Appointments() {
                 </tbody>
               </table>
             </div>
+
+            {/* Pagination */}
+            {!loadingAppointments && pagination.total > 0 && (
+              <div className="px-6 py-4 border-t">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm text-gray-700">
+                    Showing {pagination.from} to {pagination.to} of {pagination.total} appointments
+                  </div>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handlePageChange(pagination.current_page - 1)}
+                      disabled={pagination.current_page === 1}
+                      className="px-3 py-1 border rounded-md text-sm disabled:opacity-50"
+                    >
+                      Previous
+                    </button>
+                    <button
+                      onClick={() => handlePageChange(pagination.current_page + 1)}
+                      disabled={pagination.current_page === pagination.last_page}
+                      className="px-3 py-1 border rounded-md text-sm disabled:opacity-50"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </main>
       </div>
