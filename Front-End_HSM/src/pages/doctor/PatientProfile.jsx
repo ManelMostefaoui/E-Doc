@@ -20,7 +20,7 @@ import {
   Trash
 } from "lucide-react"
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
 
 // Define the same categories list as in ClinicalForm.jsx
