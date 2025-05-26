@@ -268,7 +268,7 @@ export default function ConsultationForm({ selectedPatient }) {
                 </ul>
               )}
             </div>
-          </div>
+              </div>
           {/* Age display (non-editable) */}
           <div className="grid grid-cols-[120px_1fr] items-center gap-4">
             <label className="form-label">Age :</label>

@@ -23,6 +23,22 @@ import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
 
+// Define the same categories list as in ClinicalForm.jsx
+const categories = [
+  { value: "respiratory_diseases", label: "Respiratory Diseases" },
+  { value: "heart_and_vascular_diseases", label: "Heart and Vascular Diseases" },
+  { value: "digestive_system_diseases", label: "Digestive System Diseases" },
+  { value: "endocrine_diseases", label: "Endocrine Diseases" },
+  { value: "reproductive_system_diseases", label: "Reproductive System Diseases" },
+  { value: "blood_disorders", label: "Blood Disorders" },
+  { value: "urinary_tract_and_kidney_diseases", label: "Urinary Tract and Kidney Diseases" },
+  { value: "skin_diseases", label: "Skin Diseases" },
+  { value: "ent_diseases", label: "ENT Diseases" },
+  { value: "eye_diseases", label: "Eye Diseases" },
+  { value: "neurological_and_mental_disorders", label: "Neurological and Mental Disorders" },
+  { value: "rheumatic_diseases", label: "Rheumatic Diseases" },
+  { value: "cancers", label: "Cancers" },
+];
 
 export default function PatientProfile() {
   const [showBasicInfosForm, setShowBasicInfosForm] = useState(false)
@@ -38,12 +54,185 @@ export default function PatientProfile() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Define fetchMedicalHistory outside of useEffect to make it accessible
+  const fetchMedicalHistory = async () => {
+    console.log('fetchMedicalHistory called');
+    if (!patientId) return;
+    
+    try {
+      setLoading(true); // Set loading true before fetching
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`http://127.0.0.1:8000/api/patients/${patientId}/medical-history`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      });
+      
+      console.log('Raw medical history data from API:', response.data);
+
+      // Access the array of medical history items from response.data.data
+      const medicalHistoryData = response.data?.data;
+
+      if (medicalHistoryData && Array.isArray(medicalHistoryData)) {
+        // Process the flat array and categorize the medical history
+        const categorizedHistory = {
+          congenital_conditions: [],
+          general_diseases: [],
+          surgical_interventions: [],
+          allergic_reactions: [],
+        };
+
+        medicalHistoryData.forEach(item => {
+          const conditionText = item.condition ? item.condition.toLowerCase() : '';
+          // Basic categorization based on keywords - may need refinement based on actual data
+          if (conditionText.includes('congenital') || conditionText.includes('birth defect')) {
+            categorizedHistory.congenital_conditions.push(item);
+          } else if (conditionText.includes('allergy') || conditionText.includes('allergic')) {
+            categorizedHistory.allergic_reactions.push(item);
+          } else if (conditionText.includes('surgery') || conditionText.includes('surgical')) {
+            categorizedHistory.surgical_interventions.push(item);
+          } else {
+            // Default to general diseases if no specific keyword found
+            categorizedHistory.general_diseases.push(item);
+          }
+        });
+
+        setMedicalHistory(categorizedHistory);
+      } else {
+         // Handle unexpected response format or empty data if necessary
+         setMedicalHistory({
+          congenital_conditions: [],
+          general_diseases: [],
+          surgical_interventions: [],
+          allergic_reactions: [],
+        });
+      }
+    } catch (err) {
+      console.error("Failed to fetch medical history:", err);
+      // Optionally set an error state for the user
+    } finally {
+      setLoading(false); // Set loading false after fetching is complete
+    }
+  };
+
+  // Define fetchClinicalAndScreeningData outside of useEffect
+  const fetchClinicalAndScreeningData = async () => {
+    console.log('fetchClinicalAndScreeningData called');
+    if (!patientId) return;
+
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+
+      // Fetch basic clinical data (height, weight, etc.)
+      const patientResponse = await axios.get(`http://127.0.0.1:8000/api/patients/${patientId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      console.log('Patient data from /api/patients/{id}:', patientResponse.data);
+      const clinicalDataFromPatient = patientResponse.data || {};
+
+      // Fetch screenings
+      const screeningsResponse = await axios.get(`http://127.0.0.1:8000/api/Screening/${patientId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      console.log('Screenings data from /api/Screening/{id}:', screeningsResponse.data);
+      // Use the response data directly, assuming it's the array
+      const screeningsData = Array.isArray(screeningsResponse.data) ? screeningsResponse.data : [];
+
+      // Initialize clinicalData state with basic data and empty health issues/notes
+      let updatedClinicalData = {
+        height: clinicalDataFromPatient.height || "",
+        weight: clinicalDataFromPatient.weight || "",
+        // Initialize all health issue fields and notes to empty
+        respiratory_diseases: "",
+        heart_and_vascular_diseases: "",
+        digestive_system_diseases: "",
+        endocrine_diseases: "",
+        reproductive_system_diseases: "",
+        blood_disorders: "",
+        urinary_tract_and_kidney_diseases: "",
+        skin_diseases: "",
+        ent_diseases: "",
+        eye_diseases: "",
+        neurological_and_mental_disorders: "",
+        rheumatic_diseases: "",
+        cancers: "",
+        respiratory_diseases_notes: "",
+        heart_and_vascular_diseases_notes: "",
+        digestive_system_diseases_notes: "",
+        endocrine_diseases_notes: "", // Fixed typo
+        reproductive_system_diseases_notes: "",
+        blood_disorders_notes: "",
+        urinary_tract_and_kidney_diseases_notes: "",
+        skin_diseases_notes: "",
+        ent_diseases_notes: "",
+        eye_diseases_notes: "",
+        neurological_and_mental_disorders_notes: "",
+        rheumatic_diseases_notes: "",
+        cancers_notes: "",
+      };
+
+      console.log('Initial updatedClinicalData state:', updatedClinicalData);
+
+      // Process screenings data and update clinicalData
+      screeningsData.forEach(screening => {
+        const category = screening.category;
+        const type = screening.type;
+        const result = screening.result; // Assuming result contains the notes
+
+        console.log('Processing screening item:', { category, type, result });
+
+        // Special handling for measurements - Assuming measurements are returned directly in the patient data, not screenings
+        // Remove this block as measurements are not screenings
+        // if (category === "measurements") {
+        //     if (type === "height") {
+        //         updatedClinicalData.height = result || "";
+        //     } else if (type === "weight") {
+        //         updatedClinicalData.weight = result || "";
+        //     }
+        // } else
+
+         if (updatedClinicalData.hasOwnProperty(category)) {
+          // Handle other health issue categories
+          // We assume the GET /Screening endpoint returns the latest or all.
+          // We are now overwriting the field for simplicity if multiple entries per category.
+          updatedClinicalData[category] = type || "";
+          // Map result to the corresponding notes field
+          const notesField = `${category}_notes`;
+          if (updatedClinicalData.hasOwnProperty(notesField)) {
+            updatedClinicalData[notesField] = result || "";
+          }
+        }
+      });
+
+      console.log('Final updatedClinicalData state before setting:', updatedClinicalData);
+      setClinicalData(updatedClinicalData);
+      setError(""); // Clear any previous errors
+
+    } catch (err) {
+      console.error("Failed to fetch clinical data and screenings:", err);
+      setError("Failed to load health and clinical data. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
+    // Initial fetch of patient data
     const fetchPatientData = async () => {
       if (!patientId) return;
-      
+
       try {
-        setLoading(true);
+        setLoading(true); // Set loading true before fetching
         const token = localStorage.getItem('token');
         const response = await axios.get(`http://127.0.0.1:8000/api/patients/${patientId}`, {
           headers: {
@@ -51,20 +240,30 @@ export default function PatientProfile() {
             'Accept': 'application/json'
           }
         });
-        
+
         console.log('Patient data:', response.data);
         setPatient(response.data);
-        setError("");
+        // Update clinicalData with height and weight fetched here
+        setClinicalData(prevData => ({
+            ...prevData,
+            height: response.data.height || "",
+            weight: response.data.weight || "",
+        }));
+        setError(""); // Clear any previous errors
       } catch (err) {
         console.error("Failed to fetch patient data:", err);
         setError("Failed to load patient data. Please try again.");
       } finally {
-        setLoading(false);
+        // Note: setLoading(false) is also handled in fetchClinicalAndScreeningData
+        // Consider if you need separate loading states or a combined one
       }
     };
-    
+
     fetchPatientData();
-  }, [patientId]);
+    fetchMedicalHistory(); // Call the function defined outside useEffect
+    fetchClinicalAndScreeningData(); // Fetch combined clinical and screening data
+
+  }, [patientId]); // Dependency array ensures this runs when patientId changes
 
   useEffect(() => {
     const fetchPersonalHistory = async () => {
@@ -106,67 +305,6 @@ export default function PatientProfile() {
     fetchPersonalHistory();
   }, [patientId]);
 
-  useEffect(() => {
-    const fetchMedicalHistory = async () => {
-      if (!patientId) return;
-      
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`http://127.0.0.1:8000/api/patients/${patientId}/medical-history`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json'
-          }
-        });
-        
-        if (response.data) {
-          setMedicalHistory(response.data);
-        }
-      } catch (err) {
-        console.error("Failed to fetch medical history:", err);
-      }
-    };
-    
-    fetchMedicalHistory();
-  }, [patientId]);
-
-  useEffect(() => {
-    const fetchClinicalData = async () => {
-      if (!patientId) return;
-      
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`http://127.0.0.1:8000/api/patients/${patientId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json'
-          }
-        });
-        
-        if (response.data) {
-          setClinicalData({
-            height: response.data.height,
-            weight: response.data.weight,
-            hearingIssues: response.data.hearing_issues,
-            visionIssues: response.data.vision_issues,
-            skinConditions: response.data.skin_conditions,
-            musculoskeletalIssues: response.data.musculoskeletal_issues,
-            respiratoryProblems: response.data.respiratory_problems,
-            cardiovascularProblems: response.data.cardiovascular_problems,
-            digestiveIssues: response.data.digestive_issues,
-            oralHealthProblems: response.data.oral_health_problems,
-            genitourinaryIssues: response.data.genitourinary_issues,
-            neurologicalSymptoms: response.data.neurological_symptoms,
-          });
-        }
-      } catch (err) {
-        console.error("Failed to fetch clinical data:", err);
-      }
-    };
-    
-    fetchClinicalData();
-  }, [patientId]);
-
   const handleBasicInfoSave = (updatedData) => {
     setPatient(prevPatient => ({
       ...prevPatient,
@@ -183,10 +321,7 @@ export default function PatientProfile() {
   };
 
   const handleMedicalHistorySave = (updatedData) => {
-    setMedicalHistory(prevHistory => ({
-      ...prevHistory,
-      ...updatedData
-    }));
+    console.log('handleMedicalHistorySave triggered');
   };
 
   const handleClinicalDataSave = (updatedData) => {
@@ -379,7 +514,12 @@ export default function PatientProfile() {
                 <p className="text-[#495057]">Congenital condition :</p>
                 <ul className="mt-3 ml-5 list-disc text-[#1A1A1A]">
                   {medicalHistory.congenital_conditions?.map((condition, index) => (
-                    <li key={index}>{condition.condition}</li>
+                    <li key={index}>
+                      <strong>{condition.condition}</strong>
+                      {condition.severity && `, Severity: ${condition.severity}`}
+                      {condition.implication && `, Implications: ${condition.implication}`}
+                      {condition.treatment && `, Treatment: ${condition.treatment}`}
+                    </li>
                   )) || <li>None</li>}
                 </ul>
               </div>
@@ -388,7 +528,12 @@ export default function PatientProfile() {
                 <p className="text-[#495057]">General diseases :</p>
                 <ul className="mt-3 ml-5 list-disc text-[#1A1A1A]">
                   {medicalHistory.general_diseases?.map((condition, index) => (
-                    <li key={index}>{condition.condition}</li>
+                    <li key={index}>
+                      <strong>{condition.condition}</strong>
+                      {condition.severity && `, Severity: ${condition.severity}`}
+                      {condition.implication && `, Implications: ${condition.implication}`}
+                      {condition.treatment && `, Treatment: ${condition.treatment}`}
+                    </li>
                   )) || <li>None</li>}
                 </ul>
               </div>
@@ -397,7 +542,12 @@ export default function PatientProfile() {
                 <p className="text-[#495057]">Surgical interventions :</p>
                 <ul className="mt-3 ml-5 list-disc text-[#1A1A1A]">
                   {medicalHistory.surgical_interventions?.map((condition, index) => (
-                    <li key={index}>{condition.condition}</li>
+                    <li key={index}>
+                      <strong>{condition.condition}</strong>
+                      {condition.severity && `, Severity: ${condition.severity}`}
+                      {condition.implication && `, Implications: ${condition.implication}`}
+                      {condition.treatment && `, Treatment: ${condition.treatment}`}
+                    </li>
                   )) || <li>None</li>}
                 </ul>
               </div>
@@ -406,7 +556,12 @@ export default function PatientProfile() {
                 <p className="text-[#495057]">Allergic reactions :</p>
                 <ul className="mt-3 ml-5 list-disc text-[#1A1A1A]">
                   {medicalHistory.allergic_reactions?.map((condition, index) => (
-                    <li key={index}>{condition.condition}</li>
+                    <li key={index}>
+                      <strong>{condition.condition}</strong>
+                      {condition.severity && `, Severity: ${condition.severity}`}
+                      {condition.implication && `, Implications: ${condition.implication}`}
+                      {condition.treatment && `, Treatment: ${condition.treatment}`}
+                    </li>
                   )) || <li>None</li>}
                 </ul>
               </div>
@@ -463,16 +618,33 @@ export default function PatientProfile() {
             <div className="space-y-5 font-nunito text-[16px]">
               <p className="font-semibold">Height : <span className="font-normal">{clinicalData.height || "Empty"} cm</span></p>
               <p className="font-semibold">Weight : <span className="font-normal">{clinicalData.weight || "Empty"} kg</span></p>
-              <p className="font-semibold">Hearing Issues : <span className="font-normal">{clinicalData.hearingIssues || "Empty"}</span></p>
-              <p className="font-semibold">Vision Issues : <span className="font-normal">{clinicalData.visionIssues || "Empty"}</span></p>
-              <p className="font-semibold">Skin Conditions : <span className="font-normal">{clinicalData.skinConditions || "Empty"}</span></p>
-              <p className="font-semibold">Musculoskeletal Issues : <span className="font-normal">{clinicalData.musculoskeletalIssues || "Empty"}</span></p>
-              <p className="font-semibold">Respiratory Problems : <span className="font-normal">{clinicalData.respiratoryProblems || "Empty"}</span></p>
-              <p className="font-semibold">Cardiovascular Problems : <span className="font-normal">{clinicalData.cardiovascularProblems || "Empty"}</span></p>
-              <p className="font-semibold">Digestive Issues : <span className="font-normal">{clinicalData.digestiveIssues || "Empty"}</span></p>
-              <p className="font-semibold">Oral Health Problems : <span className="font-normal">{clinicalData.oralHealthProblems || "Empty"}</span></p>
-              <p className="font-semibold">Genitourinary Issues : <span className="font-normal">{clinicalData.genitourinaryIssues || "Empty"}</span></p>
-              <p className="font-semibold">Neurological Symptoms : <span className="font-normal">{clinicalData.neurologicalSymptoms || "Empty"}</span></p>
+
+              {/* Dynamically render health issues based on screenings data */}
+              {categories.map(categoryInfo => {
+                const categoryKey = categoryInfo.value; // e.g., 'respiratory_diseases'
+                const categoryLabel = categoryInfo.label; // e.g., 'Respiratory Diseases'
+                const selectedType = clinicalData[categoryKey];
+                const notes = clinicalData[`${categoryKey}_notes`];
+
+                // Only display if there is a selected type or notes
+                if (selectedType || notes) {
+                  return (
+                    <div key={categoryKey}>
+                      <p className="font-semibold">{categoryLabel} :</p>
+                      <div className="ml-4 space-y-1">
+                        {selectedType && (
+                           <p className="font-normal">Type: {selectedType}</p>
+                        )}
+                         {notes && (
+                          <p className="font-normal">Notes: {notes}</p>
+                         )}
+                      </div>
+                    </div>
+                  );
+                } else {
+                  return null; // Don't render if no data for this category
+                }
+              })}
             </div>
           </div>
         </div>
@@ -485,12 +657,23 @@ export default function PatientProfile() {
         onSave={handleBasicInfoSave}
       />
     )}
-      {showClinicalForm && <ClinicalForm onClose={() => setShowClinicalForm(false)} onSave={handleClinicalDataSave} />}
+      {showClinicalForm && (
+        <ClinicalForm 
+          onClose={() => {
+            setShowClinicalForm(false);
+            // Re-fetch clinical and medical history data after closing the form
+            fetchClinicalAndScreeningData();
+            fetchMedicalHistory();
+          }}
+          onSave={handleClinicalDataSave} 
+        />
+      )}
       {showPersonalHistoryForm && <PersonalHistoryForm onClose={() => setShowPersonalHistoryForm(false)} onSave={handlePersonalHistorySave} />}
       {showMedicalHistoryModal && (
         <MedicalHistoryModal 
           onClose={() => setShowMedicalHistoryModal(false)} 
           onSave={handleMedicalHistorySave}
+          onSaveSuccess={fetchMedicalHistory}
         />
       )}
         </>

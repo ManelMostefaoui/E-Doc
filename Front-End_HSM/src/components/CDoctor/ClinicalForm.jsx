@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { X, ChevronDown, Edit, Pencil } from "lucide-react"
+import { X, ChevronDown, Edit, Pencil, Trash2 } from "lucide-react"
 import axios from "axios"
 import { useParams } from "react-router-dom"
 
@@ -265,24 +265,26 @@ export default function ClinicalForm({ onClose, onSave }) {
     fetchClinicalData()
   }, [patientId])
 
-  const handleSubmit = async () => {
+  const handleCancel = () => {
+    if (onClose) onClose()
+  }
+
+  // Function to save basic measurements (height and weight)
+  const handleMeasurementsSave = async () => {
     if (!patientId) {
-      setError("Patient ID is missing. Cannot save information.")
-      return
+      console.error("Patient ID is missing. Cannot save measurements.")
+      return;
     }
 
     try {
-      setLoading(true)
-      setError("")
+      // No need for separate loading state here, handleMainSave manages it
+      const token = localStorage.getItem("token");
 
-      const token = localStorage.getItem("token")
-
-      // Update patient data directly
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/patients/${patientId}`,
+        `http://127.0.0.1:8000/api/patients/${patientId}/biometric-data`,
         {
           height: formData.height,
-          weight: formData.weight
+          weight: formData.weight,
         },
         {
           headers: {
@@ -291,27 +293,17 @@ export default function ClinicalForm({ onClose, onSave }) {
             "Content-Type": "application/json",
           },
         }
-      )
+      );
 
-      console.log("Save response:", response.data)
-      setSuccess(true)
-      if (onSave) {
-        onSave()
-      }
+      console.log("Measurements save response:", response.data);
+      // Do not set success state here, handled by main save function
+
     } catch (err) {
-      console.error("Failed to save clinical data:", err)
-      setError(err.response?.data?.message || "Failed to save clinical data. Please try again.")
-    } finally {
-      setLoading(false)
+      console.error("Failed to save measurements:", err);
+      // Throw the error so handleMainSave can catch it
+      throw err;
     }
-  }
-
-  const handleChange = (field, value) => {
-    setFormData({
-      ...formData,
-      [field]: value,
-    })
-  }
+  };
 
   const handleSave = async () => {
     if (!patientId) {
@@ -320,56 +312,150 @@ export default function ClinicalForm({ onClose, onSave }) {
     }
 
     try {
-      setLoading(true)
+      // Loading state is managed by handleMainSave
       setError("")
 
       const token = localStorage.getItem("token")
 
-      // Prepare data for API - match the expected format
-      const screeningData = {
-        screenings: screenings.map(screening => ({
-          category: screening.category,
-          type: screening.type,
-          result: screening.result
-        }))
+      // Prepare data for API from formData - treating health issues as screenings
+      const screeningsData = []
+
+      // Remove height and weight from here
+      // Add height and weight as measurements
+      // if (formData.height) {
+      //   screeningsData.push({
+      //     patient_id: parseInt(patientId), // Ensure patient_id is a number
+      //     category: "measurements",
+      //     type: "height",
+      //     result: formData.height.toString() // Ensure result is a string
+      //   })
+      // }
+      // if (formData.weight) {
+      //   screeningsData.push({
+      //     patient_id: parseInt(patientId), // Ensure patient_id is a number
+      //     category: "measurements",
+      //     type: "weight",
+      //     result: formData.weight.toString() // Ensure result is a string
+      //   })
+      // }
+
+      // Iterate through defined health issue categories
+      categories.forEach(categoryInfo => {
+        const category = categoryInfo.value // e.g., 'respiratory_diseases'
+        const selectedType = formData[category] // e.g., 'Asthma'
+        const notes = formData[`${category}_notes`] // e.g., 'respiratory_diseases_notes'
+
+        // Only include if a type is selected or notes are provided
+        if (selectedType || notes) {
+          screeningsData.push({
+            patient_id: parseInt(patientId), // Ensure patient_id is a number
+            category: category, // Use the category value (e.g., 'respiratory_diseases')
+            type: selectedType || null, // Use the selected health issue type
+            result: notes || null, // Use the notes as the result
+          })
+        }
+      })
+
+      // Validate that we have at least one screening entry to send for health issues
+      // Allow saving if only measurements are provided and no health issues are selected
+      // if (screeningsData.length === 0) {
+      //   setError("Please select at least one health issue or add measurements.")
+      //   setLoading(false)
+      //   return
+      // }
+
+      // Only make the API call if there are health issue screenings to save
+      if (screeningsData.length > 0) {
+        console.log('Sending health issue screenings data:', screeningsData)
+
+        // Wrap the array in an object with the key 'screenings'
+        const requestBody = {
+          screenings: screeningsData
+        };
+
+        // Make POST request to save screenings (health issues)
+        const response = await axios.post(
+          `http://127.0.0.1:8000/api/Screening/store/${patientId}`,
+          requestBody, // Send the wrapped object
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+
+        console.log('Health issue screenings save response:', response.data)
+      } else {
+        console.log('No health issue screenings data to send.')
       }
 
-      // Make POST request to save screenings
-      const response = await axios.post(
-        `http://127.0.0.1:8000/api/Screening/store/${patientId}`,
-        screeningData,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-      
-      console.log('Save response:', response.data)
-      setSuccess(true)
-      
-      // Call onSave callback with updated data
-      if (onSave) {
-        onSave(screeningData)
-      }
-      
-      // Close form after short delay
-      setTimeout(() => {
-        if (onClose) onClose()
-      }, 1500)
-      
+      // Success state is managed by handleMainSave
+      // setError("") // Clear any previous errors on success
+
+      // Close form after short delay - managed by handleMainSave
+      // setTimeout(() => {
+      //   if (onClose) onClose()
+      // }, 1500)
+
     } catch (err) {
-      console.error('Error saving screenings:', err)
-      setError(err.response?.data?.message || "Failed to save screenings. Please try again.")
-    } finally {
-      setLoading(false)
+      console.error('Error saving health issues/screenings:', err)
+      // Throw the error so handleMainSave can catch it
+      throw err;
     }
   }
 
-  const handleCancel = () => {
-    if (onClose) onClose()
+  // Combined save handler
+  const handleMainSave = async () => {
+    if (!patientId) {
+      setError("Patient ID is missing. Cannot save information.")
+      return;
+    }
+
+    try {
+      setLoading(true); // Start loading
+      setError(""); // Clear previous errors
+      setSuccess(false); // Clear previous success message
+
+      // First, save the basic measurements (height and weight)
+      await handleMeasurementsSave();
+
+      // Then, save the health issues and their notes as screenings
+      await handleSave(); // This now only handles health issues
+
+      setSuccess(true); // Set success if both saves complete without error
+
+      // Close the modal after a short delay on success
+      setTimeout(() => {
+        if (onClose) onClose();
+        // Optionally call parent onSave to refresh data in PatientProfile
+        // if (onSave) onSave();
+      }, 1500);
+
+    } catch (err) {
+      console.error("Error in handleMainSave:", err);
+      let errorMessage = "Failed to save data.";
+      // You can add more specific error handling here based on the thrown error 'err'
+      if (err.response && err.response.data) {
+           // Try to get a more specific message from the server response
+           errorMessage += ` Server message: ${err.response.data.message || JSON.stringify(err.response.data)}`;
+        } else if (err.message) {
+            errorMessage += ` Error details: ${err.message}`;
+        }
+
+      setError(errorMessage);
+      setSuccess(false); // Ensure success is false on error
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  const handleChange = (field, value) => {
+    setFormData({
+      ...formData,
+      [field]: value,
+    })
   }
 
   // Add screening handling functions
@@ -718,7 +804,7 @@ export default function ClinicalForm({ onClose, onSave }) {
         {/* Footer with buttons */}
         <div className="p-4 border-t border-gray-200 flex justify-between">
           <button
-            onClick={handleSave}
+            onClick={handleMainSave}
             disabled={loading}
             className={`${loading ? "bg-gray-400" : "bg-teal-600 hover:bg-teal-700"} text-white px-8 py-2 rounded-md transition duration-150`}
           >
