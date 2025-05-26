@@ -520,26 +520,22 @@ export default function ConsultationForm({ selectedPatient }) {
             )
           })}
         </div>
+        {/* Move Save button here and remove Cancel button */}
+        <div className="flex gap-4 mt-4">
+          <button 
+            onClick={handleSaveVitals}
+            className="bg-[#008080] hover:bg-primary-dark text-white px-6 py-2 rounded-md text-sm font-medium w-40 transition-colors"
+          >
+            Save Vitals
+          </button>
+        </div>
       </section>
 
       {/* Medical Prescription */}
-      <EsiForm selectedPatient={patientVitals} /> {/* Pass patientVitals which now includes selected patient info */}
+      <EsiForm selectedPatient={patientVitals} />
       
       {/* Upload Documents */}
-      <UploadDocuments />
-
-      {/* Action Buttons */}
-      <div className="flex gap-4 mt-8">
-        <button 
-          onClick={handleSaveVitals}
-          className="bg-[#008080] hover:bg-primary-dark text-white px-6 py-2 rounded-md text-sm font-medium w-40 transition-colors"
-        >
-          Save
-        </button>
-        <button className="border border-red-500 bg-white text-red-700 hover:bg-red-600 hover:text-white w-40 px-6 py-2 rounded-md text-sm font-medium transition-colors">
-          Cancel
-        </button>
-      </div>
+      <UploadDocuments patientId={patientVitals.id} /> {/* Pass patientId to UploadDocuments */}
     </div>
   )
 }

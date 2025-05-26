@@ -52,11 +52,10 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 Route::middleware('auth:sanctum')->post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 //Storage for all auth users
-Route::middleware('auth:sanctum')->post('/profile/upload-pic', [StorageController::class, 'uploadProfilePhoto'])
-    ->name('upload.profile.photo');
-Route::middleware('auth:sanctum')->post('/documents/upload', [StorageController::class, 'storeDocument'])
-    ->name('documents.upload');
-
+Route::middleware('auth:sanctum')->post('/profile/upload-pic', [StorageController::class, 'uploadProfilePhoto']);
+Route::middleware('auth:sanctum')->post('/documents/upload', [StorageController::class, 'storeDocument']);
+Route::middleware('auth:sanctum')->get('/documents/{id}', [StorageController::class, 'getDocument'])
+    ->name('documents.get');
 
 // -----------------------------------------------------------------------------------------------------------
 // Group all routes under both 'auth:sanctum' and 'admin' middleware
