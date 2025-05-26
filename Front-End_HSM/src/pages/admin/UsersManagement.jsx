@@ -143,9 +143,11 @@ const UserManagement = () => {
       const token = localStorage.getItem('token');
       let endpoint = '/admin/users';
       
-      if (selectedFilter !== 'All') {
+      // If the filter is not 'All' and not 'AllExceptDoctors', filter by role via the backend endpoint
+      if (selectedFilter !== 'All' && selectedFilter !== 'AllExceptDoctors') {
         endpoint = `/admin/users/${selectedFilter.toLowerCase()}`;
       }
+      // If 'All' or 'AllExceptDoctors', use the default endpoint that fetches all users (except admins already filtered)
       
       const response = await axios.get(`http://127.0.0.1:8000/api${endpoint}`, {
         headers: {
@@ -160,6 +162,11 @@ const UserManagement = () => {
       let backendUsers = response.data
         .filter(user => !user.role || user.role.toLowerCase() !== 'admin')
         .map(user => ensureUserHasId(user));
+      
+      // Add client-side filtering for 'All Except Doctors'
+      if (selectedFilter === 'AllExceptDoctors') {
+        backendUsers = backendUsers.filter(user => user.role?.toLowerCase() !== 'doctor'); // Assuming role is directly on the user object
+      }
       
       // Try to match any users with generated IDs to backend users
       let formattedUsers = matchGeneratedUsers(backendUsers, users);
@@ -540,6 +547,7 @@ const UserManagement = () => {
               onChange={(e) => setSelectedFilter(e.target.value)}
             >
               <option value="All">All Users</option>
+              <option value="AllExceptDoctors">Patients</option>
               <option value="Student">Students</option>
               <option value="Teacher">Teachers</option>
               <option value="Employer">Employers</option>

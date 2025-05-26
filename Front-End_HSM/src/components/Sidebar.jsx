@@ -141,13 +141,15 @@ export default function Sidebar({ isVisible = true }) {
         )}
 
         {userRole === 'admin' && (
-          <Link
-            to="/users"
-            className={`flex items-center gap-3 p-3 ${currentPath === "/users" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
-          >
-            <Users size={20} />
-            <span className='font-nunito text-[16px] font-normal'>Users management</span>
-          </Link>
+          <>
+            <Link
+              to="/users"
+              className={`flex items-center gap-3 p-3 ${currentPath === "/users" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
+            >
+              <Users size={20} />
+              <span className='font-nunito text-[16px] font-normal'>Users management</span>
+            </Link>
+          </>
         )}
         
         {userRole === 'doctor' && (
