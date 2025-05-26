@@ -195,6 +195,13 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
 
     //Show Stats of the month if fully booked , geeting fulled , no appointement
     Route::get('/consultations/monthly-booking-status', [ConsultationRequestController::class, 'getMonthlyBookingStatus']);
+
+    Route::post('/appointments/create-with-consultation/{consultation_request_id}', [AppointmentsController::class, 'store']);
+
+    Route::post('/appointments/create-direct', [AppointmentsController::class, 'store']);
+
+    Route::post('/consultation-request/{id}/canceldoc', [ConsultationRequestController::class, 'cancelRequestByDoctor']);
+
 });
 
 // -----------------------------------------------------------------------------------------------------------
@@ -214,9 +221,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/consultations/user', [ConsultationRequestController::class, 'getUserConsultations']);
 
-    Route::post('/appointments/create-with-consultation/{consultation_request_id}', [AppointmentsController::class, 'store']);
-
-    Route::post('/appointments/create-direct', [AppointmentsController::class, 'store']);
 });
 
 // -----------------------------------------------------------------------------------------------------------

@@ -26,12 +26,14 @@ class AppointmentConfirmedNotification extends Notification
 
     public function toArray($notifiable)
     {
+        $patient = $this->appointment->consultationRequest->patient->user;
         return [
-            'message' => 'Patient has confirmed the appointment',
+            'message' => "Patient {$patient->name} has confirmed the appointment",
             'appointment_id' => $this->appointment->id,
-            'patient_name' => $this->appointment->consultationRequest->patient->user->name,
+            'patient_name' => $patient->name,
             'scheduled_at' => $this->appointment->scheduled_at,
-            'confirmed_at' => now()
+            'confirmed_at' => now(),
+            'confirmed_by' => $patient->name
         ];
     }
 }

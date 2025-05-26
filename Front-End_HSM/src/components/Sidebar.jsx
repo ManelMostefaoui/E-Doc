@@ -140,10 +140,6 @@ export default function Sidebar({ isVisible = true }) {
             </Link>
           </>
         )}
-<<<<<<< HEAD
-
-=======
->>>>>>> 465f626 (bon)
         {userRole === 'admin' && (
           <Link
             to="/users"
