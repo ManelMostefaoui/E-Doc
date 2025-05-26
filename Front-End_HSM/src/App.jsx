@@ -62,14 +62,9 @@ function App() {
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
-                  
-                  {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
                     <DashboardPage />
                   </div>
                 </div>
@@ -85,14 +80,9 @@ function App() {
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
-                  
-                  {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
                     <UsersManagementPage />
                   </div>
                 </div>
@@ -108,14 +98,9 @@ function App() {
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
-                  
-                  {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
                     <UserDetails />
                   </div>
                 </div>
@@ -127,17 +112,11 @@ function App() {
         <Route
           path="/consultation"
           element={
-              <div className="h-screen overflow-auto flex flex-col">
-                {/* Navbar */}
+              <div className="h-screen flex flex-col">
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
-                  
-                  {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
                     <Consultation />
                   </div>
                 </div>
@@ -148,17 +127,11 @@ function App() {
         <Route
           path="/appointements"
           element={
-              <div className="h-screen overflow-auto flex flex-col">
-                {/* Navbar */}
+              <div className="h-screen flex flex-col">
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
-                  
-                  {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
                     <Appointements />
                   </div>
                 </div>
@@ -173,14 +146,9 @@ function App() {
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
-                  
-                  {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
                     <SettingsPage />
                   </div>
                 </div>
@@ -196,14 +164,9 @@ function App() {
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
-                  
-                  {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
                     <SettingsPage />
                   </div>
                 </div>
@@ -215,17 +178,11 @@ function App() {
         <Route
           path="/settings/notifications"
           element={
-              <div className="h-screen overflow-auto flex flex-col">
-                {/* Navbar */}
+              <div className="h-screen flex flex-col">
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
-                  
-                  {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
                     <Notifications />
                   </div>
                 </div>

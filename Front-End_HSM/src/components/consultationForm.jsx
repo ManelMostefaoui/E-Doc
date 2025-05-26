@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState } from "react"
 import { ChevronDown, Pencil, Printer, Trash2, Upload, FileText } from "lucide-react"
 import { EsiLogo, EsiText } from "../assets"
 import EsiForm from "./EsiForm"
@@ -6,63 +6,11 @@ import UploadDocuments from "./UploadDocuments"
 import  jsPDF  from "jspdf"
 import html2canvas from "html2canvas"
 import Ordonnance from "./ordonnance"
-import axios from "axios"
-
-// Configure axios base URL
-axios.defaults.baseURL = 'http://127.0.0.1:8000'
+import OrdonnanceLogo from '../assets/OrdonnanceLogo.png'
 
 export default function ConsultationForm() {
   const [selectedCategory, setSelectedCategory] = useState("")
   const ordonnanceRef = useRef(null)
-  const [patientVitals, setPatientVitals] = useState({
-    fullName: "",
-    age: "",
-    height: "",
-    weight: "",
-    bloodPressure: "",
-    temperature: "",
-    heartRate: "",
-    bloodSugar: "",
-    observations: "",
-    date: new Date().toISOString().split('T')[0]
-  })
-
-  // Fetch patient vitals when component mounts
-  useEffect(() => {
-    const fetchPatientVitals = async () => {
-      try {
-        const response = await axios.get(`/patient-vitals/show/${patient.id}`)
-        if (response.data) {
-          setPatientVitals(response.data)
-        }
-      } catch (error) {
-        console.error("Error fetching patient vitals:", error)
-      }
-    }
-
-
-  }, )
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setPatientVitals(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
-
-  const handleSaveVitals = async () => {
-    try {
-      await axios.post('http://127.0.0.1:8000/patient-vitals/store', {
-        ...patientVitals,
-      })
-      alert("Patient vitals saved successfully!")
-    } catch (error) {
-      console.error("Error saving patient vitals:", error)
-      alert("Failed to save patient vitals")
-    }
-  }
-
   const generatePDF = async () => { console.log(ordonnanceRef.current)
     if (!ordonnanceRef.current) return
   
@@ -106,46 +54,30 @@ export default function ConsultationForm() {
   ])
 
   return (
-    <div className="max-w-4xl  mx-auto">
+    <div className="max-w-4xl mx-auto w-full p-4 sm:p-8 text-left overflow-y-hidden">
       <h1 className="text-3xl font-bold text-[#008080]  mb-6">Consultation :</h1>
 
       {/* Patient Vitals & Information */}
       <section className="form-section">
         <h2 className="form-section-title text-[#004D4D] font-bold  text-3xl">Patient vitals & informations :</h2>
-        <div className="grid grid-cols-1 gap-4 mt-5">
-        <div  className="grid grid-cols-[120px_1fr] items-center gap-4">
-              <label className="form-label">Date :</label>
-              <div className="relative">
-                <input 
-                  type="date" 
-                  name="date"
-                  value={patientVitals.date}
-                  onChange={handleInputChange}
-                  className="form-input pr-10" 
-                />
+        <div className="flex flex-col gap-4 mt-5">
+          <div className="flex flex-col sm:grid sm:grid-cols-[120px_1fr] items-center gap-2 sm:gap-4 w-full">
+            <label className="form-label w-full sm:w-auto">Date :</label>
+            <div className="relative w-full">
+              <input type="date" placeholder={'Date'} className="form-input w-full pr-10 rounded-md" />
+            </div>
+          </div>
+          {inputFields.map((label, index) => (
+            <div key={index} className="flex flex-col sm:grid sm:grid-cols-[120px_1fr] items-center gap-2 sm:gap-4 w-full">
+              <label className="form-label w-full sm:w-auto">{label} :</label>
+              <div className="relative w-full">
+                <input type="text" placeholder={label} className="form-input w-full pr-10 rounded-md" />
+                <button className="absolute right-4.5 top-1/2 transform -translate-y-1/2 hover:text-primary" tabIndex={-1} type="button">
+                  <Pencil size={16} />
+                </button>
               </div>
             </div>
-          {inputFields.map((label, index) => {
-            const fieldName = label.toLowerCase().replace(/\s+/g, '')
-            return (
-              <div key={index} className="grid grid-cols-[120px_1fr] items-center gap-4">
-                <label className="form-label">{label} :</label>
-                <div className="relative">
-                  <input 
-                    type="text" 
-                    name={fieldName}
-                    value={patientVitals[fieldName]}
-                    onChange={handleInputChange}
-                    placeholder={label} 
-                    className="form-input pr-10" 
-                  />
-                  <button className="absolute right-22 top-1/2 -translate-y-1/2 hover:text-primary">
-                    <Pencil size={16} />
-                  </button>
-                </div>
-              </div>
-            )
-          })}
+          ))}
         </div>
       </section>
 
@@ -162,7 +94,7 @@ export default function ConsultationForm() {
           </button>
         </div>
 
-        <div className=" bg-white rounded-lg p-6 border border-gray-200" >
+        <div className="bg-white rounded-lg p-6 border border-gray-200 overflow-x-auto overflow-y-auto" >
         <div className="flex justify-between w-full relative text-sm text-center text-teal-900 font-medium">
     
     {/* Left side */}
@@ -196,16 +128,16 @@ export default function ConsultationForm() {
 
   </div>
 
-          <div className=" mt-10 grid grid-cols-2 gap-4 mb-6">
+          <div className=" mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             <div className="flex items-center gap-2">
               <span className="text-sm">Date :</span>
-              <div className="relative flex-1">
+              <div className="relative flex-1 w-full">
               <input type="date" placeholder="" className="form-input w-full" />
               </div>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm">Age :</span>
-              <div className="relative flex-1">
+              <div className="relative flex-1 w-full">
               <input type="number" min={0} placeholder="Age" className="form-input w-full" />
               </div>
             </div>
@@ -214,10 +146,10 @@ export default function ConsultationForm() {
           <div className="mb-6">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-sm">Full name :</span>
-              <div className="relative flex-1">
-                <input type="text" placeholder="Full name" className="form-input pr-10" />
-                <button className="edit-button absolute right-22 top-1/2 -translate-y-1/2 ">
-                  <Pencil size={16}  />
+              <div className="relative flex-1 w-full">
+                <input type="text" placeholder="Full name" className="form-input w-full pr-10 rounded-md" />
+                <button className="edit-button absolute right-4.5 top-1/2 transform -translate-y-1/2 hover:text-primary" tabIndex={-1} type="button">
+                  <Pencil size={16} />
                 </button>
               </div>
             </div>
@@ -227,7 +159,7 @@ export default function ConsultationForm() {
             <h3 className="text-center text-primary font-bold mb-4 text-[#008080] ">Report :</h3>
 
             <div className="relative mb-2">
-              <input type="text" placeholder="Report ..." className="form-input pr-10" />
+              <input type="text" placeholder="Report ..." className="form-input pr-10 w-full min-h-[40px]" />
               <button className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-700">
                 <Trash2 size={18} />
               </button>
@@ -240,11 +172,8 @@ export default function ConsultationForm() {
     <UploadDocuments />
 
       {/* Action Buttons */}
-      <div className="flex gap-4 mt-8">
-        <button 
-          onClick={handleSaveVitals}
-          className="bg-[#008080] hover:bg-primary-dark text-white px-6 py-2 rounded-md text-sm font-medium w-40 transition-colors"
-        >
+      <div className="flex gap-4 mt-8 flex-col sm:flex-row">
+        <button className="bg-[#008080] hover:bg-primary-dark text-white px-6 py-2 rounded-md text-sm font-medium w-40 transition-colors">
           Save
         </button>
         <button className="border border-red-500 bg-white text-red-700 hover:bg-red-600 hover:text-white w-40 px-6 py-2 rounded-md text-sm font-medium transition-colors">

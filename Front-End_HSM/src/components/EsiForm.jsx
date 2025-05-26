@@ -1,5 +1,6 @@
 import { useState, useRef } from "react"
 import { Pencil, Printer, Trash2 } from "lucide-react"
+import OrdonnanceLogo from '../assets/OrdonnanceLogo.png';
 import Group56Logo from '../assets/Group56.png';
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
@@ -36,79 +37,50 @@ export default function EsiForm() {
         format: "a4"
       })
 
-      // Set font for French text
-      pdf.setFont("helvetica", "normal")
-      pdf.setFontSize(8)
-      // Removed French header lines
-      // pdf.text("République Algérienne Démocratique et Populaire", 105, 20, { align: "center" })
-      // pdf.text("Ministère de l'Enseignement Supérieur et de la Recherche Scientifique", 105, 25, { align: "center" })
-      
-      // Add logo ONLY (full width at the top)
+      // Add logo at the top
       const logo = new Image()
-      logo.src = Group56Logo
+      logo.src = OrdonnanceLogo
       await new Promise((resolve) => {
         logo.onload = resolve
       })
-      // A4 width is 210mm, so use x=0, width=210mm, height=auto (e.g., 35mm)
       pdf.addImage(logo, "PNG", 0, 10, 210, 35)
 
-      // Add prescription title above the double lines, below the logo
+      // Patient info (plain text, no box)
+      pdf.setFont("helvetica", "normal")
+      pdf.setFontSize(11)
+      pdf.setTextColor(0, 0, 0)
+      const formattedDate = formData.date ? new Date(formData.date).toLocaleDateString() : ""
+      pdf.text(`Date: ${formattedDate}`, 20, 55)
+      pdf.text(`Age: ${formData.age}`, 110, 55)
+      pdf.text(`Full Name: ${formData.name}`, 20, 62)
+
+      // Title: Medical Prescription (centered)
       pdf.setFontSize(20)
       pdf.setFont(undefined, 'bold')
-      pdf.setTextColor(0, 128, 128) // #008080
-      pdf.text("Medical Prescription", 105, 55, { align: "center" })
+      pdf.setTextColor(0, 0, 0)
+      pdf.text("Medical Prescription", 105, 75, { align: "center" })
+
+      // Add headers
+      pdf.setFont(undefined, 'bold')
+      pdf.setFontSize(12)
+      pdf.text("Medicine", 20, 88)
+      pdf.text("Dose", 100, 88)
+      pdf.text("Period", 150, 88)
+      pdf.setDrawColor(0, 0, 0)
+      pdf.line(20, 90, 190, 90) // Line below headers
+
+      // Treatments (medicines) list
       pdf.setFont(undefined, 'normal')
-      pdf.setFontSize(16)
-      // Add bottom teal line with double lines
-      pdf.setDrawColor(0, 128, 128) // #008080
-      pdf.setLineWidth(0.5)
-      pdf.line(20, 75, 190, 75)
-      pdf.line(20, 76, 190, 76)
-
-      // Format the date if it exists
-      const formattedDate = formData.date ? new Date(formData.date).toLocaleDateString() : ""
-
-      // Patient info box design improvements (no color change)
-      const patientBoxY = 100;
-      const patientBoxHeight = 40;
-      pdf.setDrawColor(200, 200, 200); // Light gray border
-      pdf.setFillColor(245, 245, 245); // Light gray background
-      pdf.roundedRect(20, patientBoxY, 170, patientBoxHeight, 6, 6, 'FD'); // Larger border radius
-
-      // Title
-      pdf.setFontSize(12);
-      pdf.setFont(undefined, 'bold');
-      pdf.setTextColor(0, 128, 128);
-      pdf.text("Patient Information", 105, patientBoxY + 9, { align: "center" });
-
-      // Details (two columns, more vertical spacing)
-      pdf.setFont(undefined, 'normal');
-      pdf.setFontSize(11);
-      pdf.setTextColor(0, 0, 0);
-      pdf.text(`Date: ${formattedDate}`, 30, patientBoxY + 22);
-      pdf.text(`Age: ${formData.age}`, 30, patientBoxY + 32);
-      pdf.text(`Full Name: ${formData.name}`, 120, patientBoxY + 27);
-
-      // Add treatments section
       pdf.setFontSize(14)
-      pdf.setTextColor(0, 128, 128) // #008080
-      pdf.text("Treatment needed:", 20, 150)
-      pdf.setDrawColor(0, 128, 128)
-      pdf.line(20, 152, 190, 152)
-      
-      let yPosition = 160
+      pdf.setTextColor(0, 0, 0)
+      let yPosition = 98 // Start below header line
       treatment.forEach((t, index) => {
-        // Add treatment box
-        pdf.setDrawColor(200, 200, 200)
-        pdf.setFillColor(245, 245, 245)
-        pdf.roundedRect(20, yPosition - 5, 170, 25, 3, 3, 'FD')
-        
-        pdf.setFontSize(10)
-        pdf.setTextColor(0, 0, 0)
-        pdf.text(`${index + 1}. ${t.name}`, 30, yPosition)
-        pdf.text(`Dose: ${t.dose}`, 30, yPosition + 8)
-        pdf.text(`Period: ${t.period}`, 30, yPosition + 16)
-        yPosition += 30
+        // Use columns for better alignment
+        pdf.text(`${index + 1}. ${t.name}`, 20, yPosition) // Medicine name
+        pdf.text(t.dose, 100, yPosition) // Dose
+        pdf.text(t.period, 150, yPosition) // Period
+
+        yPosition += 10
       })
 
       // Save the PDF
@@ -146,13 +118,13 @@ export default function EsiForm() {
 
       <div
         ref={prescriptionRef}
-        className="mx-auto p-8 bg-white rounded-xl"
-        style={{ width: '210mm', boxShadow: 'none', border: 'none' }}
+        className="mx-auto bg-white rounded-xl w-full max-w-3xl p-4 sm:p-8"
+        style={{ boxShadow: 'none', border: 'none' }}
       >
         {/* Header */}
         <div className="flex items-center pb-0">
           <div className="flex justify-center w-full relative text-sm text-center text-teal-900 font-medium">
-            {/* Center Logo ONLY */}
+            {/* Center Logo ONLY - Use Group56Logo for the screen */}
             <img
               src={Group56Logo}
               alt="Logo"

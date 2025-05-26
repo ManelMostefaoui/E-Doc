@@ -242,7 +242,7 @@ export default function Notifications() {
             </div>
 
             {/* Notifications */}
-            <div className="space-y-6">
+            <div className="space-y-6 w-full">
               {filteredNotifications.map((notification) => (
                 <NotificationCard
                   key={notification.id}
