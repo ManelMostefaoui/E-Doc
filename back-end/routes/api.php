@@ -74,6 +74,9 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     //delete user
     Route::delete('/users/{id}', [AuthenticatedSessionController::class, 'deleteuUser']);
     Route::put('/users/update/{id}', [AdminController::class, 'updateUser']);
+
+    
+
 });
 
 // -----------------------------------------------------------------------------------------------------------
@@ -109,7 +112,7 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     Route::post('/medications/import', [MedicationController::class, 'import'])->name('medications.import');
 
     //get patient list
-    Route::get('/patients', [PatientController::class, 'index']);
+    
     Route::get('/patients-archived', [PatientController::class, 'showArchivedPatients']);
 
     //archived and unarchived medical record of patient
@@ -212,6 +215,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/sent-requests', [ConsultationRequestController::class, 'getSentRequests']);
 
     Route::get('/consultations/user', [ConsultationRequestController::class, 'getUserConsultations']);
+    Route::get('/patients', [PatientController::class, 'index']);
 });
 
 // -----------------------------------------------------------------------------------------------------------
