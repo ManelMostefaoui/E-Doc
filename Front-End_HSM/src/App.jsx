@@ -3,7 +3,8 @@ import { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/Login/Login";
-import Consultation from "./pages/Consultation";
+import Consultation from "./pages/doctor/Consultation";
+import Medications from "./pages/doctor/Medications";
 import Appointements from "./pages/doctor/Appointements";
 import Notifications from "./components/CDoctor/Notifications";
 
@@ -87,14 +88,16 @@ function App() {
           path="/dashboard"
           element={
             <PrivateRoute allowedRoles={['admin']}>
-              <div className="h-screen overflow-auto flex flex-col">
+              <div className="h-screen flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-                <div className="flex flex-1 h-0">
-                  <Sidebar />
+                <div className="flex flex-1 overflow-hidden">
+                  <div className="flex-none">
+                    <Sidebar />
+                  </div>
 
                   {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 p-4 overflow-y-auto">
                     <DashboardPage />
                   </div>
                 </div>
@@ -107,14 +110,16 @@ function App() {
           path="/users"
           element={
             <PrivateRoute>
-              <div className="h-screen overflow-auto flex flex-col">
+              <div className="h-screen flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-                <div className="flex flex-1 h-0">
-                  <Sidebar />
+                <div className="flex flex-1 overflow-hidden">
+                  <div className="flex-none">
+                    <Sidebar />
+                  </div>
 
                   {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 p-4 overflow-y-auto">
                     <UsersManagementPage />
                   </div>
                 </div>
@@ -127,14 +132,16 @@ function App() {
           path="/users/:id"
           element={
             <PrivateRoute>
-              <div className="h-screen overflow-auto flex flex-col">
+              <div className="h-screen flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-                <div className="flex flex-1 h-0">
-                  <Sidebar />
+                <div className="flex flex-1 overflow-hidden">
+                  <div className="flex-none">
+                    <Sidebar />
+                  </div>
 
                   {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 p-4 overflow-y-auto">
                     <UserDetails />
                   </div>
                 </div>
@@ -146,17 +153,21 @@ function App() {
         <Route
           path="/consultation"
           element={
-            <div className="h-screen overflow-auto flex flex-col">
-              {/* Navbar */}
-              <Navbar />
+            <div className="h-screen flex flex-col">
+              {/* Fixed Navbar */}
+              <div className="flex-none">
+                <Navbar />
+              </div>
 
               {/* Sidebar + Page content */}
-              <div className=" flex flex-1">
-                {/* Sidebar */}
-                <Sidebar />
+              <div className="flex flex-1 overflow-hidden">
+                {/* Fixed Sidebar */}
+                <div className="flex-none">
+                  <Sidebar />
+                </div>
 
-                {/* Main content */}
-                <div className=" flex-1 p-4">
+                {/* Scrollable Main content */}
+                <div className="flex-1 overflow-y-auto p-4">
                   <Consultation />
                 </div>
               </div>
@@ -165,19 +176,48 @@ function App() {
         />
 
         <Route
+          path="/medications"
+          element={
+            <PrivateRoute allowedRoles={['doctor']}>
+              <div className="h-screen flex flex-col">
+                {/* Fixed Navbar */}
+                <div className="flex-none">
+                  <Navbar />
+                </div>
+
+                {/* Sidebar + Page content */}
+                <div className="flex flex-1 overflow-hidden">
+                  {/* Fixed Sidebar */}
+                  <div className="flex-none">
+                    <Sidebar />
+                  </div>
+
+                  {/* Scrollable Main content */}
+                  <div className="flex-1 overflow-y-auto p-4">
+                    <Medications />
+                  </div>
+                </div>
+              </div>
+            </PrivateRoute>
+          }
+        />
+
+        <Route
           path="/appointements"
           element={
-            <div className="h-screen overflow-auto flex flex-col">
+            <div className="h-screen flex flex-col">
               {/* Navbar */}
               <Navbar />
 
               {/* Sidebar + Page content */}
-              <div className=" flex flex-1">
+              <div className="flex flex-1 overflow-hidden">
                 {/* Sidebar */}
-                <Sidebar />
+                <div className="flex-none">
+                  <Sidebar />
+                </div>
 
                 {/* Main content */}
-                <div className=" flex-1 p-4">
+                <div className="flex-1 p-4">
                   <Appointements />
                 </div>
               </div>
@@ -189,14 +229,16 @@ function App() {
           path="/settings"
           element={
             <PrivateRoute>
-              <div className="h-screen overflow-auto flex flex-col">
+              <div className="h-screen flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-                <div className="flex flex-1 h-0">
-                  <Sidebar />
+                <div className="flex flex-1 overflow-hidden">
+                  <div className="flex-none">
+                    <Sidebar />
+                  </div>
 
                   {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 p-4 overflow-y-auto">
                     <SettingsPage />
                   </div>
                 </div>
@@ -209,14 +251,16 @@ function App() {
           path="/settings/security"
           element={
             <PrivateRoute>
-              <div className="h-screen overflow-auto flex flex-col">
+              <div className="h-screen flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-                <div className="flex flex-1 h-0">
-                  <Sidebar />
+                <div className="flex flex-1 overflow-hidden">
+                  <div className="flex-none">
+                    <Sidebar />
+                  </div>
 
                   {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 p-4 overflow-y-auto">
                     <SettingsPage />
                   </div>
                 </div>
@@ -229,17 +273,19 @@ function App() {
           path="/settings/personal"
           element={
             <PrivateRoute>
-              <div className="h-screen overflow-auto flex flex-col">
+              <div className="h-screen flex flex-col">
                 {/* Navbar */}
                 <Navbar />
 
                 {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
+                <div className="flex flex-1 overflow-hidden">
                   {/* Sidebar */}
-                  <Sidebar />
+                  <div className="flex-none">
+                    <Sidebar />
+                  </div>
 
                   {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 p-4 overflow-y-auto">
                     <AdminSettings />
                   </div>
                 </div>
@@ -252,17 +298,19 @@ function App() {
           path="/settings/notifications"
           element={
             <PrivateRoute allowedRoles={['doctor']}>
-              <div className="h-screen overflow-auto flex flex-col">
+              <div className="h-screen flex flex-col">
                 {/* Navbar */}
                 <Navbar />
 
                 {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
+                <div className="flex flex-1 overflow-hidden">
                   {/* Sidebar */}
-                  <Sidebar />
+                  <div className="flex-none">
+                    <Sidebar />
+                  </div>
 
                   {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 p-4 overflow-y-auto">
                     <Notifications />
                   </div>
                 </div>
@@ -275,17 +323,19 @@ function App() {
           path="/admin-settings"
           element={
             <PrivateRoute>
-              <div className="h-screen overflow-auto flex flex-col">
+              <div className="h-screen flex flex-col">
                 {/* Navbar */}
                 <Navbar />
 
                 {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
+                <div className="flex flex-1 overflow-hidden">
                   {/* Sidebar */}
-                  <Sidebar />
+                  <div className="flex-none">
+                    <Sidebar />
+                  </div>
 
                   {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 p-4 overflow-y-auto">
                     <AdminSettings user={{ firstName: 'Omar', lastName: 'Boudelia' }} />
                   </div>
                 </div>
@@ -298,17 +348,19 @@ function App() {
           path="/patients"
           element={
             <PrivateRoute>
-              <div className="h-screen overflow-auto flex flex-col">
+              <div className="h-screen flex flex-col">
                 {/* Navbar */}
                 <Navbar />
 
                 {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
+                <div className="flex flex-1 overflow-hidden">
                   {/* Sidebar */}
-                  <Sidebar />
+                  <div className="flex-none">
+                    <Sidebar />
+                  </div>
 
                   {/* Main content */}
-                  <div className=" flex-1 p-4">
+                  <div className="flex-1 p-4 overflow-y-auto">
                     <PatientsManagement />
                   </div>
                 </div>
@@ -321,11 +373,13 @@ function App() {
           path="/patients/:id"
           element={
             <PrivateRoute>
-              <div className="h-screen overflow-auto flex flex-col">
+              <div className="h-screen flex flex-col">
                 <Navbar />
-                <div className="flex flex-1">
-                  <Sidebar />
-                  <div className="flex-1 p-4">
+                <div className="flex flex-1 overflow-hidden">
+                  <div className="flex-none">
+                    <Sidebar />
+                  </div>
+                  <div className="flex-1 p-4 overflow-y-auto">
                     <PatientProfile />
                   </div>
                 </div>
@@ -338,11 +392,13 @@ function App() {
           path="/contact-center"
           element={
             <PrivateRoute allowedRoles={['student', 'teacher', 'employer']}>
-              <div className="h-screen overflow-auto flex flex-col">
+              <div className="h-screen flex flex-col">
                 <Navbar />
-                <div className="flex flex-1">
-                  <Sidebar />
-                  <div className="flex-1 p-4">
+                <div className="flex flex-1 overflow-hidden">
+                  <div className="flex-none">
+                    <Sidebar />
+                  </div>
+                  <div className="flex-1 p-4 overflow-y-auto">
                     <ContactCenter />
                   </div>
                 </div>

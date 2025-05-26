@@ -75,6 +75,12 @@ export default function Appointments() {
     fetchAppointments();
   }, [selectedDate, currentDate]);
 
+  // Set body background color
+  useEffect(() => {
+    document.body.style.background = '#f7f9f9';
+    return () => { document.body.style.background = ''; };
+  }, []);
+
   // Options for dropdowns
   const dayOptions = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
   const hourOptions = ["8 : 00", "9 : 00", "10 : 00", "11 : 00", "12 : 00", "13 : 00", "14 : 00", "15 : 00", "16 : 00", "17 : 00", "18 : 00"]
@@ -182,7 +188,7 @@ export default function Appointments() {
   )
 
   return (
-    <div className="flex h-screen bg-[#eef5f5]">
+    <div className="flex h-screen">
       {/* Main Content */}
       <div className="flex-1 overflow-auto">
         {/* Content */}

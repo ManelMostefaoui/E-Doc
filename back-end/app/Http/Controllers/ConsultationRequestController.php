@@ -264,10 +264,23 @@ class ConsultationRequestController extends Controller
             ], 403);
         }
 
-        // Get all consultation requests for this patient
+        // Get all consultation requests for this patient with related appointment
         $consultations = ConsultationRequest::where('patient_id', $user->patient->id)
+            ->with('appointment:id,consultation_request_id')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->get()
+            ->map(function ($consultation) {
+                return [
+                    'id' => $consultation->id,
+                    'patient_id' => $consultation->patient_id,
+                    'message' => $consultation->message,
+                    'status' => $consultation->status,
+                    'appointment_date' => $consultation->appointment_date,
+                    'created_at' => $consultation->created_at,
+                    'updated_at' => $consultation->updated_at,
+                    'appointment_id' => $consultation->appointment ? $consultation->appointment->id : null
+                ];
+            });
 
         return response()->json([
             'message' => 'Historique des consultations récupéré avec succès',

@@ -6,305 +6,228 @@ import axios from "axios"
 import { useParams } from "react-router-dom"
 
 export default function ClinicalForm({ onClose, onSave }) {
-  const { id: patientId } = useParams()
+  const { id: patientId } = useParams();
   const [categoryError, setCategoryError] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("")
   const [addedCategories, setAddedCategories] = useState([])
   const [notes, setNotes] = useState({})
-  const [screenings, setScreenings] = useState([]) // Add state for screenings
+  const [screenings, setScreenings] = useState([]); // Add state for screenings
   const [formData, setFormData] = useState({
     height: "",
     weight: "",
-    respiratory_diseases: "",
-    heart_and_vascular_diseases: "",
-    digestive_system_diseases: "",
-    endocrine_diseases: "",
-    reproductive_system_diseases: "",
-    blood_disorders: "",
-    urinary_tract_and_kidney_diseases: "",
-    skin_diseases: "",
-    ent_diseases: "",
-    eye_diseases: "",
-    neurological_and_mental_disorders: "",
-    rheumatic_diseases: "",
-    cancers: "",
-    respiratory_diseases_notes: "",
-    heart_and_vascular_diseases_notes: "",
-    digestive_system_diseases_notes: "",
-    endocrine_diseases_notes: "",
-    reproductive_system_diseases_notes: "",
-    blood_disorders_notes: "",
-    urinary_tract_and_kidney_diseases_notes: "",
-    skin_diseases_notes: "",
-    ent_diseases_notes: "",
-    eye_diseases_notes: "",
-    neurological_and_mental_disorders_notes: "",
-    rheumatic_diseases_notes: "",
-    cancers_notes: "",
+    hearingIssues: "",
+    visionIssues: "",
+    skinConditions: "",
+    musculoskeletalIssues: "",
+    respiratoryProblems: "",
+    cardiovascularProblems: "",
+    digestiveIssues: "",
+    oralHealthProblems: "",
+    genitourinaryIssues: "",
+    neurologicalSymptoms: "",
+    // Add new fields for notes
+    hearingIssuesNotes: "",
+    visionIssuesNotes: "",
+    skinConditionsNotes: "",
+    musculoskeletalIssuesNotes: "",
+    respiratoryProblemsNotes: "",
+    cardiovascularProblemsNotes: "",
+    digestiveIssuesNotes: "",
+    oralHealthProblemsNotes: "",
+    genitourinaryIssuesNotes: "",
+    neurologicalSymptomsNotes: "",
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
 
-  // Define options for each health issue field using the new categories
+  // Define options for each health issue field
   const healthIssueOptions = {
-    respiratory_diseases: [
-      { value: "Asthma", label: "Asthma" },
-      { value: "Allergy", label: "Allergy" },
-      { value: "Tuberculosis", label: "Tuberculosis" },
-      { value: "Pneumonia", label: "Pneumonia" },
-      { value: "Other", label: "Other" },
+    hearingIssues: [
+      { value: 'Hearing Loss', label: 'Hearing Loss' },
+      { value: 'Tinnitus', label: 'Tinnitus' },
+      { value: 'Ear Infection', label: 'Ear Infection' },
+      { value: 'Other', label: 'Other' },
     ],
-    heart_and_vascular_diseases: [
-      { value: "High blood pressure (Hypertension)", label: "High blood pressure (Hypertension)" },
-      { value: "Acute rheumatic fever (ARF)", label: "Acute rheumatic fever (ARF)" },
-      { value: "Arrhythmia (Heart rhythm disorder)", label: "Arrhythmia (Heart rhythm disorder)" },
+    visionIssues: [
+      { value: 'Nearsightedness', label: 'Nearsightedness' },
+      { value: 'Farsightedness', label: 'Farsightedness' },
+      { value: 'Astigmatism', label: 'Astigmatism' },
+      { value: 'Cataracts', label: 'Cataracts' },
+      { value: 'Glaucoma', label: 'Glaucoma' },
+      { value: 'Other', label: 'Other' },
     ],
-    digestive_system_diseases: [
-      { value: "Hepatitis", label: "Hepatitis" },
-      { value: "Crohn's disease", label: "Crohn's disease" },
-      { value: "Celiac disease", label: "Celiac disease" },
-      { value: "Stomach ulcer (Gastric ulcer)", label: "Stomach ulcer (Gastric ulcer)" },
-      { value: "Other", label: "Other" },
+    skinConditions: [
+      { value: 'Eczema', label: 'Eczema' },
+      { value: 'Psoriasis', label: 'Psoriasis' },
+      { value: 'Acne', label: 'Acne' },
+      { value: 'Dermatitis', label: 'Dermatitis' },
+      { value: 'Other', label: 'Other' },
     ],
-    endocrine_diseases: [
-      { value: "Diabetes mellitus", label: "Diabetes mellitus" },
-      { value: "Obesity", label: "Obesity" },
-      { value: "Diabetes insipidus", label: "Diabetes insipidus" },
-      { value: "Hypothyroidism", label: "Hypothyroidism" },
-      { value: "Other", label: "Other" },
+    musculoskeletalIssues: [
+      { value: 'Arthritis', label: 'Arthritis' },
+      { value: 'Osteoporosis', label: 'Osteoporosis' },
+      { value: 'Back Pain', label: 'Back Pain' },
+      { value: 'Joint Pain', label: 'Joint Pain' },
+      { value: 'Other', label: 'Other' },
     ],
-    reproductive_system_diseases: [
-      { value: "Ovarian cyst", label: "Ovarian cyst" },
-      { value: "Menstrual disorders", label: "Menstrual disorders" },
-      { value: "Other", label: "Other" },
+    respiratoryProblems: [
+      { value: 'Asthma', label: 'Asthma' },
+      { value: 'Allergy', label: 'Allergy' },
+      { value: 'Tuberculosis', label: 'Tuberculosis' },
+      { value: 'Pneumonia', label: 'Pneumonia' },
+      { value: 'Other', label: 'Other' },
     ],
-    blood_disorders: [
-      { value: "Thalassemia", label: "Thalassemia" },
-      { value: "Sickle cell anemia (Sickle cell disease)", label: "Sickle cell anemia (Sickle cell disease)" },
-      { value: "Anemia", label: "Anemia" },
-      { value: "Other", label: "Other" },
+    cardiovascularProblems: [
+      { value: 'Hypertension', label: 'Hypertension' },
+      { value: 'Coronary Artery Disease', label: 'Coronary Artery Disease' },
+      { value: 'Heart Failure', label: 'Heart Failure' },
+      { value: 'Arrhythmia', label: 'Arrhythmia' },
+      { value: 'Other', label: 'Other' },
     ],
-    urinary_tract_and_kidney_diseases: [
-      { value: "Urinary tract infection (UTI)", label: "Urinary tract infection (UTI)" },
-      { value: "Kidney failure (Renal failure)", label: "Kidney failure (Renal failure)" },
-      { value: "Other", label: "Other" },
+    digestiveIssues: [
+      { value: 'IBS', label: 'IBS' },
+      { value: 'GERD', label: 'GERD' },
+      { value: 'Ulcers', label: 'Ulcers' },
+      { value: 'Constipation', label: 'Constipation' },
+      { value: 'Diarrhea', label: 'Diarrhea' },
+      { value: 'Other', label: 'Other' },
     ],
-    skin_diseases: [
-      { value: "Psoriasis", label: "Psoriasis" },
-      { value: "Skin rash", label: "Skin rash" },
-      { value: "Other", label: "Other" },
+    oralHealthProblems: [
+      { value: 'Cavities', label: 'Cavities' },
+      { value: 'Gum Disease', label: 'Gum Disease' },
+      { value: 'Oral Infections', label: 'Oral Infections' },
+      { value: 'Other', label: 'Other' },
     ],
-    ent_diseases: [
-      { value: "Sinusitis", label: "Sinusitis" },
-      { value: "Tonsillitis", label: "Tonsillitis" },
-      { value: "Other", label: "Other" },
+    genitourinaryIssues: [
+      { value: 'UTI', label: 'UTI' },
+      { value: 'Kidney Stones', label: 'Kidney Stones' },
+      { value: 'Incontinence', label: 'Incontinence' },
+      { value: 'Other', label: 'Other' },
     ],
-    eye_diseases: [
-      { value: "Uveitis", label: "Uveitis" },
-      { value: "Conjunctivitis", label: "Conjunctivitis" },
-      { value: "Other", label: "Other" },
+    neurologicalSymptoms: [
+      { value: 'Headaches', label: 'Headaches' },
+      { value: 'Migraines', label: 'Migraines' },
+      { value: 'Epilepsy', label: 'Epilepsy' },
+      { value: 'Neuropathy', label: 'Neuropathy' },
+      { value: 'Other', label: 'Other' },
     ],
-    neurological_and_mental_disorders: [
-      { value: "Epilepsy", label: "Epilepsy" },
-      { value: "Brain tumors (Cavernoma)", label: "Brain tumors (Cavernoma)" },
-      { value: "Multiple sclerosis (MS)", label: "Multiple sclerosis (MS)" },
-      { value: "Depression", label: "Depression" },
-      { value: "Obsessive-compulsive disorder (OCD)", label: "Obsessive-compulsive disorder (OCD)" },
-      { value: "Bipolar disorder", label: "Bipolar disorder" },
-      { value: "Other", label: "Other" },
-    ],
-    rheumatic_diseases: [
-      { value: "Rheumatoid arthritis (RA)", label: "Rheumatoid arthritis (RA)" },
-      { value: "Scoliosis", label: "Scoliosis" },
-      { value: "Systemic lupus erythematosus (Lupus)", label: "Systemic lupus erythematosus (Lupus)" },
-      { value: "Sciatica", label: "Sciatica" },
-      { value: "Clubfoot (Talipes equinovarus)", label: "Clubfoot (Talipes equinovarus)" },
-      { value: "Adult-onset Still's disease", label: "Adult-onset Still's disease" },
-    ],
-    cancers: [{ value: "Cancer", label: "Cancer" }],
-  }
+  };
 
-  // Replace categories array with the new list
-  const categories = [
-    { value: "respiratory_diseases", label: "Respiratory Diseases" },
-    { value: "heart_and_vascular_diseases", label: "Heart and Vascular Diseases" },
-    { value: "digestive_system_diseases", label: "Digestive System Diseases" },
-    { value: "endocrine_diseases", label: "Endocrine Diseases" },
-    { value: "reproductive_system_diseases", label: "Reproductive System Diseases" },
-    { value: "blood_disorders", label: "Blood Disorders" },
-    { value: "urinary_tract_and_kidney_diseases", label: "Urinary Tract and Kidney Diseases" },
-    { value: "skin_diseases", label: "Skin Diseases" },
-    { value: "ent_diseases", label: "ENT Diseases" },
-    { value: "eye_diseases", label: "Eye Diseases" },
-    { value: "neurological_and_mental_disorders", label: "Neurological and Mental Disorders" },
-    { value: "rheumatic_diseases", label: "Rheumatic Diseases" },
-    { value: "cancers", label: "Cancers" },
-  ]
+  // Remove unused categories array
+  // const categories = [
+  //   "respiratory diseases",
+  //   "heart and vascular diseases",
+  //   "digestive system diseases",
+  //   "endocrine diseases",
+  //   "reproductive system diseases",
+  //   "blood_disorders",
+  //   "urinary tract and kidney diseases",
+  //   "skin diseases",
+  //   "ent diseases",
+  //   "eye diseases",
+  //   "neurological and mental disorders",
+  //   "rheumatic diseases",
+  //   "cancers"
+  // ]
 
-  const subCategories = {
-    respiratory_diseases: ["Asthma", "Allergy", "Tuberculosis", "Pneumonia", "Other"],
-    heart_and_vascular_diseases: [
-      "High blood pressure (Hypertension)",
-      "Acute rheumatic fever (ARF)",
-      "Arrhythmia (Heart rhythm disorder)",
-    ],
-    digestive_system_diseases: [
-      "Hepatitis",
-      "Crohn's disease",
-      "Celiac disease",
-      "Stomach ulcer (Gastric ulcer)",
-      "Other",
-    ],
-    endocrine_diseases: ["Diabetes mellitus", "Obesity", "Diabetes insipidus", "Hypothyroidism", "Other"],
-    reproductive_system_diseases: ["Ovarian cyst", "Menstrual disorders", "Other"],
-    blood_disorders: ["Thalassemia", "Sickle cell anemia (Sickle cell disease)", "Anemia", "Other"],
-    urinary_tract_and_kidney_diseases: ["Urinary tract infection (UTI)", "Kidney failure (Renal failure)", "Other"],
-    skin_diseases: ["Psoriasis", "Skin rash", "Other"],
-    ent_diseases: ["Sinusitis", "Tonsillitis", "Other"],
-    eye_diseases: ["Uveitis", "Conjunctivitis", "Other"],
-    neurological_and_mental_disorders: [
-      "Epilepsy",
-      "Brain tumors (Cavernoma)",
-      "Multiple sclerosis (MS)",
-      "Depression",
-      "Obsessive-compulsive disorder (OCD)",
-      "Bipolar disorder",
-      "Other",
-    ],
-    rheumatic_diseases: [
-      "Rheumatoid arthritis (RA)",
-      "Scoliosis",
-      "Systemic lupus erythematosus (Lupus)",
-      "Sciatica",
-      "Clubfoot (Talipes equinovarus)",
-      "Adult-onset Still's disease",
-    ],
-    cancers: ["Cancer"],
-  }
+  const [hasExistingScreenings, setHasExistingScreenings] = useState(false);
 
-  // Ajoutez ces états pour la gestion des catégories
-  const [selectedMainCategory, setSelectedMainCategory] = useState("")
-  const [selectedSubCategory, setSelectedSubCategory] = useState("")
-  const [subCategoryNote, setSubCategoryNote] = useState("")
-
-  const [hasExistingScreenings, setHasExistingScreenings] = useState(false)
-
+  // Update the fetchClinicalData function to set hasExistingScreenings
   useEffect(() => {
     const fetchClinicalData = async () => {
-      if (!patientId) return
+      if (!patientId) return;
 
       try {
-        setLoading(true)
-        const token = localStorage.getItem("token")
+        setLoading(true);
+        const token = localStorage.getItem('token');
         const response = await axios.get(`http://127.0.0.1:8000/api/patients/${patientId}`, {
           headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-          },
-        })
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
+          }
+        });
 
         if (response.data) {
-          const data = response.data
+          const data = response.data;
           const initialFormData = {
             height: data.height || "",
             weight: data.weight || "",
-            respiratory_diseases: "",
-            heart_and_vascular_diseases: "",
-            digestive_system_diseases: "",
-            endocrine_diseases: "",
-            reproductive_system_diseases: "",
-            blood_disorders: "",
-            urinary_tract_and_kidney_diseases: "",
-            skin_diseases: "",
-            ent_diseases: "",
-            eye_diseases: "",
-            neurological_and_mental_disorders: "",
-            rheumatic_diseases: "",
-            cancers: "",
-            respiratory_diseases_notes: "",
-            heart_and_vascular_diseases_notes: "",
-            digestive_system_diseases_notes: "",
-            endocrine_diseases_notes: "",
-            reproductive_system_diseases_notes: "",
-            blood_disorders_notes: "",
-            urinary_tract_and_kidney_diseases_notes: "",
-            skin_diseases_notes: "",
-            ent_diseases_notes: "",
-            eye_diseases_notes: "",
-            neurological_and_mental_disorders_notes: "",
-            rheumatic_diseases_notes: "",
-            cancers_notes: "",
-          }
-          setFormData(initialFormData)
+            // Initialize health issue fields and notes by parsing the string
+            hearingIssues: "", hearingIssuesNotes: "",
+            visionIssues: "", visionIssuesNotes: "",
+            skinConditions: "", skinConditionsNotes: "",
+            musculoskeletalIssues: "", musculoskeletalIssuesNotes: "",
+            respiratoryProblems: "", respiratoryProblemsNotes: "",
+            cardiovascularProblems: "", cardiovascularProblemsNotes: "",
+            digestiveIssues: "", digestiveIssuesNotes: "",
+            oralHealthProblems: "", oralHealthProblemsNotes: "",
+            genitourinaryIssues: "", genitourinaryIssuesNotes: "",
+            neurologicalSymptoms: "", neurologicalSymptomsNotes: "",
+          };
+
+          // Function to parse the combined string
+          const parseHealthIssue = (apiField) => {
+            if (!apiField) return { issue: "", notes: "" };
+            const parts = apiField.split(': ');
+            if (parts.length > 1) {
+              return { issue: parts[0], notes: parts.slice(1).join(': ') };
+            }
+            return { issue: apiField, notes: "" };
+          };
+
+          // Populate form data by parsing API response
+          Object.keys(healthIssueOptions).forEach(field => {
+            const apiFieldName = field.replace(/([A-Z])/g, '_$1').toLowerCase(); // Convert camelCase to snake_case
+            const parsed = parseHealthIssue(data[apiFieldName]);
+            initialFormData[field] = parsed.issue;
+            initialFormData[`${field}Notes`] = parsed.notes;
+          });
+
+
+          setFormData(initialFormData);
           // Fetch screenings if they exist
           try {
             const screeningsResponse = await axios.get(`http://127.0.0.1:8000/api/Screening/${patientId}`, {
               headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: "application/json",
-              },
-            })
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
+              }
+            });
             if (screeningsResponse.data && screeningsResponse.data.screenings) {
-              setScreenings(screeningsResponse.data.screenings)
-              setHasExistingScreenings(true)
+              setScreenings(screeningsResponse.data.screenings);
+              setHasExistingScreenings(true);
             }
           } catch (screeningErr) {
-            console.error("Failed to fetch screenings:", screeningErr)
-            setHasExistingScreenings(false)
+            console.error("Failed to fetch screenings:", screeningErr);
+            setHasExistingScreenings(false);
           }
         }
       } catch (err) {
-        console.error("Failed to fetch clinical data:", err)
-        setError("Failed to load clinical data. Please try again.")
+        console.error("Failed to fetch clinical data:", err);
+        setError("Failed to load clinical data. Please try again.");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchClinicalData()
-  }, [patientId])
+    fetchClinicalData();
+  }, [patientId]);
 
-  const handleSubmit = async () => {
-    if (!patientId) {
-      setError("Patient ID is missing. Cannot save information.")
-      return
-    }
+  // Remove unused handleAddCategory and handleNoteChange functions
+  // const handleAddCategory = () => {
+  //     if (selectedCategory && !addedCategories.includes(selectedCategory)) {
+  //       setAddedCategories([...addedCategories, selectedCategory])
+  //       setNotes({ ...notes, [selectedCategory]: "" })
+  //       setSelectedCategory("")
+  //     } else if (!selectedCategory) {
+  //       setCategoryError("Please select a category before adding.")
+  //     }
+  //   }
 
-    try {
-      setLoading(true)
-      setError("")
-
-      const token = localStorage.getItem("token")
-
-      // Update patient data directly
-      const response = await axios.put(
-        `http://127.0.0.1:8000/api/patients/${patientId}`,
-        {
-          height: formData.height,
-          weight: formData.weight
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      )
-
-      console.log("Save response:", response.data)
-      setSuccess(true)
-      if (onSave) {
-        onSave()
-      }
-    } catch (err) {
-      console.error("Failed to save clinical data:", err)
-      setError(err.response?.data?.message || "Failed to save clinical data. Please try again.")
-    } finally {
-      setLoading(false)
-    }
-  }
+  // const handleNoteChange = (category, value) => {
+  //   setNotes({ ...notes, [category]: value })
+  // }
 
   const handleChange = (field, value) => {
     setFormData({
@@ -315,29 +238,36 @@ export default function ClinicalForm({ onClose, onSave }) {
 
   const handleSave = async () => {
     if (!patientId) {
-      setError("Patient ID is missing. Cannot save information.")
-      return
+      setError("Patient ID is missing. Cannot save information.");
+      return;
     }
 
     try {
-      setLoading(true)
-      setError("")
+      setLoading(true);
+      setError("");
 
-      const token = localStorage.getItem("token")
+      const token = localStorage.getItem('token');
 
-      // Prepare data for API - match the expected format
-      const screeningData = {
-        screenings: screenings.map(screening => ({
-          category: screening.category,
-          type: screening.type,
-          result: screening.result
-        }))
-      }
+      // Prepare data for API - combine selected issue and notes
+      const postData = {
+        height: formData.height,
+        weight: formData.weight,
+        hearing_issues: formData.hearingIssues ? `${formData.hearingIssues}${formData.hearingIssuesNotes ? ': ' + formData.hearingIssuesNotes : ''}` : "",
+        vision_issues: formData.visionIssues ? `${formData.visionIssues}${formData.visionIssuesNotes ? ': ' + formData.visionIssuesNotes : ''}` : "",
+        skin_conditions: formData.skinConditions ? `${formData.skinConditions}${formData.skinConditionsNotes ? ': ' + formData.skinConditionsNotes : ''}` : "",
+        musculoskeletal_issues: formData.musculoskeletalIssues ? `${formData.musculoskeletalIssues}${formData.musculoskeletalIssuesNotes ? ': ' + formData.musculoskeletalIssuesNotes : ''}` : "",
+        respiratory_problems: formData.respiratoryProblems ? `${formData.respiratoryProblems}${formData.respiratoryProblemsNotes ? ': ' + formData.respiratoryProblemsNotes : ''}` : "",
+        cardiovascular_problems: formData.cardiovascularProblems ? `${formData.cardiovascularProblems}${formData.cardiovascularProblemsNotes ? ': ' + formData.cardiovascularProblemsNotes : ''}` : "",
+        digestive_issues: formData.digestiveIssues ? `${formData.digestiveIssues}${formData.digestiveIssuesNotes ? ': ' + formData.digestiveIssuesNotes : ''}` : "",
+        oral_health_problems: formData.oralHealthProblems ? `${formData.oralHealthProblems}${formData.oralHealthProblemsNotes ? ': ' + formData.oralHealthProblemsNotes : ''}` : "",
+        genitourinary_issues: formData.genitourinaryIssues ? `${formData.genitourinaryIssues}${formData.genitourinaryIssuesNotes ? ': ' + formData.genitourinaryIssuesNotes : ''}` : "",
+        neurological_symptoms: formData.neurologicalSymptoms ? `${formData.neurologicalSymptoms}${formData.neurologicalSymptomsNotes ? ': ' + formData.neurologicalSymptomsNotes : ''}` : "",
+      };
 
-      // Make POST request to save screenings
-      const response = await axios.post(
-        `http://127.0.0.1:8000/api/Screening/store/${patientId}`,
-        screeningData,
+      // Save clinical data
+      await axios.put(
+        `http://127.0.0.1:8000/api/patients/${patientId}/biometric-data`,
+        postData,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -345,46 +275,62 @@ export default function ClinicalForm({ onClose, onSave }) {
             'Content-Type': 'application/json'
           }
         }
-      )
-      
-      console.log('Save response:', response.data)
-      setSuccess(true)
-      
-      // Call onSave callback with updated data
-      if (onSave) {
-        onSave(screeningData)
+      );
+
+      // Save screenings with conditional POST/PUT
+      if (screenings.length > 0) {
+        const screeningData = { screenings };
+
+        if (hasExistingScreenings) {
+          // Update existing screenings
+          await axios.put(
+            `http://127.0.0.1:8000/api/Screening/update/${patientId}`,
+            screeningData,
+            {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+        } else {
+          // Create new screenings
+          await axios.post(
+            `http://127.0.0.1:8000/api/Screening/store/${patientId}`,
+            screeningData,
+            {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+        }
       }
-      
+
+      console.log("Save response:", response.data);
+      setSuccess(true);
+      if (onSave) {
+        onSave();
+      }
+
       // Close form after short delay
       setTimeout(() => {
-        if (onClose) onClose()
-      }, 1500)
-      
+        if (onClose) onClose();
+      }, 1500);
+
     } catch (err) {
-      console.error('Error saving screenings:', err)
-      setError(err.response?.data?.message || "Failed to save screenings. Please try again.")
+      console.error("Failed to save clinical data:", err);
+      setError(err.response?.data?.message || "Failed to save clinical data. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   const handleCancel = () => {
-    if (onClose) onClose()
-  }
-
-  // Add screening handling functions
-  const handleAddScreening = () => {
-    setScreenings([...screenings, { category: "", type: "", result: "" }])
-  }
-
-  const handleRemoveScreening = (index) => {
-    setScreenings(screenings.filter((_, i) => i !== index))
-  }
-
-  const handleScreeningChange = (index, field, value) => {
-    const updatedScreenings = [...screenings]
-    updatedScreenings[index] = { ...updatedScreenings[index], [field]: value }
-    setScreenings(updatedScreenings)
+    if (onClose) onClose();
   }
 
   // Helper function to render form fields
@@ -471,6 +417,46 @@ export default function ClinicalForm({ onClose, onSave }) {
 
         {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto px-6 py-2">
+          {/* Remove Category selector */}
+          {/* <div className="mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-teal-600 font-medium">Add Health Issue :</h3>
+                <div className="flex items-center gap-2">
+                  <div className="relative">
+                    <select
+                      className={`border ${
+                        categoryError ? "border-red-500" : "border-gray-200"
+                      } rounded-md p-2 pr-8 text-sm appearance-none bg-white`}
+                      value={selectedCategory}
+                      onChange={(e) => {
+                        setSelectedCategory(e.target.value);
+                        setCategoryError("");
+                      }}
+                    >
+                      <option value="">Select a category</option>
+                      {categories
+                        .filter((cat) => !addedCategories.includes(cat))
+                        .map((category) => (
+                          <option key={category} value={category}>
+                            {category}
+                          </option>
+                        ))}
+                    </select>
+                    <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+                  </div>
+                  <button
+                    onClick={handleAddCategory}
+                    className="bg-teal-600 text-white rounded-full p-1 hover:bg-teal-700 transition-colors"
+                  >
+                    <Plus size={16} />
+                  </button>
+                </div>
+              </div>
+              {categoryError && (
+                <p className="text-red-500 text-xs mt-1">{categoryError}</p>
+              )}
+            </div> */}
+
           {/* Basic measurements */}
           <div className="mb-6">
             <h3 className="text-teal-600 font-medium mb-4">Basic Measurements :</h3>
@@ -480,14 +466,20 @@ export default function ClinicalForm({ onClose, onSave }) {
                   <label className="block text-sm mb-1">Height :</label>
                 </div>
                 <div className="col-span-2 relative">
-                  <input
-                    type="number"
-                    className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm"
+                  <select
+                    className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm appearance-none bg-white"
                     value={formData.height}
                     onChange={(e) => handleChange("height", e.target.value)}
-                    placeholder="Enter height in cm"
                     disabled={loading}
-                  />
+                  >
+                    <option value="">Select height</option>
+                    {Array.from({ length: 100 }, (_, i) => i + 100).map((cm) => (
+                      <option key={cm} value={cm}>
+                        {cm} cm
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                 </div>
               </div>
 
@@ -496,14 +488,20 @@ export default function ClinicalForm({ onClose, onSave }) {
                   <label className="block text-sm mb-1">Weight :</label>
                 </div>
                 <div className="col-span-2 relative">
-                  <input
-                    type="number"
-                    className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm"
+                  <select
+                    className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm appearance-none bg-white"
                     value={formData.weight}
                     onChange={(e) => handleChange("weight", e.target.value)}
-                    placeholder="Enter weight in kg"
                     disabled={loading}
-                  />
+                  >
+                    <option value="">Select weight</option>
+                    {Array.from({ length: 150 }, (_, i) => i + 30).map((kg) => (
+                      <option key={kg} value={kg}>
+                        {kg} kg
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                 </div>
               </div>
             </div>
@@ -513,206 +511,154 @@ export default function ClinicalForm({ onClose, onSave }) {
           <div className="mb-6">
             <h3 className="text-teal-600 font-medium mb-4">Health Issues :</h3>
             <div className="space-y-4">
-              {/* Respiratory Diseases */}
-              {renderField(
-                "Respiratory Diseases",
-                "respiratory_diseases",
-                "select",
-                healthIssueOptions.respiratory_diseases,
-              )}
+              {/* Hearing Issues */}
+              {renderField("Hearing Issues", "hearingIssues", "select", healthIssueOptions.hearingIssues)}
               <div className="relative mb-3">
                 <textarea
                   className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for Respiratory Diseases..."
-                  value={formData.respiratory_diseases_notes}
-                  onChange={(e) => handleChange("respiratory_diseases_notes", e.target.value)}
+                  placeholder="Add notes for Hearing Issues..."
+                  value={formData.hearingIssuesNotes}
+                  onChange={(e) => handleChange("hearingIssuesNotes", e.target.value)}
                   disabled={loading}
                 />
                 <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
               </div>
 
-              {/* Heart and Vascular Diseases */}
-              {renderField(
-                "Heart and Vascular Diseases",
-                "heart_and_vascular_diseases",
-                "select",
-                healthIssueOptions.heart_and_vascular_diseases,
-              )}
+              {/* Vision Issues */}
+              {renderField("Vision Issues", "visionIssues", "select", healthIssueOptions.visionIssues)}
               <div className="relative mb-3">
                 <textarea
                   className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for Heart and Vascular Diseases..."
-                  value={formData.heart_and_vascular_diseases_notes}
-                  onChange={(e) => handleChange("heart_and_vascular_diseases_notes", e.target.value)}
+                  placeholder="Add notes for Vision Issues..."
+                  value={formData.visionIssuesNotes}
+                  onChange={(e) => handleChange("visionIssuesNotes", e.target.value)}
                   disabled={loading}
                 />
                 <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
               </div>
 
-              {/* Digestive System Diseases */}
-              {renderField(
-                "Digestive System Diseases",
-                "digestive_system_diseases",
-                "select",
-                healthIssueOptions.digestive_system_diseases,
-              )}
+              {/* Skin Conditions */}
+              {renderField("Skin Conditions", "skinConditions", "select", healthIssueOptions.skinConditions)}
               <div className="relative mb-3">
                 <textarea
                   className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for Digestive System Diseases..."
-                  value={formData.digestive_system_diseases_notes}
-                  onChange={(e) => handleChange("digestive_system_diseases_notes", e.target.value)}
+                  placeholder="Add notes for Skin Conditions..."
+                  value={formData.skinConditionsNotes}
+                  onChange={(e) => handleChange("skinConditionsNotes", e.target.value)}
                   disabled={loading}
                 />
                 <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
               </div>
 
-              {/* Endocrine Diseases */}
-              {renderField("Endocrine Diseases", "endocrine_diseases", "select", healthIssueOptions.endocrine_diseases)}
+              {/* Musculoskeletal Issues */}
+              {renderField("Musculoskeletal Issues", "musculoskeletalIssues", "select", healthIssueOptions.musculoskeletalIssues)}
               <div className="relative mb-3">
                 <textarea
                   className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for Endocrine Diseases..."
-                  value={formData.endocrine_diseases_notes}
-                  onChange={(e) => handleChange("endocrine_diseases_notes", e.target.value)}
+                  placeholder="Add notes for Musculoskeletal Issues..."
+                  value={formData.musculoskeletalIssuesNotes}
+                  onChange={(e) => handleChange("musculoskeletalIssuesNotes", e.target.value)}
                   disabled={loading}
                 />
                 <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
               </div>
 
-              {/* Reproductive System Diseases */}
-              {renderField(
-                "Reproductive System Diseases",
-                "reproductive_system_diseases",
-                "select",
-                healthIssueOptions.reproductive_system_diseases,
-              )}
+              {/* Respiratory Problems */}
+              {renderField("Respiratory Problems", "respiratoryProblems", "select", healthIssueOptions.respiratoryProblems)}
               <div className="relative mb-3">
                 <textarea
                   className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for Reproductive System Diseases..."
-                  value={formData.reproductive_system_diseases_notes}
-                  onChange={(e) => handleChange("reproductive_system_diseases_notes", e.target.value)}
+                  placeholder="Add notes for Respiratory Problems..."
+                  value={formData.respiratoryProblemsNotes}
+                  onChange={(e) => handleChange("respiratoryProblemsNotes", e.target.value)}
                   disabled={loading}
                 />
                 <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
               </div>
 
-              {/* Blood Disorders */}
-              {renderField("Blood Disorders", "blood_disorders", "select", healthIssueOptions.blood_disorders)}
+              {/* Cardiovascular Problems */}
+              {renderField("Cardiovascular Problems", "cardiovascularProblems", "select", healthIssueOptions.cardiovascularProblems)}
               <div className="relative mb-3">
                 <textarea
                   className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for Blood Disorders..."
-                  value={formData.blood_disorders_notes}
-                  onChange={(e) => handleChange("blood_disorders_notes", e.target.value)}
+                  placeholder="Add notes for Cardiovascular Problems..."
+                  value={formData.cardiovascularProblemsNotes}
+                  onChange={(e) => handleChange("cardiovascularProblemsNotes", e.target.value)}
                   disabled={loading}
                 />
                 <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
               </div>
 
-              {/* Urinary Tract and Kidney Diseases */}
-              {renderField(
-                "Urinary Tract and Kidney Diseases",
-                "urinary_tract_and_kidney_diseases",
-                "select",
-                healthIssueOptions.urinary_tract_and_kidney_diseases,
-              )}
+              {/* Digestive Issues */}
+              {renderField("Digestive Issues", "digestiveIssues", "select", healthIssueOptions.digestiveIssues)}
               <div className="relative mb-3">
                 <textarea
                   className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for Urinary Tract and Kidney Diseases..."
-                  value={formData.urinary_tract_and_kidney_diseases_notes}
-                  onChange={(e) => handleChange("urinary_tract_and_kidney_diseases_notes", e.target.value)}
+                  placeholder="Add notes for Digestive Issues..."
+                  value={formData.digestiveIssuesNotes}
+                  onChange={(e) => handleChange("digestiveIssuesNotes", e.target.value)}
                   disabled={loading}
                 />
                 <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
               </div>
 
-              {/* Skin Diseases */}
-              {renderField("Skin Diseases", "skin_diseases", "select", healthIssueOptions.skin_diseases)}
+              {/* Oral Health Problems */}
+              {renderField("Oral Health Problems", "oralHealthProblems", "select", healthIssueOptions.oralHealthProblems)}
               <div className="relative mb-3">
                 <textarea
                   className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for Skin Diseases..."
-                  value={formData.skin_diseases_notes}
-                  onChange={(e) => handleChange("skin_diseases_notes", e.target.value)}
+                  placeholder="Add notes for Oral Health Problems..."
+                  value={formData.oralHealthProblemsNotes}
+                  onChange={(e) => handleChange("oralHealthProblemsNotes", e.target.value)}
                   disabled={loading}
                 />
                 <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
               </div>
 
-              {/* ENT Diseases */}
-              {renderField("ENT Diseases", "ent_diseases", "select", healthIssueOptions.ent_diseases)}
+              {/* Genitourinary Issues */}
+              {renderField("Genitourinary Issues", "genitourinaryIssues", "select", healthIssueOptions.genitourinaryIssues)}
               <div className="relative mb-3">
                 <textarea
                   className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for ENT Diseases..."
-                  value={formData.ent_diseases_notes}
-                  onChange={(e) => handleChange("ent_diseases_notes", e.target.value)}
+                  placeholder="Add notes for Genitourinary Issues..."
+                  value={formData.genitourinaryIssuesNotes}
+                  onChange={(e) => handleChange("genitourinaryIssuesNotes", e.target.value)}
                   disabled={loading}
                 />
                 <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
               </div>
 
-              {/* Eye Diseases */}
-              {renderField("Eye Diseases", "eye_diseases", "select", healthIssueOptions.eye_diseases)}
+              {/* Neurological Symptoms */}
+              {renderField("Neurological Symptoms", "neurologicalSymptoms", "select", healthIssueOptions.neurologicalSymptoms)}
               <div className="relative mb-3">
                 <textarea
                   className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for Eye Diseases..."
-                  value={formData.eye_diseases_notes}
-                  onChange={(e) => handleChange("eye_diseases_notes", e.target.value)}
-                  disabled={loading}
-                />
-                <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
-              </div>
-
-              {/* Neurological and Mental Disorders */}
-              {renderField(
-                "Neurological and Mental Disorders",
-                "neurological_and_mental_disorders",
-                "select",
-                healthIssueOptions.neurological_and_mental_disorders,
-              )}
-              <div className="relative mb-3">
-                <textarea
-                  className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for Neurological and Mental Disorders..."
-                  value={formData.neurological_and_mental_disorders_notes}
-                  onChange={(e) => handleChange("neurological_and_mental_disorders_notes", e.target.value)}
-                  disabled={loading}
-                />
-                <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
-              </div>
-
-              {/* Rheumatic Diseases */}
-              {renderField("Rheumatic Diseases", "rheumatic_diseases", "select", healthIssueOptions.rheumatic_diseases)}
-              <div className="relative mb-3">
-                <textarea
-                  className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for Rheumatic Diseases..."
-                  value={formData.rheumatic_diseases_notes}
-                  onChange={(e) => handleChange("rheumatic_diseases_notes", e.target.value)}
-                  disabled={loading}
-                />
-                <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
-              </div>
-
-              {/* Cancers */}
-              {renderField("Cancers", "cancers", "select", healthIssueOptions.cancers)}
-              <div className="relative mb-3">
-                <textarea
-                  className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[80px] resize-none"
-                  placeholder="Add notes for Cancers..."
-                  value={formData.cancers_notes}
-                  onChange={(e) => handleChange("cancers_notes", e.target.value)}
+                  placeholder="Add notes for Neurological Symptoms..."
+                  value={formData.neurologicalSymptomsNotes}
+                  onChange={(e) => handleChange("neurologicalSymptomsNotes", e.target.value)}
                   disabled={loading}
                 />
                 <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
               </div>
             </div>
           </div>
+
+          {/* Remove Added categories section */}
+          {/* {addedCategories.map((category) => (
+              <div key={category} className="mb-6">
+                <h3 className="text-teal-600 font-medium mb-4">{category} :</h3>
+                <div className="relative">
+                  <textarea
+                    className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm min-h-[120px] resize-none"
+                    placeholder={`Add notes about ${category.toLowerCase()}...`}
+                    value={notes[category] || ""}
+                    onChange={(e) => handleNoteChange(category, e.target.value)}
+                    disabled={loading}
+                  />
+                  <Edit className="absolute right-2 top-2 text-gray-400 w-4 h-4 pointer-events-none" />
+                </div>
+              </div>
+            ))} */}
         </div>
 
         {/* Footer with buttons */}
@@ -720,7 +666,7 @@ export default function ClinicalForm({ onClose, onSave }) {
           <button
             onClick={handleSave}
             disabled={loading}
-            className={`${loading ? "bg-gray-400" : "bg-teal-600 hover:bg-teal-700"} text-white px-8 py-2 rounded-md transition duration-150`}
+            className={`${loading ? 'bg-gray-400' : 'bg-teal-600 hover:bg-teal-700'} text-white px-8 py-2 rounded-md transition duration-150`}
           >
             {loading ? "Saving..." : "Save"}
           </button>
@@ -736,3 +682,94 @@ export default function ClinicalForm({ onClose, onSave }) {
     </div>
   )
 }
+
+// Add screening handling functions
+const handleAddScreening = () => {
+  setScreenings([...screenings, { category: "", type: "", result: "" }]);
+};
+
+const handleRemoveScreening = (index) => {
+  setScreenings(screenings.filter((_, i) => i !== index));
+};
+
+const handleScreeningChange = (index, field, value) => {
+  const updatedScreenings = [...screenings];
+  updatedScreenings[index] = { ...updatedScreenings[index], [field]: value };
+  setScreenings(updatedScreenings);
+};
+
+const handleSave = async () => {
+  if (!patientId) {
+    setError("Patient ID is missing. Cannot save information.");
+    return;
+  }
+
+  try {
+    setLoading(true);
+    setError("");
+
+    const token = localStorage.getItem('token');
+
+    // Prepare data for API - combine selected issue and notes
+    const postData = {
+      height: formData.height,
+      weight: formData.weight,
+      hearing_issues: formData.hearingIssues ? `${formData.hearingIssues}${formData.hearingIssuesNotes ? ': ' + formData.hearingIssuesNotes : ''}` : "",
+      vision_issues: formData.visionIssues ? `${formData.visionIssues}${formData.visionIssuesNotes ? ': ' + formData.visionIssuesNotes : ''}` : "",
+      skin_conditions: formData.skinConditions ? `${formData.skinConditions}${formData.skinConditionsNotes ? ': ' + formData.skinConditionsNotes : ''}` : "",
+      musculoskeletal_issues: formData.musculoskeletalIssues ? `${formData.musculoskeletalIssues}${formData.musculoskeletalIssuesNotes ? ': ' + formData.musculoskeletalIssuesNotes : ''}` : "",
+      respiratory_problems: formData.respiratoryProblems ? `${formData.respiratoryProblems}${formData.respiratoryProblemsNotes ? ': ' + formData.respiratoryProblemsNotes : ''}` : "",
+      cardiovascular_problems: formData.cardiovascularProblems ? `${formData.cardiovascularProblems}${formData.cardiovascularProblemsNotes ? ': ' + formData.cardiovascularProblemsNotes : ''}` : "",
+      digestive_issues: formData.digestiveIssues ? `${formData.digestiveIssues}${formData.digestiveIssuesNotes ? ': ' + formData.digestiveIssuesNotes : ''}` : "",
+      oral_health_problems: formData.oralHealthProblems ? `${formData.oralHealthProblems}${formData.oralHealthProblemsNotes ? ': ' + formData.oralHealthProblemsNotes : ''}` : "",
+      genitourinary_issues: formData.genitourinaryIssues ? `${formData.genitourinaryIssues}${formData.genitourinaryIssuesNotes ? ': ' + formData.genitourinaryIssuesNotes : ''}` : "",
+      neurological_symptoms: formData.neurologicalSymptoms ? `${formData.neurologicalSymptoms}${formData.neurologicalSymptomsNotes ? ': ' + formData.neurologicalSymptomsNotes : ''}` : "",
+    };
+
+    // Save clinical data
+    await axios.put(
+      `http://127.0.0.1:8000/api/patients/${patientId}/biometric-data`,
+      postData,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    // Save screenings
+    const screeningEndpoint = screenings.length > 0
+      ? `http://127.0.0.1:8000/api/Screening/update/${patientId}`
+      : `http://127.0.0.1:8000/api/Screening/store/${patientId}`;
+
+    const screeningMethod = screenings.length > 0 ? 'put' : 'post';
+
+    await axios[screeningMethod](
+      screeningEndpoint,
+      { screenings },
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    setSuccess(true);
+    if (onSave) {
+      onSave({ ...postData, screenings });
+    }
+    setTimeout(() => {
+      if (onClose) onClose();
+    }, 1500);
+
+  } catch (err) {
+    console.error('Error saving data:', err);
+    setError(err.response?.data?.message || "Failed to save data. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};

@@ -13,35 +13,38 @@ export default function ContactCenter() {
   const [searchTerm, setSearchTerm] = useState("")
   const [confirmingId, setConfirmingId] = useState(null)
 
-  useEffect(() => {
-    const fetchConsultations = async () => {
-      try {
-        setLoading(true)
-        const token = localStorage.getItem('token')
-        if (!token) {
-          throw new Error('No authentication token found')
-        }
-
-        const response = await axios.get('http://127.0.0.1:8000/api/consultations/user', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json'
-          }
-        })
-
-        if (response.data && response.data.data) {
-          setConsultations(response.data.data)
-        }
-      } catch (err) {
-        console.error('Failed to fetch consultations:', err)
-        setError(err.message)
-      } finally {
-        setLoading(false)
+  // Function to fetch consultations
+  const fetchConsultations = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const token = localStorage.getItem('token')
+      if (!token) {
+        throw new Error('No authentication token found')
       }
-    }
 
+      const response = await axios.get('http://127.0.0.1:8000/api/consultations/user', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      })
+
+      if (response.data && response.data.data) {
+        setConsultations(response.data.data)
+      }
+    } catch (err) {
+      console.error('Failed to fetch consultations:', err)
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    // Fetch consultations when the component mounts
     fetchConsultations()
-  }, [])
+  }, []) // Empty dependency array means this effect runs once on mount
 
   const handleConfirmAppointment = async (consultationId) => {
     if (!consultationId) {

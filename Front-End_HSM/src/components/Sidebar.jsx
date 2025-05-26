@@ -2,7 +2,7 @@
 
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { LogOut, ChevronDown, LayoutDashboard, Users, Settings, UserPlus, Stethoscope, Calendar, User, Shield, Bell } from "lucide-react"
+import { LogOut, ChevronDown, LayoutDashboard, Users, Settings, UserPlus, Stethoscope, Calendar, User, Shield, Bell, Pill } from "lucide-react"
 import axios from "axios"
 
 export default function Sidebar({ isVisible = true }) {
@@ -73,9 +73,9 @@ export default function Sidebar({ isVisible = true }) {
 
   return (
     <aside
-      className={`${isVisible ? "block" : "hidden"} md:block bg-[#F7F9F9] w-64 border-r border-gray-200 flex-shrink-0 shadow-[2px_2px_12px_rgba(0,0,0,0.25)]`}
+      className={`${isVisible ? "block" : "hidden"} md:block bg-[#F7F9F9] w-64 border-r border-gray-200 flex-shrink-0 shadow-[2px_2px_12px_rgba(0,0,0,0.25)] flex flex-col h-full relative`}
     >
-      <nav className="p-4 flex flex-col gap-4 ">
+      <nav className="p-4 flex flex-col gap-4 overflow-y-auto pb-16">
         {contactCenterRoles.includes(userRole) ? (
           <Link
             to="/contact-center"
@@ -99,11 +99,11 @@ export default function Sidebar({ isVisible = true }) {
             {userRole === 'doctor' && (
               <>
                 <Link
-                  to="/consultation"
-                  className={`flex items-center gap-3 p-3 ${currentPath === "/consultation" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+                  to="/patients"
+                  className={`flex items-center gap-3 p-3 ${currentPath === "/patients" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
                 >
-                  <Stethoscope size={20} />
-                  <span className='font-nunito text-[16px] font-normal '>Consultation</span>
+                  <UserPlus size={20} />
+                  <span className='font-nunito text-[16px] font-normal'>Patients management</span>
                 </Link>
                 <Link
                   to="/Appointements"
@@ -111,6 +111,20 @@ export default function Sidebar({ isVisible = true }) {
                 >
                   <Calendar size={20} />
                   <span className='font-nunito text-[16px] font-normal '>Appointements</span>
+                </Link>
+                <Link
+                  to="/consultation"
+                  className={`flex items-center gap-3 p-3 ${currentPath === "/consultation" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+                >
+                  <Stethoscope size={20} />
+                  <span className='font-nunito text-[16px] font-normal '>Consultation</span>
+                </Link>
+                <Link
+                  to="/medications"
+                  className={`flex items-center gap-3 p-3 ${currentPath === "/medications" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+                >
+                  <Pill size={20} />
+                  <span className='font-nunito text-[16px] font-normal '>Medications</span>
                 </Link>
               </>
             )}
@@ -122,16 +136,6 @@ export default function Sidebar({ isVisible = true }) {
               >
                 <Users size={20} />
                 <span className='font-nunito text-[16px] font-normal'>Users management</span>
-              </Link>
-            )}
-
-            {userRole === 'doctor' && (
-              <Link
-                to="/patients"
-                className={`flex items-center gap-3 p-3 ${currentPath === "/patients" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
-              >
-                <UserPlus size={20} />
-                <span className='font-nunito text-[16px] font-normal'>Patients management</span>
               </Link>
             )}
           </>
@@ -184,17 +188,17 @@ export default function Sidebar({ isVisible = true }) {
             )}
           </div>
         )}
-
-        <div className="mt-auto">
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-3 p-3 hover:bg-[#eef5f5] rounded-md cursor-pointer"
-          >
-            <LogOut size={20} />
-            <span className='font-nunito text-[16px] font-normal'>Log out</span>
-          </button>
-        </div>
       </nav>
+
+      <div className="absolute bottom-0 left-0 w-full p-4">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 p-3 hover:bg-[#eef5f5] rounded-md cursor-pointer"
+        >
+          <LogOut size={20} />
+          <span className='font-nunito text-[16px] font-normal'>Log out</span>
+        </button>
+      </div>
     </aside>
   )
 }
