@@ -10,43 +10,12 @@ import Axios from "axios";
 // Configure Axios to include credentials
 Axios.defaults.withCredentials = true;
 
-const LoginPage = () => {
+const LoginPage = ({ setIsLoggedIn, setUser }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // Check if user is already logged in
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // Fetch user role
-      const fetchUserRole = async () => {
-        try {
-          const response = await Axios.get('http://127.0.0.1:8000/api/user', {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Accept': 'application/json'
-            }
-          });
-
-          const userRole = response.data.role.name;
-          if (userRole === 'doctor') {
-            navigate('/patients');
-          } else {
-            navigate('/dashboard');
-          }
-        } catch (error) {
-          console.error('Error fetching user role:', error);
-          navigate('/login');
-        }
-      };
-
-      fetchUserRole();
-    }
-  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -55,7 +24,7 @@ const LoginPage = () => {
 
     try {
       console.log('Attempting login with:', { email, password });
-      
+
       // Get CSRF cookie first
       try {
         await Axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie');
@@ -63,7 +32,7 @@ const LoginPage = () => {
         console.error('Failed to get CSRF cookie:', csrfError);
         // Continue anyway since we've set exceptions in the backend
       }
-      
+
       // Use the direct Laravel server URL
       const response = await Axios.post('http://127.0.0.1:8000/api/login', {
         email,
@@ -77,28 +46,50 @@ const LoginPage = () => {
         withCredentials: true,
         timeout: 10000 // 10 second timeout
       });
-      
+
       console.log('Login response:', response.data);
-      
+
       // Store the token in localStorage
       if (response.data && response.data.token) {
         localStorage.setItem('token', response.data.token);
         console.log('Token stored successfully:', response.data.token);
-        
+        if (setIsLoggedIn) setIsLoggedIn(true);
+
         // Store user info if available
         if (response.data.user) {
           localStorage.setItem('user', JSON.stringify(response.data.user));
+          window.dispatchEvent(new Event('userChanged'));
         }
-        
-        // Navigate to dashboard after successful login
-        navigate('/dashboard');
+
+        // Fetch user role after successful login
+        const userResponse = await Axios.get('http://127.0.0.1:8000/api/user', {
+          headers: {
+            'Authorization': `Bearer ${response.data.token}`,
+            'Accept': 'application/json'
+          }
+        });
+        console.log('Full user response:', userResponse.data);
+        console.log('User response:', userResponse.data);
+        if (setUser) setUser(userResponse.data);
+        const userRole = userResponse.data.role;
+        console.log('User role:', userRole);
+        if (userRole === 'doctor') {
+          console.log('Navigating to /patients');
+          navigate('/patients');
+        } else if (['student', 'teacher', 'employer'].includes(userRole)) {
+          console.log('Navigating to /contact-center');
+          navigate('/contact-center');
+        } else {
+          console.log('Navigating to /dashboard');
+          navigate('/dashboard');
+        }
       } else {
         setError("Login failed: No authentication token received");
         console.error('No token in response:', response.data);
       }
     } catch (error) {
       console.error('Login error:', error);
-      
+
       if (error.code === 'ERR_NETWORK') {
         setError("Network error: Cannot connect to the server. Please make sure the back-end server is running.");
       } else if (error.response && error.response.data && error.response.data.message) {

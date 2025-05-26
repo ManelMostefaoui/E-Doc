@@ -8,6 +8,7 @@ const PatientsManagement = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [patients, setPatients] = useState([]);
+  const [filteredPatients, setFilteredPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -48,98 +49,98 @@ const PatientsManagement = () => {
       console.error('Cannot assign ID to null or undefined patient');
       return null;
     }
-    
+
     const patientId = patient.id || patient._id || patient.patient_id || (patient.patient ? patient.patient.id : null);
-    
-    console.log('Checking patient ID status:', { 
-      email: patient.email, 
-      id: patientId, 
+
+    console.log('Checking patient ID status:', {
+      email: patient.email,
+      id: patientId,
       hasId: !!patientId
     });
-    
+
     if (!patientId) {
       const generatedId = generateUniqueId(patient);
       console.log('Generating ID for patient without ID:', {
         email: patient.email,
         generatedId: generatedId
       });
-      
+
       const patientWithId = {
         ...patient,
         id: generatedId,
         status: patient.status || "Activated"
       };
-      
+
       try {
         sessionStorage.setItem('tempPatient_' + generatedId, JSON.stringify(patientWithId));
         console.log('Successfully stored patient in sessionStorage with ID:', generatedId);
       } catch (error) {
         console.error('Failed to store patient in sessionStorage:', error);
       }
-      
+
       return patientWithId;
     }
-    
+
     const patientWithStandardId = {
       ...patient,
       id: patientId,
       status: patient.status || "Activated"
     };
-    
+
     try {
       sessionStorage.setItem('tempPatient_' + patientId, JSON.stringify(patientWithStandardId));
       console.log('Stored patient with existing ID in sessionStorage:', patientId);
     } catch (error) {
       console.error('Failed to store patient in sessionStorage:', error);
     }
-    
+
     return patientWithStandardId;
   };
 
   // Function to try to match patients with generated IDs to backend patients
   const matchGeneratedPatients = (backendPatients, currentPatients) => {
     const generatedPatients = currentPatients.filter(patient => patient.id && patient.id.toString().startsWith('p_'));
-    
+
     if (generatedPatients.length === 0) {
       return backendPatients;
     }
-    
+
     console.log('Attempting to match generated IDs with backend patients...');
-    
+
     const updatedPatients = [...backendPatients];
     let matchCount = 0;
-    
+
     generatedPatients.forEach(genPatient => {
       if (!genPatient.id.toString().startsWith('p_')) return;
-      
-      const backendMatch = backendPatients.find(bp => 
+
+      const backendMatch = backendPatients.find(bp =>
         bp.email && genPatient.email && bp.email.toLowerCase() === genPatient.email.toLowerCase()
       );
-      
+
       if (backendMatch && backendMatch.id) {
         console.log(`Found backend match for patient ${genPatient.email}`);
-        
+
         const updatedPatient = {
           ...genPatient,
           id: backendMatch.id
         };
-        
+
         sessionStorage.removeItem('tempPatient_' + genPatient.id);
-        
+
         const backendPatientIndex = updatedPatients.findIndex(p => p.id === backendMatch.id);
         if (backendPatientIndex !== -1) {
           updatedPatients.splice(backendPatientIndex, 1);
         }
-        
+
         updatedPatients.push(updatedPatient);
         matchCount++;
       }
     });
-    
+
     if (matchCount > 0) {
       console.log(`Matched ${matchCount} patients with backend IDs`);
     }
-    
+
     return updatedPatients;
   };
 
@@ -167,26 +168,27 @@ const PatientsManagement = () => {
           'Accept': 'application/json'
         }
       });
-      
+
       console.log('Fetch patients response:', response.data);
-      
+
       let backendPatients = response.data
         .filter(user => !user.role || user.role.toLowerCase() !== 'admin')
         .map(patient => ensurePatientHasId(patient));
-      
+
       let formattedPatients = matchGeneratedPatients(backendPatients, patients);
       formattedPatients = formattedPatients.map(patient => ensurePatientHasId(patient));
 
-      // Map to only required fields for the table, extracting from patient.user
+      // Map to include user_id with role information
       const mappedPatients = formattedPatients.map(patient => {
         const user = patient.user || {};
         return {
-          id: patient.id, // <-- Use patient.id here!
+          id: patient.id,
           fullName: user.name || '',
           age: user.birthdate ? calculateAge(user.birthdate) : '',
           gender: user.gender || '',
           email: user.email || '',
           urgentContact: user.phone_num || '',
+          user_id: patient.user_id || {} // Include user_id with role information
         };
       });
 
@@ -194,7 +196,7 @@ const PatientsManagement = () => {
       setError("");
     } catch (err) {
       console.error("Failed to fetch patients:", err);
-      
+
       if (err.response && err.response.status === 401) {
         localStorage.removeItem('token');
         navigate('/login');
@@ -208,14 +210,25 @@ const PatientsManagement = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    
+
     if (!token) {
       navigate('/login');
       return;
     }
-    
+
     fetchPatients();
   }, [navigate, selectedFilter]);
+
+  useEffect(() => {
+    // Filter patients based on search query and selected role
+    const filtered = patients.filter(patient => {
+      const matchesSearch = patient.fullName.toLowerCase().includes(searchQuery.toLowerCase());
+      const patientRole = patient.user_id?.role_id?.role;
+      const matchesRole = selectedFilter === "All" || patientRole === selectedFilter;
+      return matchesSearch && matchesRole;
+    });
+    setFilteredPatients(filtered);
+  }, [searchQuery, patients, selectedFilter]);
 
   const handlePatientSelect = (patient) => {
     if (patient && patient.id) {
@@ -254,7 +267,7 @@ const PatientsManagement = () => {
           </div>
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Search Patient"
             className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#0a8a8a] shadow-sm"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -289,7 +302,7 @@ const PatientsManagement = () => {
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-600"></div>
           </div>
         ) : (
-          <PatientTable patients={patients} onPatientSelect={handlePatientSelect} />
+          <PatientTable patients={filteredPatients} onPatientSelect={handlePatientSelect} />
         )}
       </div>
     </div>

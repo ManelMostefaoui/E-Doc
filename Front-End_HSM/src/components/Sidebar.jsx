@@ -12,95 +12,58 @@ export default function Sidebar({ isVisible = true }) {
   const navigate = useNavigate()
   const currentPath = location.pathname
   const API_BASE_URL = 'http://127.0.0.1:8000/api'
+  const contactCenterRoles = ['student', 'teacher', 'employer'];
 
   useEffect(() => {
-    const fetchUserRole = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          navigate('/login');
-          return;
-        }
-  
-        const userData = localStorage.getItem('user');
-        if (userData) {
-          try {
-            const user = JSON.parse(userData);
-            if (user && user.role) {
-              setUserRole(user.role.name);
-              return;
-            }
-          } catch (e) {
-            console.error('Error parsing user data from localStorage:', e);
-            localStorage.removeItem('user');
-          }
-        }
-  
+    const updateUserRole = async () => {
+      const userData = localStorage.getItem('user');
+      let role = null;
+
+      if (userData) {
         try {
-          const response = await axios.get(`${API_BASE_URL}/admin/users`, {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Accept': 'application/json'
-            }
-          });
-          
-          if (response.data) {
-            setUserRole('admin');
-            const userData = { role: { name: 'admin' } };
-            localStorage.setItem('user', JSON.stringify(userData));
-          }
-        } catch (adminErr) {
+          const user = JSON.parse(userData);
+          role = typeof user?.role === 'string' ? user.role : user?.role?.name;
+          console.log('Sidebar userRole from localStorage:', role);
+        } catch (e) {
+          console.error('Error parsing user data from localStorage:', e);
+          localStorage.removeItem('user');
+        }
+      }
+
+      if (!role) {
+        const token = localStorage.getItem('token');
+        if (token) {
           try {
-            const response = await axios.get(`${API_BASE_URL}/patients`, {
+            const response = await axios.get(`${API_BASE_URL}/user`, {
               headers: {
                 'Authorization': `Bearer ${token}`,
                 'Accept': 'application/json'
               }
             });
-            
-            if (response.data) {
-              setUserRole('doctor');
-              const userData = { role: { name: 'doctor' } };
-              localStorage.setItem('user', JSON.stringify(userData));
-            }
-          } catch (doctorErr) {
-            console.error('Failed to determine user role:', doctorErr);
-            try {
-              const response = await axios.get(`${API_BASE_URL}/patients/me`, {
-                headers: {
-                  'Authorization': `Bearer ${token}`,
-                  'Accept': 'application/json'
-                }
-              });
-  
-              if (response.data) {
-                setUserRole('patient');
-                const userData = { role: { name: 'patient' } };
-                localStorage.setItem('user', JSON.stringify(userData));
-              }
-            } catch (patientErr) {
-              console.error('Failed to determine if user is a patient:', patientErr);
-              if (patientErr.response && (patientErr.response.status === 401 || patientErr.response.status === 403)) {
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                navigate('/login');
-              }
+            const apiUser = response.data;
+            role = typeof apiUser.role === 'string' ? apiUser.role : apiUser.role?.name;
+            console.log('Sidebar userRole from API:', role);
+            localStorage.setItem('user', JSON.stringify(apiUser));
+          } catch (err) {
+            console.error('Error fetching user role from API:', err);
+            if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+              localStorage.removeItem('token');
+              localStorage.removeItem('user');
+              navigate('/login');
             }
           }
-        }
-      } catch (err) {
-        console.error('Error fetching user role:', err);
-        if (err.response && (err.response.status === 401 || err.response.status === 403)) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+        } else {
           navigate('/login');
         }
       }
+
+      setUserRole(role);
     };
-  
-    fetchUserRole();
-  }, [navigate]);
-  
+
+    updateUserRole();
+    window.addEventListener('userChanged', updateUserRole);
+    return () => window.removeEventListener('userChanged', updateUserRole);
+  }, [navigate, location, API_BASE_URL]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -113,100 +76,114 @@ export default function Sidebar({ isVisible = true }) {
       className={`${isVisible ? "block" : "hidden"} md:block bg-[#F7F9F9] w-64 border-r border-gray-200 flex-shrink-0 shadow-[2px_2px_12px_rgba(0,0,0,0.25)]`}
     >
       <nav className="p-4 flex flex-col gap-4 ">
-        <Link
-          to="/dashboard"
-          className={`flex items-center gap-3 p-3 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-        >
-          <LayoutDashboard size={20} />
-          <span className='font-nunito text-[16px] font-normal '>Dashboard</span>
-        </Link>
-        
-        {userRole === 'doctor' && (
+        {contactCenterRoles.includes(userRole) ? (
+          <Link
+            to="/contact-center"
+            className={`flex items-center gap-3 p-3 ${currentPath === "/contact-center" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
+          >
+            <Users size={20} />
+            <span className='font-nunito text-[16px] font-normal'>Contact Center</span>
+          </Link>
+        ) : (
           <>
-            <Link
-              to="/consultation"
-              className={`flex items-center gap-3 p-3 ${currentPath === "/consultation" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-            >
-              <Stethoscope size={20} />
-              <span className='font-nunito text-[16px] font-normal '>Consultation</span>
-            </Link>
-            <Link
-              to="/Appointements"
-              className={`flex items-center gap-3 p-3 ${currentPath === "/Appointements" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-            >
-              <Calendar size={20} />
-              <span className='font-nunito text-[16px] font-normal '>Appointements</span>
-            </Link>
+            {userRole === 'admin' && (
+              <Link
+                to="/dashboard"
+                className={`flex items-center gap-3 p-3 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+              >
+                <LayoutDashboard size={20} />
+                <span className='font-nunito text-[16px] font-normal '>Dashboard</span>
+              </Link>
+            )}
+
+            {userRole === 'doctor' && (
+              <>
+                <Link
+                  to="/consultation"
+                  className={`flex items-center gap-3 p-3 ${currentPath === "/consultation" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+                >
+                  <Stethoscope size={20} />
+                  <span className='font-nunito text-[16px] font-normal '>Consultation</span>
+                </Link>
+                <Link
+                  to="/Appointements"
+                  className={`flex items-center gap-3 p-3 ${currentPath === "/Appointements" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+                >
+                  <Calendar size={20} />
+                  <span className='font-nunito text-[16px] font-normal '>Appointements</span>
+                </Link>
+              </>
+            )}
+
+            {userRole === 'admin' && (
+              <Link
+                to="/users"
+                className={`flex items-center gap-3 p-3 ${currentPath === "/users" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
+              >
+                <Users size={20} />
+                <span className='font-nunito text-[16px] font-normal'>Users management</span>
+              </Link>
+            )}
+
+            {userRole === 'doctor' && (
+              <Link
+                to="/patients"
+                className={`flex items-center gap-3 p-3 ${currentPath === "/patients" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
+              >
+                <UserPlus size={20} />
+                <span className='font-nunito text-[16px] font-normal'>Patients management</span>
+              </Link>
+            )}
           </>
         )}
 
-        {userRole === 'admin' && (
-          <Link
-            to="/users"
-            className={`flex items-center gap-3 p-3 ${currentPath === "/users" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
-          >
-            <Users size={20} />
-            <span className='font-nunito text-[16px] font-normal'>Users management</span>
-          </Link>
-        )}
-        
-        {userRole === 'doctor' && (
-          <Link
-            to="/patients"
-            className={`flex items-center gap-3 p-3 ${currentPath === "/patients" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
-          >
-            <UserPlus size={20} />
-            <span className='font-nunito text-[16px] font-normal'>Patients management</span>
-          </Link>
-        )}
-
-       {userRole === 'teacher' && (
-        <Link
-        to="/contact-center"
-         className={`flex items-center gap-3 p-3 ${currentPath === "/contact-center" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5] text-[#1A1A1A]"} rounded-md cursor-pointer`}
-         >
-        <Users size={20} />
-          <span className='font-nunito text-[16px] font-normal'>Contact Center</span>
-        </Link>
-        )}
-
-        <div>
-          <div
-            className={`flex items-center justify-between p-3 ${currentPath.startsWith("/settings") || currentPath === "/admin-settings" ? "text-[#008080]" : ""} hover:bg-[#eef5f5] rounded-md cursor-pointer`}
-            onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-          >
-            <div className="flex items-center gap-3">
-              <Settings size={20} />
-              <span className='font-nunito text-[16px] font-normal'>Settings</span>
+        {/* Settings section - always visible for all authenticated users */}
+        {userRole && (
+          <div>
+            <div
+              className={`flex items-center justify-between p-3 ${currentPath.startsWith("/settings") ? "text-[#008080]" : ""} hover:bg-[#eef5f5] rounded-md cursor-pointer`}
+              onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+            >
+              <div className="flex items-center gap-3">
+                <Settings size={20} />
+                <span className='font-nunito text-[16px] font-normal'>Settings</span>
+              </div>
+              <ChevronDown size={16} className={`transition-transform ${isSettingsOpen ? "rotate-180" : ""}`} />
             </div>
-            <ChevronDown size={16} className={`transition-transform ${isSettingsOpen ? "rotate-180" : ""}`} />
+            {isSettingsOpen && (
+              <div className="mt-2 flex flex-col gap-2">
+                {/* Personal Information - available for all users */}
+                <Link
+                  to="/settings/personal"
+                  className={`flex items-center gap-2 p-3 ${currentPath === "/settings/personal" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+                >
+                  <User size={18} />
+                  <span className='font-nunito text-[16px] font-normal'>Personal Information</span>
+                </Link>
+
+                {/* Security - available for all users */}
+                <Link
+                  to="/settings/security"
+                  className={`flex items-center gap-2 p-3 ${currentPath === "/settings/security" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+                >
+                  <Shield size={18} />
+                  <span className='font-nunito text-[16px] font-normal'>Security</span>
+                </Link>
+
+                {/* Notifications - only visible for doctors */}
+                {userRole === 'doctor' && (
+                  <Link
+                    to="/settings/notifications"
+                    className={`flex items-center gap-2 p-3 ${currentPath === "/settings/notifications" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+                  >
+                    <Bell size={18} />
+                    <span className='font-nunito text-[16px] font-normal'>Notifications</span>
+                  </Link>
+                )}
+              </div>
+            )}
           </div>
-          {isSettingsOpen && (
-            <div className="mt-2 flex flex-col gap-2">
-              <Link
-                to="/admin-settings"
-                className={`flex items-center gap-2 p-3 ${currentPath === "/admin-settings" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-              >
-                <User size={18} />
-                <span className='font-nunito text-[16px] font-normal'>Personal informations</span>
-              </Link>
-              <Link
-                to="/settings/security"
-                className={`flex items-center gap-2 p-3 ${currentPath === "/settings/security" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-              >
-                <Shield size={18} />
-                <span className='font-nunito text-[16px] font-normal'>Security</span>
-              </Link>
-              <Link
-                to="/settings/notifications"
-                className={`flex items-center gap-2 p-3 ${currentPath === "/settings/notifications" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-              >
-                <Bell size={18} />
-                <span className='font-nunito text-[16px] font-normal'>Notifications</span>
-              </Link>
-            </div>
-          )}
-        </div>
+        )}
 
         <div className="mt-auto">
           <button

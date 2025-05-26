@@ -4,7 +4,7 @@ import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/Login/Login";
 import Consultation from "./pages/Consultation";
-import Appointements from "./components/Appointements";
+import Appointements from "./pages/doctor/Appointements";
 import Notifications from "./components/CDoctor/Notifications";
 
 import SettingsPage from "./pages/admin/SettingsSecurity";
@@ -21,36 +21,64 @@ import ContactCenter from "./pages/patient/ContactCenter"
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+  const [user, setUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('user'));
+    } catch {
+      return null;
+    }
+  });
 
   // Helper to get user role from localStorage
   const getUserRole = () => {
+    if (user) {
+      return typeof user.role === 'string' ? user.role : user.role?.name || null;
+    }
     try {
-      const user = JSON.parse(localStorage.getItem('user'));
-      return user?.role?.name || null;
+      const userFromStorage = JSON.parse(localStorage.getItem('user'));
+      return typeof userFromStorage?.role === 'string' ? userFromStorage.role : userFromStorage?.role?.name || null;
     } catch {
       return null;
     }
   };
 
-  const PrivateRoute = ({ children }) => {
-    return isLoggedIn ? children : <Navigate to="/login" />;
+  const PrivateRoute = ({ children, allowedRoles = [] }) => {
+    if (!isLoggedIn) {
+      return <Navigate to="/login" />;
+    }
+
+    // Si des rôles sont spécifiés, vérifier si l'utilisateur a le bon rôle
+    if (allowedRoles.length > 0) {
+      const userRole = getUserRole();
+      console.log('PrivateRoute userRole:', userRole, 'allowedRoles:', allowedRoles);
+      if (!allowedRoles.includes(userRole)) {
+        // Rediriger vers une page appropriée selon le rôle
+        return userRole === 'admin' ? <Navigate to="/dashboard" /> :
+          userRole === 'doctor' ? <Navigate to="/patients" /> :
+            <Navigate to="/login" />;
+      }
+    }
+
+    return children;
   };
 
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<LoginPage/>} />
-        
+        <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
+
         {/* Redirect root path to login if not logged in, otherwise to dashboard or patients management */}
         <Route
           path="/"
           element={
             isLoggedIn
               ? (
-                  getUserRole() === "doctor"
+                ['student', 'teacher', 'employer'].includes(getUserRole())
+                  ? <Navigate to="/contact-center" />
+                  : getUserRole() === "doctor"
                     ? <Navigate to="/patients" />
                     : <Navigate to="/dashboard" />
-                )
+              )
               : <Navigate to="/login" />
           }
         />
@@ -67,7 +95,7 @@ function App() {
                 <div className=" flex flex-1">
                   {/* Sidebar */}
                   <Sidebar />
-                  
+
                   {/* Main content */}
                   <div className=" flex-1 p-4">
                     <DashboardPage />
@@ -90,7 +118,7 @@ function App() {
                 <div className=" flex flex-1">
                   {/* Sidebar */}
                   <Sidebar />
-                  
+
                   {/* Main content */}
                   <div className=" flex-1 p-4">
                     <UsersManagementPage />
@@ -113,7 +141,7 @@ function App() {
                 <div className=" flex flex-1">
                   {/* Sidebar */}
                   <Sidebar />
-                  
+
                   {/* Main content */}
                   <div className=" flex-1 p-4">
                     <UserDetails />
@@ -127,42 +155,42 @@ function App() {
         <Route
           path="/consultation"
           element={
-              <div className="h-screen overflow-auto flex flex-col">
-                {/* Navbar */}
-                <Navbar />
+            <div className="h-screen overflow-auto flex flex-col">
+              {/* Navbar */}
+              <Navbar />
 
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
-                  <Sidebar />
-                  
-                  {/* Main content */}
-                  <div className=" flex-1 p-4">
-                    <Consultation />
-                  </div>
+              {/* Sidebar + Page content */}
+              <div className=" flex flex-1">
+                {/* Sidebar */}
+                <Sidebar />
+
+                {/* Main content */}
+                <div className=" flex-1 p-4">
+                  <Consultation />
                 </div>
               </div>
+            </div>
           }
         />
 
         <Route
           path="/appointements"
           element={
-              <div className="h-screen overflow-auto flex flex-col">
-                {/* Navbar */}
-                <Navbar />
+            <div className="h-screen overflow-auto flex flex-col">
+              {/* Navbar */}
+              <Navbar />
 
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
-                  <Sidebar />
-                  
-                  {/* Main content */}
-                  <div className=" flex-1 p-4">
-                    <Appointements />
-                  </div>
+              {/* Sidebar + Page content */}
+              <div className=" flex flex-1">
+                {/* Sidebar */}
+                <Sidebar />
+
+                {/* Main content */}
+                <div className=" flex-1 p-4">
+                  <Appointements />
                 </div>
               </div>
+            </div>
           }
         />
 
@@ -178,7 +206,7 @@ function App() {
                 <div className=" flex flex-1">
                   {/* Sidebar */}
                   <Sidebar />
-                  
+
                   {/* Main content */}
                   <div className=" flex-1 p-4">
                     <SettingsPage />
@@ -201,7 +229,7 @@ function App() {
                 <div className=" flex flex-1">
                   {/* Sidebar */}
                   <Sidebar />
-                  
+
                   {/* Main content */}
                   <div className=" flex-1 p-4">
                     <SettingsPage />
@@ -213,8 +241,9 @@ function App() {
         />
 
         <Route
-          path="/settings/notifications"
+          path="/settings/personal"
           element={
+            <PrivateRoute>
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
@@ -223,13 +252,37 @@ function App() {
                 <div className=" flex flex-1">
                   {/* Sidebar */}
                   <Sidebar />
-                  
+
+                  {/* Main content */}
+                  <div className=" flex-1 p-4">
+                    <AdminSettings />
+                  </div>
+                </div>
+              </div>
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/settings/notifications"
+          element={
+            <PrivateRoute allowedRoles={['doctor']}>
+              <div className="h-screen overflow-auto flex flex-col">
+                {/* Navbar */}
+                <Navbar />
+
+                {/* Sidebar + Page content */}
+                <div className=" flex flex-1">
+                  {/* Sidebar */}
+                  <Sidebar />
+
                   {/* Main content */}
                   <div className=" flex-1 p-4">
                     <Notifications />
                   </div>
                 </div>
               </div>
+            </PrivateRoute>
           }
         />
 
@@ -245,7 +298,7 @@ function App() {
                 <div className=" flex flex-1">
                   {/* Sidebar */}
                   <Sidebar />
-                  
+
                   {/* Main content */}
                   <div className=" flex-1 p-4">
                     <AdminSettings user={{ firstName: 'Omar', lastName: 'Boudelia' }} />
@@ -268,7 +321,7 @@ function App() {
                 <div className=" flex flex-1">
                   {/* Sidebar */}
                   <Sidebar />
-                  
+
                   {/* Main content */}
                   <div className=" flex-1 p-4">
                     <PatientsManagement />
@@ -279,41 +332,41 @@ function App() {
           }
         />
 
-          <Route
+        <Route
           path="/patients/:id"
-           element={
-           <PrivateRoute>
-           <div className="h-screen overflow-auto flex flex-col">
-           <Navbar />
-           <div className="flex flex-1">
-          <Sidebar />
-           <div className="flex-1 p-4">
-            <PatientProfile />
-          </div>
-        </div>
-          </div>
-          </PrivateRoute>
-           }
-          />
+          element={
+            <PrivateRoute>
+              <div className="h-screen overflow-auto flex flex-col">
+                <Navbar />
+                <div className="flex flex-1">
+                  <Sidebar />
+                  <div className="flex-1 p-4">
+                    <PatientProfile />
+                  </div>
+                </div>
+              </div>
+            </PrivateRoute>
+          }
+        />
 
-          <Route
+        <Route
           path="/contact-center"
-           element={
-           <PrivateRoute>
-           <div className="h-screen overflow-auto flex flex-col">
-           <Navbar />
-           <div className="flex flex-1">
-          <Sidebar />
-           <div className="flex-1 p-4">
-            <ContactCenter />
-          </div>
-        </div>
-          </div>
-          </PrivateRoute>
-           }
-          />
+          element={
+            <PrivateRoute allowedRoles={['student', 'teacher', 'employer']}>
+              <div className="h-screen overflow-auto flex flex-col">
+                <Navbar />
+                <div className="flex flex-1">
+                  <Sidebar />
+                  <div className="flex-1 p-4">
+                    <ContactCenter />
+                  </div>
+                </div>
+              </div>
+            </PrivateRoute>
+          }
+        />
 
-          
+
 
 
         {/* Redirect to login if not logged in */}

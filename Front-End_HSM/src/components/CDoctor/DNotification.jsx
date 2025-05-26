@@ -2,8 +2,12 @@ import { ArrowLeft } from "lucide-react"
 import { useState } from "react"
 
 export default function DNotification() {
-  const [showBox, setShowBox] = useState(true)
   const [activeTab, setActiveTab] = useState("appointments")
+
+  const handleClose = () => {
+    // Dispatch a custom event that the parent component can listen to
+    document.dispatchEvent(new CustomEvent('closeNotifications'))
+  }
 
   const notifications = [
     {
@@ -61,20 +65,18 @@ export default function DNotification() {
   ]
 
   return (
-    <>
-    {showBox && (
-    <div className="absolute top-0 right-0 max-w-md bg-[#f7f9f9] min-h-screen bg-[#f7f9f9] shadow-[2px_2px_12px_rgba(0,0,0,0.25)] font-nunito">
-      <div className="sticky top-0 bg-[#f7f9f9] z-10 p-8  border-b border-gray-200 flex items-center">
-        
-       <ArrowLeft
-              className="absolute top-1/2 transform -translate-y-1/2 text-[#008080] cursor-pointer"
-              onClick={() => setShowBox(false)}/>
-      
-              <h1 className="text-[#008080] ml-10 text-2xl font-bold">Notifications :</h1>
-
+    <div className="fixed top-0 right-0 w-96 h-screen bg-[#f7f9f9] shadow-[2px_2px_12px_rgba(0,0,0,0.25)] font-nunito transform transition-transform duration-300 ease-in-out z-50">
+      <div className="sticky top-0 bg-[#f7f9f9] z-10 p-8 border-b border-gray-200 flex items-center">
+        <button
+          onClick={handleClose}
+          className="absolute top-1/2 transform -translate-y-1/2 text-[#008080] cursor-pointer hover:text-[#006666] transition-colors"
+        >
+          <ArrowLeft className="w-6 h-6" />
+        </button>
+        <h1 className="text-[#008080] ml-10 text-2xl font-bold">Notifications</h1>
       </div>
 
-      <div className="divide-y divide-gray-200">
+      <div className="divide-y divide-gray-200 overflow-y-auto h-[calc(100vh-80px)]">
         {notifications.map((notification) => (
           <div key={notification.id} className="px-8 p-6">
             <div className="flex">
@@ -96,7 +98,7 @@ export default function DNotification() {
                   <p className="text-[#1a1a1a] text-base">
                     <span className="font-medium">{notification.person}</span>{" "}
                     <span
-                     className={`font-medium ${notification.type === "declined" ? "text-[#c5283d]" : "text-[#008080]"}`}
+                      className={`font-medium ${notification.type === "declined" ? "text-[#c5283d]" : "text-[#008080]"}`}
                     >
                       {notification.action}
                     </span>{" "}
@@ -119,7 +121,5 @@ export default function DNotification() {
         ))}
       </div>
     </div>
-    )}
-    </>
   )
 }
