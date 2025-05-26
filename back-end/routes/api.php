@@ -26,6 +26,7 @@ use App\Http\Controllers\ConsultationRequestController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PatientVitalsController;
 use App\Http\Controllers\PrespectionController;
+use App\Http\Controllers\StorageController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     $user = $request->user()->load('role');
@@ -50,6 +51,10 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 //logout
 Route::middleware('auth:sanctum')->post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
+//Storage for all auth users
+Route::middleware('auth:sanctum')->post('/profile/upload-pic', [StorageController::class, 'uploadProfilePhoto'])
+    ->name('upload.profile.photo');
+
 
 
 // -----------------------------------------------------------------------------------------------------------
