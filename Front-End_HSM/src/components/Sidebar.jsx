@@ -21,7 +21,7 @@ export default function Sidebar({ isVisible = true }) {
           navigate('/login');
           return;
         }
-  
+
         const userData = localStorage.getItem('user');
         if (userData) {
           try {
@@ -35,7 +35,7 @@ export default function Sidebar({ isVisible = true }) {
             localStorage.removeItem('user');
           }
         }
-  
+
         try {
           const response = await axios.get(`${API_BASE_URL}/admin/users`, {
             headers: {
@@ -43,7 +43,7 @@ export default function Sidebar({ isVisible = true }) {
               'Accept': 'application/json'
             }
           });
-          
+
           if (response.data) {
             setUserRole('admin');
             const userData = { role: { name: 'admin' } };
@@ -57,7 +57,7 @@ export default function Sidebar({ isVisible = true }) {
                 'Accept': 'application/json'
               }
             });
-            
+
             if (response.data) {
               setUserRole('doctor');
               const userData = { role: { name: 'doctor' } };
@@ -72,7 +72,7 @@ export default function Sidebar({ isVisible = true }) {
                   'Accept': 'application/json'
                 }
               });
-  
+
               if (response.data) {
                 setUserRole('patient');
                 const userData = { role: { name: 'patient' } };
@@ -97,10 +97,10 @@ export default function Sidebar({ isVisible = true }) {
         }
       }
     };
-  
+
     fetchUserRole();
   }, [navigate]);
-  
+
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -113,14 +113,15 @@ export default function Sidebar({ isVisible = true }) {
       className={`${isVisible ? "block" : "hidden"} md:block bg-[#F7F9F9] w-64 border-r border-gray-200 flex-shrink-0 shadow-[2px_2px_12px_rgba(0,0,0,0.25)]`}
     >
       <nav className="p-4 flex flex-col gap-4 ">
-        <Link
-          to="/dashboard"
-          className={`flex items-center gap-3 p-3 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-        >
-          <LayoutDashboard size={20} />
-          <span className='font-nunito text-[16px] font-normal '>Dashboard</span>
-        </Link>
-        
+        {userRole === 'admin' && (
+          <Link
+            to="/dashboard"
+            className={`flex items-center gap-3 p-3 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+          >
+            <LayoutDashboard size={20} />
+            <span className='font-nunito text-[16px] font-normal '>Dashboard</span>
+          </Link>
+        )}
         {userRole === 'doctor' && (
           <>
             <Link
@@ -139,7 +140,10 @@ export default function Sidebar({ isVisible = true }) {
             </Link>
           </>
         )}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 465f626 (bon)
         {userRole === 'admin' && (
           <Link
             to="/users"
@@ -149,7 +153,7 @@ export default function Sidebar({ isVisible = true }) {
             <span className='font-nunito text-[16px] font-normal'>Users management</span>
           </Link>
         )}
-        
+
         {userRole === 'doctor' && (
           <Link
             to="/patients"
