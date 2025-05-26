@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import LoginPage from "./pages/Login/Login";
 import Consultation from "./pages/Consultation";
 import Appointements from "./components/Appointements";
-import Notifications from "./components/Notifications";
+import Notifications from "./components/CDoctor/Notifications";
 
 import SettingsPage from "./pages/admin/SettingsSecurity";
 import DashboardPage from "./pages/admin/Dashboard";
@@ -22,6 +22,16 @@ import ContactCenter from "./pages/patient/ContactCenter"
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
+  // Helper to get user role from localStorage
+  const getUserRole = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      return user?.role?.name || null;
+    } catch {
+      return null;
+    }
+  };
+
   const PrivateRoute = ({ children }) => {
     return isLoggedIn ? children : <Navigate to="/login" />;
   };
@@ -31,8 +41,19 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage/>} />
         
-        {/* Redirect root path to login if not logged in, otherwise to dashboard */}
-        <Route path="/" element={isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+        {/* Redirect root path to login if not logged in, otherwise to dashboard or patients management */}
+        <Route
+          path="/"
+          element={
+            isLoggedIn
+              ? (
+                  getUserRole() === "doctor"
+                    ? <Navigate to="/patients" />
+                    : <Navigate to="/dashboard" />
+                )
+              : <Navigate to="/login" />
+          }
+        />
 
         <Route
           path="/dashboard"
