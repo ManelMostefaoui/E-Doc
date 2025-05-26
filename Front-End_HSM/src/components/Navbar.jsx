@@ -186,7 +186,7 @@ export default function Navbar() {
   }, [])
 
   return (
-    <header className="bg-[#F7F9F9] h-16 flex items-center border-b border-gray-200 px-12 justify-between z-40 shadow-[2px_2px_12px_rgba(0,0,0,0.25)]">
+    <header className="bg-[#F7F9F9] h-18 border-b border-gray-200 py-3 px-12 flex justify-between z-40  items-center shadow-[2px_2px_12px_rgba(0,0,0,0.25)]">
       <div className="flex items-center">
         <img src="/LogoApp.svg" alt="logo" className="h-9 w-auto flex-shrink-0" />
       </div>

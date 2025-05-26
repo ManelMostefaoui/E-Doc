@@ -1,11 +1,11 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Pencil, Printer, Trash2 } from "lucide-react"
-import OrdonnanceLogo from '../assets/OrdonnanceLogo.png';
 import Group56Logo from '../assets/Group56.png';
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
+import axios from "axios"
 
-export default function EsiForm() {
+export default function EsiForm({ selectedPatient }) {
   const [formTreatment, setFormTreatment] = useState({ name: "", dose: "", period: "" })
   const [treatment, setTreatment] = useState([])
   const [formData, setFormData] = useState({
@@ -15,6 +15,13 @@ export default function EsiForm() {
   })
   const prescriptionRef = useRef(null)
 
+  // State for medicine suggestions
+  const [medicineSuggestions, setMedicineSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [availableMedicines, setAvailableMedicines] = useState([])
+  const [loadingMedicines, setLoadingMedicines] = useState(true)
+  const [errorLoadingMedicines, setErrorLoadingMedicines] = useState(null);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({
@@ -22,6 +29,26 @@ export default function EsiForm() {
       [name]: value
     }))
   }
+
+  const handleTreatmentInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormTreatment(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    // Filter medicine suggestions
+    if (name === 'name' && value.length > 0) {
+      const filteredSuggestions = availableMedicines.filter(medicine =>
+        medicine.toLowerCase().startsWith(value.toLowerCase())
+      );
+      setMedicineSuggestions(filteredSuggestions);
+      setShowSuggestions(filteredSuggestions.length > 0);
+    } else {
+      setMedicineSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
 
   const generatePDF = async () => {
     try {
@@ -37,50 +64,79 @@ export default function EsiForm() {
         format: "a4"
       })
 
-      // Add logo at the top
+      // Set font for French text
+      pdf.setFont("helvetica", "normal")
+      pdf.setFontSize(8)
+      // Removed French header lines
+      // pdf.text("République Algérienne Démocratique et Populaire", 105, 20, { align: "center" })
+      // pdf.text("Ministère de l'Enseignement Supérieur et de la Recherche Scientifique", 105, 25, { align: "center" })
+      
+      // Add logo ONLY (full width at the top)
       const logo = new Image()
-      logo.src = OrdonnanceLogo
+      logo.src = Group56Logo
       await new Promise((resolve) => {
         logo.onload = resolve
       })
+      // A4 width is 210mm, so use x=0, width=210mm, height=auto (e.g., 35mm)
       pdf.addImage(logo, "PNG", 0, 10, 210, 35)
 
-      // Patient info (plain text, no box)
-      pdf.setFont("helvetica", "normal")
-      pdf.setFontSize(11)
-      pdf.setTextColor(0, 0, 0)
-      const formattedDate = formData.date ? new Date(formData.date).toLocaleDateString() : ""
-      pdf.text(`Date: ${formattedDate}`, 20, 55)
-      pdf.text(`Age: ${formData.age}`, 110, 55)
-      pdf.text(`Full Name: ${formData.name}`, 20, 62)
-
-      // Title: Medical Prescription (centered)
+      // Add prescription title above the double lines, below the logo
       pdf.setFontSize(20)
       pdf.setFont(undefined, 'bold')
-      pdf.setTextColor(0, 0, 0)
-      pdf.text("Medical Prescription", 105, 75, { align: "center" })
-
-      // Add headers
-      pdf.setFont(undefined, 'bold')
-      pdf.setFontSize(12)
-      pdf.text("Medicine", 20, 88)
-      pdf.text("Dose", 100, 88)
-      pdf.text("Period", 150, 88)
-      pdf.setDrawColor(0, 0, 0)
-      pdf.line(20, 90, 190, 90) // Line below headers
-
-      // Treatments (medicines) list
+      pdf.setTextColor(0, 128, 128) // #008080
+      pdf.text("Medical Prescription", 105, 55, { align: "center" })
       pdf.setFont(undefined, 'normal')
-      pdf.setFontSize(14)
-      pdf.setTextColor(0, 0, 0)
-      let yPosition = 98 // Start below header line
-      treatment.forEach((t, index) => {
-        // Use columns for better alignment
-        pdf.text(`${index + 1}. ${t.name}`, 20, yPosition) // Medicine name
-        pdf.text(t.dose, 100, yPosition) // Dose
-        pdf.text(t.period, 150, yPosition) // Period
+      pdf.setFontSize(16)
+      // Add bottom teal line with double lines
+      pdf.setDrawColor(0, 128, 128) // #008080
+      pdf.setLineWidth(0.5)
+      pdf.line(20, 75, 190, 75)
+      pdf.line(20, 76, 190, 76)
 
-        yPosition += 10
+      // Format the date if it exists
+      const formattedDate = formData.date ? new Date(formData.date).toLocaleDateString() : ""
+
+      // Patient info box design improvements (no color change)
+      const patientBoxY = 100;
+      const patientBoxHeight = 40;
+      pdf.setDrawColor(200, 200, 200); // Light gray border
+      pdf.setFillColor(245, 245, 245); // Light gray background
+      pdf.roundedRect(20, patientBoxY, 170, patientBoxHeight, 6, 6, 'FD'); // Larger border radius
+
+      // Title
+      pdf.setFontSize(12);
+      pdf.setFont(undefined, 'bold');
+      pdf.setTextColor(0, 128, 128);
+      pdf.text("Patient Information", 105, patientBoxY + 9, { align: "center" });
+
+      // Details (two columns, more vertical spacing)
+      pdf.setFont(undefined, 'normal');
+      pdf.setFontSize(11);
+      pdf.setTextColor(0, 0, 0);
+      pdf.text(`Date: ${formattedDate}`, 30, patientBoxY + 22);
+      pdf.text(`Age: ${formData.age}`, 30, patientBoxY + 32);
+      pdf.text(`Full Name: ${formData.name}`, 120, patientBoxY + 27);
+
+      // Add treatments section
+      pdf.setFontSize(14)
+      pdf.setTextColor(0, 128, 128) // #008080
+      pdf.text("Treatment needed:", 20, 150)
+      pdf.setDrawColor(0, 128, 128)
+      pdf.line(20, 152, 190, 152)
+      
+      let yPosition = 160
+      treatment.forEach((t, index) => {
+        // Add treatment box
+        pdf.setDrawColor(200, 200, 200)
+        pdf.setFillColor(245, 245, 245)
+        pdf.roundedRect(20, yPosition - 5, 170, 25, 3, 3, 'FD')
+        
+        pdf.setFontSize(10)
+        pdf.setTextColor(0, 0, 0)
+        pdf.text(`${index + 1}. ${t.name}`, 30, yPosition)
+        pdf.text(`Dose: ${t.dose}`, 30, yPosition + 8)
+        pdf.text(`Period: ${t.period}`, 30, yPosition + 16)
+        yPosition += 30
       })
 
       // Save the PDF
@@ -95,6 +151,88 @@ export default function EsiForm() {
   const handlePrint = () => {
     window.print()
   }
+
+  // Update internal form data when selectedPatient prop changes
+  useEffect(() => {
+    if (selectedPatient) {
+      setFormData(prev => ({
+        ...prev,
+        name: selectedPatient.name || "",
+        age: selectedPatient.age || ""
+      }))
+    } else {
+       setFormData(prev => ({
+        ...prev,
+        name: "",
+        age: ""
+      }))
+    }
+  }, [selectedPatient])
+
+  // Fetch the list of medicines from the backend
+  useEffect(() => {
+    const fetchMedicines = async () => {
+      try {
+        setLoadingMedicines(true);
+        setErrorLoadingMedicines(null);
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+          setErrorLoadingMedicines("Authentication token not found. Please log in again.");
+          return;
+        }
+
+        const response = await axios.get('/api/medications', { // Updated to include /api prefix
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.data) {
+          throw new Error('No data received from the server');
+        }
+
+        // Handle different response formats
+        let medicines = [];
+        if (Array.isArray(response.data)) {
+          medicines = response.data.map(med => med.name);
+        } else if (response.data.medicines && Array.isArray(response.data.medicines)) {
+          medicines = response.data.medicines.map(med => med.name);
+        } else {
+          throw new Error('Unexpected response format from server');
+        }
+
+        if (medicines.length === 0) {
+          setErrorLoadingMedicines("No medicines found in the database");
+        } else {
+          setAvailableMedicines(medicines);
+        }
+      } catch (error) {
+        console.error("Error fetching medicines:", error);
+        let errorMessage = "Failed to load medicines. ";
+        
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          errorMessage += `Server error: ${error.response.status} - ${error.response.data?.message || 'Unknown error'}`;
+        } else if (error.request) {
+          // The request was made but no response was received
+          errorMessage += "No response from server. Please check your internet connection.";
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          errorMessage += error.message || 'Unknown error occurred';
+        }
+        
+        setErrorLoadingMedicines(errorMessage);
+      } finally {
+        setLoadingMedicines(false);
+      }
+    };
+
+    fetchMedicines();
+  }, []);
 
   return (
     <section className="form-section mt-10">
@@ -118,13 +256,13 @@ export default function EsiForm() {
 
       <div
         ref={prescriptionRef}
-        className="mx-auto bg-white rounded-xl w-full max-w-3xl p-4 sm:p-8"
-        style={{ boxShadow: 'none', border: 'none' }}
+        className="mx-auto p-8 bg-white rounded-xl"
+        style={{ width: '210mm', boxShadow: 'none', border: 'none' }}
       >
         {/* Header */}
         <div className="flex items-center pb-0">
           <div className="flex justify-center w-full relative text-sm text-center text-teal-900 font-medium">
-            {/* Center Logo ONLY - Use Group56Logo for the screen */}
+            {/* Center Logo ONLY */}
             <img
               src={Group56Logo}
               alt="Logo"
@@ -143,28 +281,11 @@ export default function EsiForm() {
          
           <div className="flex items-center gap-2">
             <label className="min-w-[60px] font-medium">Age :</label>
-            <input 
-              type="number" 
-              name="age"
-              value={formData.age}
-              onChange={handleInputChange}
-              placeholder="Age" 
-              className="form-input" 
-            />
+            <span className="text-gray-700 font-medium">{formData.age}</span>
           </div>
           <div className="col-span-2 flex relative items-center gap-2">
             <label className="min-w-[90px] font-medium">Full name :</label>
-            <input 
-              type="text" 
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              placeholder="Full name" 
-              className="form-input w-full" 
-            />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 hover:text-primary hover:text-blue-500">
-              <Pencil size={16} />
-            </button>
+            <span className="text-gray-700 font-medium">{formData.name}</span>
           </div>
         </div>
 
@@ -191,12 +312,39 @@ export default function EsiForm() {
               <input
                 type="text"
                 placeholder="Medicine name"
+                name="name"
                 value={formTreatment.name}
-                onChange={(e) => setFormTreatment({ ...formTreatment, name: e.target.value })}
+                onChange={handleTreatmentInputChange}
                 className="form-input w-full pr-8"
                 required
               />
-              <Pencil className="absolute right-8 top-1/2 -translate-y-1/2 " size={16} />
+              {loadingMedicines && (
+                <div className="absolute right-8 top-1/2 -translate-y-1/2 text-gray-400">
+                  Loading...
+                </div>
+              )}
+              {errorLoadingMedicines && (
+                <div className="absolute right-8 top-1/2 -translate-y-1/2 text-red-500">
+                  Error loading medicines
+                </div>
+              )}
+              {showSuggestions && medicineSuggestions.length > 0 && (
+                <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto mt-1">
+                  {medicineSuggestions.map((medicine, index) => (
+                    <li
+                      key={index}
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-800"
+                      onClick={() => {
+                        setFormTreatment({ ...formTreatment, name: medicine });
+                        setShowSuggestions(false);
+                      }}
+                    >
+                      {medicine}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <Pencil className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
             </div>
             <div className="relative">
               <input

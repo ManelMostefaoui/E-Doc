@@ -19,7 +19,7 @@ export default function UploadDocuments() {
   }
 
   return (
-    <div className="bg-[#ecf7f7] p-6 rounded-lg space-y-4">
+    <div className="p-6 rounded-lg space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold text-[#005353]">Upload documents :</h2>
         <div className="flex items-center gap-2">

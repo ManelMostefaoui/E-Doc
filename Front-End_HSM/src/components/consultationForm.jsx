@@ -1,39 +1,214 @@
-import { useRef, useState } from "react"
-import { ChevronDown, Pencil, Printer, Trash2, Upload, FileText } from "lucide-react"
+import { useRef, useState, useEffect } from "react"
+import { ChevronDown, Pencil, Printer, Trash2, Upload, FileText, Search } from "lucide-react"
 import { EsiLogo, EsiText } from "../assets"
 import EsiForm from "./EsiForm"
 import UploadDocuments from "./UploadDocuments"
-import  jsPDF  from "jspdf"
+import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
 import Ordonnance from "./ordonnance"
-import OrdonnanceLogo from '../assets/OrdonnanceLogo.png'
+import axios from "axios"
 
-export default function ConsultationForm() {
+// Configure axios base URL
+axios.defaults.baseURL = 'http://127.0.0.1:8000'
+
+export default function ConsultationForm({ selectedPatient }) {
   const [selectedCategory, setSelectedCategory] = useState("")
   const ordonnanceRef = useRef(null)
-  const generatePDF = async () => { console.log(ordonnanceRef.current)
-    if (!ordonnanceRef.current) return
-  
-    const element = ordonnanceRef.current
-    const canvas = await html2canvas(element, { scale: 2 })
-    const data = canvas.toDataURL("image/png")
-  
-    const pdf = new jsPDF({
-      orientation: "portrait",
-      unit: "mm",
-      format: "a4",
-    })
-  
-    const imgProps = pdf.getImageProperties(data)
-    const pdfWidth = pdf.internal.pageSize.getWidth()
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width
-  
-    pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight)
-    pdf.save("medical-prescription.pdf")
+  const [patientVitals, setPatientVitals] = useState({
+    fullName: "",
+    age: "",
+    height: "",
+    weight: "",
+    bloodPressure: "",
+    temperature: "",
+    heartRate: "",
+    bloodSugar: "",
+    observations: "",
+    date: new Date().toISOString().split('T')[0]
+  })
+
+  const [patientSuggestions, setPatientSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [loadingPatients, setLoadingPatients] = useState(false);
+  const [errorLoadingPatients, setErrorLoadingPatients] = useState(null);
+
+  // Calculate age from birthdate
+  const calculateAge = (birthdate) => {
+    if (!birthdate) return ''
+    const birth = new Date(birthdate)
+    const today = new Date()
+    let age = today.getFullYear() - birth.getFullYear()
+    const m = today.getMonth() - birth.getMonth()
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+      age--
+    }
+    return age
   }
+
+  // Effect to update patient vitals when selectedPatient prop changes (initial load from profile)
+  useEffect(() => {
+    if (selectedPatient) {
+      setPatientVitals(prev => ({
+        ...prev,
+        fullName: selectedPatient.name || "",
+        age: selectedPatient.birthdate ? calculateAge(selectedPatient.birthdate) : "",
+        height: selectedPatient.height || "",
+        weight: selectedPatient.weight || ""
+      }))
+    }
+  }, [selectedPatient])
+
+  // Effect to fetch patient vitals when a patient is selected (from search suggestions)
+  useEffect(() => {
+    const fetchPatientVitals = async () => {
+      if (!patientVitals.id) return; // Only fetch if a patient with an ID is in patientVitals (selected from search)
+
+      try {
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`/api/patient-vitals/show/${patientVitals.id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
+          }
+        })
+        
+        if (response.data) {
+          setPatientVitals(prev => ({
+            ...prev,
+            ...response.data
+          }))
+        }
+      } catch (error) {
+        console.error("Error fetching patient vitals after selection:", error)
+        // Optionally display an error to the user
+      }
+    }
+
+    fetchPatientVitals()
+  }, [patientVitals.id]) // Trigger when the ID in patientVitals changes (after selecting a patient)
+
+  // Effect to fetch patients when search query (fullName) changes
+  useEffect(() => {
+    const fetchPatients = async () => {
+      const query = patientVitals.fullName; // Use the value from the input
+      if (!query) { // Trigger search even with one character
+        setPatientSuggestions([]);
+        setShowSuggestions(false);
+        return;
+      }
+
+      setLoadingPatients(true);
+      setErrorLoadingPatients(null);
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          setErrorLoadingPatients("Authentication token not found. Please log in.");
+          setLoadingPatients(false);
+          setPatientSuggestions([]);
+          setShowSuggestions(false);
+          return;
+        }
+
+        const response = await axios.get('/api/patients', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+          }
+        });
+
+        if (response.data && Array.isArray(response.data)) {
+          // Filter patients by full name including the search query (case-insensitive)
+          const filteredPatients = response.data.filter(patient =>
+            patient.user && patient.user.name && patient.user.name.toLowerCase().includes(query.toLowerCase())
+          );
+          setPatientSuggestions(filteredPatients);
+          setShowSuggestions(filteredPatients.length > 0);
+        } else {
+          setErrorLoadingPatients("Unexpected data format from server.");
+          setPatientSuggestions([]);
+          setShowSuggestions(false);
+        }
+      } catch (error) {
+        console.error("Error fetching patients:", error);
+        let errorMessage = "Failed to load patients. ";
+        if (error.response) {
+          errorMessage += `Server error: ${error.response.status} - ${error.response.data?.message || 'Unknown error'}`;
+        } else if (error.request) {
+          errorMessage += "No response from server. Please check your internet connection.";
+        } else {
+          errorMessage += error.message || 'Unknown error occurred';
+        }
+        setErrorLoadingPatients(errorMessage);
+        setPatientSuggestions([]);
+        setShowSuggestions(false);
+      } finally {
+        setLoadingPatients(false);
+      }
+    };
+
+    // Simple debouncing: wait 300ms after typing stops before searching
+    const timerId = setTimeout(() => {
+      fetchPatients();
+    }, 300);
+
+    // Cleanup function to clear the timer if fullName changes before the timeout
+    return () => {
+      clearTimeout(timerId);
+    };
+
+  }, [patientVitals.fullName]); // Re-run effect when fullName in patientVitals changes
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setPatientVitals(prev => ({
+      ...prev,
+      [name]: value
+    }))
+    // If the input is the full name, show suggestions
+    if (name === 'fullName') {
+      setShowSuggestions(true); // Show suggestions as user types in the full name field
+    }
+  }
+
+  const handlePatientSelect = (patient) => {
+    // Update patientVitals with the selected patient's information
+    setPatientVitals(prev => ({
+      ...prev,
+      id: patient.id, // Patient ID
+      fullName: patient.user?.name || "", // Name from nested user object
+      age: patient.user?.birthdate ? calculateAge(patient.user.birthdate) : "", // Age from nested user birthdate
+      height: patient.height || "", // Assuming height is directly on patient object
+      weight: patient.weight || "", // Assuming weight is directly on patient object
+      // Keep other vital information as they might have been entered manually or fetched separately
+    }));
+    setShowSuggestions(false); // Hide suggestions after selection
+  };
+
+  const handleSaveVitals = async () => {
+    if (!patientVitals.id) {
+      alert("Please select a patient first!")
+      return
+    }
+
+    try {
+      const token = localStorage.getItem('token')
+      await axios.post('/api/patient-vitals/store', {
+        patient_id: patientVitals.id,
+        ...patientVitals,
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      })
+      alert("Patient vitals saved successfully!")
+    } catch (error) {
+      console.error("Error saving patient vitals:", error)
+      alert("Failed to save patient vitals")
+    }
+  }
+
   const inputFields = [
-    "Full name",
-    "Age",
     "Height",
     "Weight",
     "Blood pressure",
@@ -42,138 +217,99 @@ export default function ConsultationForm() {
     "Blood sugar",
     "Observations",
   ]
-  const [patient, setPatient] = useState({
-    name: "John Doe",
-    age: 45,
-    gender: "Male",
-    id: "P12345",
-  })
-  const [prescriptions, setPrescriptions] = useState([
-    { id: 1, medication: "Paracetamol", dosage: "500mg", frequency: "3 times a day", duration: "5 days" },
-    { id: 2, medication: "Amoxicillin", dosage: "250mg", frequency: "2 times a day", duration: "7 days" },
-  ])
 
   return (
-    <div className="max-w-4xl mx-auto w-full p-4 sm:p-8 text-left overflow-y-hidden">
-      <h1 className="text-3xl font-bold text-[#008080]  mb-6">Consultation :</h1>
+    <div className="max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold text-[#008080] mb-6">Consultation :</h1>
 
       {/* Patient Vitals & Information */}
       <section className="form-section">
-        <h2 className="form-section-title text-[#004D4D] font-bold  text-3xl">Patient vitals & informations :</h2>
-        <div className="flex flex-col gap-4 mt-5">
-          <div className="flex flex-col sm:grid sm:grid-cols-[120px_1fr] items-center gap-2 sm:gap-4 w-full">
-            <label className="form-label w-full sm:w-auto">Date :</label>
-            <div className="relative w-full">
-              <input type="date" placeholder={'Date'} className="form-input w-full pr-10 rounded-md" />
+        <h2 className="form-section-title text-[#004D4D] font-bold text-3xl">Patient vitals & informations :</h2>
+        <div className="grid grid-cols-1 gap-4 mt-5">
+          <div className="grid grid-cols-[120px_1fr] items-center gap-4">
+            <label className="form-label">Date :</label>
+            <div className="relative">
+              <span className="flex items-center text-gray-700">{patientVitals.date}</span>
             </div>
           </div>
-          {inputFields.map((label, index) => (
-            <div key={index} className="flex flex-col sm:grid sm:grid-cols-[120px_1fr] items-center gap-2 sm:gap-4 w-full">
-              <label className="form-label w-full sm:w-auto">{label} :</label>
-              <div className="relative w-full">
-                <input type="text" placeholder={label} className="form-input w-full pr-10 rounded-md" />
-                <button className="absolute right-4.5 top-1/2 transform -translate-y-1/2 hover:text-primary" tabIndex={-1} type="button">
-                  <Pencil size={16} />
-                </button>
-              </div>
+          {/* Patient Selection - Full Name Input with Suggestions */}
+          <div className="grid grid-cols-[120px_1fr] items-center gap-4">
+            <label className="form-label">Full name :</label>
+            <div className="relative">
+              <input
+                type="text"
+                name="fullName"
+                value={patientVitals.fullName}
+                onChange={handleInputChange}
+                placeholder="Enter patient full name"
+                className="form-input w-full pr-10"
+              />
+              {loadingPatients && (
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
+                  Loading...
+                </div>
+              )}
+              {errorLoadingPatients && (
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500 text-sm">
+                  Error
+                </div>
+              )}
+              {showSuggestions && patientSuggestions.length > 0 && patientVitals.fullName.length > 0 && (
+                <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto mt-1">
+                  {patientSuggestions.map((patient) => (
+                    <li
+                      key={patient.id} // Assuming patient object has an 'id'
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-800"
+                      onClick={() => handlePatientSelect(patient)}
+                    >
+                      {patient.user?.name} ({patient.user?.birthdate ? new Date(patient.user.birthdate).getFullYear() : 'N/A'})
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
-          ))}
+          </div>
+          {/* Age display (non-editable) */}
+          <div className="grid grid-cols-[120px_1fr] items-center gap-4">
+            <label className="form-label">Age :</label>
+            <div className="relative">
+              <span className="form-input bg-gray-50 flex items-center text-gray-700">{patientVitals.age}</span>
+            </div>
+          </div>
+          {inputFields.map((label, index) => {
+            const fieldName = label.toLowerCase().replace(/\s+/g, '')
+            return (
+              <div key={index} className="grid grid-cols-[120px_1fr] items-center gap-4">
+                <label className="form-label">{label} :</label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    name={fieldName}
+                    value={patientVitals[fieldName]}
+                    onChange={handleInputChange}
+                    placeholder={label}
+                    className="form-input pr-10"
+                  />
+                  {/* Removed Pencil icon as it doesn't seem to have functionality here */}
+                </div>
+              </div>
+            )
+          })}
         </div>
       </section>
 
       {/* Medical Prescription */}
-      <EsiForm />
+      <EsiForm selectedPatient={patientVitals} /> {/* Pass patientVitals which now includes selected patient info */}
       
-
-      {/* Medical Report */}
-      <section className="form-section mt-10">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="form-section-title text-xl font-bold  ">Medical report :</h2>
-          <button className="border border-primary text-primary hover:bg-primary text-[#008080]  bg-white p-2 rounded-md transition-colors" >
-            <Printer size={18} />
-          </button>
-        </div>
-
-        <div className="bg-white rounded-lg p-6 border border-gray-200 overflow-x-auto overflow-y-auto" >
-        <div className="flex justify-between w-full relative text-sm text-center text-teal-900 font-medium">
-    
-    {/* Left side */}
-    <div>
-      <p className="text-[7px]">République Algérienne Démocratique et Populaire</p>
-      <p className="text-[7px]">Ministère de l'Enseignement Supérieur et de la Recherche Scientifique</p>
-      <img src={EsiText} alt="ESI Text" className="h-15 mx-auto" />
-    </div>
-
-    {/* Center Logo - needs z-index and position */}
-    <img
-      src={EsiLogo}
-      alt="ESI Logo"
-      className="h-24 relative z-10" // 👈 bring this logo to front
-    />
-
-    {/* Right side */}
-    <div className="text-right">
-      <p>الجمهورية الجزائرية الديمقراطية الشعبية</p>
-      <p>وزارة التعليم العالي والبحث العلمي</p>
-      <p className="font-bold">المدرسة العليا للإعلام الآلي</p>
-      <p className="text-xs text-right" dir="rtl">8 ماي 1945 - سيدي بلعباس</p>
-    </div>
-
-    {/* Bottom teal line with transparent center */}
-    <div className="h-1 w-full absolute bottom-1 bg-[#008080] z-0">
-    
-      <div className="w-80 h-full mx-auto bg-white" />
-    
-    </div>
-
-  </div>
-
-          <div className=" mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <div className="flex items-center gap-2">
-              <span className="text-sm">Date :</span>
-              <div className="relative flex-1 w-full">
-              <input type="date" placeholder="" className="form-input w-full" />
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm">Age :</span>
-              <div className="relative flex-1 w-full">
-              <input type="number" min={0} placeholder="Age" className="form-input w-full" />
-              </div>
-            </div>
-          </div>
-
-          <div className="mb-6">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-sm">Full name :</span>
-              <div className="relative flex-1 w-full">
-                <input type="text" placeholder="Full name" className="form-input w-full pr-10 rounded-md" />
-                <button className="edit-button absolute right-4.5 top-1/2 transform -translate-y-1/2 hover:text-primary" tabIndex={-1} type="button">
-                  <Pencil size={16} />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-200 pt-4">
-            <h3 className="text-center text-primary font-bold mb-4 text-[#008080] ">Report :</h3>
-
-            <div className="relative mb-2">
-              <input type="text" placeholder="Report ..." className="form-input pr-10 w-full min-h-[40px]" />
-              <button className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-700">
-                <Trash2 size={18} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Upload Documents */}
-    <UploadDocuments />
+      <UploadDocuments />
 
       {/* Action Buttons */}
-      <div className="flex gap-4 mt-8 flex-col sm:flex-row">
-        <button className="bg-[#008080] hover:bg-primary-dark text-white px-6 py-2 rounded-md text-sm font-medium w-40 transition-colors">
+      <div className="flex gap-4 mt-8">
+        <button 
+          onClick={handleSaveVitals}
+          className="bg-[#008080] hover:bg-primary-dark text-white px-6 py-2 rounded-md text-sm font-medium w-40 transition-colors"
+        >
           Save
         </button>
         <button className="border border-red-500 bg-white text-red-700 hover:bg-red-600 hover:text-white w-40 px-6 py-2 rounded-md text-sm font-medium transition-colors">

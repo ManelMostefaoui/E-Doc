@@ -265,7 +265,6 @@ export default function ClinicalForm({ onClose, onSave }) {
     fetchClinicalData()
   }, [patientId])
 
-  // Remove duplicate handleSave function since it's defined later
   const handleSubmit = async () => {
     if (!patientId) {
       setError("Patient ID is missing. Cannot save information.")
@@ -278,70 +277,30 @@ export default function ClinicalForm({ onClose, onSave }) {
 
       const token = localStorage.getItem("token")
 
-      // Save clinical data
-      const response = await axios.put(`http://127.0.0.1:8000/api/patients/${patientId}/biometric-data`, postData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
+      // Update patient data directly
+      const response = await axios.put(
+        `http://127.0.0.1:8000/api/patients/${patientId}`,
+        {
+          height: formData.height,
+          weight: formData.weight
         },
-      })
-
-      // Save screenings with conditional POST/PUT
-      if (screenings.length > 0) {
-        const token = localStorage.getItem("token");
-        // If screenings have IDs, update them; otherwise, create new ones
-        for (const screening of screenings) {
-          const screeningData = {
-            category: screening.category,
-            type: screening.type,
-            result: screening.result
-          };
-          if (screening.id) {
-            // Update existing screening
-            await axios.put(
-              `http://127.0.0.1:8000/api/Screening/update/${screening.id}`,
-              screeningData,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  Accept: "application/json",
-                  "Content-Type": "application/json"
-                }
-              }
-            );
-          } else {
-            // Create new screening
-            await axios.post(
-              `http://127.0.0.1:8000/api/Screening/store/${patientId}`,
-              screeningData,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  Accept: "application/json",
-                  "Content-Type": "application/json"
-                }
-              }
-            );
-          }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
         }
-      }
+      )
 
       console.log("Save response:", response.data)
       setSuccess(true)
-
-      // Call onSave callback with updated data
       if (onSave) {
-        onSave({ ...postData, screenings })
+        onSave()
       }
-
-      // Close form after short delay
-      setTimeout(() => {
-        if (onClose) onClose()
-      }, 1500)
     } catch (err) {
-      console.error("Error saving data:", err)
-      setError(err.response?.data?.message || "Failed to save data. Please try again.")
+      console.error("Failed to save clinical data:", err)
+      setError(err.response?.data?.message || "Failed to save clinical data. Please try again.")
     } finally {
       setLoading(false)
     }
@@ -521,20 +480,14 @@ export default function ClinicalForm({ onClose, onSave }) {
                   <label className="block text-sm mb-1">Height :</label>
                 </div>
                 <div className="col-span-2 relative">
-                  <select
-                    className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm appearance-none bg-white"
+                  <input
+                    type="number"
+                    className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm"
                     value={formData.height}
                     onChange={(e) => handleChange("height", e.target.value)}
+                    placeholder="Enter height in cm"
                     disabled={loading}
-                  >
-                    <option value="">Select height</option>
-                    {Array.from({ length: 100 }, (_, i) => i + 100).map((cm) => (
-                      <option key={cm} value={cm}>
-                        {cm} cm
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+                  />
                 </div>
               </div>
 
@@ -543,20 +496,14 @@ export default function ClinicalForm({ onClose, onSave }) {
                   <label className="block text-sm mb-1">Weight :</label>
                 </div>
                 <div className="col-span-2 relative">
-                  <select
-                    className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm appearance-none bg-white"
+                  <input
+                    type="number"
+                    className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm"
                     value={formData.weight}
                     onChange={(e) => handleChange("weight", e.target.value)}
+                    placeholder="Enter weight in kg"
                     disabled={loading}
-                  >
-                    <option value="">Select weight</option>
-                    {Array.from({ length: 150 }, (_, i) => i + 30).map((kg) => (
-                      <option key={kg} value={kg}>
-                        {kg} kg
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+                  />
                 </div>
               </div>
             </div>
