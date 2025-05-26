@@ -8,8 +8,7 @@ class PatientVitals extends Model
 {
     protected $fillable = [
 
-        'full_name',
-        'Age',
+        'patient_id',
         'height',
         'weight',
         'blood_pressure',

@@ -14,8 +14,6 @@ class PatientVitalsController extends Controller
             [
                 'patient_id' => 'exists:patients,id',
                 'vital_date' => 'nullable|date',
-                'full_name' => 'required|string',
-                'Age' => 'required|integer',
                 'height' => 'required|integer',
                 'weight' => 'required|integer',
                 'blood_pressure' => 'nullable|integer',
@@ -34,10 +32,7 @@ class PatientVitalsController extends Controller
 
         $validated = $request->validate(
             [
-                'patient_id' => 'exists:patients,id',
                 'vital_date' => 'nullable|date',
-                'full_name' => 'required|string',
-                'Age' => 'required|integer',
                 'height' => 'required|integer',
                 'weight' => 'required|integer',
                 'blood_pressure' => 'nullable|integer',
