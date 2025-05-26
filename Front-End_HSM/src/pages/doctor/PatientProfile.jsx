@@ -36,6 +36,7 @@ export default function PatientProfile() {
   const [clinicalData, setClinicalData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPatientData = async () => {
@@ -221,10 +222,17 @@ export default function PatientProfile() {
           <img src={patient.picture || "/prfl.jpg"} alt="Patient profile" className="w-full h-full object-cover rounded-full" />
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 flex-1">
           <h1 className="font-nunito text-[20px] text-[#1a1a1a] font-semibold">{patient.name || "Patient Name"}</h1>
           <p className="font-nunito text-[20px] text-[#495057]">{patient.role || "Patient"}</p>
         </div>
+
+        <button
+          onClick={() => navigate('/consultation', { state: { selectedPatient: patient } })}
+          className="bg-[#008080] hover:bg-[#006666] text-white px-6 py-2 rounded-md text-sm font-medium transition-colors"
+        >
+          Start Consultation
+        </button>
       </div>
 
       {/* Information cards - 2 columns on desktop */}

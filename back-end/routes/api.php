@@ -26,6 +26,7 @@ use App\Http\Controllers\ConsultationRequestController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PatientVitalsController;
 use App\Http\Controllers\PrespectionController;
+use App\Http\Controllers\StorageController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     $user = $request->user()->load('role');
@@ -50,6 +51,11 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 //logout
 Route::middleware('auth:sanctum')->post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
+//Storage for all auth users
+Route::middleware('auth:sanctum')->post('/profile/upload-pic', [StorageController::class, 'uploadProfilePhoto'])
+    ->name('upload.profile.photo');
+Route::middleware('auth:sanctum')->post('/documents/upload', [StorageController::class, 'storeDocument'])
+    ->name('documents.upload');
 
 
 // -----------------------------------------------------------------------------------------------------------
@@ -184,12 +190,11 @@ Route::middleware(['auth:sanctum', 'doctor'])->group(function () {
     //Show stats by day of confirmed cancelled consultation request in a month dashboard interface
     Route::get('/consultations/stats/daily', [ConsultationRequestController::class, 'getConsultationStatsByDay']);
 
-        //Show stats by day of confirmed and details of consultation request in appointment interface
+    //Show stats by day of confirmed and details of consultation request in appointment interface
     Route::get('/consultations/confirmed-by-day', [ConsultationRequestController::class, 'getConfirmedRequestsByDay']);
 
     //Show Stats of the month if fully booked , geeting fulled , no appointement
     Route::get('/consultations/monthly-booking-status', [ConsultationRequestController::class, 'getMonthlyBookingStatus']);
-
 });
 
 // -----------------------------------------------------------------------------------------------------------
@@ -208,10 +213,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/sent-requests', [ConsultationRequestController::class, 'getSentRequests']);
 
     Route::get('/consultations/user', [ConsultationRequestController::class, 'getUserConsultations']);
-
-    Route::post('/appointments/create-with-consultation/{consultation_request_id}', [AppointmentsController::class, 'store']);
-
-    Route::post('/appointments/create-direct', [AppointmentsController::class, 'store']);
 });
 
 // -----------------------------------------------------------------------------------------------------------

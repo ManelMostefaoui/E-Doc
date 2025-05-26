@@ -1,10 +1,11 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Pencil, Printer, Trash2 } from "lucide-react"
 import Group56Logo from '../assets/Group56.png';
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
+import axios from "axios"
 
-export default function EsiForm() {
+export default function EsiForm({ selectedPatient }) {
   const [formTreatment, setFormTreatment] = useState({ name: "", dose: "", period: "" })
   const [treatment, setTreatment] = useState([])
   const [formData, setFormData] = useState({
@@ -14,6 +15,13 @@ export default function EsiForm() {
   })
   const prescriptionRef = useRef(null)
 
+  // State for medicine suggestions
+  const [medicineSuggestions, setMedicineSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [availableMedicines, setAvailableMedicines] = useState([])
+  const [loadingMedicines, setLoadingMedicines] = useState(true)
+  const [errorLoadingMedicines, setErrorLoadingMedicines] = useState(null);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({
@@ -21,6 +29,26 @@ export default function EsiForm() {
       [name]: value
     }))
   }
+
+  const handleTreatmentInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormTreatment(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    // Filter medicine suggestions
+    if (name === 'name' && value.length > 0) {
+      const filteredSuggestions = availableMedicines.filter(medicine =>
+        medicine.toLowerCase().startsWith(value.toLowerCase())
+      );
+      setMedicineSuggestions(filteredSuggestions);
+      setShowSuggestions(filteredSuggestions.length > 0);
+    } else {
+      setMedicineSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
 
   const generatePDF = async () => {
     try {
@@ -124,6 +152,88 @@ export default function EsiForm() {
     window.print()
   }
 
+  // Update internal form data when selectedPatient prop changes
+  useEffect(() => {
+    if (selectedPatient) {
+      setFormData(prev => ({
+        ...prev,
+        name: selectedPatient.name || "",
+        age: selectedPatient.age || ""
+      }))
+    } else {
+       setFormData(prev => ({
+        ...prev,
+        name: "",
+        age: ""
+      }))
+    }
+  }, [selectedPatient])
+
+  // Fetch the list of medicines from the backend
+  useEffect(() => {
+    const fetchMedicines = async () => {
+      try {
+        setLoadingMedicines(true);
+        setErrorLoadingMedicines(null);
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+          setErrorLoadingMedicines("Authentication token not found. Please log in again.");
+          return;
+        }
+
+        const response = await axios.get('/api/medications', { // Updated to include /api prefix
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.data) {
+          throw new Error('No data received from the server');
+        }
+
+        // Handle different response formats
+        let medicines = [];
+        if (Array.isArray(response.data)) {
+          medicines = response.data.map(med => med.name);
+        } else if (response.data.medicines && Array.isArray(response.data.medicines)) {
+          medicines = response.data.medicines.map(med => med.name);
+        } else {
+          throw new Error('Unexpected response format from server');
+        }
+
+        if (medicines.length === 0) {
+          setErrorLoadingMedicines("No medicines found in the database");
+        } else {
+          setAvailableMedicines(medicines);
+        }
+      } catch (error) {
+        console.error("Error fetching medicines:", error);
+        let errorMessage = "Failed to load medicines. ";
+        
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          errorMessage += `Server error: ${error.response.status} - ${error.response.data?.message || 'Unknown error'}`;
+        } else if (error.request) {
+          // The request was made but no response was received
+          errorMessage += "No response from server. Please check your internet connection.";
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          errorMessage += error.message || 'Unknown error occurred';
+        }
+        
+        setErrorLoadingMedicines(errorMessage);
+      } finally {
+        setLoadingMedicines(false);
+      }
+    };
+
+    fetchMedicines();
+  }, []);
+
   return (
     <section className="form-section mt-10">
       <div className="flex justify-between items-center mb-4">
@@ -171,28 +281,11 @@ export default function EsiForm() {
          
           <div className="flex items-center gap-2">
             <label className="min-w-[60px] font-medium">Age :</label>
-            <input 
-              type="number" 
-              name="age"
-              value={formData.age}
-              onChange={handleInputChange}
-              placeholder="Age" 
-              className="form-input" 
-            />
+            <span className="text-gray-700 font-medium">{formData.age}</span>
           </div>
           <div className="col-span-2 flex relative items-center gap-2">
             <label className="min-w-[90px] font-medium">Full name :</label>
-            <input 
-              type="text" 
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              placeholder="Full name" 
-              className="form-input w-full" 
-            />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 hover:text-primary hover:text-blue-500">
-              <Pencil size={16} />
-            </button>
+            <span className="text-gray-700 font-medium">{formData.name}</span>
           </div>
         </div>
 
@@ -219,12 +312,39 @@ export default function EsiForm() {
               <input
                 type="text"
                 placeholder="Medicine name"
+                name="name"
                 value={formTreatment.name}
-                onChange={(e) => setFormTreatment({ ...formTreatment, name: e.target.value })}
+                onChange={handleTreatmentInputChange}
                 className="form-input w-full pr-8"
                 required
               />
-              <Pencil className="absolute right-8 top-1/2 -translate-y-1/2 " size={16} />
+              {loadingMedicines && (
+                <div className="absolute right-8 top-1/2 -translate-y-1/2 text-gray-400">
+                  Loading...
+                </div>
+              )}
+              {errorLoadingMedicines && (
+                <div className="absolute right-8 top-1/2 -translate-y-1/2 text-red-500">
+                  Error loading medicines
+                </div>
+              )}
+              {showSuggestions && medicineSuggestions.length > 0 && (
+                <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto mt-1">
+                  {medicineSuggestions.map((medicine, index) => (
+                    <li
+                      key={index}
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-800"
+                      onClick={() => {
+                        setFormTreatment({ ...formTreatment, name: medicine });
+                        setShowSuggestions(false);
+                      }}
+                    >
+                      {medicine}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <Pencil className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
             </div>
             <div className="relative">
               <input

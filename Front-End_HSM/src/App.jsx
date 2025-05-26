@@ -90,10 +90,7 @@ function App() {
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
 
                   {/* Main content */}
@@ -113,10 +110,7 @@ function App() {
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
 
                   {/* Main content */}
@@ -136,10 +130,7 @@ function App() {
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
 
                   {/* Main content */}
@@ -201,10 +192,7 @@ function App() {
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
 
                   {/* Main content */}
@@ -224,10 +212,7 @@ function App() {
               <div className="h-screen overflow-auto flex flex-col">
                 {/* Navbar */}
                 <Navbar />
-
-                {/* Sidebar + Page content */}
-                <div className=" flex flex-1">
-                  {/* Sidebar */}
+                <div className="flex flex-1 h-0">
                   <Sidebar />
 
                   {/* Main content */}
