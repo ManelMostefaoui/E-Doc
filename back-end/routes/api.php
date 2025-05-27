@@ -61,9 +61,7 @@ Route::middleware('auth:sanctum')->get('/documents/{id}', [StorageController::cl
 // Group all routes under both 'auth:sanctum' and 'admin' middleware
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     // Admin-specific routes
-    Route::get('/admin/user-counts', [AdminController::class, 'getUserCounts']);
-    Route::get('/admin/users', [AdminController::class, 'listUsers']);
-    Route::get('/admin/users/{role}', [AdminController::class, 'listUsersByRole']);
+
 
     // Profile routes (admin-only)
     Route::get('/user/{id}', [AdminController::class, 'getUserById']);

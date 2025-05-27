@@ -274,7 +274,7 @@ export default function ConsultationForm({ selectedPatient }) {
     if (!patientId) return;
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://127.0.0.1:8000/api/patient/${patientId}/personal-history`, {
+      const response = await axios.get(`/api/personal-history/${patientId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'
@@ -396,21 +396,37 @@ export default function ConsultationForm({ selectedPatient }) {
       return
     }
 
+    // Validate required fields
+    if (!clinicalData.height || !clinicalData.weight) {
+      alert("Height and weight are required fields!")
+      return
+    }
+
     try {
       const token = localStorage.getItem('token')
       await axios.post('/api/patient-vitals/store', {
         patient_id: patientVitals.id,
-        ...patientVitals,
+        vital_date: patientVitals.date,
+        height: parseInt(clinicalData.height),
+        weight: parseInt(clinicalData.weight),
+        blood_pressure: patientVitals.bloodPressure ? parseInt(patientVitals.bloodPressure) : null,
+        temperature: patientVitals.temperature ? parseInt(patientVitals.temperature) : null,
+        heart_rate: patientVitals.heartRate ? parseInt(patientVitals.heartRate) : null,
+        blood_sugar: patientVitals.bloodSugar ? parseInt(patientVitals.bloodSugar) : null,
+        other_observations: patientVitals.observations || null
       }, {
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
         }
       })
       alert("Patient vitals saved successfully!")
     } catch (error) {
       console.error("Error saving patient vitals:", error)
-      alert("Failed to save patient vitals")
+      // Show more detailed error message from the server if available
+      const errorMessage = error.response?.data?.message || error.response?.data?.error || error.message
+      alert("Failed to save patient vitals: " + errorMessage)
     }
   }
 
