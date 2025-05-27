@@ -118,6 +118,22 @@ class ScreeningController extends Controller
                 'percentage' => round(($stat->total / $statistics['total_screenings']) * 100, 2)
             ];
 
+            // Get gender distribution for each category
+            $genderStats = Screening::join('patients', 'screenings.patient_id', '=', 'patients.id')
+                ->join('users', 'patients.user_id', '=', 'users.id')
+                ->where('category', $stat->category)
+                ->select('users.gender', DB::raw('count(*) as total'))
+                ->groupBy('users.gender')
+                ->get();
+
+            $statistics['by_category'][$stat->category]['gender_distribution'] = [];
+            foreach ($genderStats as $genderStat) {
+                $statistics['by_category'][$stat->category]['gender_distribution'][$genderStat->gender] = [
+                    'total' => $genderStat->total,
+                    'percentage' => round(($genderStat->total / $stat->total) * 100, 2)
+                ];
+            }
+
             // Get type distribution for each category
             $typeStats = Screening::select('type', DB::raw('count(*) as total'))
                 ->where('category', $stat->category)
@@ -235,6 +251,7 @@ class ScreeningController extends Controller
         $screenings = Screening::where('patient_id', $patientId)
             ->orderBy('created_at', 'desc')
             ->get();
+
         return response()->json($screenings);
     }
 }
