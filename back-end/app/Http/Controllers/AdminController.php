@@ -22,7 +22,7 @@ class AdminController extends Controller
             return response()->json(['message' => 'Unauthorized: No user found'], 401);
         }
 
-        if (!$user->role || $user->role->name !== 'admin') {
+        if (!$user->role) {
             return response()->json(['message' => 'Unauthorized: You are not admin'], 403);
         }
 

@@ -13,9 +13,12 @@ export default function Dashboard() {
   const [loadingAppointments, setLoadingAppointments] = useState(false)
   const [appointmentError, setAppointmentError] = useState(null)
 
-  const [patientStatsRawData, setPatientStatsRawData] = useState(null); // State to hold raw patient stats data
-  const [loadingPatientStats, setLoadingPatientStats] = useState(false); // Loading state for patient stats
-  const [patientStatsError, setPatientStatsError] = useState(null); // Error state for patient stats
+  const [patientStatsRawData, setPatientStatsRawData] = useState(null);
+  const [loadingPatientStats, setLoadingPatientStats] = useState(false);
+  const [patientStatsError, setPatientStatsError] = useState(null);
+  const [roleStatsData, setRoleStatsData] = useState(null);
+  const [loadingRoleStats, setLoadingRoleStats] = useState(false);
+  const [roleStatsError, setRoleStatsError] = useState(null);
 
   const API_BASE_URL = 'http://127.0.0.1:8000/api'
 
@@ -88,6 +91,46 @@ export default function Dashboard() {
     fetchPatientStats();
   }, []); // Empty dependency array means this runs once on mount
 
+  // Add new useEffect for fetching role statistics
+  useEffect(() => {
+    const fetchRoleStats = async () => {
+      setLoadingRoleStats(true);
+      setRoleStatsError(null);
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          return;
+        }
+
+        const response = await axios.get(`${API_BASE_URL}/admin/user-counts`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+          },
+        });
+        console.log('User counts response:', response.data); // Debug log
+
+        // Assuming the response data is an object like { student: 10, teacher: 5, employer: 2 }
+        const counts = response.data || {};
+        const roleData = Object.keys(counts).map(role => ({
+          name: role.charAt(0).toUpperCase() + role.slice(1),
+          value: counts[role] || 0,
+        }));
+
+        console.log('Processed user counts data:', roleData); // Debug log
+        setRoleStatsData(roleData);
+
+      } catch (err) {
+        console.error('Error fetching role statistics:', err);
+        setRoleStatsError('Failed to load user statistics.');
+      } finally {
+        setLoadingRoleStats(false);
+      }
+    };
+
+    fetchRoleStats();
+  }, []); // Empty dependency array means this runs once on mount
+
   // Generate months and years for dropdowns
   const months = [
     { value: "01", label: "January" },
@@ -114,14 +157,11 @@ export default function Dashboard() {
   // Generate dynamic appointment data based on selected day and fetched data
   const appointmentData = useMemo(() => {
     const data = []
-    // Ensure the start day is at least 1 and the range is always 7 days
-    const startDay = Math.max(1, selectedDay)
+    // Always show 7 days starting from selectedDay
+    const startDay = selectedDay
     const endDay = Math.min(daysInMonth, startDay + 6)
 
-    // Adjust startDay if endDay is less than 7 days from the original startDay
-    const adjustedStartDay = Math.max(1, endDay - 6)
-
-    for (let day = adjustedStartDay; day <= endDay; day++) {
+    for (let day = startDay; day <= endDay; day++) {
       // Find data for the current day from the fetched raw data
       const dayData = appointmentRawData.find(item => {
         const itemDay = new Date(item.date).getDate()
@@ -138,7 +178,7 @@ export default function Dashboard() {
       })
     }
     return data
-  }, [selectedDay, daysInMonth, appointmentRawData, selectedMonth, selectedYear]) // Added selectedMonth and selectedYear dependencies
+  }, [selectedDay, daysInMonth, appointmentRawData, selectedMonth, selectedYear])
 
   // Process fetched patient stats data for the chart
   const patientStatsData = useMemo(() => {
@@ -167,28 +207,41 @@ export default function Dashboard() {
       return processedData;
   }, [patientStatsRawData]); // Depends on the fetched raw data
 
-  // Dynamic patient type data
-  const patientTypeData = [
-    { name: "Students", value: 9256, color: "#14b8a6" },
-    { name: "Teachers", value: 756, color: "#374151" },
-    { name: "Employers", value: 241, color: "#a7f3d0" },
-  ]
+  // Dynamic patient type data based on role statistics
+  const patientTypeData = useMemo(() => {
+    if (!roleStatsData || roleStatsData.length === 0) {
+      return [
+        { name: "No Data", value: 0, color: "#14b8a6" }
+      ];
+    }
 
-  const totalPatients = patientTypeData.reduce((sum, item) => sum + item.value, 0)
+    console.log('Processing role stats data for chart:', roleStatsData); // Debug log
+
+    const colors = ["#14b8a6", "#374151", "#a7f3d0", "#60a5fa", "#f59e0b", "#ef4444"];
+
+    return roleStatsData.map((role, index) => ({
+      name: role.name,
+      value: role.value,
+      color: colors[index % colors.length]
+    }));
+  }, [roleStatsData]);
+
+  const totalPatients = useMemo(() => {
+    return patientTypeData.reduce((sum, item) => sum + item.value, 0);
+  }, [patientTypeData]);
 
   // Calculate today's appointments
   const todayAppointments = useMemo(() => {
     const todayData = appointmentData.find((item) => Number.parseInt(item.day) === selectedDay)
-    // Calculate total appointments for the selected day from the processed data
-    return todayData ? todayData.scheduled + todayData.canceled : 0; // Changed default to 0
+    return todayData ? todayData.scheduled + todayData.canceled : 0
   }, [appointmentData, selectedDay])
 
   const handlePrevDay = () => {
-    setSelectedDay((prev) => Math.max(1, prev - 7)) // Move back by 7 days
+    setSelectedDay((prev) => Math.max(1, prev - 1)) // Move back by 1 day
   }
 
   const handleNextDay = () => {
-    setSelectedDay((prev) => Math.min(daysInMonth, prev + 7)) // Move forward by 7 days
+    setSelectedDay((prev) => Math.min(daysInMonth - 6, prev + 1)) // Move forward by 1 day, ensuring we always show 7 days
   }
 
   // Modified handleDownload function to download as CSV
@@ -345,7 +398,7 @@ export default function Dashboard() {
                   <span className="text-sm text-gray-500">Day {selectedDay}</span>
                   <button
                     onClick={handleNextDay}
-                    disabled={selectedDay >= daysInMonth}
+                    disabled={selectedDay >= daysInMonth - 6}
                     className="p-1 hover:bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <ChevronRight className="h-4 w-4" />
@@ -358,8 +411,6 @@ export default function Dashboard() {
                 <div className="h-64 flex justify-center items-center text-gray-500">Loading appointments...</div>
               ) : appointmentError ? (
                 <div className="h-64 flex justify-center items-center text-red-500">{appointmentError}</div>
-              ) : appointmentData.length === 0 || appointmentData.every(day => day.scheduled === 0 && day.canceled === 0) ? (
-                <div className="h-64 flex justify-center items-center text-gray-500">No appointment data available for this period.</div>
               ) : (
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
@@ -408,19 +459,33 @@ export default function Dashboard() {
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <div className="text-lg font-semibold text-gray-700">Total patients :</div>
-                    <div className="text-2xl font-bold text-gray-900">{(totalPatients / 1000).toFixed(1)} k</div>
+                    <div className="text-lg font-semibold text-gray-700">Total users :</div>
+                    <div className="text-2xl font-bold text-gray-900">{totalPatients.toLocaleString()}</div>
                   </div>
                   <div className="w-32 h-32">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie data={patientTypeData} cx="50%" cy="50%" innerRadius={30} outerRadius={60} dataKey="value">
-                          {patientTypeData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                      </PieChart>
-                    </ResponsiveContainer>
+                    {loadingRoleStats ? (
+                      <div className="h-full flex items-center justify-center text-gray-500">Loading...</div>
+                    ) : roleStatsError ? (
+                      <div className="h-full flex items-center justify-center text-red-500">{roleStatsError}</div>
+                    ) : (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie 
+                            data={patientTypeData} 
+                            cx="50%" 
+                            cy="50%" 
+                            innerRadius={30} 
+                            outerRadius={60} 
+                            dataKey="value"
+                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                          >
+                            {patientTypeData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                          </Pie>
+                        </PieChart>
+                      </ResponsiveContainer>
+                    )}
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -430,7 +495,7 @@ export default function Dashboard() {
                         <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
                         <span className="text-sm text-gray-600">{item.name}</span>
                       </div>
-                      <span className="text-sm font-medium text-gray-900">{(item.value / 1000).toFixed(1)} k</span>
+                      <span className="text-sm font-medium text-gray-900">{item.value.toLocaleString()}</span>
                     </div>
                   ))}
                 </div>
