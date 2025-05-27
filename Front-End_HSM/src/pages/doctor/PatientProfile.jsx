@@ -20,6 +20,7 @@ import {
   Trash
 } from "lucide-react"
 import { useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom"
 import axios from "axios"
 
@@ -41,7 +42,7 @@ export default function PatientProfile() {
   useEffect(() => {
     const fetchPatientData = async () => {
       if (!patientId) return;
-      
+
       try {
         setLoading(true);
         const token = localStorage.getItem('token');
@@ -51,7 +52,7 @@ export default function PatientProfile() {
             'Accept': 'application/json'
           }
         });
-        
+
         console.log('Patient data:', response.data);
         setPatient(response.data);
         setError("");
@@ -62,14 +63,14 @@ export default function PatientProfile() {
         setLoading(false);
       }
     };
-    
+
     fetchPatientData();
   }, [patientId]);
 
   useEffect(() => {
     const fetchPersonalHistory = async () => {
       if (!patientId) return;
-      
+
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(`http://127.0.0.1:8000/api/personal-history/${patientId}`, {
@@ -78,19 +79,19 @@ export default function PatientProfile() {
             'Accept': 'application/json'
           }
         });
-        
+
         if (response.data) {
           // Convert fields to match backend field names
           setPersonalHistory({
             ...response.data,
-            smoker: response.data.smoker === true || response.data.smoker === 1 ? "Yes" : 
+            smoker: response.data.smoker === true || response.data.smoker === 1 ? "Yes" :
                     response.data.smoker === false || response.data.smoker === 0 ? "No" : "Empty",
             cigarette_count: response.data.cigarette_count ?? "Empty",
-            chewing_tobacco: response.data.chewing_tobacco === true || response.data.chewing_tobacco === 1 ? "Yes" : 
+            chewing_tobacco: response.data.chewing_tobacco === true || response.data.chewing_tobacco === 1 ? "Yes" :
                             response.data.chewing_tobacco === false || response.data.chewing_tobacco === 0 ? "No" : "Empty",
             chewing_tobacco_count: response.data.chewing_tobacco_count ?? "Empty",
             first_use_age: response.data.first_use_age ?? "Empty",
-            former_smoker: response.data.former_smoker === true || response.data.former_smoker === 1 ? "Yes" : 
+            former_smoker: response.data.former_smoker === true || response.data.former_smoker === 1 ? "Yes" :
                           response.data.former_smoker === false || response.data.former_smoker === 0 ? "No" : "Empty",
             exposure_period: response.data.exposure_period ?? "Empty",
             alcohol: response.data.alcohol ?? "Empty",
@@ -102,14 +103,14 @@ export default function PatientProfile() {
         console.error("Failed to fetch personal history:", err);
       }
     };
-    
+
     fetchPersonalHistory();
   }, [patientId]);
 
   useEffect(() => {
     const fetchMedicalHistory = async () => {
       if (!patientId) return;
-      
+
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(`http://127.0.0.1:8000/api/patients/${patientId}/medical-history`, {
@@ -118,7 +119,7 @@ export default function PatientProfile() {
             'Accept': 'application/json'
           }
         });
-        
+
         if (response.data) {
           setMedicalHistory(response.data);
         }
@@ -126,14 +127,14 @@ export default function PatientProfile() {
         console.error("Failed to fetch medical history:", err);
       }
     };
-    
+
     fetchMedicalHistory();
   }, [patientId]);
 
   useEffect(() => {
     const fetchClinicalData = async () => {
       if (!patientId) return;
-      
+
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(`http://127.0.0.1:8000/api/patients/${patientId}`, {
@@ -142,7 +143,7 @@ export default function PatientProfile() {
             'Accept': 'application/json'
           }
         });
-        
+
         if (response.data) {
           setClinicalData({
             height: response.data.height,
@@ -163,7 +164,7 @@ export default function PatientProfile() {
         console.error("Failed to fetch clinical data:", err);
       }
     };
-    
+
     fetchClinicalData();
   }, [patientId]);
 
@@ -315,7 +316,7 @@ export default function PatientProfile() {
             <h2 className="font-nunito text-[20px] text-[#004d4d] font-bold">
               Personal History
             </h2>
-            <Editbtn onClick={() => setShowPersonalHistoryForm(true)} /> 
+            <Editbtn onClick={() => setShowPersonalHistoryForm(true)} />
           </div>
 
           <div className="font-nunito text-[16px] text-[#1A1A1A] py-6">
@@ -480,20 +481,19 @@ export default function PatientProfile() {
     </div>
 
     {showBasicInfosForm && (
-      <BasicInfosForm 
-        onClose={() => setShowBasicInfosForm(false)} 
+      <BasicInfosForm
+        onClose={() => setShowBasicInfosForm(false)}
         onSave={handleBasicInfoSave}
       />
     )}
       {showClinicalForm && <ClinicalForm onClose={() => setShowClinicalForm(false)} onSave={handleClinicalDataSave} />}
       {showPersonalHistoryForm && <PersonalHistoryForm onClose={() => setShowPersonalHistoryForm(false)} onSave={handlePersonalHistorySave} />}
       {showMedicalHistoryModal && (
-        <MedicalHistoryModal 
-          onClose={() => setShowMedicalHistoryModal(false)} 
+        <MedicalHistoryModal
+          onClose={() => setShowMedicalHistoryModal(false)}
           onSave={handleMedicalHistorySave}
         />
       )}
         </>
   )
 }
-
