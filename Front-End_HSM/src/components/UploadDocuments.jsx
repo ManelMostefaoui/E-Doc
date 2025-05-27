@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { FileText, Trash2, Upload } from "lucide-react"
+import { FileText, Trash2, Upload, Eye, X } from "lucide-react"
 import axios from "axios";
 
 export default function UploadDocuments({ patientId }) {
@@ -8,16 +8,16 @@ export default function UploadDocuments({ patientId }) {
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState(null)
   const [uploadSuccess, setUploadSuccess] = useState(false)
-
-  // New state for documents already uploaded and fetched from the backend
   const [uploadedDocuments, setUploadedDocuments] = useState([])
   const [loadingDocuments, setLoadingDocuments] = useState(true)
   const [fetchError, setFetchError] = useState(null)
+  const [selectedDocument, setSelectedDocument] = useState(null)
+  const [showViewer, setShowViewer] = useState(false)
 
   // Define fetchDocuments outside of useEffect
   const fetchDocuments = async () => {
     if (!patientId) {
-      setUploadedDocuments([]); // Clear documents if no patient is selected
+      setUploadedDocuments([]);
       setLoadingDocuments(false);
       return;
     }
@@ -33,15 +33,12 @@ export default function UploadDocuments({ patientId }) {
         return;
       }
 
-      // First get the list of documents for this patient
-      const response = await axios.get(`http://localhost:8000/api/documents/${patientId}`, {
+      const response = await axios.get(`/api/documents/${patientId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json',
         }
       });
-
-      console.log('Fetched documents list:', response.data);
 
       if (response.data && Array.isArray(response.data)) {
         setUploadedDocuments(response.data);
@@ -67,10 +64,9 @@ export default function UploadDocuments({ patientId }) {
     }
   };
 
-  // Effect to fetch documents when patientId changes - now just calls the function
   useEffect(() => {
     fetchDocuments();
-  }, [patientId]); // Re-run effect when patientId changes
+  }, [patientId]);
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files)
@@ -94,6 +90,18 @@ export default function UploadDocuments({ patientId }) {
     setUploadError(null)
   }
 
+  const handleViewDocument = (doc) => {
+    // Construct the full URL for the document
+    const documentUrl = `${axios.defaults.baseURL}/storage/${doc.document}`;
+    setSelectedDocument({ ...doc, file_url: documentUrl }); // Store the full URL
+    setShowViewer(true);
+  }
+
+  const handleCloseViewer = () => {
+    setShowViewer(false);
+    setSelectedDocument(null);
+  }
+
   const handleUpload = async () => {
     if (!patientId) {
       setUploadError("Please select a patient first to upload documents.")
@@ -112,24 +120,21 @@ export default function UploadDocuments({ patientId }) {
     setUploadError(null)
     setUploadSuccess(false)
 
-    // Process each file individually to match backend expectation of a single 'document'
     const uploadPromises = files.map(async (fileItem) => {
       const formData = new FormData();
-      formData.append('document', fileItem.file); // Use singular 'document' key
-      formData.append('title', selectedCategory); // Send selected category as 'title'
-      // Include patient_id with the upload request
+      formData.append('document', fileItem.file);
+      formData.append('title', selectedCategory);
       formData.append('patient_id', patientId);
 
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.post('http://localhost:8000/api/documents/upload', formData, {
+        const response = await axios.post('/api/documents/upload', formData, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json',
             'Content-Type': 'multipart/form-data',
           },
         });
-        console.log(`Upload response for ${fileItem.name}:`, response.data);
         return { name: fileItem.name, success: true, response: response.data };
       } catch (error) {
         console.error(`Error uploading ${fileItem.name}:`, error);
@@ -145,26 +150,20 @@ export default function UploadDocuments({ patientId }) {
       }
     });
 
-    // Wait for all upload promises to resolve
     const results = await Promise.all(uploadPromises);
-
-    // Check if all uploads were successful
     const allSuccessful = results.every(result => result.success);
 
     if (allSuccessful) {
       setUploadSuccess(true);
       setUploadError(null);
-      setFiles([]); // Clear files only on full success
+      setFiles([]);
       setSelectedCategory("");
-      // Re-fetch the list of uploaded documents after successful upload
       fetchDocuments();
     } else {
-      // Report errors for failed uploads
       const failedUploads = results.filter(result => !result.success);
       const errorMessages = failedUploads.map(f => f.error).join('\n');
       setUploadError("Some files failed to upload:\n" + errorMessages);
       setUploadSuccess(false);
-      // Optionally, keep failed files in the list or remove them
     }
 
     setUploading(false);
@@ -188,12 +187,13 @@ export default function UploadDocuments({ patientId }) {
                 <option value="" disabled>
                   Select a category
                 </option>
-                <option value="blood test"> blood test </option>
-                <option value="scan x"> scan x  </option>
-                <option value="Ct-scan"> Ct-scan </option>
+                <option value="blood test">Blood Test</option>
+                <option value="scan x">X-Ray</option>
+                <option value="ct-scan">CT Scan</option>
+                <option value="mri">MRI</option>
+                <option value="other">Other</option>
               </select>
             </div>
-
             <Upload className="text-[#005353] border-[#008080] " />
           </label>
         </div>
@@ -204,50 +204,51 @@ export default function UploadDocuments({ patientId }) {
       {uploadError && <div className="text-red-600 text-sm">{uploadError}</div>}
       {fetchError && <div className="text-red-600 text-sm">{fetchError}</div>}
 
-      {/* Display loading state for fetched documents */}
       {loadingDocuments && <div className="text-blue-600 text-sm">Loading documents...</div>}
 
-      {/* Display fetched documents */}
       {!loadingDocuments && uploadedDocuments.length > 0 && (
         <div className="bg-white p-4 rounded-xl shadow-md grid grid-cols-1 sm:grid-cols-2 gap-4">
           <h3 className="col-span-full text-md font-semibold text-gray-700">Uploaded Documents:</h3>
           {uploadedDocuments.map((doc) => (
             <div
-              key={doc.id} // Assuming each document has a unique ID
-              className="border items-center border-gray-200 rounded-lg px-4 py-2 flex justify-between "
+              key={doc.id}
+              className="border items-center border-gray-200 rounded-lg px-4 py-2 flex justify-between"
             >
               <div className="flex items-center gap-2">
                 <FileText color="#008080" />
                 <span>
-                  {/* Display document title/name and category if available */}
                   <p className="text-sm font-medium text-gray-800">{doc.title || doc.name || 'Unnamed Document'}</p>
-                  {/* Assuming category might be available on fetched document object */}
                   {doc.category && <p className="text-xs text-gray-500">Category: {doc.category}</p>}
                 </span>
               </div>
-              {/* Option to download the document */}
-              {doc.file_path && (
-                <a
-                  href={`http://localhost:8000/storage/${doc.file_path}`} // Adjust URL based on your backend storage path
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-teal-600 hover:text-teal-800 mr-2"
-                  title="Download Document"
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleViewDocument(doc)}
+                  className="text-teal-600 hover:text-teal-800"
+                  title="View Document"
                 >
-                  Download
-                </a>
-              )}
-
-              {/* Option to delete the document */}
-              <button onClick={() => handleRemoveUploaded(doc.id)} className="text-red-600 hover:text-red-800" title="Delete Document">
-                <Trash2 size={20} />
-              </button>
+                  <Eye size={20} />
+                </button>
+                {doc.document && (
+                  <a
+                    href={`${axios.defaults.baseURL}/storage/${doc.document}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-teal-600 hover:text-teal-800"
+                    title="Download Document"
+                  >
+                    Download
+                  </a>
+                )}
+                <button onClick={() => handleRemove(doc.id)} className="text-red-600 hover:text-red-800" title="Delete Document">
+                  <Trash2 size={20} />
+                </button>
+              </div>
             </div>
           ))}
         </div>
       )}
 
-      {/* Display message if no documents are uploaded */}
       {!loadingDocuments && uploadedDocuments.length === 0 && patientId && (
         <div className="text-gray-500 text-sm">No documents uploaded for this patient yet.</div>
       )}
@@ -255,14 +256,13 @@ export default function UploadDocuments({ patientId }) {
         <div className="text-gray-500 text-sm">Select a patient to view and upload documents.</div>
       )}
 
-      {/* Display files selected for upload (before uploading) */}
       {files.length > 0 && (
         <div className="bg-white p-4 rounded-xl shadow-md grid grid-cols-1 sm:grid-cols-2 gap-4">
           <h3 className="col-span-full text-md font-semibold text-gray-700">Files to Upload:</h3>
           {files.map((file, index) => (
             <div
-              key={index} // Using index as key for files to upload
-              className="border items-center border-gray-200 rounded-lg px-4 py-2 flex justify-between "
+              key={index}
+              className="border items-center border-gray-200 rounded-lg px-4 py-2 flex justify-between"
             >
               <div className="flex items-center gap-2">
                 <FileText color="#008080" />
@@ -283,14 +283,32 @@ export default function UploadDocuments({ patientId }) {
         <button
           onClick={handleUpload}
           disabled={uploading}
-          className={
-            `mt-4 px-6 py-2 rounded-md text-white ${uploading ? 'bg-gray-400' : 'bg-teal-600 hover:bg-teal-700'}`
-          }
+          className={`mt-4 px-6 py-2 rounded-md text-white ${uploading ? 'bg-gray-400' : 'bg-teal-600 hover:bg-teal-700'}`}
         >
           Upload Files
         </button>
       )}
 
+      {/* Document Viewer Modal */}
+      {showViewer && selectedDocument && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-4 w-11/12 h-5/6 flex flex-col">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold">{selectedDocument.title || 'Document Viewer'}</h3>
+              <button onClick={handleCloseViewer} className="text-gray-500 hover:text-gray-700">
+                <X size={24} />
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <iframe
+                src={selectedDocument?.file_url}
+                className="w-full h-full"
+                title="Document Viewer"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
