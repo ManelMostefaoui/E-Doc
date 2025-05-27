@@ -238,23 +238,30 @@ function PersonalHistoryForm({ onClose, onSave }) {
                 { value: "true", label: "Yes" },
                 { value: "false", label: "No" },
               ])}
-              {renderField("Cigarettes count", "cigarette_count", "select", [
-                { value: "1", label: "1-5" },
-                { value: "2", label: "5-10" },
-                { value: "3", label: "10-15" },
-                { value: "4", label: "15-20" },
-                { value: "5", label: "more than 20" },
-              ])}
+
+              {formData.smoker === "true" && (
+                renderField("Cigarettes count", "cigarette_count", "select", [
+                  { value: "1", label: "1-5" },
+                  { value: "2", label: "5-10" },
+                  { value: "3", label: "10-15" },
+                  { value: "4", label: "15-20" },
+                  { value: "5", label: "more than 20" },
+                ])
+              )}
+
               {renderField("Chewing tobacco", "chewing_tobacco", "select", [
                 { value: "true", label: "Yes" },
                 { value: "false", label: "No" },
               ])}
-              {renderField("Chewing tobacco count", "chewing_tobacco_count", "select", [
-                { value: "1", label: "1" },
-                { value: "2", label: "2" },
-                { value: "3", label: "3" },
-                { value: "more than 3", label: "more than 3" },
-              ])}
+
+              {formData.chewing_tobacco === "true" && (
+                renderField("Chewing tobacco count", "chewing_tobacco_count", "select", [
+                  { value: "1", label: "1-5 times/day" },
+                  { value: "2", label: "5-10 times/day" },
+                  { value: "3", label: "more than 10 times/day" },
+                ])
+              )}
+
               {renderField("Other forms", "other", "input")}
               {renderField("First use age", "first_use_age", "select", [
                 { value: "10", label: "10" },

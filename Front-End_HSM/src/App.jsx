@@ -16,6 +16,7 @@ import UserDetails from "./pages/admin/UserDetails";
 
 import PatientsManagement from "./pages/doctor/PatientsManagement";
 import PatientProfile from "./pages/doctor/PatientProfile";
+import Ddashboard from "./pages/doctor/Ddashboard";
 
 import ContactCenter from "./pages/patient/ContactCenter"
 
@@ -99,6 +100,24 @@ function App() {
                   {/* Main content */}
                   <div className="flex-1 p-4 overflow-y-auto">
                     <DashboardPage />
+                  </div>
+                </div>
+              </div>
+            </PrivateRoute>
+          }
+        />
+
+        {/* Doctor Dashboard Route */}
+        <Route
+          path="/statistics"
+          element={
+            <PrivateRoute allowedRoles={['doctor']}>
+              <div className="h-screen overflow-auto flex flex-col">
+                <Navbar />
+                <div className="flex flex-1 h-0">
+                  <Sidebar />
+                  <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide">
+                    <Ddashboard />
                   </div>
                 </div>
               </div>

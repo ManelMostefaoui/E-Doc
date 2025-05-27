@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Search, ChevronDown } from "lucide-react";
+import { Search } from "lucide-react";
 import PatientTable from "../../components/CDoctor/PatientTable";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const PatientsManagement = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("All");
   const [patients, setPatients] = useState([]);
   const [filteredPatients, setFilteredPatients] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -217,18 +216,16 @@ const PatientsManagement = () => {
     }
 
     fetchPatients();
-  }, [navigate, selectedFilter]);
+  }, [navigate]);
 
   useEffect(() => {
-    // Filter patients based on search query and selected role
+    // Filter patients based on search query
     const filtered = patients.filter(patient => {
       const matchesSearch = patient.fullName.toLowerCase().includes(searchQuery.toLowerCase());
-      const patientRole = patient.user_id?.role_id?.role;
-      const matchesRole = selectedFilter === "All" || patientRole === selectedFilter;
-      return matchesSearch && matchesRole;
+      return matchesSearch;
     });
     setFilteredPatients(filtered);
-  }, [searchQuery, patients, selectedFilter]);
+  }, [searchQuery, patients]);
 
   const handlePatientSelect = (patient) => {
     if (patient && patient.id) {
@@ -240,10 +237,6 @@ const PatientsManagement = () => {
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
-  };
-
-  const handleFilterChange = (e) => {
-    setSelectedFilter(e.target.value);
   };
 
   return (
@@ -258,9 +251,8 @@ const PatientsManagement = () => {
         </div>
       )}
 
-      {/* Search and Filters */}
+      {/* Search Bar */}
       <div className="flex justify-between items-center">
-        {/* Search Bar */}
         <div className="relative w-[400px]">
           <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
             <Search className="h-4 w-4 text-gray-400" />
@@ -272,26 +264,6 @@ const PatientsManagement = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-        </div>
-
-        {/* Filters */}
-        <div className="flex gap-3">
-          {/* Role Filter */}
-          <div className="relative">
-            <select
-              className="appearance-none flex items-center gap-2 px-4 py-2 pr-8 rounded-full bg-white border border-gray-200"
-              value={selectedFilter}
-              onChange={(e) => setSelectedFilter(e.target.value)}
-            >
-              <option value="All">All Patients</option>
-              <option value="Student">Students</option>
-              <option value="Teacher">Teachers</option>
-              <option value="Employer">Employers</option>
-            </select>
-            <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
-              <ChevronDown className="h-4 w-4 text-gray-400" />
-            </div>
-          </div>
         </div>
       </div>
 

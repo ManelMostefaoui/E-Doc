@@ -74,7 +74,7 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
   useEffect(() => {
     const fetchMedicalHistory = async () => {
       if (!patientId) return;
-      
+
       try {
         setLoading(true);
         const token = localStorage.getItem('token');
@@ -84,17 +84,17 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
             'Accept': 'application/json'
           }
         });
-        
+
         if (response.data) {
           console.log("Medical history response:", response.data);
-          
+
           // Check if we have existing medical history data (could be an array or single object)
           const medicalHistoryData = Array.isArray(response.data) ? response.data : [response.data];
-          
+
           if (medicalHistoryData.length > 0 && medicalHistoryData[0].id) {
             setMedicalHistoryId(medicalHistoryData[0].id);
           }
-          
+
           // Initialize the sections with empty conditions
           const initialSections = [
             {
@@ -146,7 +146,7 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
               }],
             },
           ];
-          
+
           // Process each medical history record and add to appropriate section
           medicalHistoryData.forEach(record => {
             const sectionMap = {
@@ -155,15 +155,15 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
               'surgery': 2,         // Surgical Interventions
               'allergy': 3          // Allergic Reactions
             };
-            
+
             const sectionIndex = sectionMap[record.condition];
-            
+
             if (sectionIndex !== undefined) {
               // If this is the first condition in the section, replace the empty placeholder
-              if (initialSections[sectionIndex].conditions.length === 1 && 
-                  !initialSections[sectionIndex].conditions[0].condition) {
+              if (initialSections[sectionIndex].conditions.length === 1 &&
+                !initialSections[sectionIndex].conditions[0].condition) {
                 initialSections[sectionIndex].conditions[0] = {
-                  id: `${sectionIndex+1}-1`,
+                  id: `${sectionIndex + 1}-1`,
                   condition: record.condition,
                   dateAppeared: record.date_appeared || "",
                   severity: record.severity || "",
@@ -173,7 +173,7 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
               } else {
                 // Otherwise add as a new condition
                 initialSections[sectionIndex].conditions.push({
-                  id: `${sectionIndex+1}-${initialSections[sectionIndex].conditions.length + 1}`,
+                  id: `${sectionIndex + 1}-${initialSections[sectionIndex].conditions.length + 1}`,
                   condition: record.condition,
                   dateAppeared: record.date_appeared || "",
                   severity: record.severity || "",
@@ -183,7 +183,7 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
               }
             }
           });
-          
+
           setSections(initialSections);
         } else {
           setMedicalHistoryId(null);
@@ -195,7 +195,7 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
         setLoading(false);
       }
     };
-    
+
     fetchMedicalHistory();
   }, [patientId]);
 
@@ -242,11 +242,11 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
       setError("Patient ID is missing. Cannot save information.");
       return;
     }
-  
+
     // Clear previous errors
     setError("");
     setSuccess(false); // Clear previous success message
-  
+
     // Collect all valid conditions from all sections
     const allConditions = [];
 
@@ -287,8 +287,8 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
     });
 
     if (allConditions.length === 0) {
-        setError("Please add at least one medical history condition to save.");
-        return;
+      setError("Please add at least one medical history condition to save.");
+      return;
     }
 
     setLoading(true);
@@ -302,7 +302,7 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
       }
 
       // Determine if it's an update or create operation
-      const apiEndpoint = medicalHistoryId 
+      const apiEndpoint = medicalHistoryId
         ? `http://127.0.0.1:8000/api/medical-history/${medicalHistoryId}` // Assuming an update endpoint with ID
         : `http://127.0.0.1:8000/api/patients/${patientId}/medical-history`; // Corrected create endpoint
 
@@ -312,13 +312,13 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
       const requestData = method === 'post' ? allConditions : { patient_id: patientId, medical_histories: allConditions };
 
       const response = await axios[method](apiEndpoint, requestData, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
       });
-      
+
       console.log("Save response:", response.data);
       setSuccess(true);
       setError(""); // Clear any previous errors on success
@@ -424,13 +424,13 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
                             prevSections.map(s =>
                               s.id === section.id
                                 ? {
-                                    ...s,
-                                    conditions: s.conditions.map(c =>
-                                      c.id === condition.id
-                                        ? { ...c, condition: e.target.value }
-                                        : c
-                                    ),
-                                  }
+                                  ...s,
+                                  conditions: s.conditions.map(c =>
+                                    c.id === condition.id
+                                      ? { ...c, condition: e.target.value }
+                                      : c
+                                  ),
+                                }
                                 : s
                             )
                           );
@@ -454,7 +454,7 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
                     </div>
                     <div className="col-span-2 relative">
                       <input
-                        type="text"
+                        type="date"
                         placeholder="Date"
                         className="w-full border border-gray-200 rounded-md p-2 pr-8 text-sm"
                         value={condition.dateAppeared}
@@ -463,21 +463,18 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
                             prevSections.map(s =>
                               s.id === section.id
                                 ? {
-                                    ...s,
-                                    conditions: s.conditions.map(c =>
-                                      c.id === condition.id
-                                        ? { ...c, dateAppeared: e.target.value }
-                                        : c
-                                    ),
-                                  }
+                                  ...s,
+                                  conditions: s.conditions.map(c =>
+                                    c.id === condition.id
+                                      ? { ...c, dateAppeared: e.target.value }
+                                      : c
+                                  ),
+                                }
                                 : s
                             )
                           );
                         }}
                       />
-                      <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400">
-                        <ChevronDown size={16} />
-                      </button>
                     </div>
                   </div>
 
@@ -494,13 +491,13 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
                             prevSections.map(s =>
                               s.id === section.id
                                 ? {
-                                    ...s,
-                                    conditions: s.conditions.map(c =>
-                                      c.id === condition.id
-                                        ? { ...c, severity: e.target.value }
-                                        : c
-                                    ),
-                                  }
+                                  ...s,
+                                  conditions: s.conditions.map(c =>
+                                    c.id === condition.id
+                                      ? { ...c, severity: e.target.value }
+                                      : c
+                                  ),
+                                }
                                 : s
                             )
                           );
@@ -531,13 +528,13 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
                             prevSections.map(s =>
                               s.id === section.id
                                 ? {
-                                    ...s,
-                                    conditions: s.conditions.map(c =>
-                                      c.id === condition.id
-                                        ? { ...c, implications: e.target.value }
-                                        : c
-                                    ),
-                                  }
+                                  ...s,
+                                  conditions: s.conditions.map(c =>
+                                    c.id === condition.id
+                                      ? { ...c, implications: e.target.value }
+                                      : c
+                                  ),
+                                }
                                 : s
                             )
                           );
@@ -563,13 +560,13 @@ export default function MedicalHistoryModal({ onClose, onSave, onSaveSuccess }) 
                             prevSections.map(s =>
                               s.id === section.id
                                 ? {
-                                    ...s,
-                                    conditions: s.conditions.map(c =>
-                                      c.id === condition.id
-                                        ? { ...c, treatment: e.target.value }
-                                        : c
-                                    ),
-                                  }
+                                  ...s,
+                                  conditions: s.conditions.map(c =>
+                                    c.id === condition.id
+                                      ? { ...c, treatment: e.target.value }
+                                      : c
+                                  ),
+                                }
                                 : s
                             )
                           );

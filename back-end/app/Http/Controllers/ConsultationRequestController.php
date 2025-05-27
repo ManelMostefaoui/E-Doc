@@ -478,14 +478,16 @@ class ConsultationRequestController extends Controller
                 $status = 'getting_filled';
             }
 
+            Log::info("Date: {$dateStr}, Count: {$bookingCount}, Status: {$status}");
+
             $calendar[] = [
                 'date' => $dateStr,
                 'booking_count' => $bookingCount,
                 'status' => $status,
                 'color' => [
-                    'no_appointment' => 'red',
-                    'getting_filled' => 'yellow',
-                    'fully_booked' => 'green'
+                    'no_appointment' => '#008080',  // Teal color for few/no appointments
+                    'getting_filled' => '#ffd700',  // Yellow color for getting full
+                    'fully_booked' => '#c5283d'     // Red color for fully booked
                 ][$status]
             ];
 

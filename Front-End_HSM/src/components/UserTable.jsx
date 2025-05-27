@@ -25,7 +25,7 @@ export default function UserTable({ users = [], onUserSelect, onDeleteUsers }) {
       console.error('Attempted to select user without ID');
       return;
     }
-    
+
     if (selectedUsers.includes(userId)) {
       setSelectedUsers(selectedUsers.filter((id) => id !== userId));
     } else {
@@ -35,12 +35,12 @@ export default function UserTable({ users = [], onUserSelect, onDeleteUsers }) {
 
   const handleUserRowClick = (user) => {
     console.log('Clicked on user row:', user);
-    
+
     if (!user.id) {
       console.error('Cannot select user - missing ID:', user);
       return;
     }
-    
+
     if (onUserSelect) {
       onUserSelect(user);
     }
@@ -49,11 +49,11 @@ export default function UserTable({ users = [], onUserSelect, onDeleteUsers }) {
   const handleActivate = () => {
     const selectedUserObjects = users.filter(user => user.id && selectedUsers.includes(user.id));
     console.log('Activating users:', selectedUserObjects);
-    
+
     if (onUserSelect && selectedUserObjects.length > 0) {
       onUserSelect(selectedUserObjects);
     }
-    
+
     setSelectedUsers([]);
     setSelectAll(false);
   };
@@ -61,26 +61,26 @@ export default function UserTable({ users = [], onUserSelect, onDeleteUsers }) {
   const handleDeactivate = () => {
     const selectedUserObjects = users.filter(user => user.id && selectedUsers.includes(user.id));
     console.log('Deactivating users:', selectedUserObjects);
-    
+
     if (onUserSelect && selectedUserObjects.length > 0) {
       onUserSelect(selectedUserObjects);
     }
-    
+
     setSelectedUsers([]);
     setSelectAll(false);
   };
-  
+
   const handleDelete = () => {
     if (selectedUsers.length === 0) {
       alert("Please select users to delete first");
       return;
     }
-    
+
     // Confirm before deletion
     if (window.confirm(`Are you sure you want to delete ${selectedUsers.length} selected user(s)?`)) {
       const selectedUserObjects = users.filter(user => user.id && selectedUsers.includes(user.id));
       console.log('Deleting users:', selectedUserObjects);
-      
+
       if (onDeleteUsers && selectedUserObjects.length > 0) {
         onDeleteUsers(selectedUserObjects);
         setSelectedUsers([]);
@@ -104,7 +104,7 @@ export default function UserTable({ users = [], onUserSelect, onDeleteUsers }) {
                       onChange={handleSelectAll}
                       className="h-4 w-4 rounded border-gray-300 text-[#0a8a8a] focus:ring-[#0a8a8a]"
                     />
-                    <button 
+                    <button
                       onClick={handleDelete}
                       disabled={selectedUsers.length === 0}
                       className={`cursor-pointer ${selectedUsers.length > 0 ? 'text-red-500 hover:text-red-700' : 'text-gray-400 cursor-not-allowed'}`}
@@ -121,9 +121,9 @@ export default function UserTable({ users = [], onUserSelect, onDeleteUsers }) {
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr 
-                  key={user.id || `no-id-${Math.random().toString(36).substring(2, 9)}`} 
-                  className={`border-b ${ user.id && !selectedUsers.includes(user.id) ? `hover:bg-gray-50` : ""} ${user.id && selectedUsers.includes(user.id) ? "bg-[#b3e6e6]" : ""}`}
+                <tr
+                  key={user.id || `no-id-${Math.random().toString(36).substring(2, 9)}`}
+                  className={`border-b ${user.id && !selectedUsers.includes(user.id) ? `hover:bg-gray-50` : ""} ${user.id && selectedUsers.includes(user.id) ? "bg-[#b3e6e6]" : ""}`}
                 >
                   <td className="px-4 py-3" onClick={(e) => {
                     e.stopPropagation();
@@ -134,38 +134,38 @@ export default function UserTable({ users = [], onUserSelect, onDeleteUsers }) {
                     <input
                       type="checkbox"
                       checked={user.id && selectedUsers.includes(user.id)}
-                      onChange={() => {}}
+                      onChange={() => { }}
                       disabled={!user.id}
                       className={`h-4 w-4 rounded border-gray-300 ${user.id ? "text-[#0a8a8a] focus:ring-[#0a8a8a] cursor-pointer" : "text-gray-300 cursor-not-allowed"}`}
                     />
                   </td>
-                  <td 
-                    className={`px-4 py-3 ${user.id ? "cursor-pointer" : "cursor-not-allowed text-gray-400"}`} 
+                  <td
+                    className={`px-4 py-3 ${user.id ? "cursor-pointer" : "cursor-not-allowed text-gray-400"}`}
                     onClick={() => user.id && handleUserRowClick(user)}
                   >
                     <span className={user.status === "Activated" ? "text-[#0a8a8a]" : "text-red-500"}>
                       {user.status}
                     </span>
                   </td>
-                  <td 
-                    className={`px-4 py-3 ${user.id ? "cursor-pointer" : "cursor-not-allowed text-gray-400"}`} 
+                  <td
+                    className={`px-4 py-3 ${user.id ? "cursor-pointer" : "cursor-not-allowed text-gray-400"}`}
                     onClick={() => user.id && handleUserRowClick(user)}
                   >
                     {user.name || 'No name'}
                   </td>
-                  <td 
-                    className={`px-4 py-3 ${user.id ? "cursor-pointer" : "cursor-not-allowed text-gray-400"}`} 
+                  <td
+                    className={`px-4 py-3 ${user.id ? "cursor-pointer" : "cursor-not-allowed text-gray-400"}`}
                     onClick={() => user.id && handleUserRowClick(user)}
                   >
                     {user.email || 'No email'}
                   </td>
-                  <td 
-                    className={`px-4 py-3 ${user.id ? "cursor-pointer" : "cursor-not-allowed text-gray-400"}`} 
+                  <td
+                    className={`px-4 py-3 ${user.id ? "cursor-pointer" : "cursor-not-allowed text-gray-400"}`}
                     onClick={() => user.id && handleUserRowClick(user)}
                   >
-                    {user.role?.name 
-                      ? user.role.name.charAt(0).toUpperCase() + user.role.name.slice(1) 
-                      : typeof user.role === 'string' 
+                    {user.role?.name
+                      ? user.role.name.charAt(0).toUpperCase() + user.role.name.slice(1)
+                      : typeof user.role === 'string'
                         ? user.role.charAt(0).toUpperCase() + user.role.slice(1)
                         : 'Unknown'
                     }

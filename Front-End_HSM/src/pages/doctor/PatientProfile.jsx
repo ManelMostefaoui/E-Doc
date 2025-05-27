@@ -4,6 +4,7 @@ import BasicInfosForm from "../../components/CDoctor/BasicInfosForm"
 import ClinicalForm from "../../components/CDoctor/ClinicalForm"
 import PersonalHistoryForm from "../../components/CDoctor/PersonalHistoryForm"
 import MedicalHistoryModal from "../../components/CDoctor/MedicalHistoryModal"
+import AppointmentForm from "../../components/CDoctor/AppointmentForm"
 import {
   Calendar,
   Download,
@@ -53,6 +54,7 @@ export default function PatientProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [showAppointmentForm, setShowAppointmentForm] = useState(false);
 
   // Define fetchMedicalHistory outside of useEffect to make it accessible
   const fetchMedicalHistory = async () => {
@@ -322,6 +324,11 @@ export default function PatientProfile() {
 
   const handleMedicalHistorySave = (updatedData) => {
     console.log('handleMedicalHistorySave triggered');
+    // First fetch the updated data
+    fetchMedicalHistory().then(() => {
+      // Only close the modal after the data has been fetched
+      setShowMedicalHistoryModal(false);
+    });
   };
 
   const handleClinicalDataSave = (updatedData) => {
@@ -362,12 +369,21 @@ export default function PatientProfile() {
             <p className="font-nunito text-[20px] text-[#495057]">{patient.role || "Patient"}</p>
           </div>
 
-          <button
-            onClick={() => navigate('/consultation', { state: { selectedPatient: patient } })}
-            className="bg-[#008080] hover:bg-[#006666] text-white px-6 py-2 rounded-md text-sm font-medium transition-colors"
-          >
-            Start Consultation
-          </button>
+          {/* Buttons container */}
+          <div className="flex gap-4">
+            <button
+              onClick={() => setShowAppointmentForm(true)}
+              className="border border-[#008080] text-[#008080] px-6 py-2 rounded-md text-sm font-medium transition-colors hover:bg-[#eef5f5]"
+            >
+              Add Appointment
+            </button>
+            <button
+              onClick={() => navigate('/consultation', { state: { selectedPatient: patient } })}
+              className="bg-[#008080] hover:bg-[#006666] text-white px-6 py-2 rounded-md text-sm font-medium transition-colors"
+            >
+              Start Consultation
+            </button>
+          </div>
         </div>
 
         {/* Information cards - 2 columns on desktop */}
@@ -471,7 +487,7 @@ export default function PatientProfile() {
                       <p className="font-semibold">Age at first use : <span className="font-normal">{personalHistory.first_use_age || "N/A"}</span></p>
                       <div className="grid grid-cols-2 gap-2 ">
                         <p className="font-semibold">Former smoker : <span className="font-normal">{personalHistory.former_smoker || "Empty"}</span></p>
-                        <p className="font-semibold">Quit date : <span className="font-normal">{personalHistory.quit_date || "N/A"}</span></p>
+
                       </div>
                     </div>
                   </div>
@@ -485,7 +501,7 @@ export default function PatientProfile() {
                   <div className="font-nunito text-[16px] text-[#1A1A1A] space-y-4">
                     <p className="text-[#495057]">Medications :</p>
                     <p className="mt-4 font-semibold">Current medications : <span className="font-normal">{personalHistory.medications || "Empty"}</span></p>
-                    <p className="font-semibold mt-2">Past medications : <span className="font-normal">{personalHistory.past_medications || "Empty"}</span></p>
+
                   </div>
                 </div>
               </div>
@@ -569,46 +585,8 @@ export default function PatientProfile() {
             </div>
           </div>
 
-          {/* Appointments */}
-          <div className="px-10 py-8 bg-[#F7F9F9] rounded-lg shadow-[2px_2px_12px_rgba(0,0,0,0.25)]">
-            <div className="flex justify-between items-center">
-              <h2 className="font-nunito text-[20px] text-[#004d4d] font-bold">Appoitements</h2>
-            </div>
-
-            <div className="p-4">
-              <div className="flex justify-between mb-4">
-                <div className="relative w-full max-w-xs">
-                  <input type="text" placeholder="Search" className="w-full pl-9 pr-3 py-2 border rounded-md" />
-                  <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                </div>
-                <button className="bg-[#008080] text-white rounded-md p-1.5">
-                  <Plus size={18} />
-                </button>
-              </div>
-
-              <div className="relative pl-6 border-l-2 border-[#008080]">
-                {[1, 2, 3].map((item, index) => (
-                  <div key={index} className="mb-6 relative">
-                    <div className="absolute -left-[22px] top-0 w-4 h-4 rounded-full bg-[#008080]"></div>
-                    <p className="text-sm text-[#495057] mb-2">05 Sep 2025 - 09:06</p>
-                    <div className="border rounded-md p-3 mb-2">
-                      <p className="text-sm">
-                        Reason of visit : <span className="font-medium">General check</span>
-                      </p>
-                    </div>
-
-                    <button className="bg-[#008080] text-white text-sm rounded-md px-3 py-2 w-full">
-                      Summary of consultation
-                    </button>
-
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* Health & Clinical Data */}
-          <div className="px-10 py-8 bg-[#F7F9F9] rounded-lg shadow-[2px_2px_12px_rgba(0,0,0,0.25)]">
+          <div className="px-10 py-8 bg-[#F7F9F9] rounded-lg shadow-[2px_2px_12px_rgba(0,0,0,0.25)] lg:col-span-2">
             <div className="flex justify-between items-center">
               <h2 className="font-nunito text-[20px] text-[#004d4d] font-bold">Health & Clinical Data</h2>
               <Editbtn onClick={() => setShowClinicalForm(true)} />
@@ -675,6 +653,11 @@ export default function PatientProfile() {
           onSave={handleMedicalHistorySave}
           onSaveSuccess={fetchMedicalHistory}
         />
+      )}
+
+      {/* Render AppointmentForm conditionally */}
+      {showAppointmentForm && (
+        <AppointmentForm onClose={() => setShowAppointmentForm(false)} selectedPatient={patient} />
       )}
     </>
   )

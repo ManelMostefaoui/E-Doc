@@ -112,6 +112,7 @@ export default function Appointments() {
         );
 
         if (response.data && response.data.data) {
+          console.log('Booking status data:', response.data.data);
           setBookingStatus(response.data.data);
         }
       } catch (error) {
@@ -248,6 +249,7 @@ export default function Appointments() {
   const getDayStatus = (day) => {
     const date = `${getYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const dayStatus = bookingStatus.find(status => status.date === date);
+    console.log('Checking status for date:', date, 'Found status:', dayStatus);
 
     if (!dayStatus) return 'few';
 
@@ -256,9 +258,10 @@ export default function Appointments() {
         return 'few';
       case 'fully_booked':
         return 'fully-booked';
-      case 'getting_full':
+      case 'getting_filled':
         return 'getting-full';
       default:
+        console.log('Unknown status:', dayStatus.status);
         return 'few';
     }
   }
@@ -609,6 +612,7 @@ export default function Appointments() {
 
 function CalendarDay({ day, status, isSelected, onClick }) {
   const getStatusColor = () => {
+    console.log('CalendarDay status:', status);
     switch (status) {
       case "fully-booked":
         return "bg-[#c5283d]"
@@ -617,6 +621,7 @@ function CalendarDay({ day, status, isSelected, onClick }) {
       case "few":
         return "bg-[#008080]"
       default:
+        console.log('Unknown status in CalendarDay:', status);
         return "bg-gray-200"
     }
   }

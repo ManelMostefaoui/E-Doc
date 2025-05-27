@@ -498,7 +498,7 @@ const UserDetails = () => {
     formData.append('picture', file);
 
     const response = await axios.post(
-      'http://localhost:8000/api/profile/upload-pic',
+      'http://127.0.0.1:8000/api/profile/upload-pic',
       formData,
       {
         headers: {
