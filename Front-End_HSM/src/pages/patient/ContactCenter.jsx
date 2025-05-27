@@ -12,6 +12,7 @@ export default function ContactCenter() {
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [confirmingId, setConfirmingId] = useState(null)
+  const [cancellingId, setCancellingId] = useState(null)
 
   // Function to fetch consultations
   const fetchConsultations = async () => {
@@ -98,6 +99,47 @@ export default function ContactCenter() {
     }
   }
 
+  const handleCancelAppointment = async (consultationId) => {
+    if (!window.confirm('Are you sure you want to cancel this appointment?')) {
+      return;
+    }
+
+    try {
+      setCancellingId(consultationId)
+      const token = localStorage.getItem('token')
+      if (!token) {
+        throw new Error('No authentication token found')
+      }
+
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/consultation-request/${consultationId}/cancel`,
+        {},
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
+          }
+        }
+      )
+
+      if (response.data) {
+        // Update the consultation status in the local state
+        setConsultations(prevConsultations =>
+          prevConsultations.map(consultation =>
+            consultation.id === consultationId
+              ? { ...consultation, status: 'cancelled' }
+              : consultation
+          )
+        )
+      }
+    } catch (err) {
+      console.error('Failed to cancel appointment:', err)
+      setError(err.response?.data?.message || err.message || 'Failed to cancel appointment')
+    } finally {
+      setCancellingId(null)
+    }
+  }
+
   const formatDate = (dateString) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('fr-FR', {
@@ -173,16 +215,28 @@ export default function ContactCenter() {
                     </div>
                   </div>
                   {consultation.status === 'scheduled' && (
-                    <button
-                      onClick={() => handleConfirmAppointment(consultation.id)}
-                      disabled={confirmingId === consultation.id}
-                      className={`px-6 py-2 rounded-lg font-semibold text-sm ${confirmingId === consultation.id
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-[#008080] hover:bg-[#006666] text-white'
-                        } transition-colors`}
-                    >
-                      {confirmingId === consultation.id ? 'Confirming...' : 'Confirm Appointment'}
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleCancelAppointment(consultation.id)}
+                        disabled={cancellingId === consultation.id}
+                        className={`px-6 py-2 rounded-lg font-semibold text-sm ${cancellingId === consultation.id
+                          ? 'bg-gray-400 cursor-not-allowed'
+                          : 'bg-red-400 hover:bg-red-500 text-white'
+                          } transition-colors`}
+                      >
+                        {cancellingId === consultation.id ? 'Cancelling...' : 'Cancel'}
+                      </button>
+                      <button
+                        onClick={() => handleConfirmAppointment(consultation.id)}
+                        disabled={confirmingId === consultation.id}
+                        className={`px-6 py-2 rounded-lg font-semibold text-sm ${confirmingId === consultation.id
+                          ? 'bg-gray-400 cursor-not-allowed'
+                          : 'bg-[#008080] hover:bg-[#006666] text-white'
+                          } transition-colors`}
+                      >
+                        {confirmingId === consultation.id ? 'Confirming...' : 'Confirm Appointment'}
+                      </button>
+                    </div>
                   )}
                 </div>
                 <div className="whitespace-pre-line text-[#1a1a1a]">{consultation.message}</div>

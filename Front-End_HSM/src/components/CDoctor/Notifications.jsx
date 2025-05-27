@@ -3,9 +3,45 @@ import { Bell, Search, Filter, Settings2, ChevronDown, Calendar } from "lucide-r
 import AppointmentModal from "../AppointmentModal"
 import axios from "axios"
 
+const styles = `
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+`;
+
 function NotificationCard({ consultation, onSchedule }) {
   const { patient, message, status, created_at, appointment_date } = consultation
   const { user } = patient
+
+  const handleCancel = async () => {
+    if (!window.confirm('Are you sure you want to cancel this consultation request?')) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        `http://127.0.0.1:8000/api/consultation-request/${consultation.id}/canceldoc`,
+        {},
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
+          }
+        }
+      );
+
+      // Refresh the page to update the list
+      window.location.reload();
+    } catch (error) {
+      console.error('Error cancelling consultation:', error);
+      alert('Failed to cancel consultation. Please try again.');
+    }
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return null
@@ -55,9 +91,20 @@ function NotificationCard({ consultation, onSchedule }) {
           </div>
         </div>
         {currentStatus === "Pending" && (
-          <button className="w-56 h-12 flex items-center justify-center px-6 py-2 bg-[#008080] text-white rounded-xl font-semibold text-md shadow-sm hover:bg-[#004d4d] transition-colors whitespace-nowrap" onClick={onSchedule}>
-            Schedule an appointment
-          </button>
+          <div className="flex gap-2">
+            <button
+              className="w-32 h-12 flex items-center justify-center px-6 py-2 bg-red-500 text-white rounded-xl font-semibold text-md shadow-sm hover:bg-red-600 transition-colors whitespace-nowrap"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+            <button
+              className="w-56 h-12 flex items-center justify-center px-6 py-2 bg-[#008080] text-white rounded-xl font-semibold text-md shadow-sm hover:bg-[#004d4d] transition-colors whitespace-nowrap"
+              onClick={onSchedule}
+            >
+              Schedule an appointment
+            </button>
+          </div>
         )}
         {currentStatus === "Approved" && (
           <span className="w-56 px-6 py-2 border-2 border-[#008080] text-[#008080] rounded-xl font-semibold text-md shadow-sm bg-transparent flex items-center justify-center">
@@ -94,13 +141,26 @@ function NotificationCard({ consultation, onSchedule }) {
 }
 
 export default function Notifications() {
+  useEffect(() => {
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
+
   const [consultations, setConsultations] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const [selectedFilter, setSelectedFilter] = useState("pending")
+  const [selectedFilter, setSelectedFilter] = useState('pending')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedConsultation, setSelectedConsultation] = useState(null)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [cancellingId, setCancellingId] = useState(null)
+
+  const filterOptions = ['pending', 'scheduled', 'confirmed', 'cancelled']
 
   // Function to fetch consultations
   const fetchConsultations = async () => {
@@ -144,6 +204,8 @@ export default function Notifications() {
   const handleCloseModal = () => {
     setSelectedConsultation(null)
     setIsModalOpen(false)
+    // Refresh consultations after closing the modal
+    fetchConsultations()
   }
 
   return (
@@ -151,7 +213,7 @@ export default function Notifications() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Content */}
-        <main className="flex-1 overflow-auto p-6 bg-[#eef5f5]">
+        <main className="flex-1 overflow-auto p-6 bg-[#eef5f5] scrollbar-hide">
           <div className="max-w-5xl mx-auto">
             <h1 className="text-2xl font-semibold text-[#008080] mb-6">Notifications :</h1>
 
@@ -179,7 +241,7 @@ export default function Notifications() {
                 {isFilterOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-10">
                     <div className="py-1">
-                      {['pending', 'confirmed', 'declined', 'scheduled'].map((status) => (
+                      {filterOptions.map((status) => (
                         <button
                           key={status}
                           className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#eef5f5] capitalize"
@@ -235,6 +297,7 @@ export default function Notifications() {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         consultationId={selectedConsultation?.id}
+        onSuccess={fetchConsultations}
       />
     </div>
   )

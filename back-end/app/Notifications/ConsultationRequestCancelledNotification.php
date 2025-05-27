@@ -6,18 +6,19 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Models\appointments;
+use App\Models\ConsultationRequest;
+use App\Models\User;
 
-class AppointmentCancelledNotification extends Notification
+class ConsultationRequestCancelledNotification extends Notification
 {
     use Queueable;
 
-    protected $appointment;
+    protected $consultationRequest;
     protected $doctor;
 
-    public function __construct(appointments $appointment, $doctor)
+    public function __construct(ConsultationRequest $consultationRequest, User $doctor)
     {
-        $this->appointment = $appointment;
+        $this->consultationRequest = $consultationRequest;
         $this->doctor = $doctor;
     }
 
@@ -29,12 +30,10 @@ class AppointmentCancelledNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'type' => 'appointment_cancelled',
-            'message' => "Your appointment scheduled for {$this->appointment->scheduled_at} has been cancelled by Dr. {$this->doctor->name}.",
+            'type' => 'consultation_request_cancelled',
+            'message' => "Your consultation request has been cancelled by Dr. {$this->doctor->name}.",
             'data' => [
-                'appointment_id' => $this->appointment->id,
-                'consultation_request_id' => $this->appointment->consultation_request_id,
-                'scheduled_at' => $this->appointment->scheduled_at,
+                'consultation_request_id' => $this->consultationRequest->id,
                 'cancelled_by' => [
                     'id' => $this->doctor->id,
                     'name' => $this->doctor->name,

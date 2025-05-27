@@ -28,6 +28,8 @@ export default function Appointments() {
   const [appointments, setAppointments] = useState([])
   const [loadingAppointments, setLoadingAppointments] = useState(false)
   const [editingAppointment, setEditingAppointment] = useState(null)
+  const [bookingStatus, setBookingStatus] = useState([])
+  const [loadingStatus, setLoadingStatus] = useState(false)
   const [pagination, setPagination] = useState({
     total: 0,
     per_page: 10,
@@ -54,19 +56,23 @@ export default function Appointments() {
         );
 
         console.log('Fetched appointments:', response.data);
+        console.log('First appointment data:', response.data.appointments[0]);
         const transformedAppointments = response.data.appointments.map((appointment) => {
           const scheduledTime = new Date(appointment.scheduled_at).toLocaleTimeString('en-US', {
             hour: '2-digit',
             minute: '2-digit',
             hour12: false
           });
+          console.log('Appointment consultation request:', appointment.consultation_request);
+          console.log('Appointment patient:', appointment.consultation_request?.patient);
+          console.log('Appointment user:', appointment.consultation_request?.patient?.user);
           const user = appointment.consultation_request?.patient?.user;
           return {
             id: appointment.id,
             time: scheduledTime,
             duration: `${appointment.duration} min`,
-            name: user ? user.name : 'Unknown',
-            gender: user ? user.gender : 'Unknown',
+            name: user?.name || 'Unknown',
+            gender: user?.gender || 'Unknown',
             status: appointment.status
           };
         });
@@ -86,6 +92,37 @@ export default function Appointments() {
 
     fetchAppointments();
   }, [selectedDate, currentDate, pagination.current_page]);
+
+  // Fetch booking status for the month
+  useEffect(() => {
+    const fetchBookingStatus = async () => {
+      setLoadingStatus(true);
+      try {
+        const token = localStorage.getItem('token');
+        const year = getYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/consultations/monthly-booking-status?year=${year}&month=${month}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json'
+            }
+          }
+        );
+
+        if (response.data && response.data.data) {
+          setBookingStatus(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching booking status:', error);
+      } finally {
+        setLoadingStatus(false);
+      }
+    };
+
+    fetchBookingStatus();
+  }, [currentDate]);
 
   // Set body background color
   useEffect(() => {
@@ -207,6 +244,25 @@ export default function Appointments() {
     appointment.time.includes(searchTerm)
   );
 
+  // Get status for a specific day
+  const getDayStatus = (day) => {
+    const date = `${getYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const dayStatus = bookingStatus.find(status => status.date === date);
+
+    if (!dayStatus) return 'few';
+
+    switch (dayStatus.status) {
+      case 'no_appointment':
+        return 'few';
+      case 'fully_booked':
+        return 'fully-booked';
+      case 'getting_full':
+        return 'getting-full';
+      default:
+        return 'few';
+    }
+  }
+
   return (
     <div className="flex h-screen">
       {/* Main Content */}
@@ -286,7 +342,7 @@ export default function Appointments() {
                     <CalendarDay
                       key={day}
                       day={day}
-                      status={day % 3 === 0 ? "fully-booked" : day % 3 === 1 ? "getting-full" : "few"}
+                      status={getDayStatus(day)}
                       isSelected={selectedDate === day.toString()}
                       onClick={() => handleDateSelect(day.toString())}
                     />

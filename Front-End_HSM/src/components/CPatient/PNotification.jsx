@@ -37,32 +37,51 @@ export default function PNotification() {
           const { id, type, data, created_at } = apiNotification
           const notificationData = data
 
-          let doctorName = 'Unknown Doctor' // Placeholder, as doctor name is not in the provided API data structure example
+          let doctorName = 'Unknown Doctor'
           let date = ''
           let time = ''
-          let needsAction = false // Determine if action buttons are needed based on notification type/status
+          let needsAction = false
+          let message = ''
 
-          // Example transformation based on the Doctor's notification type provided earlier
-          // This might need adjustment based on the actual notification types for patients
-          if (type === 'App\\Notifications\\PatientCancelledAppointmentNotification') {
-            // If a patient receives this, it might mean their cancellation was confirmed, or related to another patient's cancellation?
-            // The logic here needs clarification based on actual patient notification types.
-            // Assuming for now, patient notifications are primarily about appointments scheduled by the doctor.
-
-            if (notificationData.data && notificationData.data.scheduled_at) {
+          if (type === 'App\\Notifications\\ConsultationRequestCancelledNotification') {
+            doctorName = notificationData.data?.cancelled_by?.name || notificationData.doctor || 'The doctor'
+            message = ' has cancelled your consultation request'
+          } else if (type === 'App\\Notifications\\PatientCancelledAppointmentNotification') {
+            message = 'Your appointment has been cancelled'
+            if (notificationData.scheduled_at) {
               try {
-                const scheduledAt = new Date(notificationData.data.scheduled_at)
-                date = scheduledAt.toLocaleDateString() // Format date as needed
-                time = scheduledAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) // Format time as needed
+                const scheduledAt = new Date(notificationData.scheduled_at)
+                date = scheduledAt.toLocaleDateString()
+                time = scheduledAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
               } catch (e) {
                 console.error('Error parsing date/time:', e)
               }
             }
-            // needsAction might be true for new appointment proposals needing approval
-            // This logic will depend heavily on the actual patient notification types and data structure.
-
-          } // Add conditions for other patient-specific notification types
-          // else if (type === 'App\\\\Notifications\\\\PatientAppointmentScheduledNotification') { ... needsAction = true; ... }
+          } else if (type === 'App\\Notifications\\DoctorCancelledAppointmentNotification') {
+            doctorName = notificationData.data?.doctor?.name || notificationData.doctor?.name || notificationData.doctor_name || 'The doctor'
+            message = ' has cancelled your appointment'
+            if (notificationData.scheduled_at) {
+              try {
+                const scheduledAt = new Date(notificationData.scheduled_at)
+                date = scheduledAt.toLocaleDateString()
+                time = scheduledAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              } catch (e) {
+                console.error('Error parsing date/time:', e)
+              }
+            }
+          } else if (type === 'App\\Notifications\\AppointmentConfirmedNotification') {
+            doctorName = notificationData.data?.doctor?.name || notificationData.doctor?.name || notificationData.doctor_name || 'The doctor'
+            message = ' has confirmed your appointment'
+            if (notificationData.scheduled_at) {
+              try {
+                const scheduledAt = new Date(notificationData.scheduled_at)
+                date = scheduledAt.toLocaleDateString()
+                time = scheduledAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              } catch (e) {
+                console.error('Error parsing date/time:', e)
+              }
+            }
+          }
 
           // Calculate time ago (basic implementation)
           const notificationDate = new Date(created_at)
@@ -82,7 +101,8 @@ export default function PNotification() {
 
           return {
             id: id,
-            doctor: doctorName, // Use fetched doctor name if available in API data
+            doctor: doctorName,
+            message: message,
             date: date,
             time: time,
             timeAgo: timeAgo,
@@ -169,9 +189,10 @@ export default function PNotification() {
                 </div>
                 <div className="flex-1 text-left">
                   <p className="text-[#1a1a1a] text-sm leading-tight">
-                    <span className="font-medium">{notification.doctor || 'Unknown Doctor'}</span>
+                    <span className="font-medium">{notification.doctor}</span>
+                    {notification.message}
                     {notification.date && notification.time ? (
-                      <> has scheduled an appointment for you on{" "}
+                      <> on{" "}
                         <span className="font-bold">{notification.date}</span> at{" "}
                         <span className="font-bold">{notification.time}</span></>
                     ) : ' '}

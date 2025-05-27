@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\ConsultationRequestCancelledNotification;
 
 
 
@@ -500,6 +501,42 @@ class ConsultationRequestController extends Controller
                 'start' => $startDate->format('Y-m-d'),
                 'end' => $endDate->format('Y-m-d')
             ]
+        ]);
+    }
+
+    public function cancelRequestByDoctor($id)
+    {
+        // Find the consultation request by ID
+        $consultationRequest = ConsultationRequest::with('patient.user')->find($id);
+        if (!$consultationRequest) {
+            return response()->json(['message' => 'Consultation request not found'], 404);
+        }
+
+        // Verify if the authenticated user is a doctor
+        $user = Auth::user();
+        if (!$user->role || $user->role->name !== 'doctor') {
+            return response()->json(['message' => 'Unauthorized. Only doctors can cancel consultation requests'], 403);
+        }
+
+        // Check if the request can be cancelled (not already completed or cancelled)
+        if ($consultationRequest->status === 'completed' || $consultationRequest->status === 'cancelled') {
+            return response()->json(['message' => 'Cannot cancel a completed or already cancelled request'], 400);
+        }
+
+        // Update the status to cancelled
+        $consultationRequest->status = 'cancelled';
+        $consultationRequest->save();
+
+        // Get the patient's user and send notification
+        if ($consultationRequest->patient && $consultationRequest->patient->user) {
+            $consultationRequest->patient->user->notify(new ConsultationRequestCancelledNotification($consultationRequest, $user));
+        } else {
+            Log::warning('Could not send notification: Patient or User not found for consultation request #' . $id);
+        }
+
+        return response()->json([
+            'message' => 'Consultation request cancelled successfully',
+            'data' => $consultationRequest
         ]);
     }
 

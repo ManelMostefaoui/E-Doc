@@ -55,7 +55,22 @@ export default function DNotification() {
           let buttonText = ''
 
           // Derive information based on notification type
-          if (type === 'App\\Notifications\\PatientCancelledAppointmentNotification') {
+          if (type === 'App\\Notifications\\NewConsultationRequestNotification') {
+            person = notificationData.patient_name || 'A patient'
+            action = 'has requested'
+            description = 'a consultation'
+            hasButton = true
+            buttonText = 'View Request'
+            if (notificationData.requested_at) {
+              try {
+                const requestedAt = new Date(notificationData.requested_at)
+                date = requestedAt.toLocaleDateString()
+                time = requestedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              } catch (e) {
+                console.error('Error parsing date/time:', e)
+              }
+            }
+          } else if (type === 'App\\Notifications\\PatientCancelledAppointmentNotification') {
             person = notificationData.patient_name || 'A patient'
             action = 'has cancelled'
             description = 'their appointment'
@@ -74,6 +89,19 @@ export default function DNotification() {
             person = notificationData.patient_name || 'A patient'
             action = 'has confirmed'
             description = 'their appointment'
+            if (notificationData.scheduled_at) {
+              try {
+                const scheduledAt = new Date(notificationData.scheduled_at)
+                date = scheduledAt.toLocaleDateString()
+                time = scheduledAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              } catch (e) {
+                console.error('Error parsing date/time:', e)
+              }
+            }
+          } else if (type === 'App\\Notifications\\DoctorCancelledAppointmentNotification') {
+            person = notificationData.patient_name || 'A patient'
+            action = 'appointment has been cancelled'
+            description = 'by the doctor'
             if (notificationData.scheduled_at) {
               try {
                 const scheduledAt = new Date(notificationData.scheduled_at)
@@ -198,7 +226,7 @@ export default function DNotification() {
                 <div className="flex-1 text-left items-start">
                   <p className="text-[#1a1a1a] text-sm leading-tight">
                     <span className={`font-medium ${notification.type === 'declined' ? 'text-[#c5283d]' : 'text-[#008080]'}`}>
-                      {notification.person || 'Unknown'}
+                      {notification.person}
                     </span>{' '}
                     {notification.action}{' '}
                     {notification.description}{' '}
