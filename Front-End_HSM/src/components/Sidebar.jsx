@@ -113,13 +113,25 @@ export default function Sidebar({ isVisible = true }) {
       className={`${isVisible ? "block" : "hidden"} md:block bg-[#F7F9F9] w-64 border-r border-gray-200 flex-shrink-0 shadow-[2px_2px_12px_rgba(0,0,0,0.25)]`}
     >
       <nav className="p-4 flex flex-col gap-4 ">
-        <Link
-          to="/dashboard"
-          className={`flex items-center gap-3 p-3 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
-        >
-          <LayoutDashboard size={20} />
-          <span className='font-nunito text-[16px] font-normal '>Dashboard</span>
-        </Link>
+        {userRole !== 'doctor' && (
+          <Link
+            to="/dashboard"
+            className={`flex items-center gap-3 p-3 ${currentPath === "/dashboard" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+          >
+            <LayoutDashboard size={20} />
+            <span className='font-nunito text-[16px] font-normal '>Dashboard</span>
+          </Link>
+        )}
+
+        {userRole === 'doctor' && (
+          <Link
+            to="/statistics"
+            className={`flex items-center gap-3 p-3 ${currentPath === "/statistics" ? "bg-[#008080] text-white" : "hover:bg-[#eef5f5]"} rounded-md cursor-pointer`}
+          >
+            <LayoutDashboard size={20} />
+            <span className='font-nunito text-[16px] font-normal '>Statistics</span>
+          </Link>
+        )}
         
         {userRole === 'doctor' && (
           <>
