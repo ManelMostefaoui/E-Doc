@@ -78,7 +78,7 @@ function App() {
                 ['student', 'teacher', 'employer'].includes(getUserRole())
                   ? <Navigate to="/contact-center" />
                   : getUserRole() === "doctor"
-                    ? <Navigate to="/patients" />
+                    ? <Navigate to="/statistics" />
                     : <Navigate to="/dashboard" />
               )
               : <Navigate to="/login" />

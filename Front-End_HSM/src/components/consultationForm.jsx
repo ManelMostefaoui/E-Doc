@@ -98,14 +98,14 @@ export default function ConsultationForm({ selectedPatient }) {
 
         if (response.data) {
           // Only update specific vital fields here to avoid overwriting detailed data fetched in handlePatientSelect
-           setPatientVitals(prev => ({
-             ...prev,
-             bloodPressure: response.data.bloodPressure || "",
-             temperature: response.data.temperature || "",
-             heartRate: response.data.heartRate || "",
-             bloodSugar: response.data.bloodSugar || "",
-             observations: response.data.observations || "",
-           }));
+          setPatientVitals(prev => ({
+            ...prev,
+            bloodPressure: response.data.bloodPressure || "",
+            temperature: response.data.temperature || "",
+            heartRate: response.data.heartRate || "",
+            bloodSugar: response.data.bloodSugar || "",
+            observations: response.data.observations || "",
+          }));
         }
       } catch (error) {
         console.error("Error fetching patient vitals after selection:", error)
@@ -235,33 +235,33 @@ export default function ConsultationForm({ selectedPatient }) {
 
       const medicalHistoryData = response.data?.data;
       if (medicalHistoryData && Array.isArray(medicalHistoryData)) {
-         const categorizedHistory = { // Categorize data similar to PatientProfile.jsx
-            congenital_conditions: [],
-            general_diseases: [],
-            surgical_interventions: [],
-            allergic_reactions: [],
-          };
+        const categorizedHistory = { // Categorize data similar to PatientProfile.jsx
+          congenital_conditions: [],
+          general_diseases: [],
+          surgical_interventions: [],
+          allergic_reactions: [],
+        };
 
-          medicalHistoryData.forEach(item => {
-            const conditionText = item.condition ? item.condition.toLowerCase() : '';
-            if (conditionText.includes('congenital') || conditionText.includes('birth defect')) {
-              categorizedHistory.congenital_conditions.push(item);
-            } else if (conditionText.includes('allergy') || conditionText.includes('allergic')) {
-              categorizedHistory.allergic_reactions.push(item);
-            } else if (conditionText.includes('surgery') || conditionText.includes('surgical')) {
-              categorizedHistory.surgical_interventions.push(item);
-            } else {
-              categorizedHistory.general_diseases.push(item);
-            }
-          });
-          setMedicalHistory(categorizedHistory);
+        medicalHistoryData.forEach(item => {
+          const conditionText = item.condition ? item.condition.toLowerCase() : '';
+          if (conditionText.includes('congenital') || conditionText.includes('birth defect')) {
+            categorizedHistory.congenital_conditions.push(item);
+          } else if (conditionText.includes('allergy') || conditionText.includes('allergic')) {
+            categorizedHistory.allergic_reactions.push(item);
+          } else if (conditionText.includes('surgery') || conditionText.includes('surgical')) {
+            categorizedHistory.surgical_interventions.push(item);
+          } else {
+            categorizedHistory.general_diseases.push(item);
+          }
+        });
+        setMedicalHistory(categorizedHistory);
       } else {
-           setMedicalHistory({
-            congenital_conditions: [],
-            general_diseases: [],
-            surgical_interventions: [],
-            allergic_reactions: [],
-          });
+        setMedicalHistory({
+          congenital_conditions: [],
+          general_diseases: [],
+          surgical_interventions: [],
+          allergic_reactions: [],
+        });
       }
 
     } catch (err) {
@@ -274,34 +274,34 @@ export default function ConsultationForm({ selectedPatient }) {
     if (!patientId) return;
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`/api/personal-history/${patientId}`, {
+      const response = await axios.get(`http://127.0.0.1:8000/api/patient/${patientId}/personal-history`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'
         }
       });
 
-       if (response.data) {
-          // Convert fields to match backend field names and set state
-          setPersonalHistory({
-            ...response.data,
-            smoker: response.data.smoker === true || response.data.smoker === 1 ? "Yes" : 
-                    response.data.smoker === false || response.data.smoker === 0 ? "No" : "Empty",
-            cigarette_count: response.data.cigarette_count ?? "Empty",
-            chewing_tobacco: response.data.chewing_tobacco === true || response.data.chewing_tobacco === 1 ? "Yes" : 
-                            response.data.chewing_tobacco === false || response.data.chewing_tobacco === 0 ? "No" : "Empty",
-            chewing_tobacco_count: response.data.chewing_tobacco_count ?? "Empty",
-            first_use_age: response.data.first_use_age ?? "Empty",
-            former_smoker: response.data.former_smoker === true || response.data.former_smoker === 1 ? "Yes" : 
-                          response.data.former_smoker === false || response.data.former_smoker === 0 ? "No" : "Empty",
-            exposure_period: response.data.exposure_period ?? "Empty",
-            alcohol: response.data.alcohol ?? "Empty",
-            medications: response.data.medications ?? "Empty",
-            other: response.data.other ?? "Empty"
-          });
-        } else {
-           setPersonalHistory({}); // Clear personal history if no data
-        }
+      if (response.data) {
+        // Convert fields to match backend field names and set state
+        setPersonalHistory({
+          ...response.data,
+          smoker: response.data.smoker === true || response.data.smoker === 1 ? "Yes" :
+            response.data.smoker === false || response.data.smoker === 0 ? "No" : "Empty",
+          cigarette_count: response.data.cigarette_count ?? "Empty",
+          chewing_tobacco: response.data.chewing_tobacco === true || response.data.chewing_tobacco === 1 ? "Yes" :
+            response.data.chewing_tobacco === false || response.data.chewing_tobacco === 0 ? "No" : "Empty",
+          chewing_tobacco_count: response.data.chewing_tobacco_count ?? "Empty",
+          first_use_age: response.data.first_use_age ?? "Empty",
+          former_smoker: response.data.former_smoker === true || response.data.former_smoker === 1 ? "Yes" :
+            response.data.former_smoker === false || response.data.former_smoker === 0 ? "No" : "Empty",
+          exposure_period: response.data.exposure_period ?? "Empty",
+          alcohol: response.data.alcohol ?? "Empty",
+          medications: response.data.medications ?? "Empty",
+          other: response.data.other ?? "Empty"
+        });
+      } else {
+        setPersonalHistory({}); // Clear personal history if no data
+      }
     } catch (err) {
       console.error("Failed to fetch personal history:", err);
       setPersonalHistory({}); // Clear personal history on error
@@ -315,7 +315,7 @@ export default function ConsultationForm({ selectedPatient }) {
       const token = localStorage.getItem('token');
 
       // Fetch patient data for height and weight
-       const patientResponse = await axios.get(`http://127.0.0.1:8000/api/patients/${patientId}`, {
+      const patientResponse = await axios.get(`http://127.0.0.1:8000/api/patients/${patientId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -367,12 +367,12 @@ export default function ConsultationForm({ selectedPatient }) {
         cancers_notes: "",
       };
 
-       screeningsData.forEach(screening => {
+      screeningsData.forEach(screening => {
         const category = screening.category;
         const type = screening.type;
         const result = screening.result; // Assuming result contains the notes
 
-         if (updatedClinicalData.hasOwnProperty(category)) {
+        if (updatedClinicalData.hasOwnProperty(category)) {
           updatedClinicalData[category] = type || "";
           const notesField = `${category}_notes`;
           if (updatedClinicalData.hasOwnProperty(notesField)) {
@@ -396,37 +396,21 @@ export default function ConsultationForm({ selectedPatient }) {
       return
     }
 
-    // Validate required fields
-    if (!clinicalData.height || !clinicalData.weight) {
-      alert("Height and weight are required fields!")
-      return
-    }
-
     try {
       const token = localStorage.getItem('token')
       await axios.post('/api/patient-vitals/store', {
         patient_id: patientVitals.id,
-        vital_date: patientVitals.date,
-        height: parseInt(clinicalData.height),
-        weight: parseInt(clinicalData.weight),
-        blood_pressure: patientVitals.bloodPressure ? parseInt(patientVitals.bloodPressure) : null,
-        temperature: patientVitals.temperature ? parseInt(patientVitals.temperature) : null,
-        heart_rate: patientVitals.heartRate ? parseInt(patientVitals.heartRate) : null,
-        blood_sugar: patientVitals.bloodSugar ? parseInt(patientVitals.bloodSugar) : null,
-        other_observations: patientVitals.observations || null
+        ...patientVitals,
       }, {
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Accept': 'application/json'
         }
       })
       alert("Patient vitals saved successfully!")
     } catch (error) {
       console.error("Error saving patient vitals:", error)
-      // Show more detailed error message from the server if available
-      const errorMessage = error.response?.data?.message || error.response?.data?.error || error.message
-      alert("Failed to save patient vitals: " + errorMessage)
+      alert("Failed to save patient vitals")
     }
   }
 
@@ -490,7 +474,7 @@ export default function ConsultationForm({ selectedPatient }) {
                 </ul>
               )}
             </div>
-              </div>
+          </div>
           {/* Age display (non-editable) */}
           <div className="grid grid-cols-[120px_1fr] items-center gap-4">
             <label className="form-label">Age :</label>
@@ -500,24 +484,24 @@ export default function ConsultationForm({ selectedPatient }) {
           </div>
           {/* Height and Weight display (fetched clinical data) */}
           <div className="grid grid-cols-[120px_1fr] items-center gap-4">
-              <label className="form-label">Height :</label>
-              <div className="relative">
-                  <span className="form-input bg-gray-50 flex items-center text-gray-700">{clinicalData.height || 'Empty'} cm</span>
-              </div>
+            <label className="form-label">Height :</label>
+            <div className="relative">
+              <span className="form-input bg-gray-50 flex items-center text-gray-700">{clinicalData.height || 'Empty'} cm</span>
+            </div>
           </div>
-           <div className="grid grid-cols-[120px_1fr] items-center gap-4">
-              <label className="form-label">Weight :</label>
-              <div className="relative">
-                  <span className="form-input bg-gray-50 flex items-center text-gray-700">{clinicalData.weight || 'Empty'} kg</span>
-              </div>
+          <div className="grid grid-cols-[120px_1fr] items-center gap-4">
+            <label className="form-label">Weight :</label>
+            <div className="relative">
+              <span className="form-input bg-gray-50 flex items-center text-gray-700">{clinicalData.weight || 'Empty'} kg</span>
+            </div>
           </div>
           {/* Editable input fields for other vitals */}
           {inputFields.map((label, index) => {
             const fieldName = label.toLowerCase().replace(/\s+/g, '')
-             // Exclude Height and Weight from this mapping as they are displayed separately
-             if (fieldName === 'height' || fieldName === 'weight') {
-                 return null;
-             }
+            // Exclude Height and Weight from this mapping as they are displayed separately
+            if (fieldName === 'height' || fieldName === 'weight') {
+              return null;
+            }
             return (
               <div key={index} className="grid grid-cols-[120px_1fr] items-center gap-4">
                 <label className="form-label">{label} :</label>
@@ -538,7 +522,7 @@ export default function ConsultationForm({ selectedPatient }) {
         </div>
         {/* Move Save button here and remove Cancel button */}
         <div className="flex gap-4 mt-4">
-          <button 
+          <button
             onClick={handleSaveVitals}
             className="bg-[#008080] hover:bg-primary-dark text-white px-6 py-2 rounded-md text-sm font-medium w-40 transition-colors"
           >
@@ -549,7 +533,7 @@ export default function ConsultationForm({ selectedPatient }) {
 
       {/* Medical Prescription */}
       <EsiForm selectedPatient={patientVitals} />
-      
+
       {/* Upload Documents */}
       <UploadDocuments patientId={patientVitals.id} /> {/* Pass patientId to UploadDocuments */}
     </div>

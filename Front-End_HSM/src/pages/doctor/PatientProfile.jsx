@@ -23,6 +23,7 @@ import {
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
+import DefaultUserPhoto from '../../assets/DefaultUserPhoto.jpg';
 
 // Define the same categories list as in ClinicalForm.jsx
 const categories = [
@@ -361,7 +362,7 @@ export default function PatientProfile() {
         {/* Patient header */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
           <div className="p-0.5 w-20 h-20 rounded-full overflow-hidden border-4 border-[#008080]">
-            <img src={patient.picture || "/prfl.jpg"} alt="Patient profile" className="w-full h-full object-cover rounded-full" />
+            <img src={patient.picture || DefaultUserPhoto} alt="Patient profile" className="w-full h-full object-cover rounded-full" />
           </div>
 
           <div className="space-y-4 flex-1">

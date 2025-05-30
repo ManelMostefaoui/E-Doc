@@ -3891,3 +3891,847 @@
 [2025-05-27 12:30:27] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
 [2025-05-27 12:30:27] local.INFO: Date: 2025-05-30, Count: 1, Status: no_appointment  
 [2025-05-27 12:30:27] local.INFO: Date: 2025-05-31, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-30, Count: 1, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-31, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-30, Count: 1, Status: no_appointment  
+[2025-05-27 12:46:08] local.INFO: Date: 2025-05-31, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-30, Count: 1, Status: no_appointment  
+[2025-05-27 12:49:51] local.INFO: Date: 2025-05-31, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-30, Count: 1, Status: no_appointment  
+[2025-05-27 12:49:52] local.INFO: Date: 2025-05-31, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-30, Count: 1, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-31, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-30, Count: 1, Status: no_appointment  
+[2025-05-27 13:01:40] local.INFO: Date: 2025-05-31, Count: 0, Status: no_appointment  
+[2025-05-27 13:02:33] local.INFO: Notifications récupérées : [{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:02:33] local.INFO: Notifications récupérées : [{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:02:44] local.INFO: Notifications récupérées : [{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:02:44] local.INFO: Notifications récupérées : [{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:02:52] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:02:52] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:03:12] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:03:13] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:06:17] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:06:17] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:08:24] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:08:24] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:10:05] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:10:05] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:10:24] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:10:24] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:11:53] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:11:54] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:13:09] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:13:09] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:13:39] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:13:39] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:14:01] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:14:01] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:15:25] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:15:25] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:16:03] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:16:03] local.INFO: Notifications récupérées : [{"id":"32b03a40-396f-4544-a76e-8b505fa8115e","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":32,"data":{"message":"Your appointment has been scheduled","appointment_id":17,"scheduled_at":"2025-05-30 09:00","duration":15},"read_at":null,"created_at":"2025-05-27T13:02:11.000000Z","updated_at":"2025-05-27T13:02:11.000000Z"}] 
+[2025-05-27 13:16:11] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:16:11] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:16:18] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 13:16:18] local.INFO: Notifications récupérées : [{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 14:38:41] local.ERROR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'manel@esi-sba.dz' for key 'users.users_email_unique' (Connection: mysql, SQL: insert into `users` (`name`, `email`, `password`, `role_id`, `gender`, `birthdate`, `phone_num`, `address`, `updated_at`, `created_at`) values (MOSTEFAOUI MANEL, manel@esi-sba.dz, $2y$12$EUO//BOT712H9J.98g60EOJqitQzwW5KMRDYb8TYjbJqbDGg7zw7u, 1, female, 2010-10-03, 1234567899, 29 cite les pins, 2025-05-27 14:38:41, 2025-05-27 14:38:41)) {"userId":1,"exception":"[object] (Illuminate\\Database\\UniqueConstraintViolationException(code: 23000): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'manel@esi-sba.dz' for key 'users.users_email_unique' (Connection: mysql, SQL: insert into `users` (`name`, `email`, `password`, `role_id`, `gender`, `birthdate`, `phone_num`, `address`, `updated_at`, `created_at`) values (MOSTEFAOUI MANEL, manel@esi-sba.dz, $2y$12$EUO//BOT712H9J.98g60EOJqitQzwW5KMRDYb8TYjbJqbDGg7zw7u, 1, female, 2010-10-03, 1234567899, 29 cite les pins, 2025-05-27 14:38:41, 2025-05-27 14:38:41)) at C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:820)
+[stacktrace]
+#0 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(779): Illuminate\\Database\\Connection->runQueryCallback('insert into `us...', Array, Object(Closure))
+#1 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\MySqlConnection.php(42): Illuminate\\Database\\Connection->run('insert into `us...', Array, Object(Closure))
+#2 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Processors\\MySqlProcessor.php(35): Illuminate\\Database\\MySqlConnection->insert('insert into `us...', Array, 'id')
+#3 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3766): Illuminate\\Database\\Query\\Processors\\MySqlProcessor->processInsertGetId(Object(Illuminate\\Database\\Query\\Builder), 'insert into `us...', Array, 'id')
+#4 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(2120): Illuminate\\Database\\Query\\Builder->insertGetId(Array, 'id')
+#5 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1359): Illuminate\\Database\\Eloquent\\Builder->__call('insertGetId', Array)
+#6 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1324): Illuminate\\Database\\Eloquent\\Model->insertAndSetId(Object(Illuminate\\Database\\Eloquent\\Builder), Array)
+#7 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1163): Illuminate\\Database\\Eloquent\\Model->performInsert(Object(Illuminate\\Database\\Eloquent\\Builder))
+#8 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1191): Illuminate\\Database\\Eloquent\\Model->save(Array)
+#9 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Concerns\\ManagesTransactions.php(32): Illuminate\\Database\\Eloquent\\Model->Illuminate\\Database\\Eloquent\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#10 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1191): Illuminate\\Database\\Connection->transaction(Object(Closure))
+#11 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(167): Illuminate\\Database\\Eloquent\\Model->saveOrFail()
+#12 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(261): Maatwebsite\\Excel\\Imports\\ModelManager->Maatwebsite\\Excel\\Imports\\{closure}(Object(App\\Models\\User), 0)
+#13 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(148): Illuminate\\Support\\Collection->each(Object(Closure))
+#14 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(261): Maatwebsite\\Excel\\Imports\\ModelManager->Maatwebsite\\Excel\\Imports\\{closure}(Array, 3)
+#15 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(147): Illuminate\\Support\\Collection->each(Object(Closure))
+#16 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(82): Maatwebsite\\Excel\\Imports\\ModelManager->singleFlush(Object(App\\Imports\\UsersImport))
+#17 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelImporter.php(114): Maatwebsite\\Excel\\Imports\\ModelManager->flush(Object(App\\Imports\\UsersImport), false)
+#18 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelImporter.php(95): Maatwebsite\\Excel\\Imports\\ModelImporter->flush(Object(App\\Imports\\UsersImport), 1, 3)
+#19 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Sheet.php(254): Maatwebsite\\Excel\\Imports\\ModelImporter->import(Object(PhpOffice\\PhpSpreadsheet\\Worksheet\\Worksheet), Object(App\\Imports\\UsersImport), 2)
+#20 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Reader.php(116): Maatwebsite\\Excel\\Sheet->import(Object(App\\Imports\\UsersImport), 2)
+#21 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Concerns\\ManagesTransactions.php(32): Maatwebsite\\Excel\\Reader->Maatwebsite\\Excel\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#22 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Transactions\\DbTransactionHandler.php(30): Illuminate\\Database\\Connection->transaction(Object(Closure))
+#23 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Reader.php(111): Maatwebsite\\Excel\\Transactions\\DbTransactionHandler->__invoke(Object(Closure))
+#24 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Excel.php(155): Maatwebsite\\Excel\\Reader->read(Object(App\\Imports\\UsersImport), Object(Illuminate\\Http\\UploadedFile), 'Xlsx', NULL)
+#25 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(361): Maatwebsite\\Excel\\Excel->import(Object(App\\Imports\\UsersImport), Object(Illuminate\\Http\\UploadedFile))
+#26 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\app\\Http\\Controllers\\UserImportController.php(25): Illuminate\\Support\\Facades\\Facade::__callStatic('import', Array)
+#27 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(47): App\\Http\\Controllers\\UserImportController->import(Object(Illuminate\\Http\\Request))
+#28 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(266): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\UserImportController), 'import')
+#29 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\Route->runController()
+#30 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(808): Illuminate\\Routing\\Route->run()
+#31 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(170): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#32 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\app\\Http\\Middleware\\AdminMiddleware.php(24): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): App\\Http\\Middleware\\AdminMiddleware->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(51): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(64): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
+#38 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(170): Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful->Laravel\\Sanctum\\Http\\Middleware\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php(24): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#42 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(807): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#45 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(786): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#46 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(750): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#47 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(739): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#48 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(201): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#49 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(170): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#50 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#51 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#52 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#53 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#54 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(51): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#55 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#57 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#58 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(110): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#59 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(62): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#61 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#62 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(58): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#63 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\InvokeDeferredCallbacks.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\InvokeDeferredCallbacks->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#68 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(145): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#69 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1220): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#70 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\public\\index.php(17): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
+#71 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\Users\\\\XPS\\\\De...')
+#72 {main}
+
+[previous exception] [object] (PDOException(code: 23000): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'manel@esi-sba.dz' for key 'users.users_email_unique' at C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\MySqlConnection.php:53)
+[stacktrace]
+#0 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\MySqlConnection.php(53): PDOStatement->execute()
+#1 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(812): Illuminate\\Database\\MySqlConnection->Illuminate\\Database\\{closure}('insert into `us...', Array)
+#2 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(779): Illuminate\\Database\\Connection->runQueryCallback('insert into `us...', Array, Object(Closure))
+#3 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\MySqlConnection.php(42): Illuminate\\Database\\Connection->run('insert into `us...', Array, Object(Closure))
+#4 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Processors\\MySqlProcessor.php(35): Illuminate\\Database\\MySqlConnection->insert('insert into `us...', Array, 'id')
+#5 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3766): Illuminate\\Database\\Query\\Processors\\MySqlProcessor->processInsertGetId(Object(Illuminate\\Database\\Query\\Builder), 'insert into `us...', Array, 'id')
+#6 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(2120): Illuminate\\Database\\Query\\Builder->insertGetId(Array, 'id')
+#7 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1359): Illuminate\\Database\\Eloquent\\Builder->__call('insertGetId', Array)
+#8 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1324): Illuminate\\Database\\Eloquent\\Model->insertAndSetId(Object(Illuminate\\Database\\Eloquent\\Builder), Array)
+#9 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1163): Illuminate\\Database\\Eloquent\\Model->performInsert(Object(Illuminate\\Database\\Eloquent\\Builder))
+#10 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1191): Illuminate\\Database\\Eloquent\\Model->save(Array)
+#11 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Concerns\\ManagesTransactions.php(32): Illuminate\\Database\\Eloquent\\Model->Illuminate\\Database\\Eloquent\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#12 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1191): Illuminate\\Database\\Connection->transaction(Object(Closure))
+#13 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(167): Illuminate\\Database\\Eloquent\\Model->saveOrFail()
+#14 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(261): Maatwebsite\\Excel\\Imports\\ModelManager->Maatwebsite\\Excel\\Imports\\{closure}(Object(App\\Models\\User), 0)
+#15 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(148): Illuminate\\Support\\Collection->each(Object(Closure))
+#16 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(261): Maatwebsite\\Excel\\Imports\\ModelManager->Maatwebsite\\Excel\\Imports\\{closure}(Array, 3)
+#17 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(147): Illuminate\\Support\\Collection->each(Object(Closure))
+#18 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(82): Maatwebsite\\Excel\\Imports\\ModelManager->singleFlush(Object(App\\Imports\\UsersImport))
+#19 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelImporter.php(114): Maatwebsite\\Excel\\Imports\\ModelManager->flush(Object(App\\Imports\\UsersImport), false)
+#20 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelImporter.php(95): Maatwebsite\\Excel\\Imports\\ModelImporter->flush(Object(App\\Imports\\UsersImport), 1, 3)
+#21 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Sheet.php(254): Maatwebsite\\Excel\\Imports\\ModelImporter->import(Object(PhpOffice\\PhpSpreadsheet\\Worksheet\\Worksheet), Object(App\\Imports\\UsersImport), 2)
+#22 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Reader.php(116): Maatwebsite\\Excel\\Sheet->import(Object(App\\Imports\\UsersImport), 2)
+#23 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Concerns\\ManagesTransactions.php(32): Maatwebsite\\Excel\\Reader->Maatwebsite\\Excel\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#24 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Transactions\\DbTransactionHandler.php(30): Illuminate\\Database\\Connection->transaction(Object(Closure))
+#25 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Reader.php(111): Maatwebsite\\Excel\\Transactions\\DbTransactionHandler->__invoke(Object(Closure))
+#26 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Excel.php(155): Maatwebsite\\Excel\\Reader->read(Object(App\\Imports\\UsersImport), Object(Illuminate\\Http\\UploadedFile), 'Xlsx', NULL)
+#27 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(361): Maatwebsite\\Excel\\Excel->import(Object(App\\Imports\\UsersImport), Object(Illuminate\\Http\\UploadedFile))
+#28 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\app\\Http\\Controllers\\UserImportController.php(25): Illuminate\\Support\\Facades\\Facade::__callStatic('import', Array)
+#29 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(47): App\\Http\\Controllers\\UserImportController->import(Object(Illuminate\\Http\\Request))
+#30 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(266): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\UserImportController), 'import')
+#31 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\Route->runController()
+#32 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(808): Illuminate\\Routing\\Route->run()
+#33 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(170): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\app\\Http\\Middleware\\AdminMiddleware.php(24): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): App\\Http\\Middleware\\AdminMiddleware->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(51): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(64): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
+#40 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(170): Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful->Laravel\\Sanctum\\Http\\Middleware\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php(24): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#44 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(807): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(786): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#48 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(750): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#49 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(739): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#50 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(201): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#51 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(170): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#52 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#53 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#55 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#56 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(51): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#58 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#59 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(110): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#61 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#62 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(62): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#63 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(58): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\InvokeDeferredCallbacks.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\InvokeDeferredCallbacks->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#68 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#69 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#70 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(145): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#71 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1220): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#72 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\public\\index.php(17): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
+#73 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\Users\\\\XPS\\\\De...')
+#74 {main}
+"} 
+[2025-05-27 14:39:16] local.ERROR: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'manel@esi-sba.dz' for key 'users.users_email_unique' (Connection: mysql, SQL: insert into `users` (`name`, `email`, `password`, `role_id`, `gender`, `birthdate`, `phone_num`, `address`, `updated_at`, `created_at`) values (MOSTEFAOUI MANEL, manel@esi-sba.dz, $2y$12$8AGRORno9WZ/z7Wuf8sMNeX3zk5FV4NxToyZ1YHZQ2Bzw9KTFsnoe, 1, female, 2010-10-03, 1234567899, 29 cite les pins, 2025-05-27 14:39:16, 2025-05-27 14:39:16)) {"userId":1,"exception":"[object] (Illuminate\\Database\\UniqueConstraintViolationException(code: 23000): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'manel@esi-sba.dz' for key 'users.users_email_unique' (Connection: mysql, SQL: insert into `users` (`name`, `email`, `password`, `role_id`, `gender`, `birthdate`, `phone_num`, `address`, `updated_at`, `created_at`) values (MOSTEFAOUI MANEL, manel@esi-sba.dz, $2y$12$8AGRORno9WZ/z7Wuf8sMNeX3zk5FV4NxToyZ1YHZQ2Bzw9KTFsnoe, 1, female, 2010-10-03, 1234567899, 29 cite les pins, 2025-05-27 14:39:16, 2025-05-27 14:39:16)) at C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:820)
+[stacktrace]
+#0 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(779): Illuminate\\Database\\Connection->runQueryCallback('insert into `us...', Array, Object(Closure))
+#1 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\MySqlConnection.php(42): Illuminate\\Database\\Connection->run('insert into `us...', Array, Object(Closure))
+#2 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Processors\\MySqlProcessor.php(35): Illuminate\\Database\\MySqlConnection->insert('insert into `us...', Array, 'id')
+#3 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3766): Illuminate\\Database\\Query\\Processors\\MySqlProcessor->processInsertGetId(Object(Illuminate\\Database\\Query\\Builder), 'insert into `us...', Array, 'id')
+#4 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(2120): Illuminate\\Database\\Query\\Builder->insertGetId(Array, 'id')
+#5 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1359): Illuminate\\Database\\Eloquent\\Builder->__call('insertGetId', Array)
+#6 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1324): Illuminate\\Database\\Eloquent\\Model->insertAndSetId(Object(Illuminate\\Database\\Eloquent\\Builder), Array)
+#7 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1163): Illuminate\\Database\\Eloquent\\Model->performInsert(Object(Illuminate\\Database\\Eloquent\\Builder))
+#8 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1191): Illuminate\\Database\\Eloquent\\Model->save(Array)
+#9 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Concerns\\ManagesTransactions.php(32): Illuminate\\Database\\Eloquent\\Model->Illuminate\\Database\\Eloquent\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#10 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1191): Illuminate\\Database\\Connection->transaction(Object(Closure))
+#11 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(167): Illuminate\\Database\\Eloquent\\Model->saveOrFail()
+#12 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(261): Maatwebsite\\Excel\\Imports\\ModelManager->Maatwebsite\\Excel\\Imports\\{closure}(Object(App\\Models\\User), 0)
+#13 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(148): Illuminate\\Support\\Collection->each(Object(Closure))
+#14 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(261): Maatwebsite\\Excel\\Imports\\ModelManager->Maatwebsite\\Excel\\Imports\\{closure}(Array, 3)
+#15 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(147): Illuminate\\Support\\Collection->each(Object(Closure))
+#16 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(82): Maatwebsite\\Excel\\Imports\\ModelManager->singleFlush(Object(App\\Imports\\UsersImport))
+#17 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelImporter.php(114): Maatwebsite\\Excel\\Imports\\ModelManager->flush(Object(App\\Imports\\UsersImport), false)
+#18 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelImporter.php(95): Maatwebsite\\Excel\\Imports\\ModelImporter->flush(Object(App\\Imports\\UsersImport), 1, 3)
+#19 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Sheet.php(254): Maatwebsite\\Excel\\Imports\\ModelImporter->import(Object(PhpOffice\\PhpSpreadsheet\\Worksheet\\Worksheet), Object(App\\Imports\\UsersImport), 2)
+#20 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Reader.php(116): Maatwebsite\\Excel\\Sheet->import(Object(App\\Imports\\UsersImport), 2)
+#21 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Concerns\\ManagesTransactions.php(32): Maatwebsite\\Excel\\Reader->Maatwebsite\\Excel\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#22 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Transactions\\DbTransactionHandler.php(30): Illuminate\\Database\\Connection->transaction(Object(Closure))
+#23 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Reader.php(111): Maatwebsite\\Excel\\Transactions\\DbTransactionHandler->__invoke(Object(Closure))
+#24 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Excel.php(155): Maatwebsite\\Excel\\Reader->read(Object(App\\Imports\\UsersImport), Object(Illuminate\\Http\\UploadedFile), 'Xlsx', NULL)
+#25 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(361): Maatwebsite\\Excel\\Excel->import(Object(App\\Imports\\UsersImport), Object(Illuminate\\Http\\UploadedFile))
+#26 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\app\\Http\\Controllers\\UserImportController.php(25): Illuminate\\Support\\Facades\\Facade::__callStatic('import', Array)
+#27 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(47): App\\Http\\Controllers\\UserImportController->import(Object(Illuminate\\Http\\Request))
+#28 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(266): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\UserImportController), 'import')
+#29 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\Route->runController()
+#30 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(808): Illuminate\\Routing\\Route->run()
+#31 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(170): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#32 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\app\\Http\\Middleware\\AdminMiddleware.php(24): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): App\\Http\\Middleware\\AdminMiddleware->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(51): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(64): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
+#38 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(170): Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful->Laravel\\Sanctum\\Http\\Middleware\\{closure}(Object(Illuminate\\Http\\Request))
+#40 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php(24): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#42 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(807): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#45 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(786): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#46 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(750): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#47 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(739): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#48 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(201): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#49 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(170): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#50 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#51 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#52 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#53 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#54 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(51): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#55 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#57 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#58 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(110): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#59 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(62): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#61 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#62 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(58): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#63 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\InvokeDeferredCallbacks.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\InvokeDeferredCallbacks->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#68 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(145): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#69 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1220): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#70 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\public\\index.php(17): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
+#71 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\Users\\\\XPS\\\\De...')
+#72 {main}
+
+[previous exception] [object] (PDOException(code: 23000): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'manel@esi-sba.dz' for key 'users.users_email_unique' at C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\MySqlConnection.php:53)
+[stacktrace]
+#0 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\MySqlConnection.php(53): PDOStatement->execute()
+#1 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(812): Illuminate\\Database\\MySqlConnection->Illuminate\\Database\\{closure}('insert into `us...', Array)
+#2 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(779): Illuminate\\Database\\Connection->runQueryCallback('insert into `us...', Array, Object(Closure))
+#3 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\MySqlConnection.php(42): Illuminate\\Database\\Connection->run('insert into `us...', Array, Object(Closure))
+#4 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Processors\\MySqlProcessor.php(35): Illuminate\\Database\\MySqlConnection->insert('insert into `us...', Array, 'id')
+#5 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3766): Illuminate\\Database\\Query\\Processors\\MySqlProcessor->processInsertGetId(Object(Illuminate\\Database\\Query\\Builder), 'insert into `us...', Array, 'id')
+#6 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(2120): Illuminate\\Database\\Query\\Builder->insertGetId(Array, 'id')
+#7 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1359): Illuminate\\Database\\Eloquent\\Builder->__call('insertGetId', Array)
+#8 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1324): Illuminate\\Database\\Eloquent\\Model->insertAndSetId(Object(Illuminate\\Database\\Eloquent\\Builder), Array)
+#9 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1163): Illuminate\\Database\\Eloquent\\Model->performInsert(Object(Illuminate\\Database\\Eloquent\\Builder))
+#10 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1191): Illuminate\\Database\\Eloquent\\Model->save(Array)
+#11 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Concerns\\ManagesTransactions.php(32): Illuminate\\Database\\Eloquent\\Model->Illuminate\\Database\\Eloquent\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#12 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1191): Illuminate\\Database\\Connection->transaction(Object(Closure))
+#13 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(167): Illuminate\\Database\\Eloquent\\Model->saveOrFail()
+#14 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(261): Maatwebsite\\Excel\\Imports\\ModelManager->Maatwebsite\\Excel\\Imports\\{closure}(Object(App\\Models\\User), 0)
+#15 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(148): Illuminate\\Support\\Collection->each(Object(Closure))
+#16 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Collections\\Traits\\EnumeratesValues.php(261): Maatwebsite\\Excel\\Imports\\ModelManager->Maatwebsite\\Excel\\Imports\\{closure}(Array, 3)
+#17 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(147): Illuminate\\Support\\Collection->each(Object(Closure))
+#18 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelManager.php(82): Maatwebsite\\Excel\\Imports\\ModelManager->singleFlush(Object(App\\Imports\\UsersImport))
+#19 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelImporter.php(114): Maatwebsite\\Excel\\Imports\\ModelManager->flush(Object(App\\Imports\\UsersImport), false)
+#20 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Imports\\ModelImporter.php(95): Maatwebsite\\Excel\\Imports\\ModelImporter->flush(Object(App\\Imports\\UsersImport), 1, 3)
+#21 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Sheet.php(254): Maatwebsite\\Excel\\Imports\\ModelImporter->import(Object(PhpOffice\\PhpSpreadsheet\\Worksheet\\Worksheet), Object(App\\Imports\\UsersImport), 2)
+#22 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Reader.php(116): Maatwebsite\\Excel\\Sheet->import(Object(App\\Imports\\UsersImport), 2)
+#23 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Concerns\\ManagesTransactions.php(32): Maatwebsite\\Excel\\Reader->Maatwebsite\\Excel\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#24 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Transactions\\DbTransactionHandler.php(30): Illuminate\\Database\\Connection->transaction(Object(Closure))
+#25 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Reader.php(111): Maatwebsite\\Excel\\Transactions\\DbTransactionHandler->__invoke(Object(Closure))
+#26 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\maatwebsite\\excel\\src\\Excel.php(155): Maatwebsite\\Excel\\Reader->read(Object(App\\Imports\\UsersImport), Object(Illuminate\\Http\\UploadedFile), 'Xlsx', NULL)
+#27 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(361): Maatwebsite\\Excel\\Excel->import(Object(App\\Imports\\UsersImport), Object(Illuminate\\Http\\UploadedFile))
+#28 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\app\\Http\\Controllers\\UserImportController.php(25): Illuminate\\Support\\Facades\\Facade::__callStatic('import', Array)
+#29 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(47): App\\Http\\Controllers\\UserImportController->import(Object(Illuminate\\Http\\Request))
+#30 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(266): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\UserImportController), 'import')
+#31 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(212): Illuminate\\Routing\\Route->runController()
+#32 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(808): Illuminate\\Routing\\Route->run()
+#33 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(170): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\app\\Http\\Middleware\\AdminMiddleware.php(24): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): App\\Http\\Middleware\\AdminMiddleware->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(51): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php(64): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure), 'sanctum')
+#40 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php(25): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(170): Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful->Laravel\\Sanctum\\Http\\Middleware\\{closure}(Object(Illuminate\\Http\\Request))
+#42 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php(24): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#44 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#45 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#46 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(807): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(786): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#48 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(750): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#49 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(739): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#50 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(201): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#51 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(170): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#52 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#53 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#55 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#56 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(51): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#58 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#59 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#60 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(110): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#61 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#62 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(62): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#63 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#64 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(58): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#65 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#66 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\InvokeDeferredCallbacks.php(22): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#67 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(209): Illuminate\\Foundation\\Http\\Middleware\\InvokeDeferredCallbacks->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#68 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(127): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#69 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#70 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(145): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#71 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1220): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#72 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\public\\index.php(17): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
+#73 C:\\Users\\XPS\\Desktop\\Projet\\back-end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\Users\\\\XPS\\\\De...')
+#74 {main}
+"} 
+[2025-05-27 14:46:07] local.INFO: Notifications récupérées : [{"id":"2f9a6174-66ea-4ed2-8958-08fcfed76260","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":8,"patient_name":"etudiant","requested_at":"2025-05-27T14:45:00.000000Z"},"read_at":null,"created_at":"2025-05-27T14:45:00.000000Z","updated_at":"2025-05-27T14:45:00.000000Z"},{"id":"6f22b61e-2dae-454d-8336-c48e25391999","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":7,"patient_name":"etudiant","requested_at":"2025-05-27T14:43:26.000000Z"},"read_at":null,"created_at":"2025-05-27T14:43:26.000000Z","updated_at":"2025-05-27T14:43:26.000000Z"},{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 14:46:07] local.INFO: Notifications récupérées : [{"id":"2f9a6174-66ea-4ed2-8958-08fcfed76260","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":8,"patient_name":"etudiant","requested_at":"2025-05-27T14:45:00.000000Z"},"read_at":null,"created_at":"2025-05-27T14:45:00.000000Z","updated_at":"2025-05-27T14:45:00.000000Z"},{"id":"6f22b61e-2dae-454d-8336-c48e25391999","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":7,"patient_name":"etudiant","requested_at":"2025-05-27T14:43:26.000000Z"},"read_at":null,"created_at":"2025-05-27T14:43:26.000000Z","updated_at":"2025-05-27T14:43:26.000000Z"},{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 14:47:49] local.INFO: Notifications récupérées : [{"id":"363e0611-4df0-4829-ae33-24cd6e3e8a1a","type":"App\\Notifications\\ConsultationRequestCancelledNotification","notifiable_type":"App\\Models\\User","notifiable_id":33,"data":{"type":"consultation_request_cancelled","message":"Your consultation request has been cancelled by Dr. Doctor.","data":{"consultation_request_id":7,"cancelled_by":{"id":31,"name":"Doctor","role":"doctor"}}},"read_at":null,"created_at":"2025-05-27T14:47:29.000000Z","updated_at":"2025-05-27T14:47:29.000000Z"},{"id":"a31f5e45-c72f-4c5a-885b-504db552cbca","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":33,"data":{"message":"Your appointment has been scheduled","appointment_id":18,"scheduled_at":"2025-05-31 09:20","duration":15},"read_at":null,"created_at":"2025-05-27T14:47:05.000000Z","updated_at":"2025-05-27T14:47:05.000000Z"}] 
+[2025-05-27 14:47:49] local.INFO: Notifications récupérées : [{"id":"363e0611-4df0-4829-ae33-24cd6e3e8a1a","type":"App\\Notifications\\ConsultationRequestCancelledNotification","notifiable_type":"App\\Models\\User","notifiable_id":33,"data":{"type":"consultation_request_cancelled","message":"Your consultation request has been cancelled by Dr. Doctor.","data":{"consultation_request_id":7,"cancelled_by":{"id":31,"name":"Doctor","role":"doctor"}}},"read_at":null,"created_at":"2025-05-27T14:47:29.000000Z","updated_at":"2025-05-27T14:47:29.000000Z"},{"id":"a31f5e45-c72f-4c5a-885b-504db552cbca","type":"App\\Notifications\\AppointmentScheduledNotification","notifiable_type":"App\\Models\\User","notifiable_id":33,"data":{"message":"Your appointment has been scheduled","appointment_id":18,"scheduled_at":"2025-05-31 09:20","duration":15},"read_at":null,"created_at":"2025-05-27T14:47:05.000000Z","updated_at":"2025-05-27T14:47:05.000000Z"}] 
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-30, Count: 2, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-31, Count: 1, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-30, Count: 2, Status: no_appointment  
+[2025-05-27 14:48:39] local.INFO: Date: 2025-05-31, Count: 1, Status: no_appointment  
+[2025-05-27 14:49:20] local.INFO: Notifications récupérées : [{"id":"584f9cdb-c78e-4946-b115-3c7bb461adaf","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient etudiant has confirmed the appointment","appointment_id":18,"patient_name":"etudiant","scheduled_at":"2025-05-31 09:20:00","confirmed_at":"2025-05-27T14:48:19.931346Z","confirmed_by":"etudiant"},"read_at":null,"created_at":"2025-05-27T14:48:19.000000Z","updated_at":"2025-05-27T14:48:19.000000Z"},{"id":"2f9a6174-66ea-4ed2-8958-08fcfed76260","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":8,"patient_name":"etudiant","requested_at":"2025-05-27T14:45:00.000000Z"},"read_at":null,"created_at":"2025-05-27T14:45:00.000000Z","updated_at":"2025-05-27T14:45:00.000000Z"},{"id":"6f22b61e-2dae-454d-8336-c48e25391999","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":7,"patient_name":"etudiant","requested_at":"2025-05-27T14:43:26.000000Z"},"read_at":null,"created_at":"2025-05-27T14:43:26.000000Z","updated_at":"2025-05-27T14:43:26.000000Z"},{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 14:49:21] local.INFO: Notifications récupérées : [{"id":"584f9cdb-c78e-4946-b115-3c7bb461adaf","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient etudiant has confirmed the appointment","appointment_id":18,"patient_name":"etudiant","scheduled_at":"2025-05-31 09:20:00","confirmed_at":"2025-05-27T14:48:19.931346Z","confirmed_by":"etudiant"},"read_at":null,"created_at":"2025-05-27T14:48:19.000000Z","updated_at":"2025-05-27T14:48:19.000000Z"},{"id":"2f9a6174-66ea-4ed2-8958-08fcfed76260","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":8,"patient_name":"etudiant","requested_at":"2025-05-27T14:45:00.000000Z"},"read_at":null,"created_at":"2025-05-27T14:45:00.000000Z","updated_at":"2025-05-27T14:45:00.000000Z"},{"id":"6f22b61e-2dae-454d-8336-c48e25391999","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":7,"patient_name":"etudiant","requested_at":"2025-05-27T14:43:26.000000Z"},"read_at":null,"created_at":"2025-05-27T14:43:26.000000Z","updated_at":"2025-05-27T14:43:26.000000Z"},{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-30, Count: 2, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-31, Count: 1, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-30, Count: 2, Status: no_appointment  
+[2025-05-27 15:03:54] local.INFO: Date: 2025-05-31, Count: 1, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-30, Count: 2, Status: no_appointment  
+[2025-05-27 15:04:02] local.INFO: Date: 2025-05-31, Count: 1, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-30, Count: 2, Status: no_appointment  
+[2025-05-27 15:04:03] local.INFO: Date: 2025-05-31, Count: 1, Status: no_appointment  
+[2025-05-27 15:07:31] local.INFO: Notifications récupérées : [{"id":"584f9cdb-c78e-4946-b115-3c7bb461adaf","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient etudiant has confirmed the appointment","appointment_id":18,"patient_name":"etudiant","scheduled_at":"2025-05-31 09:20:00","confirmed_at":"2025-05-27T14:48:19.931346Z","confirmed_by":"etudiant"},"read_at":null,"created_at":"2025-05-27T14:48:19.000000Z","updated_at":"2025-05-27T14:48:19.000000Z"},{"id":"2f9a6174-66ea-4ed2-8958-08fcfed76260","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":8,"patient_name":"etudiant","requested_at":"2025-05-27T14:45:00.000000Z"},"read_at":null,"created_at":"2025-05-27T14:45:00.000000Z","updated_at":"2025-05-27T14:45:00.000000Z"},{"id":"6f22b61e-2dae-454d-8336-c48e25391999","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":7,"patient_name":"etudiant","requested_at":"2025-05-27T14:43:26.000000Z"},"read_at":null,"created_at":"2025-05-27T14:43:26.000000Z","updated_at":"2025-05-27T14:43:26.000000Z"},{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-27 15:07:31] local.INFO: Notifications récupérées : [{"id":"584f9cdb-c78e-4946-b115-3c7bb461adaf","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient etudiant has confirmed the appointment","appointment_id":18,"patient_name":"etudiant","scheduled_at":"2025-05-31 09:20:00","confirmed_at":"2025-05-27T14:48:19.931346Z","confirmed_by":"etudiant"},"read_at":null,"created_at":"2025-05-27T14:48:19.000000Z","updated_at":"2025-05-27T14:48:19.000000Z"},{"id":"2f9a6174-66ea-4ed2-8958-08fcfed76260","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":8,"patient_name":"etudiant","requested_at":"2025-05-27T14:45:00.000000Z"},"read_at":null,"created_at":"2025-05-27T14:45:00.000000Z","updated_at":"2025-05-27T14:45:00.000000Z"},{"id":"6f22b61e-2dae-454d-8336-c48e25391999","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":7,"patient_name":"etudiant","requested_at":"2025-05-27T14:43:26.000000Z"},"read_at":null,"created_at":"2025-05-27T14:43:26.000000Z","updated_at":"2025-05-27T14:43:26.000000Z"},{"id":"2d8a6c93-e241-4a6c-a034-5b040a0c5b6b","type":"App\\Notifications\\AppointmentConfirmedNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"Patient patient has confirmed the appointment","appointment_id":17,"patient_name":"patient","scheduled_at":"2025-05-30 09:00:00","confirmed_at":"2025-05-27T13:03:01.469485Z","confirmed_by":"patient"},"read_at":null,"created_at":"2025-05-27T13:03:01.000000Z","updated_at":"2025-05-27T13:03:01.000000Z"},{"id":"63b47321-f0e3-4858-ac94-df568b587e88","type":"App\\Notifications\\NewConsultationRequestNotification","notifiable_type":"App\\Models\\User","notifiable_id":31,"data":{"message":"New consultation request received","consultation_request_id":6,"patient_name":"patient","requested_at":"2025-05-27T13:01:08.000000Z"},"read_at":null,"created_at":"2025-05-27T13:01:11.000000Z","updated_at":"2025-05-27T13:01:11.000000Z"}] 
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-30, Count: 2, Status: no_appointment  
+[2025-05-29 15:20:02] local.INFO: Date: 2025-05-31, Count: 1, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-30, Count: 2, Status: no_appointment  
+[2025-05-29 15:20:03] local.INFO: Date: 2025-05-31, Count: 1, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-30, Count: 2, Status: no_appointment  
+[2025-05-29 15:20:13] local.INFO: Date: 2025-05-31, Count: 1, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-01, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-02, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-03, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-04, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-05, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-06, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-07, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-08, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-09, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-10, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-11, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-12, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-13, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-14, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-15, Count: 1, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-16, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-17, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-18, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-19, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-20, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-21, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-22, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-23, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-24, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-25, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-26, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-27, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-28, Count: 1, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-29, Count: 0, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-30, Count: 2, Status: no_appointment  
+[2025-05-29 15:20:14] local.INFO: Date: 2025-05-31, Count: 1, Status: no_appointment  

@@ -74,8 +74,8 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
         const userRole = userResponse.data.role;
         console.log('User role:', userRole);
         if (userRole === 'doctor') {
-          console.log('Navigating to /patients');
-          navigate('/patients');
+          console.log('Navigating to /statistics');
+          navigate('/statistics');
         } else if (['student', 'teacher', 'employer'].includes(userRole)) {
           console.log('Navigating to /contact-center');
           navigate('/contact-center');

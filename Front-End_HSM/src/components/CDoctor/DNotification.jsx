@@ -39,12 +39,22 @@ export default function DNotification() {
           }
         })
 
-        console.log('Fetched notifications:', response.data)
+        console.log('Raw API Response:', response.data)
+        console.log('Notifications array:', response.data.notifications)
 
         // Transform API data to match component structure
         const transformedNotifications = response.data.notifications.map(apiNotification => {
           const { id, type, data, created_at } = apiNotification
           const notificationData = data
+
+          console.log('Processing notification:', {
+            id,
+            type,
+            data: notificationData,
+            patient_id: notificationData.patient_id,
+            user_id: notificationData.patient_id?.user_id,
+            name: notificationData.patient_id?.user_id?.name
+          });
 
           let person = 'Unknown'
           let action = ''
@@ -56,7 +66,7 @@ export default function DNotification() {
 
           // Derive information based on notification type
           if (type === 'App\\Notifications\\NewConsultationRequestNotification') {
-            person = notificationData.patient_name || 'A patient'
+            person = notificationData.patient_id?.user_id?.name || 'A patient'
             action = 'has requested'
             description = 'a consultation'
             hasButton = true
@@ -71,7 +81,7 @@ export default function DNotification() {
               }
             }
           } else if (type === 'App\\Notifications\\PatientCancelledAppointmentNotification') {
-            person = notificationData.patient_name || 'A patient'
+            person = notificationData.patient_id?.user_id?.name || 'A patient'
             action = 'has cancelled'
             description = 'their appointment'
             hasButton = true
@@ -86,7 +96,7 @@ export default function DNotification() {
               }
             }
           } else if (type === 'App\\Notifications\\AppointmentConfirmedNotification') {
-            person = notificationData.patient_name || 'A patient'
+            person = notificationData.patient_id?.user_id?.name || 'A patient'
             action = 'has confirmed'
             description = 'their appointment'
             if (notificationData.scheduled_at) {
@@ -99,7 +109,7 @@ export default function DNotification() {
               }
             }
           } else if (type === 'App\\Notifications\\DoctorCancelledAppointmentNotification') {
-            person = notificationData.patient_name || 'A patient'
+            person = notificationData.patient_id?.user_id?.name || 'A patient'
             action = 'appointment has been cancelled'
             description = 'by the doctor'
             if (notificationData.scheduled_at) {

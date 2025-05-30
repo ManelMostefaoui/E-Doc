@@ -37,14 +37,14 @@ export default function PNotification() {
           const { id, type, data, created_at } = apiNotification
           const notificationData = data
 
-          let doctorName = 'Unknown Doctor'
+          let doctorName = 'The Doctor has scheduled an appointment for you'
           let date = ''
           let time = ''
           let needsAction = false
           let message = ''
 
           if (type === 'App\\Notifications\\ConsultationRequestCancelledNotification') {
-            doctorName = notificationData.data?.cancelled_by?.name || notificationData.doctor || 'The doctor'
+            doctorName = notificationData.data?.patient_id.user_id.name || notificationData.doctor || 'The doctor'
             message = ' has cancelled your consultation request'
           } else if (type === 'App\\Notifications\\PatientCancelledAppointmentNotification') {
             message = 'Your appointment has been cancelled'
@@ -72,6 +72,18 @@ export default function PNotification() {
           } else if (type === 'App\\Notifications\\AppointmentConfirmedNotification') {
             doctorName = notificationData.data?.doctor?.name || notificationData.doctor?.name || notificationData.doctor_name || 'The doctor'
             message = ' has confirmed your appointment'
+            if (notificationData.scheduled_at) {
+              try {
+                const scheduledAt = new Date(notificationData.scheduled_at)
+                date = scheduledAt.toLocaleDateString()
+                time = scheduledAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              } catch (e) {
+                console.error('Error parsing date/time:', e)
+              }
+            }
+          } else if (type === 'App\\Notifications\\DoctorScheduledAppointmentNotification') {
+            doctorName = notificationData.data?.doctor?.name || notificationData.doctor?.name || notificationData.doctor_name || 'The doctor'
+            message = ' has scheduled an appointment for you'
             if (notificationData.scheduled_at) {
               try {
                 const scheduledAt = new Date(notificationData.scheduled_at)

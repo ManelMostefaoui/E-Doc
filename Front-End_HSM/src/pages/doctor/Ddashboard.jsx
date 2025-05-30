@@ -71,10 +71,10 @@ export default function Dashboard() {
         }
 
         const response = await axios.get(`${API_BASE_URL}/screening/statistics`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+          },
         });
 
         console.log('Screening statistics raw response:', response.data); // Log raw response
@@ -108,7 +108,7 @@ export default function Dashboard() {
             'Accept': 'application/json',
           },
         });
-        console.log('User counts response:', response.data); // Debug log
+        console.log('User counts response:', response.data);
 
         // Assuming the response data is an object like { student: 10, teacher: 5, employer: 2 }
         const counts = response.data || {};
@@ -117,19 +117,27 @@ export default function Dashboard() {
           value: counts[role] || 0,
         }));
 
-        console.log('Processed user counts data:', roleData); // Debug log
+        console.log('Processed user counts data:', roleData);
         setRoleStatsData(roleData);
 
       } catch (err) {
         console.error('Error fetching role statistics:', err);
-        setRoleStatsError('Failed to load user statistics.');
+        if (err.response && err.response.status === 404) {
+          setRoleStatsError('User statistics endpoint is not available. Please contact the administrator.');
+        } else {
+          setRoleStatsError('Failed to load user statistics. Please try again later.');
+        }
+        // Set default data when there's an error
+        setRoleStatsData([
+          { name: "No Data", value: 0, color: "#14b8a6" }
+        ]);
       } finally {
         setLoadingRoleStats(false);
       }
     };
 
     fetchRoleStats();
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
   // Generate months and years for dropdowns
   const months = [
@@ -182,29 +190,29 @@ export default function Dashboard() {
 
   // Process fetched patient stats data for the chart
   const patientStatsData = useMemo(() => {
-      const processedData = [];
-      if (patientStatsRawData && patientStatsRawData.by_category) {
-          // Iterate through categories
-          for (const category in patientStatsRawData.by_category) {
-              if (patientStatsRawData.by_category.hasOwnProperty(category)) {
-                  const categoryData = patientStatsRawData.by_category[category];
-                  if (categoryData.types) {
-                      // Iterate through types within each category
-                      for (const type in categoryData.types) {
-                          if (categoryData.types.hasOwnProperty(type)) {
-                              const typeData = categoryData.types[type];
-                              processedData.push({
-                                  condition: type, // Use the condition name from the API
-                                  total: typeData.total || 0, // Use the total count for the type
-                              });
-                          }
-                      }
-                  }
+    const processedData = [];
+    if (patientStatsRawData && patientStatsRawData.by_category) {
+      // Iterate through categories
+      for (const category in patientStatsRawData.by_category) {
+        if (patientStatsRawData.by_category.hasOwnProperty(category)) {
+          const categoryData = patientStatsRawData.by_category[category];
+          if (categoryData.types) {
+            // Iterate through types within each category
+            for (const type in categoryData.types) {
+              if (categoryData.types.hasOwnProperty(type)) {
+                const typeData = categoryData.types[type];
+                processedData.push({
+                  condition: type, // Use the condition name from the API
+                  total: typeData.total || 0, // Use the total count for the type
+                });
               }
+            }
           }
+        }
       }
-      console.log('Screening statistics processed data for chart:', processedData); // Log processed data
-      return processedData;
+    }
+    console.log('Screening statistics processed data for chart:', processedData); // Log processed data
+    return processedData;
   }, [patientStatsRawData]); // Depends on the fetched raw data
 
   // Dynamic patient type data based on role statistics
@@ -274,62 +282,62 @@ export default function Dashboard() {
 
     // Add data for each category and its types
     if (patientStatsRawData.by_category) {
-        for (const category in patientStatsRawData.by_category) {
-            if (patientStatsRawData.by_category.hasOwnProperty(category)) {
-                const categoryData = patientStatsRawData.by_category[category];
-                const maleDistribution = categoryData.gender_distribution?.male || {};
-                const femaleDistribution = categoryData.gender_distribution?.female || {};
+      for (const category in patientStatsRawData.by_category) {
+        if (patientStatsRawData.by_category.hasOwnProperty(category)) {
+          const categoryData = patientStatsRawData.by_category[category];
+          const maleDistribution = categoryData.gender_distribution?.male || {};
+          const femaleDistribution = categoryData.gender_distribution?.female || {};
 
-                if (categoryData.types && Object.keys(categoryData.types).length > 0) {
-                    for (const type in categoryData.types) {
-                        if (categoryData.types.hasOwnProperty(type)) {
-                            const typeData = categoryData.types[type];
-                            csvRows.push([
-                                // Only include category details on the first row for each category
-                                Object.keys(categoryData.types).indexOf(type) === 0 ? category : "",
-                                Object.keys(categoryData.types).indexOf(type) === 0 ? (categoryData.total || 0) : "",
-                                Object.keys(categoryData.types).indexOf(type) === 0 ? (categoryData.percentage || 0) : "",
-                                Object.keys(categoryData.types).indexOf(type) === 0 ? (maleDistribution.total || 0) : "",
-                                Object.keys(categoryData.types).indexOf(type) === 0 ? (maleDistribution.percentage || 0) : "",
-                                Object.keys(categoryData.types).indexOf(type) === 0 ? (femaleDistribution.total || 0) : "",
-                                Object.keys(categoryData.types).indexOf(type) === 0 ? (femaleDistribution.percentage || 0) : "",
-                                type, // Condition Type
-                                typeData.total || 0, // Condition Type Total
-                                typeData.percentage || 0 // Condition Type Percentage
-                            ]);
-                        }
-                    }
-                } else {
-                     // Handle categories with no specific types listed
-                     csvRows.push([
-                        category,
-                        categoryData.total || 0,
-                        categoryData.percentage || 0,
-                        maleDistribution.total || 0,
-                        maleDistribution.percentage || 0,
-                        femaleDistribution.total || 0,
-                        femaleDistribution.percentage || 0,
-                        "", // No specific type
-                        "", // No specific type total
-                        "" // No specific type percentage
-                     ]);
-                }
-                csvRows.push([]); // Add empty row after each category for readability
+          if (categoryData.types && Object.keys(categoryData.types).length > 0) {
+            for (const type in categoryData.types) {
+              if (categoryData.types.hasOwnProperty(type)) {
+                const typeData = categoryData.types[type];
+                csvRows.push([
+                  // Only include category details on the first row for each category
+                  Object.keys(categoryData.types).indexOf(type) === 0 ? category : "",
+                  Object.keys(categoryData.types).indexOf(type) === 0 ? (categoryData.total || 0) : "",
+                  Object.keys(categoryData.types).indexOf(type) === 0 ? (categoryData.percentage || 0) : "",
+                  Object.keys(categoryData.types).indexOf(type) === 0 ? (maleDistribution.total || 0) : "",
+                  Object.keys(categoryData.types).indexOf(type) === 0 ? (maleDistribution.percentage || 0) : "",
+                  Object.keys(categoryData.types).indexOf(type) === 0 ? (femaleDistribution.total || 0) : "",
+                  Object.keys(categoryData.types).indexOf(type) === 0 ? (femaleDistribution.percentage || 0) : "",
+                  type, // Condition Type
+                  typeData.total || 0, // Condition Type Total
+                  typeData.percentage || 0 // Condition Type Percentage
+                ]);
+              }
             }
+          } else {
+            // Handle categories with no specific types listed
+            csvRows.push([
+              category,
+              categoryData.total || 0,
+              categoryData.percentage || 0,
+              maleDistribution.total || 0,
+              maleDistribution.percentage || 0,
+              femaleDistribution.total || 0,
+              femaleDistribution.percentage || 0,
+              "", // No specific type
+              "", // No specific type total
+              "" // No specific type percentage
+            ]);
+          }
+          csvRows.push([]); // Add empty row after each category for readability
         }
+      }
     }
 
 
     // Format rows for CSV, handling potential commas and quotes
     const csvString = csvRows.map(row =>
-        row.map(cell => {
-            // If the cell is a number or empty, return it directly
-            if (typeof cell === 'number' || cell === "") {
-                return cell;
-            }
-            // Otherwise, enclose in double quotes and escape existing double quotes
-            return `"${cell.replace(/"/g, '""')}"`;
-        }).join(",")
+      row.map(cell => {
+        // If the cell is a number or empty, return it directly
+        if (typeof cell === 'number' || cell === "") {
+          return cell;
+        }
+        // Otherwise, enclose in double quotes and escape existing double quotes
+        return `"${cell.replace(/"/g, '""')}"`;
+      }).join(",")
     ).join("\n"); // Use \n to represent newline in the string
 
     // Create a Blob with the CSV data
@@ -470,12 +478,12 @@ export default function Dashboard() {
                     ) : (
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
-                          <Pie 
-                            data={patientTypeData} 
-                            cx="50%" 
-                            cy="50%" 
-                            innerRadius={30} 
-                            outerRadius={60} 
+                          <Pie
+                            data={patientTypeData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={30}
+                            outerRadius={60}
                             dataKey="value"
                             label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                           >
@@ -523,27 +531,27 @@ export default function Dashboard() {
           </div>
           <div className="p-6">
             {loadingPatientStats ? (
-                 <div className="h-80 flex justify-center items-center text-gray-500">Loading patient statistics...</div>
-              ) : patientStatsError ? (
-                <div className="h-80 flex justify-center items-center text-red-500">{patientStatsError}</div>
-              ) : patientStatsData.length === 0 || patientStatsData.every(item => item.total === 0) ? ( // Updated check
-                 <div className="h-80 flex justify-center items-center text-gray-500">No patient statistics data available.</div>
-              ) : (
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={patientStatsData} barGap={0}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      {/* Modified XAxis to decrease font size */}
-                      <XAxis
-                        dataKey="condition"
-                        style={{ fontSize: '12px' }} // Decrease font size
-                      />
-                      <YAxis />
-                      <Bar dataKey="total" fill="#60a5fa" name="Total Patients" radius={[4, 4, 0, 0]} maxBarSize={30} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              )}
+              <div className="h-80 flex justify-center items-center text-gray-500">Loading patient statistics...</div>
+            ) : patientStatsError ? (
+              <div className="h-80 flex justify-center items-center text-red-500">{patientStatsError}</div>
+            ) : patientStatsData.length === 0 || patientStatsData.every(item => item.total === 0) ? ( // Updated check
+              <div className="h-80 flex justify-center items-center text-gray-500">No patient statistics data available.</div>
+            ) : (
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={patientStatsData} barGap={0}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    {/* Modified XAxis to decrease font size */}
+                    <XAxis
+                      dataKey="condition"
+                      style={{ fontSize: '12px' }} // Decrease font size
+                    />
+                    <YAxis />
+                    <Bar dataKey="total" fill="#60a5fa" name="Total Patients" radius={[4, 4, 0, 0]} maxBarSize={30} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            )}
             <div className="flex items-center gap-4 mt-4">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
